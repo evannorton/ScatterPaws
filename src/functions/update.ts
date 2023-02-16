@@ -1,5 +1,3 @@
-const update = (): void => {
-  console.log("update");
-};
+const update = (): void => {};
 
 export default update;

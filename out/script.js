@@ -25873,6 +25873,16 @@ void main() {
     }
   });
 
+  // lib/functions/isRunningOnLocal.js
+  var require_isRunningOnLocal = __commonJS({
+    "lib/functions/isRunningOnLocal.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var isRunningOnLocal = () => location.host === "localhost:3000";
+      exports.default = isRunningOnLocal;
+    }
+  });
+
   // lib/classes/ImageSource.js
   var require_ImageSource = __commonJS({
     "lib/classes/ImageSource.js"(exports) {
@@ -25884,6 +25894,7 @@ void main() {
       var pixi_js_1 = require_pixi();
       var Definable_1 = __importDefault(require_Definable());
       var state_1 = __importDefault(require_state());
+      var isRunningOnLocal_1 = __importDefault(require_isRunningOnLocal());
       var ImageSource = class extends Definable_1.default {
         constructor(slug) {
           super(slug);
@@ -25903,8 +25914,10 @@ void main() {
           throw new Error(`${this.constructor.name} "${this._slug}" Texture is not loaded.`);
         }
         getSRC() {
-          console.log(location);
-          return `./out/images/${this._slug}.png`;
+          if ((0, isRunningOnLocal_1.default)()) {
+            return `./out/images/${this._slug}.png`;
+          }
+          return `./images/${this._slug}.png`;
         }
       };
       exports.default = ImageSource;
