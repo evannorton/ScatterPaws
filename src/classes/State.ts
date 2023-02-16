@@ -2,6 +2,8 @@ import { Application } from "pixi.js";
 
 class State {
   private _app: Application | null = null;
+  private _cootsX: number = 0;
+  private _cootsY: number = 0;
   private _currentTime: number = performance.now();
   private _loadedAssets: number = 0;
 
@@ -10,6 +12,14 @@ class State {
       return this._app;
     }
     throw new Error(this.getAccessorErrorMessage("app"));
+  }
+
+  public get cootsX(): number {
+    return this._cootsX;
+  }
+
+  public get cootsY(): number {
+    return this._cootsY;
   }
 
   public get currentTime(): number {

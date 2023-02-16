@@ -25827,6 +25827,8 @@ void main() {
       var State = class {
         constructor() {
           this._app = null;
+          this._cootsX = 0;
+          this._cootsY = 0;
           this._currentTime = performance.now();
           this._loadedAssets = 0;
         }
@@ -25835,6 +25837,12 @@ void main() {
             return this._app;
           }
           throw new Error(this.getAccessorErrorMessage("app"));
+        }
+        get cootsX() {
+          return this._cootsX;
+        }
+        get cootsY() {
+          return this._cootsY;
         }
         get currentTime() {
           return this._currentTime;
@@ -25935,6 +25943,7 @@ void main() {
       var ImageSource_1 = __importDefault(require_ImageSource());
       var define2 = () => {
         new ImageSource_1.default("lud");
+        new ImageSource_1.default("coots");
       };
       exports.default = define2;
     }
@@ -29058,23 +29067,23 @@ void main() {
     }
   });
 
-  // lib/constants/gameHeight.js
-  var require_gameHeight = __commonJS({
-    "lib/constants/gameHeight.js"(exports) {
+  // lib/constants/cootsHeight.js
+  var require_cootsHeight = __commonJS({
+    "lib/constants/cootsHeight.js"(exports) {
       "use strict";
       Object.defineProperty(exports, "__esModule", { value: true });
-      var gameHeight = 480;
-      exports.default = gameHeight;
+      var cootsHeight = 96;
+      exports.default = cootsHeight;
     }
   });
 
-  // lib/constants/gameWidth.js
-  var require_gameWidth = __commonJS({
-    "lib/constants/gameWidth.js"(exports) {
+  // lib/constants/cootsWidth.js
+  var require_cootsWidth = __commonJS({
+    "lib/constants/cootsWidth.js"(exports) {
       "use strict";
       Object.defineProperty(exports, "__esModule", { value: true });
-      var gameWidth = 640;
-      exports.default = gameWidth;
+      var cootsWidth = 96;
+      exports.default = cootsWidth;
     }
   });
 
@@ -29113,6 +29122,26 @@ void main() {
         slug
       });
       exports.default = getImageSource;
+    }
+  });
+
+  // lib/constants/gameWidth.js
+  var require_gameWidth = __commonJS({
+    "lib/constants/gameWidth.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var gameWidth = 640;
+      exports.default = gameWidth;
+    }
+  });
+
+  // lib/constants/gameHeight.js
+  var require_gameHeight = __commonJS({
+    "lib/constants/gameHeight.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var gameHeight = 480;
+      exports.default = gameHeight;
     }
   });
 
@@ -29155,6 +29184,25 @@ void main() {
     }
   });
 
+  // lib/functions/draw/drawCoots.js
+  var require_drawCoots = __commonJS({
+    "lib/functions/draw/drawCoots.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var cootsHeight_1 = __importDefault(require_cootsHeight());
+      var cootsWidth_1 = __importDefault(require_cootsWidth());
+      var state_1 = __importDefault(require_state());
+      var drawImage_1 = __importDefault(require_drawImage());
+      var drawCoots = () => {
+        (0, drawImage_1.default)("coots", 0, 0, cootsWidth_1.default, cootsHeight_1.default, state_1.default.cootsX, state_1.default.cootsY, cootsWidth_1.default, cootsHeight_1.default);
+      };
+      exports.default = drawCoots;
+    }
+  });
+
   // lib/functions/draw/drawLud.js
   var require_drawLud = __commonJS({
     "lib/functions/draw/drawLud.js"(exports) {
@@ -29183,11 +29231,13 @@ void main() {
       Object.defineProperty(exports, "__esModule", { value: true });
       var state_1 = __importDefault(require_state());
       var assetsAreLoaded_1 = __importDefault(require_assetsAreLoaded());
+      var drawCoots_1 = __importDefault(require_drawCoots());
       var drawLud_1 = __importDefault(require_drawLud());
       var render = () => {
         if ((0, assetsAreLoaded_1.default)()) {
           state_1.default.app.stage.removeChildren();
           (0, drawLud_1.default)();
+          (0, drawCoots_1.default)();
           state_1.default.app.stage.sortChildren();
           state_1.default.app.render();
         }
