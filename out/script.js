@@ -29186,7 +29186,6 @@ void main() {
       var drawLud_1 = __importDefault(require_drawLud());
       var render = () => {
         if ((0, assetsAreLoaded_1.default)()) {
-          console.log("loaded");
           state_1.default.app.stage.removeChildren();
           (0, drawLud_1.default)();
           state_1.default.app.stage.sortChildren();
@@ -29203,7 +29202,6 @@ void main() {
       "use strict";
       Object.defineProperty(exports, "__esModule", { value: true });
       var update = () => {
-        console.log("update");
       };
       exports.default = update;
     }
