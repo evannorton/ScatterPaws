@@ -25536,6 +25536,396 @@ void main() {
     }
   });
 
+  // lib/classes/List.js
+  var require_List = __commonJS({
+    "lib/classes/List.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var List = class {
+        constructor(values) {
+          this._values = [...values];
+        }
+        append(value) {
+          this._values.push(value);
+        }
+        every(predicate) {
+          return this._values.every((innerValue, innerIndex) => predicate(innerValue, innerIndex));
+        }
+        forEach(predicate) {
+          this._values.forEach((innerValue, innerIndex) => {
+            predicate(innerValue, innerIndex);
+          });
+        }
+        getClonedList() {
+          return new List(this._values);
+        }
+        getFilteredList(filterer) {
+          return new List(this._values.filter((innerValue, innerIndex) => filterer(innerValue, innerIndex)));
+        }
+        getFirstMatchedIndex(predicate) {
+          const matches = new List([]);
+          this.forEach((value, index) => {
+            if (predicate(value, index)) {
+              matches.append(index);
+            }
+          });
+          if (matches.getLength() > 0) {
+            return matches.getValue(0);
+          }
+          throw new Error(`List does not have a match.`);
+        }
+        getFirstMatchedValue(predicate) {
+          const index = this.getFirstMatchedIndex(predicate);
+          return this.getValue(index);
+        }
+        getFoldedList(folder, initialValue) {
+          return this._values.reduce((previousValue, currentValue, currentIndex) => folder(previousValue, currentValue, currentIndex), initialValue);
+        }
+        getJoinedString(separator) {
+          return this._values.join(separator);
+        }
+        getIndexOfValue(value) {
+          if (this.includes(value)) {
+            const index = this._values.indexOf(value);
+            return index;
+          }
+          throw new Error(`List does not include value ${value}.`);
+        }
+        getLastMatchedIndex(predicate) {
+          const matches = new List([]);
+          this.getReversedList().forEach((value, index) => {
+            if (predicate(value, index)) {
+              matches.append(this.getLength() - 1 - index);
+            }
+          });
+          return matches.getValue(0);
+        }
+        getLastMatchedValue(predicate) {
+          const index = this.getLastMatchedIndex(predicate);
+          return this.getValue(index);
+        }
+        getLength() {
+          return this._values.length;
+        }
+        getListOfValuesInRange(index, amount) {
+          const values = new List([]);
+          for (let i = index; i < index + amount; i++) {
+            if (this.hasValue(i)) {
+              const value = this.getValue(i);
+              values.append(value);
+            }
+          }
+          return values;
+        }
+        getLowestNumber() {
+          const numbers = new List([]);
+          this.forEach((value) => {
+            if (typeof value === "number") {
+              numbers.append(value);
+            }
+          });
+          return numbers.getFoldedList((a, b) => Math.min(a, b), Infinity);
+        }
+        getMappedList(mapper) {
+          return new List(this._values.map((innerValue, innerIndex) => mapper(innerValue, innerIndex)));
+        }
+        getRelativeOffsetEntry(value, offset) {
+          const length = this.getLength();
+          const index = this.getIndexOfValue(value);
+          return this.getValue((index + offset % length + length) % length);
+        }
+        getReversedList() {
+          return new List(this.getClonedList()._values.reverse());
+        }
+        getSortedList(sorter) {
+          return new List(this.getClonedList()._values.sort((innerValue1, innerValue2) => sorter(innerValue1, innerValue2)));
+        }
+        getSumOfNumbers() {
+          const numbers = new List([]);
+          this.forEach((value) => {
+            if (typeof value === "number") {
+              numbers.append(value);
+            }
+          });
+          return numbers.getFoldedList((a, b) => a + b, 0);
+        }
+        getValue(index) {
+          if (this.hasValue(index)) {
+            return this._values[index];
+          }
+          throw new Error(`List does not have value at index ${index}.`);
+        }
+        getValues() {
+          return [...this._values];
+        }
+        hasValue(index) {
+          return Number.isInteger(index) && index >= 0 && index <= this.getLength() - 1;
+        }
+        includes(value) {
+          return this._values.includes(value);
+        }
+        removeValue(index) {
+          this._values.splice(index, 1);
+        }
+        removeValuesInRange(index, amount) {
+          this._values.splice(index, amount);
+        }
+        setValue(index, value) {
+          this._values[index] = value;
+        }
+        swapValues(indexA, indexB) {
+          const valueA = this.getValue(indexA);
+          const valueB = this.getValue(indexB);
+          if (valueA !== null && valueB !== null) {
+            this.setValue(indexA, valueB);
+            this.setValue(indexB, valueA);
+          }
+        }
+        some(predicate) {
+          return this._values.some((innerValue, innerIndex) => predicate(innerValue, innerIndex));
+        }
+      };
+      exports.default = List;
+    }
+  });
+
+  // lib/maps/definables.js
+  var require_definables = __commonJS({
+    "lib/maps/definables.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var definables = /* @__PURE__ */ new Map();
+      exports.default = definables;
+    }
+  });
+
+  // lib/functions/definables/getDefinables.js
+  var require_getDefinables = __commonJS({
+    "lib/functions/definables/getDefinables.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var definables_1 = __importDefault(require_definables());
+      var getDefinables = (className) => {
+        const map = definables_1.default.get(className);
+        if (typeof map !== "undefined") {
+          return map;
+        }
+        return /* @__PURE__ */ new Map();
+      };
+      exports.default = getDefinables;
+    }
+  });
+
+  // lib/constants/validSlugCharacters.js
+  var require_validSlugCharacters = __commonJS({
+    "lib/constants/validSlugCharacters.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var List_1 = __importDefault(require_List());
+      var validSlugCharacters = new List_1.default([
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f",
+        "g",
+        "h",
+        "i",
+        "j",
+        "k",
+        "l",
+        "m",
+        "n",
+        "o",
+        "p",
+        "q",
+        "r",
+        "s",
+        "t",
+        "u",
+        "v",
+        "w",
+        "x",
+        "y",
+        "z",
+        "Z",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "0",
+        "-"
+      ]);
+      exports.default = validSlugCharacters;
+    }
+  });
+
+  // lib/classes/Definable.js
+  var require_Definable = __commonJS({
+    "lib/classes/Definable.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var List_1 = __importDefault(require_List());
+      var definables_1 = __importDefault(require_definables());
+      var getDefinables_1 = __importDefault(require_getDefinables());
+      var validSlugCharacters_1 = __importDefault(require_validSlugCharacters());
+      var Definable = class {
+        constructor(slug) {
+          this._slug = slug;
+          if (new List_1.default(this._slug.split("")).some((character) => character !== "/" && validSlugCharacters_1.default.includes(character) === false)) {
+            throw new Error(`${this.constructor.name} "${this._slug}" has an invalid slug.`);
+          }
+          if (definables_1.default.has(this.constructor.name) === false) {
+            definables_1.default.set(this.constructor.name, /* @__PURE__ */ new Map());
+          }
+          const list = (0, getDefinables_1.default)(this.constructor.name);
+          if (list.has(this._slug)) {
+            throw new Error(`${this.constructor.name} "${this._slug}" already exists.`);
+          }
+          list.set(this._slug, this);
+        }
+        get slug() {
+          return this._slug;
+        }
+        getDefinableReference() {
+          return {
+            className: this.constructor.name,
+            slug: this._slug
+          };
+        }
+        delete() {
+          (0, getDefinables_1.default)(this.constructor.name).delete(this._slug);
+        }
+        getAccessorErrorMessage(property) {
+          return `Could not access ${this.constructor.name} "${this._slug}" ${property}.`;
+        }
+      };
+      exports.default = Definable;
+    }
+  });
+
+  // lib/classes/State.js
+  var require_State = __commonJS({
+    "lib/classes/State.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var State = class {
+        constructor() {
+          this._app = null;
+          this._currentTime = performance.now();
+          this._loadedAssets = 0;
+        }
+        get app() {
+          if (this._app !== null) {
+            return this._app;
+          }
+          throw new Error(this.getAccessorErrorMessage("app"));
+        }
+        get currentTime() {
+          return this._currentTime;
+        }
+        get loadedAssets() {
+          return this._loadedAssets;
+        }
+        set app(app) {
+          this._app = app !== null ? app : null;
+        }
+        set currentTime(currentTime) {
+          this._currentTime = currentTime;
+        }
+        set loadedAssets(loadedAssets) {
+          this._loadedAssets = loadedAssets;
+        }
+        getAccessorErrorMessage(property) {
+          return `Could not access ${this.constructor.name} ${property}.`;
+        }
+      };
+      exports.default = State;
+    }
+  });
+
+  // lib/state.js
+  var require_state = __commonJS({
+    "lib/state.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var State_1 = __importDefault(require_State());
+      var state = new State_1.default();
+      exports.default = state;
+    }
+  });
+
+  // lib/classes/ImageSource.js
+  var require_ImageSource = __commonJS({
+    "lib/classes/ImageSource.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var pixi_js_1 = require_pixi();
+      var Definable_1 = __importDefault(require_Definable());
+      var state_1 = __importDefault(require_state());
+      var ImageSource = class extends Definable_1.default {
+        constructor(slug) {
+          super(slug);
+          this._loader = new pixi_js_1.Loader();
+          this._loader.add(this.getSRC()).load(() => {
+            state_1.default.loadedAssets++;
+          });
+        }
+        get loader() {
+          return this._loader;
+        }
+        getBaseTexture() {
+          const texture = this._loader.resources[this.getSRC()].texture;
+          if (typeof texture !== "undefined") {
+            return texture.baseTexture;
+          }
+          throw new Error(`${this.constructor.name} "${this._slug}" Texture is not loaded.`);
+        }
+        getSRC() {
+          return `./out/images/${this._slug}.png`;
+        }
+      };
+      exports.default = ImageSource;
+    }
+  });
+
+  // lib/functions/define.js
+  var require_define = __commonJS({
+    "lib/functions/define.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var ImageSource_1 = __importDefault(require_ImageSource());
+      var define2 = () => {
+        new ImageSource_1.default("lud");
+      };
+      exports.default = define2;
+    }
+  });
+
   // node_modules/parseuri/index.js
   var require_parseuri = __commonJS({
     "node_modules/parseuri/index.js"(exports, module) {
@@ -28600,50 +28990,172 @@ void main() {
     }
   });
 
-  // lib/classes/State.js
-  var require_State = __commonJS({
-    "lib/classes/State.js"(exports) {
+  // lib/functions/definables/getAudioSourcesCount.js
+  var require_getAudioSourcesCount = __commonJS({
+    "lib/functions/definables/getAudioSourcesCount.js"(exports) {
       "use strict";
       Object.defineProperty(exports, "__esModule", { value: true });
-      var State = class {
-        constructor() {
-          this._app = null;
-          this._currentTime = performance.now();
-        }
-        get app() {
-          if (this._app !== null) {
-            return this._app;
-          }
-          throw new Error(this.getAccessorErrorMessage("app"));
-        }
-        get currentTime() {
-          return this._currentTime;
-        }
-        set app(app) {
-          this._app = app !== null ? app : null;
-        }
-        set currentTime(currentTime) {
-          this._currentTime = currentTime;
-        }
-        getAccessorErrorMessage(property) {
-          return `Could not access ${this.constructor.name} ${property}.`;
-        }
-      };
-      exports.default = State;
+      var getAudioSourcesCount = () => 0;
+      exports.default = getAudioSourcesCount;
     }
   });
 
-  // lib/state.js
-  var require_state = __commonJS({
-    "lib/state.js"(exports) {
+  // lib/functions/definables/getDefinablesCount.js
+  var require_getDefinablesCount = __commonJS({
+    "lib/functions/definables/getDefinablesCount.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
       };
       Object.defineProperty(exports, "__esModule", { value: true });
-      var State_1 = __importDefault(require_State());
-      var state = new State_1.default();
-      exports.default = state;
+      var getDefinables_1 = __importDefault(require_getDefinables());
+      var getDefinablesCount = (className) => (0, getDefinables_1.default)(className).size;
+      exports.default = getDefinablesCount;
+    }
+  });
+
+  // lib/functions/definables/getImageSourcesCount.js
+  var require_getImageSourcesCount = __commonJS({
+    "lib/functions/definables/getImageSourcesCount.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var getDefinablesCount_1 = __importDefault(require_getDefinablesCount());
+      var getImageSourcesCount = () => (0, getDefinablesCount_1.default)("ImageSource");
+      exports.default = getImageSourcesCount;
+    }
+  });
+
+  // lib/functions/assetsAreLoaded.js
+  var require_assetsAreLoaded = __commonJS({
+    "lib/functions/assetsAreLoaded.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var getAudioSourcesCount_1 = __importDefault(require_getAudioSourcesCount());
+      var getImageSourcesCount_1 = __importDefault(require_getImageSourcesCount());
+      var state_1 = __importDefault(require_state());
+      var assetsAreLoaded = () => state_1.default.loadedAssets === (0, getImageSourcesCount_1.default)() + (0, getAudioSourcesCount_1.default)();
+      exports.default = assetsAreLoaded;
+    }
+  });
+
+  // lib/constants/gameHeight.js
+  var require_gameHeight = __commonJS({
+    "lib/constants/gameHeight.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var gameHeight = 480;
+      exports.default = gameHeight;
+    }
+  });
+
+  // lib/constants/gameWidth.js
+  var require_gameWidth = __commonJS({
+    "lib/constants/gameWidth.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var gameWidth = 640;
+      exports.default = gameWidth;
+    }
+  });
+
+  // lib/functions/definables/getDefinable.js
+  var require_getDefinable = __commonJS({
+    "lib/functions/definables/getDefinable.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var getDefinables_1 = __importDefault(require_getDefinables());
+      var getDefinable = ({ className, slug }) => {
+        const definables = (0, getDefinables_1.default)(className);
+        const entry = definables.get(slug);
+        if (typeof entry !== "undefined") {
+          return entry;
+        }
+        throw new Error(`${className} "${slug}" could not be found.`);
+      };
+      exports.default = getDefinable;
+    }
+  });
+
+  // lib/functions/definables/getImageSource.js
+  var require_getImageSource = __commonJS({
+    "lib/functions/definables/getImageSource.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var getDefinable_1 = __importDefault(require_getDefinable());
+      var getImageSource = (slug) => (0, getDefinable_1.default)({
+        className: "ImageSource",
+        slug
+      });
+      exports.default = getImageSource;
+    }
+  });
+
+  // lib/functions/draw/drawImage.js
+  var require_drawImage = __commonJS({
+    "lib/functions/draw/drawImage.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var pixi_js_1 = require_pixi();
+      var getImageSource_1 = __importDefault(require_getImageSource());
+      var state_1 = __importDefault(require_state());
+      var gameWidth_1 = __importDefault(require_gameWidth());
+      var gameHeight_1 = __importDefault(require_gameHeight());
+      var drawImage = (imageSourceSlug, sourceX, sourceY, sourceWidth, sourceHeight, x, y, width, height) => {
+        const imageSource = (0, getImageSource_1.default)(imageSourceSlug);
+        if (x + width > 0 && x < gameWidth_1.default && y + height > 0 && y < gameHeight_1.default) {
+          const texture = imageSource.getBaseTexture();
+          const chopX = Math.max(x * -1, 0);
+          const chopY = Math.max(y * -1, 0);
+          const adjustedX = Math.max(x, 0);
+          const adjustedY = Math.max(y, 0);
+          const adjustedWidth = Math.min(width - chopX, gameWidth_1.default - adjustedX);
+          const adjustedHeight = Math.min(height - chopY, gameHeight_1.default - adjustedY);
+          const adjustedSourceX = chopX + sourceX;
+          const adjustedSourceY = chopY + sourceY;
+          const adjustedSourceWidth = Math.min(sourceWidth - chopX, adjustedWidth);
+          const adjustedSourceHeight = Math.min(sourceHeight - chopY, adjustedHeight);
+          const sprite = new pixi_js_1.Sprite(new pixi_js_1.Texture(texture, new pixi_js_1.Rectangle(adjustedSourceX, adjustedSourceY, adjustedSourceWidth, adjustedSourceHeight)));
+          sprite.x = adjustedX;
+          sprite.y = adjustedY;
+          sprite.width = adjustedWidth;
+          sprite.height = adjustedHeight;
+          state_1.default.app.stage.addChild(sprite);
+        }
+      };
+      exports.default = drawImage;
+    }
+  });
+
+  // lib/functions/draw/drawLud.js
+  var require_drawLud = __commonJS({
+    "lib/functions/draw/drawLud.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var gameHeight_1 = __importDefault(require_gameHeight());
+      var gameWidth_1 = __importDefault(require_gameWidth());
+      var drawImage_1 = __importDefault(require_drawImage());
+      var drawLud = () => {
+        (0, drawImage_1.default)("lud", 0, 0, gameWidth_1.default, gameHeight_1.default, 0, 0, gameWidth_1.default, gameHeight_1.default);
+      };
+      exports.default = drawLud;
     }
   });
 
@@ -28656,10 +29168,16 @@ void main() {
       };
       Object.defineProperty(exports, "__esModule", { value: true });
       var state_1 = __importDefault(require_state());
+      var assetsAreLoaded_1 = __importDefault(require_assetsAreLoaded());
+      var drawLud_1 = __importDefault(require_drawLud());
       var render = () => {
-        state_1.default.app.stage.removeChildren();
-        state_1.default.app.stage.sortChildren();
-        state_1.default.app.render();
+        if ((0, assetsAreLoaded_1.default)()) {
+          console.log("loaded");
+          state_1.default.app.stage.removeChildren();
+          (0, drawLud_1.default)();
+          state_1.default.app.stage.sortChildren();
+          state_1.default.app.render();
+        }
       };
       exports.default = render;
     }
@@ -28733,19 +29251,23 @@ void main() {
       };
       Object.defineProperty(exports, "__esModule", { value: true });
       var pixi_js_1 = require_pixi();
+      var define_1 = __importDefault(require_define());
       var socket_1 = __importDefault(require_socket3());
       var state_1 = __importDefault(require_state());
       var tick_1 = __importDefault(require_tick());
+      var gameWidth_1 = __importDefault(require_gameWidth());
+      var gameHeight_1 = __importDefault(require_gameHeight());
       var run = () => __awaiter(void 0, void 0, void 0, function* () {
         var _a;
         console.log(`Running coots game.`);
+        (0, define_1.default)();
         pixi_js_1.settings.ROUND_PIXELS = true;
         pixi_js_1.settings.SCALE_MODE = pixi_js_1.SCALE_MODES.NEAREST;
         pixi_js_1.utils.skipHello();
         state_1.default.app = new pixi_js_1.Application({
           backgroundAlpha: 0,
-          height: 240,
-          width: 304
+          height: gameHeight_1.default,
+          width: gameWidth_1.default
         });
         state_1.default.app.renderer.view.style.display = "block";
         state_1.default.app.renderer.view.style.height = "100%";
@@ -28758,6 +29280,8 @@ void main() {
         });
         state_1.default.app.ticker.add(tick_1.default);
         (_a = document.getElementById("screen")) === null || _a === void 0 ? void 0 : _a.appendChild(state_1.default.app.view);
+        state_1.default.app.view.style.width = `${gameWidth_1.default}px`;
+        state_1.default.app.view.style.height = `${gameHeight_1.default}px`;
       });
       exports.default = run;
     }

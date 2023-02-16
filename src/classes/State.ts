@@ -3,6 +3,7 @@ import { Application } from "pixi.js";
 class State {
   private _app: Application | null = null;
   private _currentTime: number = performance.now();
+  private _loadedAssets: number = 0;
 
   public get app(): Application {
     if (this._app !== null) {
@@ -15,12 +16,20 @@ class State {
     return this._currentTime;
   }
 
+  public get loadedAssets(): number {
+    return this._loadedAssets;
+  }
+
   public set app(app: Application | null) {
     this._app = app !== null ? app : null;
   }
 
   public set currentTime(currentTime: number) {
     this._currentTime = currentTime;
+  }
+
+  public set loadedAssets(loadedAssets: number) {
+    this._loadedAssets = loadedAssets;
   }
 
   private getAccessorErrorMessage(property: string): string {

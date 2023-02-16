@@ -1,9 +1,15 @@
 import state from "../state";
+import assetsAreLoaded from "./assetsAreLoaded";
+import drawLud from "./draw/drawLud";
 
 const render = (): void => {
-  state.app.stage.removeChildren();
-  state.app.stage.sortChildren();
-  state.app.render();
+  if (assetsAreLoaded()) {
+    console.log("loaded");
+    state.app.stage.removeChildren();
+    drawLud();
+    state.app.stage.sortChildren();
+    state.app.render();
+  }
 };
 
 export default render;
