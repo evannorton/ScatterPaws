@@ -25903,6 +25903,7 @@ void main() {
           throw new Error(`${this.constructor.name} "${this._slug}" Texture is not loaded.`);
         }
         getSRC() {
+          console.log(location);
           return `./out/images/${this._slug}.png`;
         }
       };

@@ -1,6 +1,7 @@
 import { BaseTexture, Loader, Texture } from "pixi.js";
 import Definable from "./Definable";
 import state from "../state";
+import isRunningOnLocal from "../functions/isRunningOnLocal";
 
 class ImageSource extends Definable {
   private readonly _loader: Loader = new Loader;
@@ -25,7 +26,10 @@ class ImageSource extends Definable {
   }
 
   private getSRC(): string {
-    return `./out/images/${this._slug}.png`;
+    if (isRunningOnLocal()) {
+      return `./out/images/${this._slug}.png`;
+    }
+    return `./images/${this._slug}.png`;
   }
 }
 
