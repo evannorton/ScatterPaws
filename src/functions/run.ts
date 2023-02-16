@@ -1,6 +1,7 @@
 import { Application, SCALE_MODES, settings, utils } from "pixi.js";
 import socket from "../socket";
 import state from "../state";
+import tick from "./tick";
 
 const run = async (): Promise<void> => {
   console.log(`Running coots game.`);
@@ -21,6 +22,7 @@ const run = async (): Promise<void> => {
       location.reload();
     }
   });
+  state.app.ticker.add(tick);
 };
 
 export default run;

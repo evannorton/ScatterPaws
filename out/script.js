@@ -28608,6 +28608,7 @@ void main() {
       var State = class {
         constructor() {
           this._app = null;
+          this._currentTime = performance.now();
         }
         get app() {
           if (this._app !== null) {
@@ -28615,8 +28616,14 @@ void main() {
           }
           throw new Error(this.getAccessorErrorMessage("app"));
         }
+        get currentTime() {
+          return this._currentTime;
+        }
         set app(app) {
           this._app = app !== null ? app : null;
+        }
+        set currentTime(currentTime) {
+          this._currentTime = currentTime;
         }
         getAccessorErrorMessage(property) {
           return `Could not access ${this.constructor.name} ${property}.`;
@@ -28637,6 +28644,56 @@ void main() {
       var State_1 = __importDefault(require_State());
       var state = new State_1.default();
       exports.default = state;
+    }
+  });
+
+  // lib/functions/render.js
+  var require_render = __commonJS({
+    "lib/functions/render.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var state_1 = __importDefault(require_state());
+      var render = () => {
+        state_1.default.app.stage.removeChildren();
+        state_1.default.app.stage.sortChildren();
+        state_1.default.app.render();
+      };
+      exports.default = render;
+    }
+  });
+
+  // lib/functions/update.js
+  var require_update = __commonJS({
+    "lib/functions/update.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var update = () => {
+        console.log("update");
+      };
+      exports.default = update;
+    }
+  });
+
+  // lib/functions/tick.js
+  var require_tick = __commonJS({
+    "lib/functions/tick.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var render_1 = __importDefault(require_render());
+      var state_1 = __importDefault(require_state());
+      var update_1 = __importDefault(require_update());
+      var tick = () => {
+        state_1.default.currentTime += state_1.default.app.ticker.deltaMS;
+        (0, update_1.default)();
+        (0, render_1.default)();
+      };
+      exports.default = tick;
     }
   });
 
@@ -28678,6 +28735,7 @@ void main() {
       var pixi_js_1 = require_pixi();
       var socket_1 = __importDefault(require_socket3());
       var state_1 = __importDefault(require_state());
+      var tick_1 = __importDefault(require_tick());
       var run = () => __awaiter(void 0, void 0, void 0, function* () {
         console.log(`Running coots game.`);
         pixi_js_1.settings.ROUND_PIXELS = true;
@@ -28697,6 +28755,7 @@ void main() {
             location.reload();
           }
         });
+        state_1.default.app.ticker.add(tick_1.default);
       });
       exports.default = run;
     }
