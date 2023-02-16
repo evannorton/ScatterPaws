@@ -23,6 +23,7 @@ const run = async (): Promise<void> => {
     }
   });
   state.app.ticker.add(tick);
+  document.getElementById("screen")?.appendChild(state.app.view);
 };
 
 export default run;

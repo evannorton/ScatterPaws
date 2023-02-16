@@ -28737,6 +28737,7 @@ void main() {
       var state_1 = __importDefault(require_state());
       var tick_1 = __importDefault(require_tick());
       var run = () => __awaiter(void 0, void 0, void 0, function* () {
+        var _a;
         console.log(`Running coots game.`);
         pixi_js_1.settings.ROUND_PIXELS = true;
         pixi_js_1.settings.SCALE_MODE = pixi_js_1.SCALE_MODES.NEAREST;
@@ -28756,6 +28757,7 @@ void main() {
           }
         });
         state_1.default.app.ticker.add(tick_1.default);
+        (_a = document.getElementById("screen")) === null || _a === void 0 ? void 0 : _a.appendChild(state_1.default.app.view);
       });
       exports.default = run;
     }
