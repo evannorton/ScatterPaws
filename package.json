@@ -5,7 +5,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "npm run createLib && tsc --preserveWatchOutput --p ./src/tsconfig.json --outDir ./lib && esbuild ./lib/index.js --bundle --sourcemap --outfile=./out/script.js",
+    "build": "npm run createLib && tsc --preserveWatchOutput --p ./src/tsconfig.json --outDir ./lib && esbuild ./lib/index.js --bundle --sourcemap --outfile=./out/script.js && node ./scripts/buildHTML",
     "createLib": "node ./scripts/createLib",
     "markExecCompleted": "node ./scripts/markExecCompleted",
     "start": "node ./server",
