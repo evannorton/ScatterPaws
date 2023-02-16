@@ -11,4 +11,4 @@ Riazey - graphics
 
 Osyris - graphics
 
-Ragchomp - graphics
+Ragchomp - audio
