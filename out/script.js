@@ -31908,7 +31908,11 @@ void main() {
       var drawImage_1 = __importDefault(require_drawImage());
       var drawCoots = () => {
         const frame = Math.floor(state_1.default.currentTime % (timePerCootsFrame_1.default * 4) / timePerCootsFrame_1.default);
-        (0, drawImage_1.default)("coots", frame * cootsWidth_1.default, 0, cootsWidth_1.default, cootsHeight_1.default, Math.floor(gameWidth_1.default / 2) - Math.floor(cootsWidth_1.default / 2), 125, cootsWidth_1.default, cootsHeight_1.default);
+        const sourceX = frame * cootsWidth_1.default;
+        const sourceY = 0;
+        const x = Math.floor(gameWidth_1.default / 2) - Math.floor(cootsWidth_1.default / 2);
+        const y = 125;
+        (0, drawImage_1.default)("coots", sourceX, sourceY, cootsWidth_1.default, cootsHeight_1.default, x, y, cootsWidth_1.default, cootsHeight_1.default);
       };
       exports.default = drawCoots;
     }
