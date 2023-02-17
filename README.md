@@ -5,10 +5,10 @@
 [https://evannorton.github.io/coots-game/out/index.html](https://evannorton.github.io/coots-game/out/index.html)
 
 ## Credits
-EvanMMO - programming
+EvanMMO - Programming
 
-Riazey - graphics
+Riazey - Graphics
 
-Osyris - graphics
+Osyris - Graphics
 
-Ragchomp - audio
+Ragchomp - Audio
