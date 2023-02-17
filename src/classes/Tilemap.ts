@@ -22,7 +22,7 @@ class Tilemap extends Definable {
   }
 
   public draw(): void {
-    const startX: number = Math.floor(gameWidth / 2);
+    const startX: number = gameWidth / 2;
     const startY: number = 0;
     this._data.layers.forEach((layer) => {
       if (layer.visible) {

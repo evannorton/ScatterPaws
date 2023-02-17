@@ -25912,7 +25912,7 @@ void main() {
           return this._data.tileheight;
         }
         draw() {
-          const startX = Math.floor(gameWidth_1.default / 2);
+          const startX = gameWidth_1.default / 2;
           const startY = 0;
           this._data.layers.forEach((layer) => {
             if (layer.visible) {
@@ -31862,6 +31862,58 @@ void main() {
     }
   });
 
+  // lib/constants/cootsHeight.js
+  var require_cootsHeight = __commonJS({
+    "lib/constants/cootsHeight.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var cootsHeight = 19;
+      exports.default = cootsHeight;
+    }
+  });
+
+  // lib/constants/cootsWidth.js
+  var require_cootsWidth = __commonJS({
+    "lib/constants/cootsWidth.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var cootsWidth = 21;
+      exports.default = cootsWidth;
+    }
+  });
+
+  // lib/constants/timePerCootsFrame.js
+  var require_timePerCootsFrame = __commonJS({
+    "lib/constants/timePerCootsFrame.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var timePerCootsFrame = 100;
+      exports.default = timePerCootsFrame;
+    }
+  });
+
+  // lib/functions/draw/drawCoots.js
+  var require_drawCoots = __commonJS({
+    "lib/functions/draw/drawCoots.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var cootsHeight_1 = __importDefault(require_cootsHeight());
+      var cootsWidth_1 = __importDefault(require_cootsWidth());
+      var gameWidth_1 = __importDefault(require_gameWidth());
+      var timePerCootsFrame_1 = __importDefault(require_timePerCootsFrame());
+      var state_1 = __importDefault(require_state());
+      var drawImage_1 = __importDefault(require_drawImage());
+      var drawCoots = () => {
+        const frame = Math.floor(state_1.default.currentTime % (timePerCootsFrame_1.default * 4) / timePerCootsFrame_1.default);
+        (0, drawImage_1.default)("coots", frame * cootsWidth_1.default, 0, cootsWidth_1.default, cootsHeight_1.default, Math.floor(gameWidth_1.default / 2) - Math.floor(cootsWidth_1.default / 2), 125, cootsWidth_1.default, cootsHeight_1.default);
+      };
+      exports.default = drawCoots;
+    }
+  });
+
   // lib/functions/draw/drawRectangle.js
   var require_drawRectangle = __commonJS({
     "lib/functions/draw/drawRectangle.js"(exports) {
@@ -31896,12 +31948,14 @@ void main() {
       var state_1 = __importDefault(require_state());
       var assetsAreLoaded_1 = __importDefault(require_assetsAreLoaded());
       var getTilemap_1 = __importDefault(require_getTilemap());
+      var drawCoots_1 = __importDefault(require_drawCoots());
       var drawRectangle_1 = __importDefault(require_drawRectangle());
       var render = () => {
         if ((0, assetsAreLoaded_1.default)()) {
           state_1.default.app.stage.removeChildren();
           (0, drawRectangle_1.default)("#000000", 0, 0, gameWidth_1.default, gameHeight_1.default);
           (0, getTilemap_1.default)("map").draw();
+          (0, drawCoots_1.default)();
           state_1.default.app.stage.sortChildren();
           state_1.default.app.render();
         }
