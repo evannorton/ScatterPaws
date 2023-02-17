@@ -32156,7 +32156,7 @@ void main() {
       var gameWidth_1 = __importDefault(require_gameWidth());
       var gameHeight_1 = __importDefault(require_gameHeight());
       var run = () => __awaiter(void 0, void 0, void 0, function* () {
-        var _a;
+        var _a, _b, _c, _d, _e;
         console.log(`Running coots game.`);
         (0, define_1.default)();
         pixi_js_1.settings.ROUND_PIXELS = true;
@@ -32180,6 +32180,22 @@ void main() {
         (_a = document.getElementById("screen")) === null || _a === void 0 ? void 0 : _a.appendChild(state_1.default.app.view);
         state_1.default.app.view.style.width = `${gameWidth_1.default}px`;
         state_1.default.app.view.style.height = `${gameHeight_1.default}px`;
+        (_b = document.getElementById("screen")) === null || _b === void 0 ? void 0 : _b.addEventListener("mousedown", () => {
+          var _a2;
+          (_a2 = document.getElementById("screen")) === null || _a2 === void 0 ? void 0 : _a2.classList.add("lasering");
+        });
+        (_c = document.getElementById("screen")) === null || _c === void 0 ? void 0 : _c.addEventListener("mouseup", () => {
+          var _a2;
+          (_a2 = document.getElementById("screen")) === null || _a2 === void 0 ? void 0 : _a2.classList.remove("lasering");
+        });
+        (_d = document.getElementById("screen")) === null || _d === void 0 ? void 0 : _d.addEventListener("focusout", () => {
+          var _a2;
+          (_a2 = document.getElementById("screen")) === null || _a2 === void 0 ? void 0 : _a2.classList.remove("lasering");
+        });
+        (_e = document.getElementById("screen")) === null || _e === void 0 ? void 0 : _e.addEventListener("mouseleave", () => {
+          var _a2;
+          (_a2 = document.getElementById("screen")) === null || _a2 === void 0 ? void 0 : _a2.classList.remove("lasering");
+        });
       });
       exports.default = run;
     }

@@ -30,6 +30,18 @@ const run = async (): Promise<void> => {
   document.getElementById("screen")?.appendChild(state.app.view);
   state.app.view.style.width = `${gameWidth}px`;
   state.app.view.style.height = `${gameHeight}px`;
+  document.getElementById("screen")?.addEventListener("mousedown", () => {
+    document.getElementById("screen")?.classList.add("lasering")
+  });
+  document.getElementById("screen")?.addEventListener("mouseup", () => {
+    document.getElementById("screen")?.classList.remove("lasering")
+  });
+  document.getElementById("screen")?.addEventListener("focusout", () => {
+    document.getElementById("screen")?.classList.remove("lasering")
+  });
+  document.getElementById("screen")?.addEventListener("mouseleave", () => {
+    document.getElementById("screen")?.classList.remove("lasering")
+  });
 };
 
 export default run;

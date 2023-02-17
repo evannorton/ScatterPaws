@@ -1,0 +1,7 @@
+#screen {
+  cursor: url("./cursor.png"), default;
+}
+
+#screen.lasering {
+  cursor: url("./cursor-held.png"), default;
+}
