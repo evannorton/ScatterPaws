@@ -85,7 +85,8 @@ watcher.addListener("restart", (files) => {
     if (JSON.parse(readFileSync("watchExecCompleted.json").toString()) === false || filesPieces.some((filePieces) => {
       const joinedFilePieces = filePieces.join("/");
       if (filePieces[0] === "src") {
-        return joinedFilePieces.substring(joinedFilePieces.length - 3) === ".ts";
+        return joinedFilePieces.substring(joinedFilePieces.length - 3) === ".ts"
+        || joinedFilePieces.substring(joinedFilePieces.length - 5) === ".json";
       }
       return false;
     })) {

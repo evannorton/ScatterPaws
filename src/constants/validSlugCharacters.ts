@@ -1,6 +1,4 @@
-import List from "../classes/List";
-
-const validSlugCharacters: List<string> = new List([
+const validSlugCharacters: string[] = [
   "a",
   "b",
   "c",
@@ -39,6 +37,6 @@ const validSlugCharacters: List<string> = new List([
   "9",
   "0",
   "-"
-]);
+];
 
 export default validSlugCharacters;

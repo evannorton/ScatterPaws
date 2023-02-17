@@ -25536,159 +25536,6 @@ void main() {
     }
   });
 
-  // lib/classes/List.js
-  var require_List = __commonJS({
-    "lib/classes/List.js"(exports) {
-      "use strict";
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var List = class {
-        constructor(values) {
-          this._values = [...values];
-        }
-        append(value) {
-          this._values.push(value);
-        }
-        every(predicate) {
-          return this._values.every((innerValue, innerIndex) => predicate(innerValue, innerIndex));
-        }
-        forEach(predicate) {
-          this._values.forEach((innerValue, innerIndex) => {
-            predicate(innerValue, innerIndex);
-          });
-        }
-        getClonedList() {
-          return new List(this._values);
-        }
-        getFilteredList(filterer) {
-          return new List(this._values.filter((innerValue, innerIndex) => filterer(innerValue, innerIndex)));
-        }
-        getFirstMatchedIndex(predicate) {
-          const matches = new List([]);
-          this.forEach((value, index) => {
-            if (predicate(value, index)) {
-              matches.append(index);
-            }
-          });
-          if (matches.getLength() > 0) {
-            return matches.getValue(0);
-          }
-          throw new Error(`List does not have a match.`);
-        }
-        getFirstMatchedValue(predicate) {
-          const index = this.getFirstMatchedIndex(predicate);
-          return this.getValue(index);
-        }
-        getFoldedList(folder, initialValue) {
-          return this._values.reduce((previousValue, currentValue, currentIndex) => folder(previousValue, currentValue, currentIndex), initialValue);
-        }
-        getJoinedString(separator) {
-          return this._values.join(separator);
-        }
-        getIndexOfValue(value) {
-          if (this.includes(value)) {
-            const index = this._values.indexOf(value);
-            return index;
-          }
-          throw new Error(`List does not include value ${value}.`);
-        }
-        getLastMatchedIndex(predicate) {
-          const matches = new List([]);
-          this.getReversedList().forEach((value, index) => {
-            if (predicate(value, index)) {
-              matches.append(this.getLength() - 1 - index);
-            }
-          });
-          return matches.getValue(0);
-        }
-        getLastMatchedValue(predicate) {
-          const index = this.getLastMatchedIndex(predicate);
-          return this.getValue(index);
-        }
-        getLength() {
-          return this._values.length;
-        }
-        getListOfValuesInRange(index, amount) {
-          const values = new List([]);
-          for (let i = index; i < index + amount; i++) {
-            if (this.hasValue(i)) {
-              const value = this.getValue(i);
-              values.append(value);
-            }
-          }
-          return values;
-        }
-        getLowestNumber() {
-          const numbers = new List([]);
-          this.forEach((value) => {
-            if (typeof value === "number") {
-              numbers.append(value);
-            }
-          });
-          return numbers.getFoldedList((a, b) => Math.min(a, b), Infinity);
-        }
-        getMappedList(mapper) {
-          return new List(this._values.map((innerValue, innerIndex) => mapper(innerValue, innerIndex)));
-        }
-        getRelativeOffsetEntry(value, offset) {
-          const length = this.getLength();
-          const index = this.getIndexOfValue(value);
-          return this.getValue((index + offset % length + length) % length);
-        }
-        getReversedList() {
-          return new List(this.getClonedList()._values.reverse());
-        }
-        getSortedList(sorter) {
-          return new List(this.getClonedList()._values.sort((innerValue1, innerValue2) => sorter(innerValue1, innerValue2)));
-        }
-        getSumOfNumbers() {
-          const numbers = new List([]);
-          this.forEach((value) => {
-            if (typeof value === "number") {
-              numbers.append(value);
-            }
-          });
-          return numbers.getFoldedList((a, b) => a + b, 0);
-        }
-        getValue(index) {
-          if (this.hasValue(index)) {
-            return this._values[index];
-          }
-          throw new Error(`List does not have value at index ${index}.`);
-        }
-        getValues() {
-          return [...this._values];
-        }
-        hasValue(index) {
-          return Number.isInteger(index) && index >= 0 && index <= this.getLength() - 1;
-        }
-        includes(value) {
-          return this._values.includes(value);
-        }
-        removeValue(index) {
-          this._values.splice(index, 1);
-        }
-        removeValuesInRange(index, amount) {
-          this._values.splice(index, amount);
-        }
-        setValue(index, value) {
-          this._values[index] = value;
-        }
-        swapValues(indexA, indexB) {
-          const valueA = this.getValue(indexA);
-          const valueB = this.getValue(indexB);
-          if (valueA !== null && valueB !== null) {
-            this.setValue(indexA, valueB);
-            this.setValue(indexB, valueA);
-          }
-        }
-        some(predicate) {
-          return this._values.some((innerValue, innerIndex) => predicate(innerValue, innerIndex));
-        }
-      };
-      exports.default = List;
-    }
-  });
-
   // lib/maps/definables.js
   var require_definables = __commonJS({
     "lib/maps/definables.js"(exports) {
@@ -25723,12 +25570,8 @@ void main() {
   var require_validSlugCharacters = __commonJS({
     "lib/constants/validSlugCharacters.js"(exports) {
       "use strict";
-      var __importDefault = exports && exports.__importDefault || function(mod) {
-        return mod && mod.__esModule ? mod : { "default": mod };
-      };
       Object.defineProperty(exports, "__esModule", { value: true });
-      var List_1 = __importDefault(require_List());
-      var validSlugCharacters = new List_1.default([
+      var validSlugCharacters = [
         "a",
         "b",
         "c",
@@ -25767,7 +25610,7 @@ void main() {
         "9",
         "0",
         "-"
-      ]);
+      ];
       exports.default = validSlugCharacters;
     }
   });
@@ -25780,14 +25623,13 @@ void main() {
         return mod && mod.__esModule ? mod : { "default": mod };
       };
       Object.defineProperty(exports, "__esModule", { value: true });
-      var List_1 = __importDefault(require_List());
       var definables_1 = __importDefault(require_definables());
       var getDefinables_1 = __importDefault(require_getDefinables());
       var validSlugCharacters_1 = __importDefault(require_validSlugCharacters());
       var Definable = class {
         constructor(slug) {
           this._slug = slug;
-          if (new List_1.default(this._slug.split("")).some((character) => character !== "/" && validSlugCharacters_1.default.includes(character) === false)) {
+          if (this._slug.split("").some((character) => character !== "/" && validSlugCharacters_1.default.includes(character) === false)) {
             throw new Error(`${this.constructor.name} "${this._slug}" has an invalid slug.`);
           }
           if (definables_1.default.has(this.constructor.name) === false) {
@@ -25932,6 +25774,1059 @@ void main() {
     }
   });
 
+  // lib/constants/gameWidth.js
+  var require_gameWidth = __commonJS({
+    "lib/constants/gameWidth.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var gameWidth = 640;
+      exports.default = gameWidth;
+    }
+  });
+
+  // lib/functions/definables/getDefinable.js
+  var require_getDefinable = __commonJS({
+    "lib/functions/definables/getDefinable.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var getDefinables_1 = __importDefault(require_getDefinables());
+      var getDefinable = ({ className, slug }) => {
+        const definables = (0, getDefinables_1.default)(className);
+        const entry = definables.get(slug);
+        if (typeof entry !== "undefined") {
+          return entry;
+        }
+        throw new Error(`${className} "${slug}" could not be found.`);
+      };
+      exports.default = getDefinable;
+    }
+  });
+
+  // lib/functions/definables/getTileset.js
+  var require_getTileset = __commonJS({
+    "lib/functions/definables/getTileset.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var getDefinable_1 = __importDefault(require_getDefinable());
+      var getTileset = (slug) => (0, getDefinable_1.default)({
+        className: "Tileset",
+        slug
+      });
+      exports.default = getTileset;
+    }
+  });
+
+  // lib/functions/definables/getImageSource.js
+  var require_getImageSource = __commonJS({
+    "lib/functions/definables/getImageSource.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var getDefinable_1 = __importDefault(require_getDefinable());
+      var getImageSource = (slug) => (0, getDefinable_1.default)({
+        className: "ImageSource",
+        slug
+      });
+      exports.default = getImageSource;
+    }
+  });
+
+  // lib/constants/gameHeight.js
+  var require_gameHeight = __commonJS({
+    "lib/constants/gameHeight.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var gameHeight = 480;
+      exports.default = gameHeight;
+    }
+  });
+
+  // lib/functions/draw/drawImage.js
+  var require_drawImage = __commonJS({
+    "lib/functions/draw/drawImage.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var pixi_js_1 = require_pixi();
+      var getImageSource_1 = __importDefault(require_getImageSource());
+      var state_1 = __importDefault(require_state());
+      var gameWidth_1 = __importDefault(require_gameWidth());
+      var gameHeight_1 = __importDefault(require_gameHeight());
+      var drawImage = (imageSourceSlug, sourceX, sourceY, sourceWidth, sourceHeight, x, y, width, height) => {
+        const imageSource = (0, getImageSource_1.default)(imageSourceSlug);
+        if (x + width > 0 && x < gameWidth_1.default && y + height > 0 && y < gameHeight_1.default) {
+          const texture = imageSource.getBaseTexture();
+          const chopX = Math.max(x * -1, 0);
+          const chopY = Math.max(y * -1, 0);
+          const adjustedX = Math.max(x, 0);
+          const adjustedY = Math.max(y, 0);
+          const adjustedWidth = Math.min(width - chopX, gameWidth_1.default - adjustedX);
+          const adjustedHeight = Math.min(height - chopY, gameHeight_1.default - adjustedY);
+          const adjustedSourceX = chopX + sourceX;
+          const adjustedSourceY = chopY + sourceY;
+          const adjustedSourceWidth = Math.min(sourceWidth - chopX, adjustedWidth);
+          const adjustedSourceHeight = Math.min(sourceHeight - chopY, adjustedHeight);
+          const sprite = new pixi_js_1.Sprite(new pixi_js_1.Texture(texture, new pixi_js_1.Rectangle(adjustedSourceX, adjustedSourceY, adjustedSourceWidth, adjustedSourceHeight)));
+          sprite.x = adjustedX;
+          sprite.y = adjustedY;
+          sprite.width = adjustedWidth;
+          sprite.height = adjustedHeight;
+          state_1.default.app.stage.addChild(sprite);
+        }
+      };
+      exports.default = drawImage;
+    }
+  });
+
+  // lib/classes/Tilemap.js
+  var require_Tilemap = __commonJS({
+    "lib/classes/Tilemap.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var gameWidth_1 = __importDefault(require_gameWidth());
+      var getTileset_1 = __importDefault(require_getTileset());
+      var drawImage_1 = __importDefault(require_drawImage());
+      var Definable_1 = __importDefault(require_Definable());
+      var Tilemap = class extends Definable_1.default {
+        constructor(slug, data) {
+          super(slug);
+          this._data = data;
+        }
+        get tileWidth() {
+          return this._data.tilewidth;
+        }
+        get tileHeight() {
+          return this._data.tileheight;
+        }
+        draw() {
+          const startX = Math.floor(gameWidth_1.default / 2);
+          const startY = 0;
+          this._data.layers.forEach(({ chunks }) => {
+            chunks.forEach((chunk) => {
+              chunk.data.forEach((datum, datumIndex) => {
+                if (datum > 0) {
+                  const datumX = datumIndex % chunk.width;
+                  const datumY = Math.floor(datumIndex / chunk.width);
+                  const tileset = this.getDatumTileset(datum);
+                  const tileSourceX = 0;
+                  const tileSourceY = 0;
+                  const tileX = startX + datumX * this.tileWidth / 2 - datumY * this.tileWidth / 2 + chunk.x * this.tileWidth / 2 - chunk.y * this.tileWidth / 2 - this.tileWidth / 2;
+                  const tileY = startY + datumX * this.tileHeight / 2 + datumY * this.tileHeight / 2 + chunk.x * this.tileHeight / 2 + chunk.y * this.tileHeight / 2 - this.tileHeight / 2;
+                  (0, drawImage_1.default)("tilesets/tiles", tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight);
+                }
+              });
+            });
+          });
+        }
+        getDatumTileset(datum) {
+          const gid = datum;
+          const found = this._data.tilesets.find(({ firstgid }) => gid >= firstgid);
+          if (!found) {
+            throw new Error(`Could not get Tileset for datum ${datum} of Tilemap "${this.slug}"`);
+          }
+          const tilesetSlug = found.source.substring(12, found.source.length - 5);
+          return (0, getTileset_1.default)(tilesetSlug);
+        }
+      };
+      exports.default = Tilemap;
+    }
+  });
+
+  // lib/classes/Tileset.js
+  var require_Tileset = __commonJS({
+    "lib/classes/Tileset.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var Definable_1 = __importDefault(require_Definable());
+      var Tileset = class extends Definable_1.default {
+        constructor(slug, data) {
+          super(slug);
+          this._data = data;
+        }
+        get tileWidth() {
+          return this._data.tilewidth;
+        }
+        get tileHeight() {
+          return this._data.tileheight;
+        }
+      };
+      exports.default = Tileset;
+    }
+  });
+
+  // lib/tilemaps/map.json
+  var require_map = __commonJS({
+    "lib/tilemaps/map.json"(exports, module) {
+      module.exports = {
+        compressionlevel: -1,
+        height: 10,
+        infinite: true,
+        layers: [
+          {
+            chunks: [
+              {
+                data: [
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  1,
+                  1,
+                  1,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  1,
+                  1,
+                  0,
+                  0,
+                  1,
+                  1,
+                  0,
+                  0,
+                  1,
+                  1,
+                  1,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  1,
+                  1,
+                  0,
+                  1,
+                  1,
+                  1,
+                  1,
+                  0,
+                  1,
+                  1,
+                  1,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  1,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  1,
+                  1,
+                  0,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1,
+                  1,
+                  1,
+                  0,
+                  0,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  1,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  1,
+                  1,
+                  0,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  1,
+                  1,
+                  0,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  1,
+                  1,
+                  0,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                height: 16,
+                width: 16,
+                x: 0,
+                y: 0
+              },
+              {
+                data: [
+                  1,
+                  1,
+                  1,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  1,
+                  1,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  1,
+                  1,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  1,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  1,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  1,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  1,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  1,
+                  1,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  1,
+                  1,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                height: 16,
+                width: 16,
+                x: 16,
+                y: 0
+              },
+              {
+                data: [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  1,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                height: 16,
+                width: 16,
+                x: 0,
+                y: 16
+              }
+            ],
+            height: 32,
+            id: 1,
+            name: "tiles",
+            opacity: 1,
+            startx: 0,
+            starty: 0,
+            type: "tilelayer",
+            visible: true,
+            width: 32,
+            x: 0,
+            y: 0
+          }
+        ],
+        nextlayerid: 2,
+        nextobjectid: 1,
+        orientation: "isometric",
+        renderorder: "right-down",
+        tiledversion: "1.9.2",
+        tileheight: 12,
+        tilesets: [
+          {
+            firstgid: 1,
+            source: "../tilesets/tiles.json"
+          }
+        ],
+        tilewidth: 24,
+        type: "map",
+        version: "1.9",
+        width: 20
+      };
+    }
+  });
+
+  // lib/tilesets/tiles.json
+  var require_tiles = __commonJS({
+    "lib/tilesets/tiles.json"(exports, module) {
+      module.exports = {
+        columns: 1,
+        image: "../../out/images/tilesets/tiles.png",
+        imageheight: 24,
+        imagewidth: 24,
+        margin: 0,
+        name: "tiles",
+        spacing: 0,
+        tilecount: 1,
+        tiledversion: "1.9.2",
+        tileheight: 24,
+        tilewidth: 24,
+        type: "tileset",
+        version: "1.9"
+      };
+    }
+  });
+
   // lib/functions/define.js
   var require_define = __commonJS({
     "lib/functions/define.js"(exports) {
@@ -25941,9 +26836,15 @@ void main() {
       };
       Object.defineProperty(exports, "__esModule", { value: true });
       var ImageSource_1 = __importDefault(require_ImageSource());
+      var Tilemap_1 = __importDefault(require_Tilemap());
+      var Tileset_1 = __importDefault(require_Tileset());
+      var map_json_1 = __importDefault(require_map());
+      var tiles_json_1 = __importDefault(require_tiles());
       var define2 = () => {
-        new ImageSource_1.default("lud");
+        new Tileset_1.default("tiles", tiles_json_1.default);
+        new Tilemap_1.default("map", map_json_1.default);
         new ImageSource_1.default("coots");
+        new ImageSource_1.default("tilesets/tiles");
       };
       exports.default = define2;
     }
@@ -29067,157 +29968,41 @@ void main() {
     }
   });
 
-  // lib/constants/cootsHeight.js
-  var require_cootsHeight = __commonJS({
-    "lib/constants/cootsHeight.js"(exports) {
-      "use strict";
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var cootsHeight = 96;
-      exports.default = cootsHeight;
-    }
-  });
-
-  // lib/constants/cootsWidth.js
-  var require_cootsWidth = __commonJS({
-    "lib/constants/cootsWidth.js"(exports) {
-      "use strict";
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var cootsWidth = 96;
-      exports.default = cootsWidth;
-    }
-  });
-
-  // lib/functions/definables/getDefinable.js
-  var require_getDefinable = __commonJS({
-    "lib/functions/definables/getDefinable.js"(exports) {
-      "use strict";
-      var __importDefault = exports && exports.__importDefault || function(mod) {
-        return mod && mod.__esModule ? mod : { "default": mod };
-      };
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var getDefinables_1 = __importDefault(require_getDefinables());
-      var getDefinable = ({ className, slug }) => {
-        const definables = (0, getDefinables_1.default)(className);
-        const entry = definables.get(slug);
-        if (typeof entry !== "undefined") {
-          return entry;
-        }
-        throw new Error(`${className} "${slug}" could not be found.`);
-      };
-      exports.default = getDefinable;
-    }
-  });
-
-  // lib/functions/definables/getImageSource.js
-  var require_getImageSource = __commonJS({
-    "lib/functions/definables/getImageSource.js"(exports) {
+  // lib/functions/definables/getTilemap.js
+  var require_getTilemap = __commonJS({
+    "lib/functions/definables/getTilemap.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
       };
       Object.defineProperty(exports, "__esModule", { value: true });
       var getDefinable_1 = __importDefault(require_getDefinable());
-      var getImageSource = (slug) => (0, getDefinable_1.default)({
-        className: "ImageSource",
+      var getTilemap = (slug) => (0, getDefinable_1.default)({
+        className: "Tilemap",
         slug
       });
-      exports.default = getImageSource;
+      exports.default = getTilemap;
     }
   });
 
-  // lib/constants/gameWidth.js
-  var require_gameWidth = __commonJS({
-    "lib/constants/gameWidth.js"(exports) {
-      "use strict";
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var gameWidth = 640;
-      exports.default = gameWidth;
-    }
-  });
-
-  // lib/constants/gameHeight.js
-  var require_gameHeight = __commonJS({
-    "lib/constants/gameHeight.js"(exports) {
-      "use strict";
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var gameHeight = 480;
-      exports.default = gameHeight;
-    }
-  });
-
-  // lib/functions/draw/drawImage.js
-  var require_drawImage = __commonJS({
-    "lib/functions/draw/drawImage.js"(exports) {
+  // lib/functions/draw/drawRectangle.js
+  var require_drawRectangle = __commonJS({
+    "lib/functions/draw/drawRectangle.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
       };
       Object.defineProperty(exports, "__esModule", { value: true });
       var pixi_js_1 = require_pixi();
-      var getImageSource_1 = __importDefault(require_getImageSource());
       var state_1 = __importDefault(require_state());
-      var gameWidth_1 = __importDefault(require_gameWidth());
-      var gameHeight_1 = __importDefault(require_gameHeight());
-      var drawImage = (imageSourceSlug, sourceX, sourceY, sourceWidth, sourceHeight, x, y, width, height) => {
-        const imageSource = (0, getImageSource_1.default)(imageSourceSlug);
-        if (x + width > 0 && x < gameWidth_1.default && y + height > 0 && y < gameHeight_1.default) {
-          const texture = imageSource.getBaseTexture();
-          const chopX = Math.max(x * -1, 0);
-          const chopY = Math.max(y * -1, 0);
-          const adjustedX = Math.max(x, 0);
-          const adjustedY = Math.max(y, 0);
-          const adjustedWidth = Math.min(width - chopX, gameWidth_1.default - adjustedX);
-          const adjustedHeight = Math.min(height - chopY, gameHeight_1.default - adjustedY);
-          const adjustedSourceX = chopX + sourceX;
-          const adjustedSourceY = chopY + sourceY;
-          const adjustedSourceWidth = Math.min(sourceWidth - chopX, adjustedWidth);
-          const adjustedSourceHeight = Math.min(sourceHeight - chopY, adjustedHeight);
-          const sprite = new pixi_js_1.Sprite(new pixi_js_1.Texture(texture, new pixi_js_1.Rectangle(adjustedSourceX, adjustedSourceY, adjustedSourceWidth, adjustedSourceHeight)));
-          sprite.x = adjustedX;
-          sprite.y = adjustedY;
-          sprite.width = adjustedWidth;
-          sprite.height = adjustedHeight;
-          state_1.default.app.stage.addChild(sprite);
-        }
+      var drawRectangle = (color, x, y, width, height) => {
+        const rectangle = new pixi_js_1.Graphics();
+        rectangle.beginFill(Number(`0x${color.substring(1)}`));
+        rectangle.lineStyle(0, Number(`0x${color.substring(1)}`));
+        rectangle.drawRect(x, y, width, height);
+        state_1.default.app.stage.addChild(rectangle);
       };
-      exports.default = drawImage;
-    }
-  });
-
-  // lib/functions/draw/drawCoots.js
-  var require_drawCoots = __commonJS({
-    "lib/functions/draw/drawCoots.js"(exports) {
-      "use strict";
-      var __importDefault = exports && exports.__importDefault || function(mod) {
-        return mod && mod.__esModule ? mod : { "default": mod };
-      };
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var cootsHeight_1 = __importDefault(require_cootsHeight());
-      var cootsWidth_1 = __importDefault(require_cootsWidth());
-      var state_1 = __importDefault(require_state());
-      var drawImage_1 = __importDefault(require_drawImage());
-      var drawCoots = () => {
-        (0, drawImage_1.default)("coots", 0, 0, cootsWidth_1.default, cootsHeight_1.default, state_1.default.cootsX, state_1.default.cootsY, cootsWidth_1.default, cootsHeight_1.default);
-      };
-      exports.default = drawCoots;
-    }
-  });
-
-  // lib/functions/draw/drawLud.js
-  var require_drawLud = __commonJS({
-    "lib/functions/draw/drawLud.js"(exports) {
-      "use strict";
-      var __importDefault = exports && exports.__importDefault || function(mod) {
-        return mod && mod.__esModule ? mod : { "default": mod };
-      };
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var gameHeight_1 = __importDefault(require_gameHeight());
-      var gameWidth_1 = __importDefault(require_gameWidth());
-      var drawImage_1 = __importDefault(require_drawImage());
-      var drawLud = () => {
-        (0, drawImage_1.default)("lud", 0, 0, gameWidth_1.default, gameHeight_1.default, 0, 0, gameWidth_1.default, gameHeight_1.default);
-      };
-      exports.default = drawLud;
+      exports.default = drawRectangle;
     }
   });
 
@@ -29229,15 +30014,17 @@ void main() {
         return mod && mod.__esModule ? mod : { "default": mod };
       };
       Object.defineProperty(exports, "__esModule", { value: true });
+      var gameHeight_1 = __importDefault(require_gameHeight());
+      var gameWidth_1 = __importDefault(require_gameWidth());
       var state_1 = __importDefault(require_state());
       var assetsAreLoaded_1 = __importDefault(require_assetsAreLoaded());
-      var drawCoots_1 = __importDefault(require_drawCoots());
-      var drawLud_1 = __importDefault(require_drawLud());
+      var getTilemap_1 = __importDefault(require_getTilemap());
+      var drawRectangle_1 = __importDefault(require_drawRectangle());
       var render = () => {
         if ((0, assetsAreLoaded_1.default)()) {
           state_1.default.app.stage.removeChildren();
-          (0, drawLud_1.default)();
-          (0, drawCoots_1.default)();
+          (0, drawRectangle_1.default)("#000000", 0, 0, gameWidth_1.default, gameHeight_1.default);
+          (0, getTilemap_1.default)("map").draw();
           state_1.default.app.stage.sortChildren();
           state_1.default.app.render();
         }

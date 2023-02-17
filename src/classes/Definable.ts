@@ -1,5 +1,4 @@
 import DefinableReference from "../interfaces/DefinableReference";
-import List from "./List";
 import definables from "../maps/definables";
 import getDefinables from "../functions/definables/getDefinables";
 import validSlugCharacters from "../constants/validSlugCharacters";
@@ -9,7 +8,7 @@ abstract class Definable {
 
   public constructor(slug: string) {
     this._slug = slug;
-    if (new List(this._slug.split("")).some((character: string): boolean => character !== "/" && validSlugCharacters.includes(character) === false)) {
+    if (this._slug.split("").some((character: string): boolean => character !== "/" && validSlugCharacters.includes(character) === false)) {
       throw new Error(`${this.constructor.name} "${this._slug}" has an invalid slug.`);
     }
     if (definables.has(this.constructor.name) === false) {
