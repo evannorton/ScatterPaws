@@ -25661,18 +25661,105 @@ void main() {
     }
   });
 
+  // lib/constants/startingTilemapSlug.js
+  var require_startingTilemapSlug = __commonJS({
+    "lib/constants/startingTilemapSlug.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var startingTilemapSlug = "map";
+      exports.default = startingTilemapSlug;
+    }
+  });
+
+  // lib/constants/startingTileX.js
+  var require_startingTileX = __commonJS({
+    "lib/constants/startingTileX.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var startingTileX = 13;
+      exports.default = startingTileX;
+    }
+  });
+
+  // lib/constants/startingTileY.js
+  var require_startingTileY = __commonJS({
+    "lib/constants/startingTileY.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var startingTileY = 23;
+      exports.default = startingTileY;
+    }
+  });
+
+  // lib/constants/unitsPerTile.js
+  var require_unitsPerTile = __commonJS({
+    "lib/constants/unitsPerTile.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var unitsPerTile = 24;
+      exports.default = unitsPerTile;
+    }
+  });
+
+  // lib/functions/definables/getDefinable.js
+  var require_getDefinable = __commonJS({
+    "lib/functions/definables/getDefinable.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var getDefinables_1 = __importDefault(require_getDefinables());
+      var getDefinable = ({ className, slug }) => {
+        const definables = (0, getDefinables_1.default)(className);
+        const entry = definables.get(slug);
+        if (typeof entry !== "undefined") {
+          return entry;
+        }
+        throw new Error(`${className} "${slug}" could not be found.`);
+      };
+      exports.default = getDefinable;
+    }
+  });
+
+  // lib/functions/definables/getTilemap.js
+  var require_getTilemap = __commonJS({
+    "lib/functions/definables/getTilemap.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var getDefinable_1 = __importDefault(require_getDefinable());
+      var getTilemap = (slug) => (0, getDefinable_1.default)({
+        className: "Tilemap",
+        slug
+      });
+      exports.default = getTilemap;
+    }
+  });
+
   // lib/classes/State.js
   var require_State = __commonJS({
     "lib/classes/State.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
+      var startingTilemapSlug_1 = __importDefault(require_startingTilemapSlug());
+      var startingTileX_1 = __importDefault(require_startingTileX());
+      var startingTileY_1 = __importDefault(require_startingTileY());
+      var unitsPerTile_1 = __importDefault(require_unitsPerTile());
+      var getTilemap_1 = __importDefault(require_getTilemap());
       var State = class {
         constructor() {
           this._app = null;
-          this._cootsX = 0;
-          this._cootsY = 0;
+          this._cootsX = startingTileX_1.default * unitsPerTile_1.default;
+          this._cootsY = startingTileY_1.default * unitsPerTile_1.default;
           this._currentTime = performance.now();
           this._loadedAssets = 0;
+          this._tilemapSlug = startingTilemapSlug_1.default;
         }
         get app() {
           if (this._app !== null) {
@@ -25691,6 +25778,9 @@ void main() {
         }
         get loadedAssets() {
           return this._loadedAssets;
+        }
+        get tilemap() {
+          return (0, getTilemap_1.default)(this._tilemapSlug);
         }
         set app(app) {
           this._app = app !== null ? app : null;
@@ -25774,37 +25864,6 @@ void main() {
     }
   });
 
-  // lib/constants/gameWidth.js
-  var require_gameWidth = __commonJS({
-    "lib/constants/gameWidth.js"(exports) {
-      "use strict";
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var gameWidth = 640;
-      exports.default = gameWidth;
-    }
-  });
-
-  // lib/functions/definables/getDefinable.js
-  var require_getDefinable = __commonJS({
-    "lib/functions/definables/getDefinable.js"(exports) {
-      "use strict";
-      var __importDefault = exports && exports.__importDefault || function(mod) {
-        return mod && mod.__esModule ? mod : { "default": mod };
-      };
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var getDefinables_1 = __importDefault(require_getDefinables());
-      var getDefinable = ({ className, slug }) => {
-        const definables = (0, getDefinables_1.default)(className);
-        const entry = definables.get(slug);
-        if (typeof entry !== "undefined") {
-          return entry;
-        }
-        throw new Error(`${className} "${slug}" could not be found.`);
-      };
-      exports.default = getDefinable;
-    }
-  });
-
   // lib/functions/definables/getTileset.js
   var require_getTileset = __commonJS({
     "lib/functions/definables/getTileset.js"(exports) {
@@ -25836,6 +25895,16 @@ void main() {
         slug
       });
       exports.default = getImageSource;
+    }
+  });
+
+  // lib/constants/gameWidth.js
+  var require_gameWidth = __commonJS({
+    "lib/constants/gameWidth.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var gameWidth = 640;
+      exports.default = gameWidth;
     }
   });
 
@@ -25888,6 +25957,56 @@ void main() {
     }
   });
 
+  // lib/functions/getCameraX.js
+  var require_getCameraX = __commonJS({
+    "lib/functions/getCameraX.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var getCameraX = () => 0;
+      exports.default = getCameraX;
+    }
+  });
+
+  // lib/functions/getDrawStartX.js
+  var require_getDrawStartX = __commonJS({
+    "lib/functions/getDrawStartX.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var gameWidth_1 = __importDefault(require_gameWidth());
+      var getCameraX_1 = __importDefault(require_getCameraX());
+      var getDrawStartX = () => gameWidth_1.default / 2 - (0, getCameraX_1.default)();
+      exports.default = getDrawStartX;
+    }
+  });
+
+  // lib/functions/getCameraY.js
+  var require_getCameraY = __commonJS({
+    "lib/functions/getCameraY.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var getCameraY = () => 0;
+      exports.default = getCameraY;
+    }
+  });
+
+  // lib/functions/getDrawStartY.js
+  var require_getDrawStartY = __commonJS({
+    "lib/functions/getDrawStartY.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var gameHeight_1 = __importDefault(require_gameHeight());
+      var getCameraY_1 = __importDefault(require_getCameraY());
+      var getDrawStartY = () => gameHeight_1.default / 2 - (0, getCameraY_1.default)();
+      exports.default = getDrawStartY;
+    }
+  });
+
   // lib/classes/Tilemap.js
   var require_Tilemap = __commonJS({
     "lib/classes/Tilemap.js"(exports) {
@@ -25896,9 +26015,10 @@ void main() {
         return mod && mod.__esModule ? mod : { "default": mod };
       };
       Object.defineProperty(exports, "__esModule", { value: true });
-      var gameWidth_1 = __importDefault(require_gameWidth());
       var getTileset_1 = __importDefault(require_getTileset());
       var drawImage_1 = __importDefault(require_drawImage());
+      var getDrawStartX_1 = __importDefault(require_getDrawStartX());
+      var getDrawStartY_1 = __importDefault(require_getDrawStartY());
       var Definable_1 = __importDefault(require_Definable());
       var Tilemap = class extends Definable_1.default {
         constructor(slug, data) {
@@ -25912,8 +26032,8 @@ void main() {
           return this._data.tileheight;
         }
         draw() {
-          const startX = gameWidth_1.default / 2;
-          const startY = 0;
+          const startX = (0, getDrawStartX_1.default)();
+          const startY = (0, getDrawStartY_1.default)();
           this._data.layers.forEach((layer) => {
             if (layer.visible) {
               layer.chunks.forEach((chunk) => {
@@ -25933,6 +26053,14 @@ void main() {
               });
             }
           });
+        }
+        getCenterScreenXOfTile(x, y) {
+          const startX = (0, getDrawStartX_1.default)();
+          return startX + x * this.tileWidth / 2 - y * this.tileWidth / 2 - 1;
+        }
+        getCenterScreenYOfTile(x, y) {
+          const startY = (0, getDrawStartY_1.default)();
+          return startY + x * this.tileHeight / 2 + y * this.tileHeight / 2 - 3;
         }
         getDatumTileset(datum) {
           const gid = datum;
@@ -31845,23 +31973,6 @@ void main() {
     }
   });
 
-  // lib/functions/definables/getTilemap.js
-  var require_getTilemap = __commonJS({
-    "lib/functions/definables/getTilemap.js"(exports) {
-      "use strict";
-      var __importDefault = exports && exports.__importDefault || function(mod) {
-        return mod && mod.__esModule ? mod : { "default": mod };
-      };
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var getDefinable_1 = __importDefault(require_getDefinable());
-      var getTilemap = (slug) => (0, getDefinable_1.default)({
-        className: "Tilemap",
-        slug
-      });
-      exports.default = getTilemap;
-    }
-  });
-
   // lib/constants/cootsHeight.js
   var require_cootsHeight = __commonJS({
     "lib/constants/cootsHeight.js"(exports) {
@@ -31892,32 +32003,6 @@ void main() {
     }
   });
 
-  // lib/functions/draw/drawCoots.js
-  var require_drawCoots = __commonJS({
-    "lib/functions/draw/drawCoots.js"(exports) {
-      "use strict";
-      var __importDefault = exports && exports.__importDefault || function(mod) {
-        return mod && mod.__esModule ? mod : { "default": mod };
-      };
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var cootsHeight_1 = __importDefault(require_cootsHeight());
-      var cootsWidth_1 = __importDefault(require_cootsWidth());
-      var gameWidth_1 = __importDefault(require_gameWidth());
-      var timePerCootsFrame_1 = __importDefault(require_timePerCootsFrame());
-      var state_1 = __importDefault(require_state());
-      var drawImage_1 = __importDefault(require_drawImage());
-      var drawCoots = () => {
-        const frame = Math.floor(state_1.default.currentTime % (timePerCootsFrame_1.default * 4) / timePerCootsFrame_1.default);
-        const sourceX = frame * cootsWidth_1.default;
-        const sourceY = 0;
-        const x = Math.floor(gameWidth_1.default / 2) - Math.floor(cootsWidth_1.default / 2);
-        const y = 125;
-        (0, drawImage_1.default)("coots", sourceX, sourceY, cootsWidth_1.default, cootsHeight_1.default, x, y, cootsWidth_1.default, cootsHeight_1.default);
-      };
-      exports.default = drawCoots;
-    }
-  });
-
   // lib/functions/draw/drawRectangle.js
   var require_drawRectangle = __commonJS({
     "lib/functions/draw/drawRectangle.js"(exports) {
@@ -31939,6 +32024,36 @@ void main() {
     }
   });
 
+  // lib/functions/draw/drawCoots.js
+  var require_drawCoots = __commonJS({
+    "lib/functions/draw/drawCoots.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var cootsHeight_1 = __importDefault(require_cootsHeight());
+      var cootsWidth_1 = __importDefault(require_cootsWidth());
+      var timePerCootsFrame_1 = __importDefault(require_timePerCootsFrame());
+      var unitsPerTile_1 = __importDefault(require_unitsPerTile());
+      var state_1 = __importDefault(require_state());
+      var drawImage_1 = __importDefault(require_drawImage());
+      var drawRectangle_1 = __importDefault(require_drawRectangle());
+      var drawCoots = () => {
+        const frame = Math.floor(state_1.default.currentTime % (timePerCootsFrame_1.default * 4) / timePerCootsFrame_1.default);
+        const sourceX = frame * cootsWidth_1.default;
+        const sourceY = 0;
+        const tileX = state_1.default.cootsX / unitsPerTile_1.default;
+        const tileY = state_1.default.cootsY / unitsPerTile_1.default;
+        const tileCenterScreenX = state_1.default.tilemap.getCenterScreenXOfTile(tileX, tileY);
+        const tileCenterScreenY = state_1.default.tilemap.getCenterScreenYOfTile(tileX, tileY);
+        (0, drawImage_1.default)("coots", sourceX, sourceY, cootsWidth_1.default, cootsHeight_1.default, tileCenterScreenX - 9, tileCenterScreenY - 16, cootsWidth_1.default, cootsHeight_1.default);
+        (0, drawRectangle_1.default)("#e03c28", tileCenterScreenX, tileCenterScreenY, 1, 1);
+      };
+      exports.default = drawCoots;
+    }
+  });
+
   // lib/functions/render.js
   var require_render = __commonJS({
     "lib/functions/render.js"(exports) {
@@ -31951,14 +32066,13 @@ void main() {
       var gameWidth_1 = __importDefault(require_gameWidth());
       var state_1 = __importDefault(require_state());
       var assetsAreLoaded_1 = __importDefault(require_assetsAreLoaded());
-      var getTilemap_1 = __importDefault(require_getTilemap());
       var drawCoots_1 = __importDefault(require_drawCoots());
       var drawRectangle_1 = __importDefault(require_drawRectangle());
       var render = () => {
         if ((0, assetsAreLoaded_1.default)()) {
           state_1.default.app.stage.removeChildren();
           (0, drawRectangle_1.default)("#000000", 0, 0, gameWidth_1.default, gameHeight_1.default);
-          (0, getTilemap_1.default)("map").draw();
+          state_1.default.tilemap.draw();
           (0, drawCoots_1.default)();
           state_1.default.app.stage.sortChildren();
           state_1.default.app.render();
