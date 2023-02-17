@@ -12,6 +12,8 @@ class State {
   private _cootsY: number = startingTileY * unitsPerTile;
   private _currentTime: number = performance.now();
   private _loadedAssets: number = 0;
+  private _mouseX: number | null = null;
+  private _mouseY: number | null = null;
   private _tilemapSlug: string = startingTilemapSlug;
 
   public get app(): Application {
@@ -37,6 +39,20 @@ class State {
     return this._loadedAssets;
   }
 
+  public get mouseX(): number {
+    if (this._mouseX !== null) {
+      return this._mouseX;
+    }
+    throw new Error(this.getAccessorErrorMessage("mouseX"));
+  }
+
+  public get mouseY(): number {
+    if (this._mouseY !== null) {
+      return this._mouseY;
+    }
+    throw new Error(this.getAccessorErrorMessage("mouseY"));
+  }
+
   public get tilemap(): Tilemap {
     return getTilemap(this._tilemapSlug);
   }
@@ -51,6 +67,22 @@ class State {
 
   public set loadedAssets(loadedAssets: number) {
     this._loadedAssets = loadedAssets;
+  }
+
+  public set mouseX(mouseX: number | null) {
+    this._mouseX = mouseX;
+  }
+
+  public set mouseY(mouseY: number | null) {
+    this._mouseY = mouseY;
+  }
+
+  public hasMouseX(): boolean {
+    return this._mouseX !== null;
+  }
+
+  public hasMouseY(): boolean {
+    return this._mouseY !== null;
   }
 
   private getAccessorErrorMessage(property: string): string {

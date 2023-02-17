@@ -25759,6 +25759,8 @@ void main() {
           this._cootsY = startingTileY_1.default * unitsPerTile_1.default;
           this._currentTime = performance.now();
           this._loadedAssets = 0;
+          this._mouseX = null;
+          this._mouseY = null;
           this._tilemapSlug = startingTilemapSlug_1.default;
         }
         get app() {
@@ -25779,6 +25781,18 @@ void main() {
         get loadedAssets() {
           return this._loadedAssets;
         }
+        get mouseX() {
+          if (this._mouseX !== null) {
+            return this._mouseX;
+          }
+          throw new Error(this.getAccessorErrorMessage("mouseX"));
+        }
+        get mouseY() {
+          if (this._mouseY !== null) {
+            return this._mouseY;
+          }
+          throw new Error(this.getAccessorErrorMessage("mouseY"));
+        }
         get tilemap() {
           return (0, getTilemap_1.default)(this._tilemapSlug);
         }
@@ -25790,6 +25804,18 @@ void main() {
         }
         set loadedAssets(loadedAssets) {
           this._loadedAssets = loadedAssets;
+        }
+        set mouseX(mouseX) {
+          this._mouseX = mouseX;
+        }
+        set mouseY(mouseY) {
+          this._mouseY = mouseY;
+        }
+        hasMouseX() {
+          return this._mouseX !== null;
+        }
+        hasMouseY() {
+          return this._mouseY !== null;
         }
         getAccessorErrorMessage(property) {
           return `Could not access ${this.constructor.name} ${property}.`;
@@ -32105,6 +32131,10 @@ void main() {
       var state_1 = __importDefault(require_state());
       var update_1 = __importDefault(require_update());
       var tick = () => {
+        var _a;
+        if (((_a = document.getElementById("screen")) === null || _a === void 0 ? void 0 : _a.classList.contains("lasering")) && state_1.default.hasMouseX() && state_1.default.hasMouseY()) {
+          console.log(`handle laser pointer at ${state_1.default.mouseX} ${state_1.default.mouseY}`);
+        }
         state_1.default.currentTime += state_1.default.app.ticker.deltaMS;
         (0, update_1.default)();
         (0, render_1.default)();
@@ -32156,7 +32186,7 @@ void main() {
       var gameWidth_1 = __importDefault(require_gameWidth());
       var gameHeight_1 = __importDefault(require_gameHeight());
       var run = () => __awaiter(void 0, void 0, void 0, function* () {
-        var _a, _b, _c, _d, _e;
+        var _a, _b, _c, _d, _e, _f;
         console.log(`Running coots game.`);
         (0, define_1.default)();
         pixi_js_1.settings.ROUND_PIXELS = true;
@@ -32180,20 +32210,36 @@ void main() {
         (_a = document.getElementById("screen")) === null || _a === void 0 ? void 0 : _a.appendChild(state_1.default.app.view);
         state_1.default.app.view.style.width = `${gameWidth_1.default}px`;
         state_1.default.app.view.style.height = `${gameHeight_1.default}px`;
-        (_b = document.getElementById("screen")) === null || _b === void 0 ? void 0 : _b.addEventListener("mousedown", () => {
+        (_b = document.getElementById("screen")) === null || _b === void 0 ? void 0 : _b.addEventListener("mousedown", (e) => {
           var _a2;
-          (_a2 = document.getElementById("screen")) === null || _a2 === void 0 ? void 0 : _a2.classList.add("lasering");
+          if (e.target instanceof HTMLElement) {
+            state_1.default.mouseX = e.offsetX / e.target.offsetWidth * gameWidth_1.default;
+            state_1.default.mouseY = e.offsetY / e.target.offsetHeight * gameHeight_1.default;
+            (_a2 = document.getElementById("screen")) === null || _a2 === void 0 ? void 0 : _a2.classList.add("lasering");
+          }
         });
-        (_c = document.getElementById("screen")) === null || _c === void 0 ? void 0 : _c.addEventListener("mouseup", () => {
+        (_c = document.getElementById("screen")) === null || _c === void 0 ? void 0 : _c.addEventListener("mousemove", (e) => {
+          if (e.target instanceof HTMLElement) {
+            state_1.default.mouseX = e.offsetX / e.target.offsetWidth * gameWidth_1.default;
+            state_1.default.mouseY = e.offsetY / e.target.offsetHeight * gameHeight_1.default;
+          }
+        });
+        (_d = document.getElementById("screen")) === null || _d === void 0 ? void 0 : _d.addEventListener("mouseup", () => {
           var _a2;
+          state_1.default.mouseX = null;
+          state_1.default.mouseY = null;
           (_a2 = document.getElementById("screen")) === null || _a2 === void 0 ? void 0 : _a2.classList.remove("lasering");
         });
-        (_d = document.getElementById("screen")) === null || _d === void 0 ? void 0 : _d.addEventListener("focusout", () => {
+        (_e = document.getElementById("screen")) === null || _e === void 0 ? void 0 : _e.addEventListener("focusout", () => {
           var _a2;
+          state_1.default.mouseX = null;
+          state_1.default.mouseY = null;
           (_a2 = document.getElementById("screen")) === null || _a2 === void 0 ? void 0 : _a2.classList.remove("lasering");
         });
-        (_e = document.getElementById("screen")) === null || _e === void 0 ? void 0 : _e.addEventListener("mouseleave", () => {
+        (_f = document.getElementById("screen")) === null || _f === void 0 ? void 0 : _f.addEventListener("mouseleave", () => {
           var _a2;
+          state_1.default.mouseX = null;
+          state_1.default.mouseY = null;
           (_a2 = document.getElementById("screen")) === null || _a2 === void 0 ? void 0 : _a2.classList.remove("lasering");
         });
       });

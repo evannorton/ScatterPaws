@@ -30,16 +30,32 @@ const run = async (): Promise<void> => {
   document.getElementById("screen")?.appendChild(state.app.view);
   state.app.view.style.width = `${gameWidth}px`;
   state.app.view.style.height = `${gameHeight}px`;
-  document.getElementById("screen")?.addEventListener("mousedown", () => {
-    document.getElementById("screen")?.classList.add("lasering")
+  document.getElementById("screen")?.addEventListener("mousedown", (e) => {
+    if (e.target instanceof HTMLElement) {
+      state.mouseX = e.offsetX / e.target.offsetWidth * gameWidth;
+      state.mouseY = e.offsetY / e.target.offsetHeight * gameHeight;
+      document.getElementById("screen")?.classList.add("lasering")
+    }
+  });
+  document.getElementById("screen")?.addEventListener("mousemove", (e) => {
+    if (e.target instanceof HTMLElement) {
+      state.mouseX = e.offsetX / e.target.offsetWidth * gameWidth;
+      state.mouseY = e.offsetY / e.target.offsetHeight * gameHeight;
+    }
   });
   document.getElementById("screen")?.addEventListener("mouseup", () => {
+    state.mouseX = null;
+    state.mouseY = null;
     document.getElementById("screen")?.classList.remove("lasering")
   });
   document.getElementById("screen")?.addEventListener("focusout", () => {
+    state.mouseX = null;
+    state.mouseY = null;
     document.getElementById("screen")?.classList.remove("lasering")
   });
   document.getElementById("screen")?.addEventListener("mouseleave", () => {
+    state.mouseX = null;
+    state.mouseY = null;
     document.getElementById("screen")?.classList.remove("lasering")
   });
 };
