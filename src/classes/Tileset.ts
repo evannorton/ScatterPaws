@@ -9,6 +9,10 @@ class Tileset extends Definable {
     this._data = data;
   }
 
+  public get columns(): number {
+    return this._data.columns
+  }
+
   public get tileWidth(): number {
     return this._data.tilewidth;
   }
