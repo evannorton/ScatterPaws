@@ -32198,7 +32198,7 @@ void main() {
       var gameWidth_1 = __importDefault(require_gameWidth());
       var gameHeight_1 = __importDefault(require_gameHeight());
       var run = () => __awaiter(void 0, void 0, void 0, function* () {
-        var _a, _b, _c, _d, _e, _f;
+        var _a, _b, _c, _d, _e, _f, _g;
         console.log(`Running coots game.`);
         (0, define_1.default)();
         pixi_js_1.settings.ROUND_PIXELS = true;
@@ -32253,6 +32253,22 @@ void main() {
           state_1.default.mouseX = null;
           state_1.default.mouseY = null;
           (_a2 = document.getElementById("screen")) === null || _a2 === void 0 ? void 0 : _a2.classList.remove("lasering");
+        });
+        (_g = document.getElementById("screen")) === null || _g === void 0 ? void 0 : _g.addEventListener("keydown", (e) => {
+          const key = e.key.toLowerCase();
+          switch (key) {
+            case "p":
+              {
+                const anchor = document.createElement("a");
+                anchor.download = "Teleport Tower Screenshot.png";
+                anchor.href = state_1.default.app.renderer.plugins.extract.canvas(state_1.default.app.stage).toDataURL();
+                anchor.click();
+              }
+              break;
+          }
+        });
+        state_1.default.app.renderer.view.addEventListener("contextmenu", (e) => {
+          e.preventDefault();
         });
       });
       exports.default = run;

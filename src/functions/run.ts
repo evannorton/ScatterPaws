@@ -58,6 +58,21 @@ const run = async (): Promise<void> => {
     state.mouseY = null;
     document.getElementById("screen")?.classList.remove("lasering")
   });
+  document.getElementById("screen")?.addEventListener("keydown", (e) => {
+    const key: string = e.key.toLowerCase();
+    switch (key) {
+      case "p": {
+        const anchor: HTMLAnchorElement = document.createElement("a");
+        anchor.download = "Teleport Tower Screenshot.png";
+        anchor.href = state.app.renderer.plugins.extract.canvas(state.app.stage).toDataURL();
+        anchor.click();
+      }
+      break;
+    }
+  });
+  state.app.renderer.view.addEventListener("contextmenu", (e: Event): void => {
+    e.preventDefault();
+  });
 };
 
 export default run;
