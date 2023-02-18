@@ -1,3 +1,3 @@
-const gameHeight: number = 480;
+const gameHeight: number = 180;
 
 export default gameHeight;

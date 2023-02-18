@@ -5,6 +5,7 @@ import state from "../state";
 import tick from "./tick";
 import gameWidth from "../constants/gameWidth";
 import gameHeight from "../constants/gameHeight";
+import gameScale from "../constants/gameScale";
 
 const run = async (): Promise<void> => {
   console.log(`Running coots game.`);
@@ -28,8 +29,8 @@ const run = async (): Promise<void> => {
   });
   state.app.ticker.add(tick);
   document.getElementById("screen")?.appendChild(state.app.view);
-  state.app.view.style.width = `${gameWidth}px`;
-  state.app.view.style.height = `${gameHeight}px`;
+  state.app.view.style.width = `${gameWidth * gameScale}px`;
+  state.app.view.style.height = `${gameHeight * gameScale}px`;
   document.getElementById("screen")?.addEventListener("mousedown", (e) => {
     if (e.target instanceof HTMLElement) {
       state.mouseX = e.offsetX / e.target.offsetWidth * gameWidth;
@@ -67,7 +68,7 @@ const run = async (): Promise<void> => {
         anchor.href = state.app.renderer.plugins.extract.canvas(state.app.stage).toDataURL();
         anchor.click();
       }
-      break;
+        break;
     }
   });
   state.app.renderer.view.addEventListener("contextmenu", (e: Event): void => {

@@ -25929,7 +25929,7 @@ void main() {
     "lib/constants/gameWidth.js"(exports) {
       "use strict";
       Object.defineProperty(exports, "__esModule", { value: true });
-      var gameWidth = 640;
+      var gameWidth = 320;
       exports.default = gameWidth;
     }
   });
@@ -25939,7 +25939,7 @@ void main() {
     "lib/constants/gameHeight.js"(exports) {
       "use strict";
       Object.defineProperty(exports, "__esModule", { value: true });
-      var gameHeight = 480;
+      var gameHeight = 180;
       exports.default = gameHeight;
     }
   });
@@ -32155,6 +32155,16 @@ void main() {
     }
   });
 
+  // lib/constants/gameScale.js
+  var require_gameScale = __commonJS({
+    "lib/constants/gameScale.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var gameScale = 4;
+      exports.default = gameScale;
+    }
+  });
+
   // lib/functions/run.js
   var require_run = __commonJS({
     "lib/functions/run.js"(exports) {
@@ -32197,6 +32207,7 @@ void main() {
       var tick_1 = __importDefault(require_tick());
       var gameWidth_1 = __importDefault(require_gameWidth());
       var gameHeight_1 = __importDefault(require_gameHeight());
+      var gameScale_1 = __importDefault(require_gameScale());
       var run = () => __awaiter(void 0, void 0, void 0, function* () {
         var _a, _b, _c, _d, _e, _f, _g;
         console.log(`Running coots game.`);
@@ -32220,8 +32231,8 @@ void main() {
         });
         state_1.default.app.ticker.add(tick_1.default);
         (_a = document.getElementById("screen")) === null || _a === void 0 ? void 0 : _a.appendChild(state_1.default.app.view);
-        state_1.default.app.view.style.width = `${gameWidth_1.default}px`;
-        state_1.default.app.view.style.height = `${gameHeight_1.default}px`;
+        state_1.default.app.view.style.width = `${gameWidth_1.default * gameScale_1.default}px`;
+        state_1.default.app.view.style.height = `${gameHeight_1.default * gameScale_1.default}px`;
         (_b = document.getElementById("screen")) === null || _b === void 0 ? void 0 : _b.addEventListener("mousedown", (e) => {
           var _a2;
           if (e.target instanceof HTMLElement) {

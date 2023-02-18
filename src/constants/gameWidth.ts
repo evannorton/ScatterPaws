@@ -1,3 +1,3 @@
-const gameWidth: number = 640;
+const gameWidth: number = 320;
 
 export default gameWidth;
