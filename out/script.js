@@ -31959,16 +31959,6 @@ void main() {
     }
   });
 
-  // lib/functions/definables/getAudioSourcesCount.js
-  var require_getAudioSourcesCount = __commonJS({
-    "lib/functions/definables/getAudioSourcesCount.js"(exports) {
-      "use strict";
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var getAudioSourcesCount = () => 0;
-      exports.default = getAudioSourcesCount;
-    }
-  });
-
   // lib/functions/definables/getDefinablesCount.js
   var require_getDefinablesCount = __commonJS({
     "lib/functions/definables/getDefinablesCount.js"(exports) {
@@ -32005,10 +31995,9 @@ void main() {
         return mod && mod.__esModule ? mod : { "default": mod };
       };
       Object.defineProperty(exports, "__esModule", { value: true });
-      var getAudioSourcesCount_1 = __importDefault(require_getAudioSourcesCount());
       var getImageSourcesCount_1 = __importDefault(require_getImageSourcesCount());
       var state_1 = __importDefault(require_state());
-      var assetsAreLoaded = () => state_1.default.loadedAssets === (0, getImageSourcesCount_1.default)() + (0, getAudioSourcesCount_1.default)();
+      var assetsAreLoaded = () => state_1.default.loadedAssets === (0, getImageSourcesCount_1.default)();
       exports.default = assetsAreLoaded;
     }
   });
@@ -32104,17 +32093,27 @@ void main() {
       var gameWidth_1 = __importDefault(require_gameWidth());
       var state_1 = __importDefault(require_state());
       var assetsAreLoaded_1 = __importDefault(require_assetsAreLoaded());
+      var getImageSourcesCount_1 = __importDefault(require_getImageSourcesCount());
       var drawCoots_1 = __importDefault(require_drawCoots());
       var drawRectangle_1 = __importDefault(require_drawRectangle());
       var render = () => {
+        state_1.default.app.stage.removeChildren();
+        (0, drawRectangle_1.default)("#000000", 0, 0, gameWidth_1.default, gameHeight_1.default);
         if ((0, assetsAreLoaded_1.default)()) {
-          state_1.default.app.stage.removeChildren();
-          (0, drawRectangle_1.default)("#000000", 0, 0, gameWidth_1.default, gameHeight_1.default);
           state_1.default.tilemap.draw();
           (0, drawCoots_1.default)();
-          state_1.default.app.stage.sortChildren();
-          state_1.default.app.render();
+        } else {
+          const current = state_1.default.loadedAssets;
+          const total = (0, getImageSourcesCount_1.default)();
+          const percent = current / total;
+          const width = 192;
+          const x = (gameWidth_1.default - width) / 2;
+          const height = 32;
+          const y = (gameHeight_1.default - height) / 2;
+          (0, drawRectangle_1.default)("#343434", x, y, width, height);
+          (0, drawRectangle_1.default)("#7b7b7b", x, y, Math.round(width * percent), height);
         }
+        state_1.default.app.render();
       };
       exports.default = render;
     }
@@ -32129,9 +32128,12 @@ void main() {
       };
       Object.defineProperty(exports, "__esModule", { value: true });
       var state_1 = __importDefault(require_state());
+      var assetsAreLoaded_1 = __importDefault(require_assetsAreLoaded());
       var update = () => {
-        if (state_1.default.hasMouseX() && state_1.default.hasMouseY()) {
-          console.log(`handle laser pointer at ${state_1.default.mouseX} ${state_1.default.mouseY}`);
+        if ((0, assetsAreLoaded_1.default)()) {
+          if (state_1.default.hasMouseX() && state_1.default.hasMouseY()) {
+            console.log(`handle laser pointer at ${state_1.default.mouseX} ${state_1.default.mouseY}`);
+          }
         }
       };
       exports.default = update;
