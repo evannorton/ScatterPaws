@@ -1,7 +1,8 @@
-#screen {
-  cursor: url("./cursor.png") 16 16, default;
+body {
+  margin: 0;
+  image-rendering: pixelated;
 }
 
-#screen.lasering {
-  cursor: url("./cursor-held.png") 16 16, default;
+#screen {
+  cursor: url("./cursor.png") 16 16, default;
 }

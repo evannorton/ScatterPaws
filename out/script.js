@@ -32124,8 +32124,15 @@ void main() {
   var require_update = __commonJS({
     "lib/functions/update.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
+      var state_1 = __importDefault(require_state());
       var update = () => {
+        if (state_1.default.hasMouseX() && state_1.default.hasMouseY()) {
+          console.log(`handle laser pointer at ${state_1.default.mouseX} ${state_1.default.mouseY}`);
+        }
       };
       exports.default = update;
     }
@@ -32143,10 +32150,6 @@ void main() {
       var state_1 = __importDefault(require_state());
       var update_1 = __importDefault(require_update());
       var tick = () => {
-        var _a;
-        if (((_a = document.getElementById("screen")) === null || _a === void 0 ? void 0 : _a.classList.contains("lasering")) && state_1.default.hasMouseX() && state_1.default.hasMouseY()) {
-          console.log(`handle laser pointer at ${state_1.default.mouseX} ${state_1.default.mouseY}`);
-        }
         state_1.default.currentTime += state_1.default.app.ticker.deltaMS;
         (0, update_1.default)();
         (0, render_1.default)();
@@ -32209,7 +32212,7 @@ void main() {
       var gameHeight_1 = __importDefault(require_gameHeight());
       var gameScale_1 = __importDefault(require_gameScale());
       var run = () => __awaiter(void 0, void 0, void 0, function* () {
-        var _a, _b, _c, _d, _e, _f, _g;
+        var _a, _b, _c;
         console.log(`Running coots game.`);
         (0, define_1.default)();
         pixi_js_1.settings.ROUND_PIXELS = true;
@@ -32233,39 +32236,13 @@ void main() {
         (_a = document.getElementById("screen")) === null || _a === void 0 ? void 0 : _a.appendChild(state_1.default.app.view);
         state_1.default.app.view.style.width = `${gameWidth_1.default * gameScale_1.default}px`;
         state_1.default.app.view.style.height = `${gameHeight_1.default * gameScale_1.default}px`;
-        (_b = document.getElementById("screen")) === null || _b === void 0 ? void 0 : _b.addEventListener("mousedown", (e) => {
-          var _a2;
-          if (e.target instanceof HTMLElement) {
-            state_1.default.mouseX = e.offsetX / e.target.offsetWidth * gameWidth_1.default;
-            state_1.default.mouseY = e.offsetY / e.target.offsetHeight * gameHeight_1.default;
-            (_a2 = document.getElementById("screen")) === null || _a2 === void 0 ? void 0 : _a2.classList.add("lasering");
-          }
-        });
-        (_c = document.getElementById("screen")) === null || _c === void 0 ? void 0 : _c.addEventListener("mousemove", (e) => {
+        (_b = document.getElementById("screen")) === null || _b === void 0 ? void 0 : _b.addEventListener("mousemove", (e) => {
           if (e.target instanceof HTMLElement) {
             state_1.default.mouseX = e.offsetX / e.target.offsetWidth * gameWidth_1.default;
             state_1.default.mouseY = e.offsetY / e.target.offsetHeight * gameHeight_1.default;
           }
         });
-        (_d = document.getElementById("screen")) === null || _d === void 0 ? void 0 : _d.addEventListener("mouseup", () => {
-          var _a2;
-          state_1.default.mouseX = null;
-          state_1.default.mouseY = null;
-          (_a2 = document.getElementById("screen")) === null || _a2 === void 0 ? void 0 : _a2.classList.remove("lasering");
-        });
-        (_e = document.getElementById("screen")) === null || _e === void 0 ? void 0 : _e.addEventListener("focusout", () => {
-          var _a2;
-          state_1.default.mouseX = null;
-          state_1.default.mouseY = null;
-          (_a2 = document.getElementById("screen")) === null || _a2 === void 0 ? void 0 : _a2.classList.remove("lasering");
-        });
-        (_f = document.getElementById("screen")) === null || _f === void 0 ? void 0 : _f.addEventListener("mouseleave", () => {
-          var _a2;
-          state_1.default.mouseX = null;
-          state_1.default.mouseY = null;
-          (_a2 = document.getElementById("screen")) === null || _a2 === void 0 ? void 0 : _a2.classList.remove("lasering");
-        });
-        (_g = document.getElementById("screen")) === null || _g === void 0 ? void 0 : _g.addEventListener("keydown", (e) => {
+        (_c = document.getElementById("screen")) === null || _c === void 0 ? void 0 : _c.addEventListener("keydown", (e) => {
           const key = e.key.toLowerCase();
           switch (key) {
             case "p":
