@@ -14,11 +14,11 @@ class Tilemap extends Definable {
     this._data = data;
   }
 
-  private get tileWidth(): number {
+  public get tileWidth(): number {
     return this._data.tilewidth;
   }
 
-  private get tileHeight(): number {
+  public get tileHeight(): number {
     return this._data.tileheight;
   }
 

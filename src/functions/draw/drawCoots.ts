@@ -15,7 +15,7 @@ const drawCoots = (): void => {
   const tileCenterScreenX: number = state.tilemap.getCenterScreenXOfTile(tileX, tileY);
   const tileCenterScreenY: number = state.tilemap.getCenterScreenYOfTile(tileX, tileY);
   drawImage("coots", sourceX, sourceY, cootsWidth, cootsHeight, tileCenterScreenX - 9, tileCenterScreenY - 16, cootsWidth, cootsHeight);
-  drawRectangle("#e03c28", tileCenterScreenX, tileCenterScreenY, 1, 1)
+  // drawRectangle("#e03c28", tileCenterScreenX, tileCenterScreenY, 1, 1)
 };
 
 export default drawCoots;

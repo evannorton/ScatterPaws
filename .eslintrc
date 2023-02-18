@@ -8,7 +8,7 @@
       "useJSXTextNode": true
     },
     "ecmaVersion": 6,
-    "project": "./src/tsconfig.json",
+    "project": ["./src/tsconfig.json"],
     "sourceType": "module"
   },
   "plugins": ["@typescript-eslint", "sort-imports-es6-autofix"],

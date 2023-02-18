@@ -25987,8 +25987,15 @@ void main() {
   var require_getCameraX = __commonJS({
     "lib/functions/getCameraX.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
-      var getCameraX = () => 0;
+      var unitsPerTile_1 = __importDefault(require_unitsPerTile());
+      var state_1 = __importDefault(require_state());
+      var getCameraX = () => {
+        return state_1.default.cootsX / unitsPerTile_1.default * (state_1.default.tilemap.tileWidth / 2) - state_1.default.cootsY / unitsPerTile_1.default * (state_1.default.tilemap.tileWidth / 2) - 1;
+      };
       exports.default = getCameraX;
     }
   });
@@ -26012,8 +26019,15 @@ void main() {
   var require_getCameraY = __commonJS({
     "lib/functions/getCameraY.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
-      var getCameraY = () => 0;
+      var unitsPerTile_1 = __importDefault(require_unitsPerTile());
+      var state_1 = __importDefault(require_state());
+      var getCameraY = () => {
+        return state_1.default.cootsX / unitsPerTile_1.default * (state_1.default.tilemap.tileHeight / 2) + state_1.default.cootsY / unitsPerTile_1.default * (state_1.default.tilemap.tileHeight / 2) - 3;
+      };
       exports.default = getCameraY;
     }
   });
@@ -32029,6 +32043,34 @@ void main() {
     }
   });
 
+  // lib/functions/draw/drawCoots.js
+  var require_drawCoots = __commonJS({
+    "lib/functions/draw/drawCoots.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var cootsHeight_1 = __importDefault(require_cootsHeight());
+      var cootsWidth_1 = __importDefault(require_cootsWidth());
+      var timePerCootsFrame_1 = __importDefault(require_timePerCootsFrame());
+      var unitsPerTile_1 = __importDefault(require_unitsPerTile());
+      var state_1 = __importDefault(require_state());
+      var drawImage_1 = __importDefault(require_drawImage());
+      var drawCoots = () => {
+        const frame = Math.floor(state_1.default.currentTime % (timePerCootsFrame_1.default * 4) / timePerCootsFrame_1.default);
+        const sourceX = frame * cootsWidth_1.default;
+        const sourceY = 0;
+        const tileX = state_1.default.cootsX / unitsPerTile_1.default;
+        const tileY = state_1.default.cootsY / unitsPerTile_1.default;
+        const tileCenterScreenX = state_1.default.tilemap.getCenterScreenXOfTile(tileX, tileY);
+        const tileCenterScreenY = state_1.default.tilemap.getCenterScreenYOfTile(tileX, tileY);
+        (0, drawImage_1.default)("coots", sourceX, sourceY, cootsWidth_1.default, cootsHeight_1.default, tileCenterScreenX - 9, tileCenterScreenY - 16, cootsWidth_1.default, cootsHeight_1.default);
+      };
+      exports.default = drawCoots;
+    }
+  });
+
   // lib/functions/draw/drawRectangle.js
   var require_drawRectangle = __commonJS({
     "lib/functions/draw/drawRectangle.js"(exports) {
@@ -32047,36 +32089,6 @@ void main() {
         state_1.default.app.stage.addChild(rectangle);
       };
       exports.default = drawRectangle;
-    }
-  });
-
-  // lib/functions/draw/drawCoots.js
-  var require_drawCoots = __commonJS({
-    "lib/functions/draw/drawCoots.js"(exports) {
-      "use strict";
-      var __importDefault = exports && exports.__importDefault || function(mod) {
-        return mod && mod.__esModule ? mod : { "default": mod };
-      };
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var cootsHeight_1 = __importDefault(require_cootsHeight());
-      var cootsWidth_1 = __importDefault(require_cootsWidth());
-      var timePerCootsFrame_1 = __importDefault(require_timePerCootsFrame());
-      var unitsPerTile_1 = __importDefault(require_unitsPerTile());
-      var state_1 = __importDefault(require_state());
-      var drawImage_1 = __importDefault(require_drawImage());
-      var drawRectangle_1 = __importDefault(require_drawRectangle());
-      var drawCoots = () => {
-        const frame = Math.floor(state_1.default.currentTime % (timePerCootsFrame_1.default * 4) / timePerCootsFrame_1.default);
-        const sourceX = frame * cootsWidth_1.default;
-        const sourceY = 0;
-        const tileX = state_1.default.cootsX / unitsPerTile_1.default;
-        const tileY = state_1.default.cootsY / unitsPerTile_1.default;
-        const tileCenterScreenX = state_1.default.tilemap.getCenterScreenXOfTile(tileX, tileY);
-        const tileCenterScreenY = state_1.default.tilemap.getCenterScreenYOfTile(tileX, tileY);
-        (0, drawImage_1.default)("coots", sourceX, sourceY, cootsWidth_1.default, cootsHeight_1.default, tileCenterScreenX - 9, tileCenterScreenY - 16, cootsWidth_1.default, cootsHeight_1.default);
-        (0, drawRectangle_1.default)("#e03c28", tileCenterScreenX, tileCenterScreenY, 1, 1);
-      };
-      exports.default = drawCoots;
     }
   });
 
