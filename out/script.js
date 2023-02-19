@@ -26032,10 +26032,11 @@ void main() {
         }
         draw() {
           const cameraScreenCoords = (0, getCameraScreenCoords_1.default)();
-          this._data.layers.forEach((layer) => {
+          for (const layer of this._data.layers) {
             if (layer.visible) {
-              layer.chunks.forEach((chunk) => {
-                chunk.data.forEach((datum, datumIndex) => {
+              for (const chunk of layer.chunks) {
+                let datumIndex = 0;
+                for (const datum of chunk.data) {
                   if (datum > 0) {
                     const datumX = datumIndex % chunk.width;
                     const datumY = Math.floor(datumIndex / chunk.width);
@@ -26047,10 +26048,12 @@ void main() {
                     const tileY = Math.floor(cameraScreenCoords.y + datumX * this.tileHeight / 2 + datumY * this.tileHeight / 2 + chunk.x * this.tileHeight / 2 + chunk.y * this.tileHeight / 2 - this.tileHeight);
                     (0, drawImage_1.default)("tilesets/tiles", tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight);
                   }
-                });
-              });
+                  datumIndex++;
+                }
+                ;
+              }
             }
-          });
+          }
         }
         getScreenCoordsFromCoords(coords) {
           const cameraScreenCoords = (0, getCameraScreenCoords_1.default)();
@@ -26065,6 +26068,30 @@ void main() {
             x: Math.round((screenCoords.x - cameraScreenCoords.x + 1) / this.tileWidth * unitsPerTile_1.default + (screenCoords.y - cameraScreenCoords.y + 3) / this.tileHeight * unitsPerTile_1.default),
             y: Math.round((screenCoords.y - cameraScreenCoords.y + 3) / this.tileHeight * unitsPerTile_1.default - (screenCoords.x - cameraScreenCoords.x + 1) / this.tileWidth * unitsPerTile_1.default)
           };
+        }
+        hasCollisionAtCoords(coords) {
+          const tileX = Math.floor(coords.x / unitsPerTile_1.default);
+          const tileY = Math.floor(coords.y / unitsPerTile_1.default);
+          for (const layer of this._data.layers) {
+            if (layer.visible) {
+              for (const chunk of layer.chunks) {
+                let datumIndex = 0;
+                for (const datum of chunk.data) {
+                  if (layer.name === "floor") {
+                    const datumX = datumIndex % chunk.width;
+                    const datumY = Math.floor(datumIndex / chunk.width);
+                    const datumTileX = chunk.x + datumX;
+                    const datumTileY = chunk.y + datumY;
+                    if (datum === 0 && datumTileX === tileX && datumTileY === tileY) {
+                      return true;
+                    }
+                  }
+                  datumIndex++;
+                }
+              }
+            }
+          }
+          return false;
         }
         getDatumTileset(datum) {
           const gid = datum;
@@ -32547,10 +32574,18 @@ void main() {
       Object.defineProperty(exports, "__esModule", { value: true });
       var state_1 = __importDefault(require_state());
       var updateCootsPosition = () => {
-        state_1.default.cootsCoords = {
-          x: state_1.default.cootsCoords.x + Math.floor(state_1.default.cootsVelocityX * (state_1.default.app.ticker.deltaMS / 1e3)),
-          y: state_1.default.cootsCoords.y + Math.floor(state_1.default.cootsVelocityY * (state_1.default.app.ticker.deltaMS / 1e3))
-        };
+        const x = state_1.default.cootsCoords.x + Math.floor(state_1.default.cootsVelocityX * (state_1.default.app.ticker.deltaMS / 1e3));
+        const y = state_1.default.cootsCoords.y + Math.floor(state_1.default.cootsVelocityY * (state_1.default.app.ticker.deltaMS / 1e3));
+        if (state_1.default.tilemap.hasCollisionAtCoords({ x, y: state_1.default.cootsCoords.y })) {
+          state_1.default.cootsVelocityX *= -1;
+        } else if (state_1.default.tilemap.hasCollisionAtCoords({ x: state_1.default.cootsCoords.y, y })) {
+          state_1.default.cootsVelocityY *= -1;
+        } else if (state_1.default.tilemap.hasCollisionAtCoords({ x, y })) {
+          state_1.default.cootsVelocityX *= -1;
+          state_1.default.cootsVelocityY *= -1;
+        } else {
+          state_1.default.cootsCoords = { x, y };
+        }
       };
       exports.default = updateCootsPosition;
     }

@@ -25,10 +25,11 @@ class Tilemap extends Definable {
 
   public draw(): void {
     const cameraScreenCoords: Coords = getCameraScreenCoords();
-    this._data.layers.forEach((layer) => {
+    for (const layer of this._data.layers) {
       if (layer.visible) {
-        layer.chunks.forEach((chunk) => {
-          chunk.data.forEach((datum, datumIndex) => {
+        for (const chunk of layer.chunks) {
+          let datumIndex = 0;
+          for (const datum of chunk.data) {
             if (datum > 0) {
               const datumX: number = datumIndex % chunk.width;
               const datumY: number = Math.floor(datumIndex / chunk.width);
@@ -54,10 +55,11 @@ class Tilemap extends Definable {
               );
               drawImage("tilesets/tiles", tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight);
             }
-          });
-        });
+            datumIndex++;
+          };
+        }
       }
-    });
+    }
   }
 
   public getScreenCoordsFromCoords(coords: Coords): Coords {
@@ -92,6 +94,31 @@ class Tilemap extends Definable {
           - (screenCoords.x - cameraScreenCoords.x + 1) / this.tileWidth * unitsPerTile
         )
     };
+  }
+
+  public hasCollisionAtCoords(coords: Coords): boolean {
+    const tileX: number = Math.floor(coords.x / unitsPerTile);
+    const tileY: number = Math.floor(coords.y / unitsPerTile);
+    for (const layer of this._data.layers) {
+      if (layer.visible) {
+        for (const chunk of layer.chunks) {
+          let datumIndex = 0;
+          for (const datum of chunk.data) {
+            if (layer.name === "floor") {
+              const datumX: number = datumIndex % chunk.width;
+              const datumY: number = Math.floor(datumIndex / chunk.width);
+              const datumTileX: number = chunk.x + datumX;
+              const datumTileY: number = chunk.y + datumY;
+              if (datum === 0 && datumTileX === tileX && datumTileY === tileY) {
+                return true;
+              }
+            }
+            datumIndex++;
+          }
+        }
+      }
+    }
+    return false;
   }
 
   private getDatumTileset(datum: number): Tileset {

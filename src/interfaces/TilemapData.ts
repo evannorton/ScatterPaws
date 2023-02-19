@@ -7,6 +7,7 @@ interface TilemapData {
       readonly x: number;
       readonly y: number;
     }[];
+    readonly name: string;
     readonly visible: boolean;
   }[];
   readonly tilesets: {
