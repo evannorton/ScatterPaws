@@ -18,7 +18,7 @@ const getCameraScreenCoords = (): Coords => ({
     - (
       ((state.cootsCoords.x / unitsPerTile) * (state.tilemap.tileHeight / 2))
       + ((state.cootsCoords.y / unitsPerTile) * (state.tilemap.tileHeight / 2))
-      - 3
+      - 6
     )
   )
 });

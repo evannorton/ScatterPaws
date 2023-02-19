@@ -1,4 +1,5 @@
 import TilesetData from "../interfaces/TilesetData";
+import TilesetDataTile from "../interfaces/TilesetDataTile";
 import Definable from "./Definable";
 
 class Tileset extends Definable {
@@ -11,6 +12,13 @@ class Tileset extends Definable {
 
   public get columns(): number {
     return this._data.columns
+  }
+
+  public get tiles(): TilesetDataTile[] {
+    if (this._data.tiles) {
+      return this._data.tiles;
+    }
+    return [];
   }
 
   public get tileWidth(): number {

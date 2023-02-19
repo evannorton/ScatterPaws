@@ -1,15 +1,7 @@
+import TilemapDataLayer from "./TilemapDataLayer";
+
 interface TilemapData {
-  readonly layers: {
-    readonly chunks: {
-      readonly data: number[];
-      readonly height: number;
-      readonly width: number;
-      readonly x: number;
-      readonly y: number;
-    }[];
-    readonly name: string;
-    readonly visible: boolean;
-  }[];
+  readonly layers: TilemapDataLayer[];
   readonly tilesets: {
     firstgid: number;
     source: string;

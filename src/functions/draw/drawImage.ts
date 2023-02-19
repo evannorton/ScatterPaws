@@ -5,7 +5,7 @@ import state from "../../state";
 import gameWidth from "../../constants/gameWidth";
 import gameHeight from "../../constants/gameHeight";
 
-const drawImage = (imageSourceSlug: string, sourceX: number, sourceY: number, sourceWidth: number, sourceHeight: number, x: number, y: number, width: number, height: number): void => {
+const drawImage = (imageSourceSlug: string, sourceX: number, sourceY: number, sourceWidth: number, sourceHeight: number, x: number, y: number, width: number, height: number, ySort: boolean): void => {
   const imageSource: ImageSource = getImageSource(imageSourceSlug);
   if (x + width > 0 && x < gameWidth && y + height > 0 && y < gameHeight) {
     const texture: BaseTexture = imageSource.getBaseTexture();
@@ -24,6 +24,9 @@ const drawImage = (imageSourceSlug: string, sourceX: number, sourceY: number, so
     sprite.y = adjustedY;
     sprite.width = adjustedWidth;
     sprite.height = adjustedHeight;
+    if (ySort && y > 0) {
+      sprite.zIndex = y;
+    }
     state.app.stage.addChild(sprite);
   }
 };

@@ -25960,7 +25960,7 @@ void main() {
       var state_1 = __importDefault(require_state());
       var gameWidth_1 = __importDefault(require_gameWidth());
       var gameHeight_1 = __importDefault(require_gameHeight());
-      var drawImage = (imageSourceSlug, sourceX, sourceY, sourceWidth, sourceHeight, x, y, width, height) => {
+      var drawImage = (imageSourceSlug, sourceX, sourceY, sourceWidth, sourceHeight, x, y, width, height, ySort) => {
         const imageSource = (0, getImageSource_1.default)(imageSourceSlug);
         if (x + width > 0 && x < gameWidth_1.default && y + height > 0 && y < gameHeight_1.default) {
           const texture = imageSource.getBaseTexture();
@@ -25979,6 +25979,9 @@ void main() {
           sprite.y = adjustedY;
           sprite.width = adjustedWidth;
           sprite.height = adjustedHeight;
+          if (ySort && y > 0) {
+            sprite.zIndex = y;
+          }
           state_1.default.app.stage.addChild(sprite);
         }
       };
@@ -26000,7 +26003,7 @@ void main() {
       var state_1 = __importDefault(require_state());
       var getCameraScreenCoords = () => ({
         x: Math.floor(gameWidth_1.default / 2 - (state_1.default.cootsCoords.x / unitsPerTile_1.default * (state_1.default.tilemap.tileWidth / 2) - state_1.default.cootsCoords.y / unitsPerTile_1.default * (state_1.default.tilemap.tileWidth / 2) - 1)),
-        y: Math.floor(gameHeight_1.default / 2 - (state_1.default.cootsCoords.x / unitsPerTile_1.default * (state_1.default.tilemap.tileHeight / 2) + state_1.default.cootsCoords.y / unitsPerTile_1.default * (state_1.default.tilemap.tileHeight / 2) - 3))
+        y: Math.floor(gameHeight_1.default / 2 - (state_1.default.cootsCoords.x / unitsPerTile_1.default * (state_1.default.tilemap.tileHeight / 2) + state_1.default.cootsCoords.y / unitsPerTile_1.default * (state_1.default.tilemap.tileHeight / 2) - 6))
       });
       exports.default = getCameraScreenCoords;
     }
@@ -26031,42 +26034,22 @@ void main() {
           return this._data.tileheight;
         }
         draw() {
-          const cameraScreenCoords = (0, getCameraScreenCoords_1.default)();
           for (const layer of this._data.layers) {
-            if (layer.visible) {
-              for (const chunk of layer.chunks) {
-                let datumIndex = 0;
-                for (const datum of chunk.data) {
-                  if (datum > 0) {
-                    const datumX = datumIndex % chunk.width;
-                    const datumY = Math.floor(datumIndex / chunk.width);
-                    const tileset = this.getDatumTileset(datum);
-                    const tilesetIndex = this.getDatumTilesetIndex(datum);
-                    const tileSourceX = tilesetIndex % tileset.columns * tileset.tileWidth;
-                    const tileSourceY = Math.floor(tilesetIndex / tileset.columns) * tileset.tileHeight;
-                    const tileX = Math.floor(cameraScreenCoords.x + datumX * this.tileWidth / 2 - datumY * this.tileWidth / 2 + chunk.x * this.tileWidth / 2 - chunk.y * this.tileWidth / 2 - this.tileWidth / 2);
-                    const tileY = Math.floor(cameraScreenCoords.y + datumX * this.tileHeight / 2 + datumY * this.tileHeight / 2 + chunk.x * this.tileHeight / 2 + chunk.y * this.tileHeight / 2 - this.tileHeight);
-                    (0, drawImage_1.default)(`tilesets/${tileset.slug}`, tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight);
-                  }
-                  datumIndex++;
-                }
-                ;
-              }
-            }
+            this.drawLayer(layer);
           }
         }
         getScreenCoordsFromCoords(coords) {
           const cameraScreenCoords = (0, getCameraScreenCoords_1.default)();
           return {
             x: Math.floor(cameraScreenCoords.x + coords.x / unitsPerTile_1.default * this.tileWidth / 2 - coords.y / unitsPerTile_1.default * this.tileWidth / 2 - 1),
-            y: Math.floor(cameraScreenCoords.y + coords.x / unitsPerTile_1.default * this.tileHeight / 2 + coords.y / unitsPerTile_1.default * this.tileHeight / 2 - 3)
+            y: Math.floor(cameraScreenCoords.y + coords.x / unitsPerTile_1.default * this.tileHeight / 2 + coords.y / unitsPerTile_1.default * this.tileHeight / 2 - 6)
           };
         }
         getCoordsFromScreenCoords(screenCoords) {
           const cameraScreenCoords = (0, getCameraScreenCoords_1.default)();
           return {
-            x: Math.round((screenCoords.x - cameraScreenCoords.x + 1) / this.tileWidth * unitsPerTile_1.default + (screenCoords.y - cameraScreenCoords.y + 3) / this.tileHeight * unitsPerTile_1.default),
-            y: Math.round((screenCoords.y - cameraScreenCoords.y + 3) / this.tileHeight * unitsPerTile_1.default - (screenCoords.x - cameraScreenCoords.x + 1) / this.tileWidth * unitsPerTile_1.default)
+            x: Math.round((screenCoords.x - cameraScreenCoords.x + 1) / this.tileWidth * unitsPerTile_1.default + (screenCoords.y - cameraScreenCoords.y + 6) / this.tileHeight * unitsPerTile_1.default),
+            y: Math.round((screenCoords.y - cameraScreenCoords.y + 6) / this.tileHeight * unitsPerTile_1.default - (screenCoords.x - cameraScreenCoords.x + 1) / this.tileWidth * unitsPerTile_1.default)
           };
         }
         hasCollisionAtCoords(coords) {
@@ -26077,13 +26060,22 @@ void main() {
               for (const chunk of layer.chunks) {
                 let datumIndex = 0;
                 for (const datum of chunk.data) {
-                  if (layer.name === "floor") {
-                    const datumX = datumIndex % chunk.width;
-                    const datumY = Math.floor(datumIndex / chunk.width);
-                    const datumTileX = chunk.x + datumX;
-                    const datumTileY = chunk.y + datumY;
-                    if (datum === 0 && datumTileX === tileX && datumTileY === tileY) {
-                      return true;
+                  const datumX = datumIndex % chunk.width;
+                  const datumY = Math.floor(datumIndex / chunk.width);
+                  const datumTileX = chunk.x + datumX;
+                  const datumTileY = chunk.y + datumY;
+                  switch (layer.name) {
+                    case "floor": {
+                      if (datum === 0 && datumTileX === tileX && datumTileY === tileY) {
+                        return true;
+                      }
+                      break;
+                    }
+                    case "collidables-bottom": {
+                      if (datum > 0 && datumTileX + 1 === tileX && datumTileY + 1 === tileY) {
+                        return true;
+                      }
+                      break;
                     }
                   }
                   datumIndex++;
@@ -26092,6 +26084,33 @@ void main() {
             }
           }
           return false;
+        }
+        drawLayer(layer) {
+          var _a;
+          const cameraScreenCoords = (0, getCameraScreenCoords_1.default)();
+          if (layer.visible) {
+            for (const chunk of layer.chunks) {
+              let datumIndex = 0;
+              for (const datum of chunk.data) {
+                if (datum > 0) {
+                  const datumX = datumIndex % chunk.width;
+                  const datumY = Math.floor(datumIndex / chunk.width);
+                  const tileset = this.getDatumTileset(datum);
+                  const tilesetIndex = this.getDatumTilesetIndex(datum);
+                  const tileSourceX = tilesetIndex % tileset.columns * tileset.tileWidth;
+                  const tileSourceY = Math.floor(tilesetIndex / tileset.columns) * tileset.tileHeight;
+                  const tile = tileset.tiles.find((tile2) => tile2.id === tilesetIndex);
+                  const property = tile && ((_a = tile.properties) === null || _a === void 0 ? void 0 : _a.find((property2) => property2.name === "collidableID"));
+                  const collidableID = property === null || property === void 0 ? void 0 : property.value;
+                  const tileX = Math.floor(cameraScreenCoords.x + datumX * this.tileWidth / 2 - datumY * this.tileWidth / 2 + chunk.x * this.tileWidth / 2 - chunk.y * this.tileWidth / 2 - this.tileWidth / 2);
+                  const tileY = Math.floor(cameraScreenCoords.y + datumX * this.tileHeight / 2 + datumY * this.tileHeight / 2 + chunk.x * this.tileHeight / 2 + chunk.y * this.tileHeight / 2 - this.tileHeight);
+                  (0, drawImage_1.default)(`tilesets/${tileset.slug}`, tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight, typeof collidableID !== "undefined");
+                }
+                datumIndex++;
+              }
+              ;
+            }
+          }
         }
         getDatumTileset(datum) {
           const gid = datum;
@@ -26131,6 +26150,12 @@ void main() {
         }
         get columns() {
           return this._data.columns;
+        }
+        get tiles() {
+          if (this._data.tiles) {
+            return this._data.tiles;
+          }
+          return [];
         }
         get tileWidth() {
           return this._data.tilewidth;
@@ -27494,7 +27519,7 @@ void main() {
                   102,
                   102,
                   102,
-                  102,
+                  104,
                   0,
                   0,
                   0,
@@ -27818,7 +27843,7 @@ void main() {
                   0,
                   0,
                   0,
-                  101,
+                  103,
                   0,
                   111,
                   0,
@@ -28028,9 +28053,567 @@ void main() {
             width: 32,
             x: 0,
             y: 0
+          },
+          {
+            chunks: [
+              {
+                data: [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  221
+                ],
+                height: 16,
+                width: 16,
+                x: 0,
+                y: 0
+              }
+            ],
+            height: 32,
+            id: 6,
+            name: "collidables-bottom",
+            opacity: 1,
+            startx: 0,
+            starty: 0,
+            type: "tilelayer",
+            visible: true,
+            width: 32,
+            x: 0,
+            y: 0
+          },
+          {
+            chunks: [
+              {
+                data: [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  211
+                ],
+                height: 16,
+                width: 16,
+                x: 0,
+                y: 0
+              }
+            ],
+            height: 32,
+            id: 7,
+            name: "collidables-top",
+            opacity: 1,
+            startx: 0,
+            starty: 0,
+            type: "tilelayer",
+            visible: true,
+            width: 32,
+            x: 0,
+            y: 0
           }
         ],
-        nextlayerid: 5,
+        nextlayerid: 8,
         nextobjectid: 1,
         orientation: "isometric",
         renderorder: "right-down",
@@ -28044,6 +28627,10 @@ void main() {
           {
             firstgid: 101,
             source: "../tilesets/walls.json"
+          },
+          {
+            firstgid: 201,
+            source: "../tilesets/collidables.json"
           }
         ],
         tilewidth: 24,
@@ -28096,6 +28683,49 @@ void main() {
     }
   });
 
+  // lib/tilesets/collidables.json
+  var require_collidables = __commonJS({
+    "lib/tilesets/collidables.json"(exports, module) {
+      module.exports = {
+        columns: 10,
+        image: "../../out/images/tilesets/collidables.png",
+        imageheight: 240,
+        imagewidth: 240,
+        margin: 0,
+        name: "collidables",
+        spacing: 0,
+        tilecount: 100,
+        tiledversion: "1.9.2",
+        tileheight: 24,
+        tiles: [
+          {
+            id: 10,
+            properties: [
+              {
+                name: "collidableID",
+                type: "string",
+                value: "block"
+              }
+            ]
+          },
+          {
+            id: 20,
+            properties: [
+              {
+                name: "collidableID",
+                type: "string",
+                value: "block"
+              }
+            ]
+          }
+        ],
+        tilewidth: 24,
+        type: "tileset",
+        version: "1.9"
+      };
+    }
+  });
+
   // lib/functions/define.js
   var require_define = __commonJS({
     "lib/functions/define.js"(exports) {
@@ -28110,13 +28740,16 @@ void main() {
       var map_json_1 = __importDefault(require_map());
       var floors_json_1 = __importDefault(require_floors());
       var walls_json_1 = __importDefault(require_walls());
+      var collidables_json_1 = __importDefault(require_collidables());
       var define2 = () => {
         new Tilemap_1.default("map", map_json_1.default);
         new ImageSource_1.default("coots");
         new Tileset_1.default("floors", floors_json_1.default);
         new Tileset_1.default("walls", walls_json_1.default);
+        new Tileset_1.default("collidables", collidables_json_1.default);
         new ImageSource_1.default("tilesets/floors");
         new ImageSource_1.default("tilesets/walls");
+        new ImageSource_1.default("tilesets/collidables");
       };
       exports.default = define2;
     }
@@ -31396,7 +32029,9 @@ void main() {
         const laserPower = (0, getLaserPower_1.default)();
         const sourceY = (laserPower >= runningThreshold_1.default ? 2 : laserPower >= walkingThreshold_1.default ? 1 : 0) * cootsHeight_1.default;
         const centerScreenCoords = (0, getCootsScreenCoords_1.default)();
-        (0, drawImage_1.default)("coots", sourceX, sourceY, cootsWidth_1.default, cootsHeight_1.default, centerScreenCoords.x - 9, centerScreenCoords.y - 16, cootsWidth_1.default, cootsHeight_1.default);
+        const x = centerScreenCoords.x - 9;
+        const y = centerScreenCoords.y - 16;
+        (0, drawImage_1.default)("coots", sourceX, sourceY, cootsWidth_1.default, cootsHeight_1.default, x, y, cootsWidth_1.default, cootsHeight_1.default, true);
       };
       exports.default = drawCoots;
     }
@@ -31455,6 +32090,7 @@ void main() {
           (0, drawRectangle_1.default)("#343434", x, y, width, height);
           (0, drawRectangle_1.default)("#7b7b7b", x, y, Math.round(width * percent), height);
         }
+        state_1.default.app.stage.sortChildren();
         state_1.default.app.render();
       };
       exports.default = render;
@@ -31553,7 +32189,7 @@ void main() {
         const yCollision = y > state_1.default.cootsCoords.y ? Math.floor(y + unitsPerTile_1.default * 0.9) : y;
         if (state_1.default.tilemap.hasCollisionAtCoords({ x: xCollision, y: state_1.default.cootsCoords.y })) {
           state_1.default.cootsVelocityX *= -1;
-        } else if (state_1.default.tilemap.hasCollisionAtCoords({ x: state_1.default.cootsCoords.y, y: yCollision })) {
+        } else if (state_1.default.tilemap.hasCollisionAtCoords({ x: state_1.default.cootsCoords.x, y: yCollision })) {
           state_1.default.cootsVelocityY *= -1;
         } else if (state_1.default.tilemap.hasCollisionAtCoords({ x: xCollision, y: yCollision })) {
           state_1.default.cootsVelocityX *= -1;

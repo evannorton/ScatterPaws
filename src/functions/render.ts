@@ -5,7 +5,6 @@ import assetsAreLoaded from "./assetsAreLoaded";
 import getImageSourcesCount from "./definables/getImageSourcesCount";
 import drawCoots from "./draw/drawCoots";
 import drawRectangle from "./draw/drawRectangle";
-import getMouseCoords from "./getMouseCoords";
 
 const render = (): void => {
   state.app.stage.removeChildren();
@@ -25,6 +24,7 @@ const render = (): void => {
     drawRectangle("#343434", x, y, width, height);
     drawRectangle("#7b7b7b", x, y, Math.round(width * percent), height);
   }
+  state.app.stage.sortChildren();
   state.app.render();
 };
 

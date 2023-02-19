@@ -9,7 +9,7 @@ const updateCootsPosition = (): void => {
   if (state.tilemap.hasCollisionAtCoords({ x: xCollision, y: state.cootsCoords.y })) {
     state.cootsVelocityX *= -1;
   }
-  else if (state.tilemap.hasCollisionAtCoords({ x: state.cootsCoords.y, y: yCollision, })) {
+  else if (state.tilemap.hasCollisionAtCoords({ x: state.cootsCoords.x, y: yCollision, })) {
     state.cootsVelocityY *= -1;
   }
   else if (state.tilemap.hasCollisionAtCoords({ x: xCollision, y: yCollision })) {

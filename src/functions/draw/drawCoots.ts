@@ -7,7 +7,6 @@ import state from "../../state";
 import getCootsScreenCoords from "../getCootsScreenCoords";
 import getCootsDirection from "../getCootsDirection";
 import drawImage from "./drawImage";
-import drawRectangle from "./drawRectangle";
 import getLaserPower from "../getLaserPower";
 import walkingThreshold from "../../constants/walkingThreshold";
 import runningThreshold from "../../constants/runningThreshold";
@@ -32,9 +31,9 @@ const drawCoots = (): void => {
         : 0
   ) * cootsHeight;
   const centerScreenCoords: Coords = getCootsScreenCoords();
-  // drawRectangle("#e03c28", centerScreenCoords.x - 9, centerScreenCoords.y - 16, cootsWidth, cootsHeight)
-  drawImage("coots", sourceX, sourceY, cootsWidth, cootsHeight, centerScreenCoords.x - 9, centerScreenCoords.y - 16, cootsWidth, cootsHeight);
-  // drawRectangle("#e03c28", centerScreenCoords.x, centerScreenCoords.y, 1, 1)
+  const x: number = centerScreenCoords.x - 9;
+  const y: number = centerScreenCoords.y - 16;
+  drawImage("coots", sourceX, sourceY, cootsWidth, cootsHeight, x, y, cootsWidth, cootsHeight, true);
 };
 
 export default drawCoots;
