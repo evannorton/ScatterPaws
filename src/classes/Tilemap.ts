@@ -53,7 +53,7 @@ class Tilemap extends Definable {
                 + (chunk.y * this.tileHeight / 2)
                 - this.tileHeight
               );
-              drawImage("tilesets/tiles", tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight);
+              drawImage(`tilesets/${tileset.slug}`, tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight);
             }
             datumIndex++;
           };
@@ -123,7 +123,7 @@ class Tilemap extends Definable {
 
   private getDatumTileset(datum: number): Tileset {
     const gid = datum;
-    const found = this._data.tilesets.find(({ firstgid }) => gid >= firstgid);
+    const found = [...this._data.tilesets].reverse().find(({ firstgid }) => gid >= firstgid);
     if (!found) {
       throw new Error(`Could not get Tileset for datum ${datum} of Tilemap "${this.slug}"`);
     }
@@ -133,7 +133,7 @@ class Tilemap extends Definable {
 
   private getDatumTilesetIndex(datum: number): number {
     const gid = datum;
-    const found = this._data.tilesets.find(({ firstgid }) => gid >= firstgid);
+    const found = [...this._data.tilesets].reverse().find(({ firstgid }) => gid >= firstgid);
     if (!found) {
       throw new Error(`Could not get Tileset for datum ${datum} of Tilemap "${this.slug}"`);
     }

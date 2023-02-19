@@ -1,0 +1,14 @@
+{ "columns":10,
+ "image":"..\/..\/out\/images\/tilesets\/walls.png",
+ "imageheight":240,
+ "imagewidth":240,
+ "margin":0,
+ "name":"walls",
+ "spacing":0,
+ "tilecount":100,
+ "tiledversion":"1.9.2",
+ "tileheight":24,
+ "tilewidth":24,
+ "type":"tileset",
+ "version":"1.9"
+}

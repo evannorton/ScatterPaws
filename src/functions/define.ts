@@ -2,13 +2,16 @@ import ImageSource from "../classes/ImageSource";
 import Tilemap from "../classes/Tilemap";
 import Tileset from "../classes/Tileset";
 import map from "../tilemaps/map.json";
-import tiles from "../tilesets/tiles.json";
+import floors from "../tilesets/floors.json";
+import walls from "../tilesets/walls.json";
 
 const define = (): void => {
-  new Tileset("tiles", tiles);
   new Tilemap("map", map)
   new ImageSource("coots");
-  new ImageSource("tilesets/tiles");
+  new Tileset("floors", floors);
+  new Tileset("walls", walls);
+  new ImageSource("tilesets/floors");
+  new ImageSource("tilesets/walls");
 };
 
 export default define;
