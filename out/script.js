@@ -32572,15 +32572,18 @@ void main() {
         return mod && mod.__esModule ? mod : { "default": mod };
       };
       Object.defineProperty(exports, "__esModule", { value: true });
+      var unitsPerTile_1 = __importDefault(require_unitsPerTile());
       var state_1 = __importDefault(require_state());
       var updateCootsPosition = () => {
         const x = state_1.default.cootsCoords.x + Math.floor(state_1.default.cootsVelocityX * (state_1.default.app.ticker.deltaMS / 1e3));
         const y = state_1.default.cootsCoords.y + Math.floor(state_1.default.cootsVelocityY * (state_1.default.app.ticker.deltaMS / 1e3));
-        if (state_1.default.tilemap.hasCollisionAtCoords({ x, y: state_1.default.cootsCoords.y })) {
+        const xCollision = x > state_1.default.cootsCoords.x ? Math.floor(x + unitsPerTile_1.default * 0.9) : x;
+        const yCollision = y > state_1.default.cootsCoords.y ? Math.floor(y + unitsPerTile_1.default * 0.9) : y;
+        if (state_1.default.tilemap.hasCollisionAtCoords({ x: xCollision, y: state_1.default.cootsCoords.y })) {
           state_1.default.cootsVelocityX *= -1;
-        } else if (state_1.default.tilemap.hasCollisionAtCoords({ x: state_1.default.cootsCoords.y, y })) {
+        } else if (state_1.default.tilemap.hasCollisionAtCoords({ x: state_1.default.cootsCoords.y, y: yCollision })) {
           state_1.default.cootsVelocityY *= -1;
-        } else if (state_1.default.tilemap.hasCollisionAtCoords({ x, y })) {
+        } else if (state_1.default.tilemap.hasCollisionAtCoords({ x: xCollision, y: yCollision })) {
           state_1.default.cootsVelocityX *= -1;
           state_1.default.cootsVelocityY *= -1;
         } else {
