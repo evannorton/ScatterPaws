@@ -32205,7 +32205,6 @@ void main() {
           const yVector = Math.sin(angle);
           const distance = Math.sqrt(Math.pow(state_1.default.mouseScreenCoords.x - cootsScreenCoords.x, 2) + Math.pow(state_1.default.mouseScreenCoords.y - cootsScreenCoords.y, 2));
           const maxDistance = Math.min(gameWidth_1.default, gameHeight_1.default) / 2;
-          console.log(Math.min(distance / maxDistance, 1));
           const multiplier = cootsMaxVelocity_1.default * (state_1.default.app.ticker.deltaMS / 1e3) * Math.min(distance / maxDistance, 1);
           state_1.default.cootsVelocityX += xVector * multiplier;
           state_1.default.cootsVelocityY += yVector * multiplier;

@@ -18,7 +18,6 @@ const updateCootsVelocity = (): void => {
     const distance: number = Math.sqrt(Math.pow(state.mouseScreenCoords.x - cootsScreenCoords.x, 2) + Math.pow(state.mouseScreenCoords.y - cootsScreenCoords.y, 2));
     const maxDistance: number = Math.min(gameWidth, gameHeight) / 2;
     // Increase velocity based on laser pointer
-    console.log(Math.min(distance / maxDistance, 1));
     const multiplier: number = (
       cootsMaxVelocity
       * (state.app.ticker.deltaMS / 1000)
