@@ -67,8 +67,8 @@ class Tilemap extends Definable {
   }
 
   public hasCollisionAtCoords(coords: Coords): boolean {
-    const tileX: number = Math.floor(coords.x / unitsPerTile);
-    const tileY: number = Math.floor(coords.y / unitsPerTile);
+    const tileX: number = Math.round(coords.x / unitsPerTile);
+    const tileY: number = Math.round(coords.y / unitsPerTile);
     for (const layer of this._data.layers) {
       if (layer.visible) {
         for (const chunk of layer.chunks) {
@@ -86,7 +86,7 @@ class Tilemap extends Definable {
                 break;
               }
               case "collidables-bottom": {
-                if (datum > 0 && datumTileX + 1 === tileX && datumTileY + 1 === tileY) {
+                if (datum > 0 && datumTileX === tileX && datumTileY === tileY) {
                   return true;
                 }
                 break;

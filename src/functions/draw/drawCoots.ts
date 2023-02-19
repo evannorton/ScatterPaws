@@ -10,6 +10,8 @@ import drawImage from "./drawImage";
 import getLaserPower from "../getLaserPower";
 import walkingThreshold from "../../constants/walkingThreshold";
 import runningThreshold from "../../constants/runningThreshold";
+import drawRectangle from "./drawRectangle";
+import unitsPerTile from "../../constants/unitsPerTile";
 
 const drawCoots = (): void => {
   const direction: Direction = getCootsDirection();

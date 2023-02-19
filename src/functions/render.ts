@@ -27,17 +27,14 @@ const render = (): void => {
   const entryYs: Map<string, number> = new Map;
   for (const entry of state.ySortEntries) {
     const mappedY = entryYs.get(entry.id);
-    if (!mappedY || entry.sprite.y > mappedY) {
-      entryYs.set(entry.id, Math.max(entry.sprite.y, 0))
+    if (!mappedY || entry.sprite.y + entry.sprite.height / 2 > mappedY) {
+      entryYs.set(entry.id, Math.max(entry.sprite.y + entry.sprite.height / 2, 0))
     }
   }
   for (const entry of state.ySortEntries) {
     const y = entryYs.get(entry.id);
-    if (y) {
-      const zIndex = y + entry.sprite.height / 2;
-      if (zIndex) {
-        entry.sprite.zIndex = zIndex;
-      }
+    if (typeof y !== "undefined") {
+      entry.sprite.zIndex = y;
       state.app.stage.addChild(entry.sprite)
     }
   }
