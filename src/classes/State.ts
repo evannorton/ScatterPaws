@@ -5,6 +5,7 @@ import startingTileY from "../constants/startingTileY";
 import unitsPerTile from "../constants/unitsPerTile";
 import getTilemap from "../functions/definables/getTilemap";
 import Coords from "../interfaces/Coords";
+import YSortEntry from "../interfaces/YSortEntry";
 import Tilemap from "./Tilemap";
 
 class State {
@@ -19,6 +20,7 @@ class State {
   private _loadedAssets: number = 0;
   private _mouseScreenCoords: Coords | null = null;
   private _tilemapSlug: string = startingTilemapSlug;
+  private _ySortEntries: YSortEntry[] = [];
 
   public get app(): Application {
     if (this._app !== null) {
@@ -58,6 +60,10 @@ class State {
     return getTilemap(this._tilemapSlug);
   }
 
+  public get ySortEntries(): YSortEntry[] {
+    return [...this._ySortEntries];
+  }
+
   public set app(app: Application | null) {
     this._app = app !== null ? app : null;
   }
@@ -84,6 +90,10 @@ class State {
 
   public set mouseScreenCoords(mouseScreenCoords: Coords | null) {
     this._mouseScreenCoords = mouseScreenCoords;
+  }
+
+  public set ySortEntries(ySortEntries: YSortEntry[]) {
+    this._ySortEntries = [...ySortEntries];
   }
 
   public hasMouseScreenCoords(): boolean {

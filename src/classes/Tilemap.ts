@@ -132,7 +132,10 @@ class Tilemap extends Definable {
               + (chunk.y * this.tileHeight / 2)
               - this.tileHeight
             );
-            drawImage(`tilesets/${tileset.slug}`, tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight, typeof collidableID !== "undefined");
+            const ySortID: string | null = collidableID
+              ? `collidable/${collidableID}`
+              : null;
+            drawImage(`tilesets/${tileset.slug}`, tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight, ySortID);
           }
           datumIndex++;
         };

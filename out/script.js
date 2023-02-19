@@ -25765,6 +25765,7 @@ void main() {
           this._loadedAssets = 0;
           this._mouseScreenCoords = null;
           this._tilemapSlug = startingTilemapSlug_1.default;
+          this._ySortEntries = [];
         }
         get app() {
           if (this._app !== null) {
@@ -25796,6 +25797,9 @@ void main() {
         get tilemap() {
           return (0, getTilemap_1.default)(this._tilemapSlug);
         }
+        get ySortEntries() {
+          return [...this._ySortEntries];
+        }
         set app(app) {
           this._app = app !== null ? app : null;
         }
@@ -25816,6 +25820,9 @@ void main() {
         }
         set mouseScreenCoords(mouseScreenCoords) {
           this._mouseScreenCoords = mouseScreenCoords;
+        }
+        set ySortEntries(ySortEntries) {
+          this._ySortEntries = [...ySortEntries];
         }
         hasMouseScreenCoords() {
           return this._mouseScreenCoords !== null;
@@ -25960,7 +25967,7 @@ void main() {
       var state_1 = __importDefault(require_state());
       var gameWidth_1 = __importDefault(require_gameWidth());
       var gameHeight_1 = __importDefault(require_gameHeight());
-      var drawImage = (imageSourceSlug, sourceX, sourceY, sourceWidth, sourceHeight, x, y, width, height, ySort) => {
+      var drawImage = (imageSourceSlug, sourceX, sourceY, sourceWidth, sourceHeight, x, y, width, height, ySortID) => {
         const imageSource = (0, getImageSource_1.default)(imageSourceSlug);
         if (x + width > 0 && x < gameWidth_1.default && y + height > 0 && y < gameHeight_1.default) {
           const texture = imageSource.getBaseTexture();
@@ -25979,10 +25986,16 @@ void main() {
           sprite.y = adjustedY;
           sprite.width = adjustedWidth;
           sprite.height = adjustedHeight;
-          if (ySort && y > 0) {
-            sprite.zIndex = y;
+          if (ySortID) {
+            const ySortEntries = state_1.default.ySortEntries;
+            ySortEntries.push({
+              id: ySortID,
+              sprite
+            });
+            state_1.default.ySortEntries = ySortEntries;
+          } else {
+            state_1.default.app.stage.addChild(sprite);
           }
-          state_1.default.app.stage.addChild(sprite);
         }
       };
       exports.default = drawImage;
@@ -26104,7 +26117,8 @@ void main() {
                   const collidableID = property === null || property === void 0 ? void 0 : property.value;
                   const tileX = Math.floor(cameraScreenCoords.x + datumX * this.tileWidth / 2 - datumY * this.tileWidth / 2 + chunk.x * this.tileWidth / 2 - chunk.y * this.tileWidth / 2 - this.tileWidth / 2);
                   const tileY = Math.floor(cameraScreenCoords.y + datumX * this.tileHeight / 2 + datumY * this.tileHeight / 2 + chunk.x * this.tileHeight / 2 + chunk.y * this.tileHeight / 2 - this.tileHeight);
-                  (0, drawImage_1.default)(`tilesets/${tileset.slug}`, tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight, typeof collidableID !== "undefined");
+                  const ySortID = collidableID ? `collidable/${collidableID}` : null;
+                  (0, drawImage_1.default)(`tilesets/${tileset.slug}`, tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight, ySortID);
                 }
                 datumIndex++;
               }
@@ -28245,6 +28259,7 @@ void main() {
                   0,
                   0,
                   0,
+                  221,
                   0,
                   0,
                   0,
@@ -28312,8 +28327,7 @@ void main() {
                   0,
                   0,
                   0,
-                  0,
-                  221
+                  0
                 ],
                 height: 16,
                 width: 16,
@@ -28524,6 +28538,7 @@ void main() {
                   0,
                   0,
                   0,
+                  211,
                   0,
                   0,
                   0,
@@ -28591,8 +28606,7 @@ void main() {
                   0,
                   0,
                   0,
-                  0,
-                  211
+                  0
                 ],
                 height: 16,
                 width: 16,
@@ -32031,7 +32045,7 @@ void main() {
         const centerScreenCoords = (0, getCootsScreenCoords_1.default)();
         const x = centerScreenCoords.x - 9;
         const y = centerScreenCoords.y - 16;
-        (0, drawImage_1.default)("coots", sourceX, sourceY, cootsWidth_1.default, cootsHeight_1.default, x, y, cootsWidth_1.default, cootsHeight_1.default, true);
+        (0, drawImage_1.default)("coots", sourceX, sourceY, cootsWidth_1.default, cootsHeight_1.default, x, y, cootsWidth_1.default, cootsHeight_1.default, "coots");
       };
       exports.default = drawCoots;
     }
@@ -32090,8 +32104,26 @@ void main() {
           (0, drawRectangle_1.default)("#343434", x, y, width, height);
           (0, drawRectangle_1.default)("#7b7b7b", x, y, Math.round(width * percent), height);
         }
+        const entryYs = /* @__PURE__ */ new Map();
+        for (const entry of state_1.default.ySortEntries) {
+          const mappedY = entryYs.get(entry.id);
+          if (!mappedY || entry.sprite.y > mappedY) {
+            entryYs.set(entry.id, Math.max(entry.sprite.y, 0));
+          }
+        }
+        for (const entry of state_1.default.ySortEntries) {
+          const y = entryYs.get(entry.id);
+          if (y) {
+            const zIndex = y + entry.sprite.height / 2;
+            if (zIndex) {
+              entry.sprite.zIndex = zIndex;
+            }
+            state_1.default.app.stage.addChild(entry.sprite);
+          }
+        }
         state_1.default.app.stage.sortChildren();
         state_1.default.app.render();
+        state_1.default.ySortEntries = [];
       };
       exports.default = render;
     }

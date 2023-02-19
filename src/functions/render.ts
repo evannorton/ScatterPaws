@@ -24,8 +24,26 @@ const render = (): void => {
     drawRectangle("#343434", x, y, width, height);
     drawRectangle("#7b7b7b", x, y, Math.round(width * percent), height);
   }
+  const entryYs: Map<string, number> = new Map;
+  for (const entry of state.ySortEntries) {
+    const mappedY = entryYs.get(entry.id);
+    if (!mappedY || entry.sprite.y > mappedY) {
+      entryYs.set(entry.id, Math.max(entry.sprite.y, 0))
+    }
+  }
+  for (const entry of state.ySortEntries) {
+    const y = entryYs.get(entry.id);
+    if (y) {
+      const zIndex = y + entry.sprite.height / 2;
+      if (zIndex) {
+        entry.sprite.zIndex = zIndex;
+      }
+      state.app.stage.addChild(entry.sprite)
+    }
+  }
   state.app.stage.sortChildren();
   state.app.render();
+  state.ySortEntries = [];
 };
 
 export default render;

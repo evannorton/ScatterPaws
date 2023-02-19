@@ -33,7 +33,7 @@ const drawCoots = (): void => {
   const centerScreenCoords: Coords = getCootsScreenCoords();
   const x: number = centerScreenCoords.x - 9;
   const y: number = centerScreenCoords.y - 16;
-  drawImage("coots", sourceX, sourceY, cootsWidth, cootsHeight, x, y, cootsWidth, cootsHeight, true);
+  drawImage("coots", sourceX, sourceY, cootsWidth, cootsHeight, x, y, cootsWidth, cootsHeight, "coots");
 };
 
 export default drawCoots;
