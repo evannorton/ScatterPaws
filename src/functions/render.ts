@@ -5,6 +5,7 @@ import assetsAreLoaded from "./assetsAreLoaded";
 import getImageSourcesCount from "./definables/getImageSourcesCount";
 import drawCoots from "./draw/drawCoots";
 import drawRectangle from "./draw/drawRectangle";
+import getMouseCoords from "./getMouseCoords";
 
 const render = (): void => {
   state.app.stage.removeChildren();

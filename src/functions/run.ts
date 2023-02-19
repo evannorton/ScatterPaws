@@ -34,8 +34,8 @@ const run = async (): Promise<void> => {
     screen.addEventListener("mousemove", (e) => {
       if (e.target instanceof HTMLElement) {
         state.mouseScreenCoords = {
-          x: e.offsetX / e.target.offsetWidth * gameWidth,
-          y: e.offsetY / e.target.offsetHeight * gameHeight
+          x: Math.round(e.offsetX / e.target.offsetWidth * gameWidth),
+          y: Math.round(e.offsetY / e.target.offsetHeight * gameHeight)
         }
       }
     });

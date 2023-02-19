@@ -1,3 +1,4 @@
+import unitsPerTile from "../constants/unitsPerTile";
 import getTileset from "../functions/definables/getTileset";
 import drawImage from "../functions/draw/drawImage";
 import getCameraScreenCoords from "../functions/getCameraScreenCoords";
@@ -59,21 +60,37 @@ class Tilemap extends Definable {
     });
   }
 
-  public getCenterScreenCoordsOfTile(x: number, y: number): Coords {
+  public getScreenCoordsFromCoords(coords: Coords): Coords {
     const cameraScreenCoords: Coords = getCameraScreenCoords();
     return {
       x: (
         cameraScreenCoords.x
-        + (x * this.tileWidth / 2)
-        - (y * this.tileWidth / 2)
+        + (coords.x / unitsPerTile * this.tileWidth / 2)
+        - (coords.y / unitsPerTile * this.tileWidth / 2)
         - 1
       ),
       y: (
         cameraScreenCoords.y
-        + (x * this.tileHeight / 2)
-        + (y * this.tileHeight / 2)
+        + (coords.x / unitsPerTile * this.tileHeight / 2)
+        + (coords.y / unitsPerTile * this.tileHeight / 2)
         - 3
       )
+    };
+  }
+
+  public getCoordsFromScreenCoords(screenCoords: Coords): Coords {
+    const cameraScreenCoords: Coords = getCameraScreenCoords();
+    return {
+      x:
+        (
+          (screenCoords.x - cameraScreenCoords.x + 1) / this.tileWidth * unitsPerTile
+          + (screenCoords.y - cameraScreenCoords.y + 3) / this.tileHeight * unitsPerTile
+        ),
+      y:
+        (
+          (screenCoords.y - cameraScreenCoords.y + 3) / this.tileHeight * unitsPerTile
+          - (screenCoords.x - cameraScreenCoords.x + 1) / this.tileWidth * unitsPerTile
+        )
     };
   }
 

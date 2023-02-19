@@ -25997,6 +25997,7 @@ void main() {
         return mod && mod.__esModule ? mod : { "default": mod };
       };
       Object.defineProperty(exports, "__esModule", { value: true });
+      var unitsPerTile_1 = __importDefault(require_unitsPerTile());
       var getTileset_1 = __importDefault(require_getTileset());
       var drawImage_1 = __importDefault(require_drawImage());
       var getCameraScreenCoords_1 = __importDefault(require_getCameraScreenCoords());
@@ -26034,11 +26035,18 @@ void main() {
             }
           });
         }
-        getCenterScreenCoordsOfTile(x, y) {
+        getScreenCoordsFromCoords(coords) {
           const cameraScreenCoords = (0, getCameraScreenCoords_1.default)();
           return {
-            x: cameraScreenCoords.x + x * this.tileWidth / 2 - y * this.tileWidth / 2 - 1,
-            y: cameraScreenCoords.y + x * this.tileHeight / 2 + y * this.tileHeight / 2 - 3
+            x: cameraScreenCoords.x + coords.x / unitsPerTile_1.default * this.tileWidth / 2 - coords.y / unitsPerTile_1.default * this.tileWidth / 2 - 1,
+            y: cameraScreenCoords.y + coords.x / unitsPerTile_1.default * this.tileHeight / 2 + coords.y / unitsPerTile_1.default * this.tileHeight / 2 - 3
+          };
+        }
+        getCoordsFromScreenCoords(screenCoords) {
+          const cameraScreenCoords = (0, getCameraScreenCoords_1.default)();
+          return {
+            x: (screenCoords.x - cameraScreenCoords.x + 1) / this.tileWidth * unitsPerTile_1.default + (screenCoords.y - cameraScreenCoords.y + 3) / this.tileHeight * unitsPerTile_1.default,
+            y: (screenCoords.y - cameraScreenCoords.y + 3) / this.tileHeight * unitsPerTile_1.default - (screenCoords.x - cameraScreenCoords.x + 1) / this.tileWidth * unitsPerTile_1.default
           };
         }
         getDatumTileset(datum) {
@@ -31987,18 +31995,17 @@ void main() {
     }
   });
 
-  // lib/functions/getCootsCenterScreenCoords.js
-  var require_getCootsCenterScreenCoords = __commonJS({
-    "lib/functions/getCootsCenterScreenCoords.js"(exports) {
+  // lib/functions/getCootsScreenCoords.js
+  var require_getCootsScreenCoords = __commonJS({
+    "lib/functions/getCootsScreenCoords.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
       };
       Object.defineProperty(exports, "__esModule", { value: true });
-      var unitsPerTile_1 = __importDefault(require_unitsPerTile());
       var state_1 = __importDefault(require_state());
-      var getCootsCenterScreenCoords = () => state_1.default.tilemap.getCenterScreenCoordsOfTile(state_1.default.cootsCoords.x / unitsPerTile_1.default, state_1.default.cootsCoords.y / unitsPerTile_1.default);
-      exports.default = getCootsCenterScreenCoords;
+      var getCootsScreenCoords = () => state_1.default.tilemap.getScreenCoordsFromCoords(state_1.default.cootsCoords);
+      exports.default = getCootsScreenCoords;
     }
   });
 
@@ -32012,10 +32019,10 @@ void main() {
       Object.defineProperty(exports, "__esModule", { value: true });
       var Direction_1 = __importDefault(require_Direction());
       var state_1 = __importDefault(require_state());
-      var getCootsCenterScreenCoords_1 = __importDefault(require_getCootsCenterScreenCoords());
+      var getCootsScreenCoords_1 = __importDefault(require_getCootsScreenCoords());
       var getCootsDirection = () => {
         if (state_1.default.hasMouseScreenCoords()) {
-          const centerScreenCoords = (0, getCootsCenterScreenCoords_1.default)();
+          const centerScreenCoords = (0, getCootsScreenCoords_1.default)();
           const right = state_1.default.mouseScreenCoords.x > centerScreenCoords.x;
           const up = state_1.default.mouseScreenCoords.y < centerScreenCoords.y;
           if (up && right) {
@@ -32037,35 +32044,6 @@ void main() {
     }
   });
 
-  // lib/functions/draw/drawCoots.js
-  var require_drawCoots = __commonJS({
-    "lib/functions/draw/drawCoots.js"(exports) {
-      "use strict";
-      var __importDefault = exports && exports.__importDefault || function(mod) {
-        return mod && mod.__esModule ? mod : { "default": mod };
-      };
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var cootsHeight_1 = __importDefault(require_cootsHeight());
-      var cootsWidth_1 = __importDefault(require_cootsWidth());
-      var timePerCootsFrame_1 = __importDefault(require_timePerCootsFrame());
-      var Direction_1 = __importDefault(require_Direction());
-      var state_1 = __importDefault(require_state());
-      var getCootsCenterScreenCoords_1 = __importDefault(require_getCootsCenterScreenCoords());
-      var getCootsDirection_1 = __importDefault(require_getCootsDirection());
-      var drawImage_1 = __importDefault(require_drawImage());
-      var drawCoots = () => {
-        const direction = (0, getCootsDirection_1.default)();
-        const frameDirectionOffset = (direction === Direction_1.default.DownRight ? 1 : direction === Direction_1.default.UpLeft ? 2 : direction === Direction_1.default.UpRight ? 3 : 0) * cootsWidth_1.default * 4;
-        const frameAnimationOffset = Math.floor(state_1.default.currentTime % (timePerCootsFrame_1.default * 4) / timePerCootsFrame_1.default) * cootsWidth_1.default;
-        const sourceX = frameDirectionOffset + frameAnimationOffset;
-        const sourceY = 0;
-        const tileCenterScreenCoords = (0, getCootsCenterScreenCoords_1.default)();
-        (0, drawImage_1.default)("coots", sourceX, sourceY, cootsWidth_1.default, cootsHeight_1.default, tileCenterScreenCoords.x - 9, tileCenterScreenCoords.y - 16, cootsWidth_1.default, cootsHeight_1.default);
-      };
-      exports.default = drawCoots;
-    }
-  });
-
   // lib/functions/draw/drawRectangle.js
   var require_drawRectangle = __commonJS({
     "lib/functions/draw/drawRectangle.js"(exports) {
@@ -32084,6 +32062,37 @@ void main() {
         state_1.default.app.stage.addChild(rectangle);
       };
       exports.default = drawRectangle;
+    }
+  });
+
+  // lib/functions/draw/drawCoots.js
+  var require_drawCoots = __commonJS({
+    "lib/functions/draw/drawCoots.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var cootsHeight_1 = __importDefault(require_cootsHeight());
+      var cootsWidth_1 = __importDefault(require_cootsWidth());
+      var timePerCootsFrame_1 = __importDefault(require_timePerCootsFrame());
+      var Direction_1 = __importDefault(require_Direction());
+      var state_1 = __importDefault(require_state());
+      var getCootsScreenCoords_1 = __importDefault(require_getCootsScreenCoords());
+      var getCootsDirection_1 = __importDefault(require_getCootsDirection());
+      var drawImage_1 = __importDefault(require_drawImage());
+      var drawRectangle_1 = __importDefault(require_drawRectangle());
+      var drawCoots = () => {
+        const direction = (0, getCootsDirection_1.default)();
+        const frameDirectionOffset = (direction === Direction_1.default.DownRight ? 1 : direction === Direction_1.default.UpLeft ? 2 : direction === Direction_1.default.UpRight ? 3 : 0) * cootsWidth_1.default * 4;
+        const frameAnimationOffset = Math.floor(state_1.default.currentTime % (timePerCootsFrame_1.default * 4) / timePerCootsFrame_1.default) * cootsWidth_1.default;
+        const sourceX = frameDirectionOffset + frameAnimationOffset;
+        const sourceY = 0;
+        const centerScreenCoords = (0, getCootsScreenCoords_1.default)();
+        (0, drawImage_1.default)("coots", sourceX, sourceY, cootsWidth_1.default, cootsHeight_1.default, centerScreenCoords.x - 9, centerScreenCoords.y - 16, cootsWidth_1.default, cootsHeight_1.default);
+        (0, drawRectangle_1.default)("#e03c28", centerScreenCoords.x, centerScreenCoords.y, 1, 1);
+      };
+      exports.default = drawCoots;
     }
   });
 
@@ -32138,7 +32147,8 @@ void main() {
       var update = () => {
         if ((0, assetsAreLoaded_1.default)()) {
           if (state_1.default.hasMouseScreenCoords()) {
-            console.log(`handle laser pointer at ${state_1.default.mouseScreenCoords.x} ${state_1.default.mouseScreenCoords.y}`);
+            const mouseCoords = state_1.default.tilemap.getCoordsFromScreenCoords(state_1.default.mouseScreenCoords);
+            console.log(`coots at ${state_1.default.cootsCoords.x} ${state_1.default.cootsCoords.y} | as laser pointer at ${mouseCoords.x} ${mouseCoords.y}`);
           }
         }
       };
@@ -32247,8 +32257,8 @@ void main() {
           screen.addEventListener("mousemove", (e) => {
             if (e.target instanceof HTMLElement) {
               state_1.default.mouseScreenCoords = {
-                x: e.offsetX / e.target.offsetWidth * gameWidth_1.default,
-                y: e.offsetY / e.target.offsetHeight * gameHeight_1.default
+                x: Math.round(e.offsetX / e.target.offsetWidth * gameWidth_1.default),
+                y: Math.round(e.offsetY / e.target.offsetHeight * gameHeight_1.default)
               };
             }
           });

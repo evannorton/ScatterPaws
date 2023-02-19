@@ -4,7 +4,7 @@ import timePerCootsFrame from "../../constants/timePerCootsFrame";
 import Direction from "../../enums/Direction";
 import Coords from "../../interfaces/Coords";
 import state from "../../state";
-import getCootsCenterScreenCoords from "../getCootsCenterScreenCoords";
+import getCootsScreenCoords from "../getCootsScreenCoords";
 import getCootsDirection from "../getCootsDirection";
 import drawImage from "./drawImage";
 import drawRectangle from "./drawRectangle";
@@ -21,9 +21,9 @@ const drawCoots = (): void => {
   const frameAnimationOffset: number = Math.floor((state.currentTime % (timePerCootsFrame * 4)) / timePerCootsFrame) * cootsWidth;
   const sourceX: number = frameDirectionOffset + frameAnimationOffset;
   const sourceY: number = 0;
-  const tileCenterScreenCoords: Coords = getCootsCenterScreenCoords();
-  drawImage("coots", sourceX, sourceY, cootsWidth, cootsHeight, tileCenterScreenCoords.x - 9, tileCenterScreenCoords.y - 16, cootsWidth, cootsHeight);
-  // drawRectangle("#e03c28", tileCenterScreenCoords.x, tileCenterScreenCoords.y, 1, 1)
+  const centerScreenCoords: Coords = getCootsScreenCoords();
+  drawImage("coots", sourceX, sourceY, cootsWidth, cootsHeight, centerScreenCoords.x - 9, centerScreenCoords.y - 16, cootsWidth, cootsHeight);
+  drawRectangle("#e03c28", centerScreenCoords.x, centerScreenCoords.y, 1, 1)
 };
 
 export default drawCoots;
