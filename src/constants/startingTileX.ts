@@ -1,3 +1,3 @@
-const startingTileX: number = 13;
+const startingTileX: number = 6;
 
 export default startingTileX;

@@ -1,3 +1,3 @@
-const startingTileY: number = 23;
+const startingTileY: number = 6;
 
 export default startingTileY;
