@@ -25759,8 +25759,7 @@ void main() {
           this._cootsY = startingTileY_1.default * unitsPerTile_1.default;
           this._currentTime = performance.now();
           this._loadedAssets = 0;
-          this._mouseX = null;
-          this._mouseY = null;
+          this._mouseCoords = null;
           this._tilemapSlug = startingTilemapSlug_1.default;
         }
         get app() {
@@ -25781,17 +25780,11 @@ void main() {
         get loadedAssets() {
           return this._loadedAssets;
         }
-        get mouseX() {
-          if (this._mouseX !== null) {
-            return this._mouseX;
+        get mouseCoords() {
+          if (this._mouseCoords !== null) {
+            return this._mouseCoords;
           }
-          throw new Error(this.getAccessorErrorMessage("mouseX"));
-        }
-        get mouseY() {
-          if (this._mouseY !== null) {
-            return this._mouseY;
-          }
-          throw new Error(this.getAccessorErrorMessage("mouseY"));
+          throw new Error(this.getAccessorErrorMessage("mouseCoords"));
         }
         get tilemap() {
           return (0, getTilemap_1.default)(this._tilemapSlug);
@@ -25805,17 +25798,11 @@ void main() {
         set loadedAssets(loadedAssets) {
           this._loadedAssets = loadedAssets;
         }
-        set mouseX(mouseX) {
-          this._mouseX = mouseX;
+        set mouseCoords(mouseCoords) {
+          this._mouseCoords = mouseCoords;
         }
-        set mouseY(mouseY) {
-          this._mouseY = mouseY;
-        }
-        hasMouseX() {
-          return this._mouseX !== null;
-        }
-        hasMouseY() {
-          return this._mouseY !== null;
+        hasMouseCoords() {
+          return this._mouseCoords !== null;
         }
         getAccessorErrorMessage(property) {
           return `Could not access ${this.constructor.name} ${property}.`;
@@ -26094,13 +26081,11 @@ void main() {
             }
           });
         }
-        getCenterScreenXOfTile(x, y) {
-          const startX = (0, getDrawStartX_1.default)();
-          return startX + x * this.tileWidth / 2 - y * this.tileWidth / 2 - 1;
-        }
-        getCenterScreenYOfTile(x, y) {
-          const startY = (0, getDrawStartY_1.default)();
-          return startY + x * this.tileHeight / 2 + y * this.tileHeight / 2 - 3;
+        getCenterScreenCoordsOfTile(x, y) {
+          return {
+            x: (0, getDrawStartX_1.default)() + x * this.tileWidth / 2 - y * this.tileWidth / 2 - 1,
+            y: (0, getDrawStartY_1.default)() + x * this.tileHeight / 2 + y * this.tileHeight / 2 - 3
+          };
         }
         getDatumTileset(datum) {
           const gid = datum;
@@ -32048,9 +32033,9 @@ void main() {
     }
   });
 
-  // lib/functions/getCootsCenterScreenX.js
-  var require_getCootsCenterScreenX = __commonJS({
-    "lib/functions/getCootsCenterScreenX.js"(exports) {
+  // lib/functions/getCootsCenterScreenCoords.js
+  var require_getCootsCenterScreenCoords = __commonJS({
+    "lib/functions/getCootsCenterScreenCoords.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
@@ -32058,23 +32043,8 @@ void main() {
       Object.defineProperty(exports, "__esModule", { value: true });
       var unitsPerTile_1 = __importDefault(require_unitsPerTile());
       var state_1 = __importDefault(require_state());
-      var getCootsCenterScreenX = () => state_1.default.tilemap.getCenterScreenXOfTile(state_1.default.cootsX / unitsPerTile_1.default, state_1.default.cootsY / unitsPerTile_1.default);
-      exports.default = getCootsCenterScreenX;
-    }
-  });
-
-  // lib/functions/getCootsCenterScreenY.js
-  var require_getCootsCenterScreenY = __commonJS({
-    "lib/functions/getCootsCenterScreenY.js"(exports) {
-      "use strict";
-      var __importDefault = exports && exports.__importDefault || function(mod) {
-        return mod && mod.__esModule ? mod : { "default": mod };
-      };
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var unitsPerTile_1 = __importDefault(require_unitsPerTile());
-      var state_1 = __importDefault(require_state());
-      var getCootsCenterScreenY = () => state_1.default.tilemap.getCenterScreenYOfTile(state_1.default.cootsX / unitsPerTile_1.default, state_1.default.cootsY / unitsPerTile_1.default);
-      exports.default = getCootsCenterScreenY;
+      var getCootsCenterScreenCoords = () => state_1.default.tilemap.getCenterScreenCoordsOfTile(state_1.default.cootsX / unitsPerTile_1.default, state_1.default.cootsY / unitsPerTile_1.default);
+      exports.default = getCootsCenterScreenCoords;
     }
   });
 
@@ -32088,12 +32058,12 @@ void main() {
       Object.defineProperty(exports, "__esModule", { value: true });
       var Direction_1 = __importDefault(require_Direction());
       var state_1 = __importDefault(require_state());
-      var getCootsCenterScreenX_1 = __importDefault(require_getCootsCenterScreenX());
-      var getCootsCenterScreenY_1 = __importDefault(require_getCootsCenterScreenY());
+      var getCootsCenterScreenCoords_1 = __importDefault(require_getCootsCenterScreenCoords());
       var getCootsDirection = () => {
-        if (state_1.default.hasMouseX() && state_1.default.hasMouseY()) {
-          const right = state_1.default.mouseX > (0, getCootsCenterScreenX_1.default)();
-          const up = state_1.default.mouseY < (0, getCootsCenterScreenY_1.default)();
+        if (state_1.default.hasMouseCoords()) {
+          const centerScreenCoords = (0, getCootsCenterScreenCoords_1.default)();
+          const right = state_1.default.mouseCoords.x > centerScreenCoords.x;
+          const up = state_1.default.mouseCoords.y < centerScreenCoords.y;
           if (up && right) {
             return Direction_1.default.UpRight;
           }
@@ -32110,6 +32080,35 @@ void main() {
         return Direction_1.default.DownLeft;
       };
       exports.default = getCootsDirection;
+    }
+  });
+
+  // lib/functions/draw/drawCoots.js
+  var require_drawCoots = __commonJS({
+    "lib/functions/draw/drawCoots.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var cootsHeight_1 = __importDefault(require_cootsHeight());
+      var cootsWidth_1 = __importDefault(require_cootsWidth());
+      var timePerCootsFrame_1 = __importDefault(require_timePerCootsFrame());
+      var Direction_1 = __importDefault(require_Direction());
+      var state_1 = __importDefault(require_state());
+      var getCootsCenterScreenCoords_1 = __importDefault(require_getCootsCenterScreenCoords());
+      var getCootsDirection_1 = __importDefault(require_getCootsDirection());
+      var drawImage_1 = __importDefault(require_drawImage());
+      var drawCoots = () => {
+        const direction = (0, getCootsDirection_1.default)();
+        const frameDirectionOffset = (direction === Direction_1.default.DownRight ? 1 : direction === Direction_1.default.UpLeft ? 2 : direction === Direction_1.default.UpRight ? 3 : 0) * cootsWidth_1.default * 4;
+        const frameAnimationOffset = Math.floor(state_1.default.currentTime % (timePerCootsFrame_1.default * 4) / timePerCootsFrame_1.default) * cootsWidth_1.default;
+        const sourceX = frameDirectionOffset + frameAnimationOffset;
+        const sourceY = 0;
+        const tileCenterScreenCoords = (0, getCootsCenterScreenCoords_1.default)();
+        (0, drawImage_1.default)("coots", sourceX, sourceY, cootsWidth_1.default, cootsHeight_1.default, tileCenterScreenCoords.x - 9, tileCenterScreenCoords.y - 16, cootsWidth_1.default, cootsHeight_1.default);
+      };
+      exports.default = drawCoots;
     }
   });
 
@@ -32131,39 +32130,6 @@ void main() {
         state_1.default.app.stage.addChild(rectangle);
       };
       exports.default = drawRectangle;
-    }
-  });
-
-  // lib/functions/draw/drawCoots.js
-  var require_drawCoots = __commonJS({
-    "lib/functions/draw/drawCoots.js"(exports) {
-      "use strict";
-      var __importDefault = exports && exports.__importDefault || function(mod) {
-        return mod && mod.__esModule ? mod : { "default": mod };
-      };
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var cootsHeight_1 = __importDefault(require_cootsHeight());
-      var cootsWidth_1 = __importDefault(require_cootsWidth());
-      var timePerCootsFrame_1 = __importDefault(require_timePerCootsFrame());
-      var Direction_1 = __importDefault(require_Direction());
-      var state_1 = __importDefault(require_state());
-      var getCootsCenterScreenX_1 = __importDefault(require_getCootsCenterScreenX());
-      var getCootsCenterScreenY_1 = __importDefault(require_getCootsCenterScreenY());
-      var getCootsDirection_1 = __importDefault(require_getCootsDirection());
-      var drawImage_1 = __importDefault(require_drawImage());
-      var drawRectangle_1 = __importDefault(require_drawRectangle());
-      var drawCoots = () => {
-        const direction = (0, getCootsDirection_1.default)();
-        const frameDirectionOffset = (direction === Direction_1.default.DownRight ? 1 : direction === Direction_1.default.UpLeft ? 2 : direction === Direction_1.default.UpRight ? 3 : 0) * cootsWidth_1.default * 4;
-        const frameAnimationOffset = Math.floor(state_1.default.currentTime % (timePerCootsFrame_1.default * 4) / timePerCootsFrame_1.default) * cootsWidth_1.default;
-        const sourceX = frameDirectionOffset + frameAnimationOffset;
-        const sourceY = 0;
-        const tileCenterScreenX = (0, getCootsCenterScreenX_1.default)();
-        const tileCenterScreenY = (0, getCootsCenterScreenY_1.default)();
-        (0, drawImage_1.default)("coots", sourceX, sourceY, cootsWidth_1.default, cootsHeight_1.default, tileCenterScreenX - 9, tileCenterScreenY - 16, cootsWidth_1.default, cootsHeight_1.default);
-        (0, drawRectangle_1.default)("#e03c28", tileCenterScreenX, tileCenterScreenY, 1, 1);
-      };
-      exports.default = drawCoots;
     }
   });
 
@@ -32217,8 +32183,8 @@ void main() {
       var assetsAreLoaded_1 = __importDefault(require_assetsAreLoaded());
       var update = () => {
         if ((0, assetsAreLoaded_1.default)()) {
-          if (state_1.default.hasMouseX() && state_1.default.hasMouseY()) {
-            console.log(`handle laser pointer at ${state_1.default.mouseX} ${state_1.default.mouseY}`);
+          if (state_1.default.hasMouseCoords()) {
+            console.log(`handle laser pointer at ${state_1.default.mouseCoords.x} ${state_1.default.mouseCoords.y}`);
           }
         }
       };
@@ -32326,8 +32292,10 @@ void main() {
           screen.style.height = `${gameHeight_1.default * gameScale_1.default}px`;
           screen.addEventListener("mousemove", (e) => {
             if (e.target instanceof HTMLElement) {
-              state_1.default.mouseX = e.offsetX / e.target.offsetWidth * gameWidth_1.default;
-              state_1.default.mouseY = e.offsetY / e.target.offsetHeight * gameHeight_1.default;
+              state_1.default.mouseCoords = {
+                x: e.offsetX / e.target.offsetWidth * gameWidth_1.default,
+                y: e.offsetY / e.target.offsetHeight * gameHeight_1.default
+              };
             }
           });
           (_a = document.getElementById("screen")) === null || _a === void 0 ? void 0 : _a.addEventListener("keydown", (e) => {

@@ -4,6 +4,7 @@ import startingTileX from "../constants/startingTileX";
 import startingTileY from "../constants/startingTileY";
 import unitsPerTile from "../constants/unitsPerTile";
 import getTilemap from "../functions/definables/getTilemap";
+import Coords from "../interfaces/Coords";
 import Tilemap from "./Tilemap";
 
 class State {
@@ -12,8 +13,7 @@ class State {
   private _cootsY: number = startingTileY * unitsPerTile;
   private _currentTime: number = performance.now();
   private _loadedAssets: number = 0;
-  private _mouseX: number | null = null;
-  private _mouseY: number | null = null;
+  private _mouseCoords: Coords | null = null;
   private _tilemapSlug: string = startingTilemapSlug;
 
   public get app(): Application {
@@ -39,18 +39,11 @@ class State {
     return this._loadedAssets;
   }
 
-  public get mouseX(): number {
-    if (this._mouseX !== null) {
-      return this._mouseX;
+  public get mouseCoords(): Coords {
+    if (this._mouseCoords !== null) {
+      return this._mouseCoords;
     }
-    throw new Error(this.getAccessorErrorMessage("mouseX"));
-  }
-
-  public get mouseY(): number {
-    if (this._mouseY !== null) {
-      return this._mouseY;
-    }
-    throw new Error(this.getAccessorErrorMessage("mouseY"));
+    throw new Error(this.getAccessorErrorMessage("mouseCoords"));
   }
 
   public get tilemap(): Tilemap {
@@ -69,20 +62,12 @@ class State {
     this._loadedAssets = loadedAssets;
   }
 
-  public set mouseX(mouseX: number | null) {
-    this._mouseX = mouseX;
+  public set mouseCoords(mouseCoords: Coords | null) {
+    this._mouseCoords = mouseCoords;
   }
 
-  public set mouseY(mouseY: number | null) {
-    this._mouseY = mouseY;
-  }
-
-  public hasMouseX(): boolean {
-    return this._mouseX !== null;
-  }
-
-  public hasMouseY(): boolean {
-    return this._mouseY !== null;
+  public hasMouseCoords(): boolean {
+    return this._mouseCoords !== null;
   }
 
   private getAccessorErrorMessage(property: string): string {

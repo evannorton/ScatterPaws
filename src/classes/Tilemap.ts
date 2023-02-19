@@ -2,6 +2,7 @@ import getTileset from "../functions/definables/getTileset";
 import drawImage from "../functions/draw/drawImage";
 import getDrawStartX from "../functions/getDrawStartX";
 import getDrawStartY from "../functions/getDrawStartY";
+import Coords from "../interfaces/Coords";
 import TilemapData from "../interfaces/TilemapData";
 import Definable from "./Definable";
 import Tileset from "./Tileset";
@@ -60,25 +61,22 @@ class Tilemap extends Definable {
     });
   }
 
-  public getCenterScreenXOfTile(x: number, y: number): number {
-    const startX: number = getDrawStartX();
-    return (
-      startX
-      + (x * this.tileWidth / 2)
-      - (y * this.tileWidth / 2)
-      - 1
-    );
+  public getCenterScreenCoordsOfTile(x: number, y: number): Coords {
+    return {
+      x: (
+        getDrawStartX()
+        + (x * this.tileWidth / 2)
+        - (y * this.tileWidth / 2)
+        - 1
+      ),
+      y: (
+        getDrawStartY()
+        + (x * this.tileHeight / 2)
+        + (y * this.tileHeight / 2)
+        - 3
+      )
+    };
   }
-
-  public getCenterScreenYOfTile(x: number, y: number): number {
-    const startY: number = getDrawStartY();
-    return (
-      startY
-      + (x * this.tileHeight / 2)
-      + (y * this.tileHeight / 2)
-      - 3
-    );
-  };
 
   private getDatumTileset(datum: number): Tileset {
     const gid = datum;

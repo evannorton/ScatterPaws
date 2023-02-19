@@ -1,12 +1,13 @@
 import Direction from "../enums/Direction";
+import Coords from "../interfaces/Coords";
 import state from "../state";
-import getCootsCenterScreenX from "./getCootsCenterScreenX";
-import getCootsCenterScreenY from "./getCootsCenterScreenY";
+import getCootsCenterScreenCoords from "./getCootsCenterScreenCoords";
 
 const getCootsDirection = (): Direction => {
-  if (state.hasMouseX() && state.hasMouseY()) {
-    const right: boolean = state.mouseX > getCootsCenterScreenX();
-    const up: boolean = state.mouseY < getCootsCenterScreenY();
+  if (state.hasMouseCoords()) {
+    const centerScreenCoords: Coords = getCootsCenterScreenCoords();
+    const right: boolean = state.mouseCoords.x > centerScreenCoords.x;
+    const up: boolean = state.mouseCoords.y < centerScreenCoords.y;
     if (up && right) {
       return Direction.UpRight
     }

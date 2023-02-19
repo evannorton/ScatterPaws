@@ -3,8 +3,8 @@ import assetsAreLoaded from "./assetsAreLoaded";
 
 const update = (): void => {
   if (assetsAreLoaded()) {
-    if (state.hasMouseX() && state.hasMouseY()) {
-      console.log(`handle laser pointer at ${state.mouseX} ${state.mouseY}`);
+    if (state.hasMouseCoords()) {
+      console.log(`handle laser pointer at ${state.mouseCoords.x} ${state.mouseCoords.y}`);
     }
   }
 };
