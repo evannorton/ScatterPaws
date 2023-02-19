@@ -32061,27 +32061,6 @@ void main() {
     }
   });
 
-  // lib/functions/draw/drawRectangle.js
-  var require_drawRectangle = __commonJS({
-    "lib/functions/draw/drawRectangle.js"(exports) {
-      "use strict";
-      var __importDefault = exports && exports.__importDefault || function(mod) {
-        return mod && mod.__esModule ? mod : { "default": mod };
-      };
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var pixi_js_1 = require_pixi();
-      var state_1 = __importDefault(require_state());
-      var drawRectangle = (color, x, y, width, height) => {
-        const rectangle = new pixi_js_1.Graphics();
-        rectangle.beginFill(Number(`0x${color.substring(1)}`));
-        rectangle.lineStyle(0, Number(`0x${color.substring(1)}`));
-        rectangle.drawRect(x, y, width, height);
-        state_1.default.app.stage.addChild(rectangle);
-      };
-      exports.default = drawRectangle;
-    }
-  });
-
   // lib/constants/cootsMaxVelocity.js
   var require_cootsMaxVelocity = __commonJS({
     "lib/constants/cootsMaxVelocity.js"(exports) {
@@ -32112,7 +32091,6 @@ void main() {
       var getCootsScreenCoords_1 = __importDefault(require_getCootsScreenCoords());
       var getCootsDirection_1 = __importDefault(require_getCootsDirection());
       var drawImage_1 = __importDefault(require_drawImage());
-      var drawRectangle_1 = __importDefault(require_drawRectangle());
       var cootsMaxVelocity_1 = __importDefault(require_cootsMaxVelocity());
       var drawCoots = () => {
         const direction = (0, getCootsDirection_1.default)();
@@ -32124,9 +32102,29 @@ void main() {
         const sourceY = (Math.abs(state_1.default.cootsVelocityX) > runningThreshold || Math.abs(state_1.default.cootsVelocityY) > runningThreshold ? 2 : Math.abs(state_1.default.cootsVelocityX) > walkingThreshold || Math.abs(state_1.default.cootsVelocityY) > walkingThreshold ? 1 : 0) * cootsHeight_1.default;
         const centerScreenCoords = (0, getCootsScreenCoords_1.default)();
         (0, drawImage_1.default)("coots", sourceX, sourceY, cootsWidth_1.default, cootsHeight_1.default, centerScreenCoords.x - 9, centerScreenCoords.y - 16, cootsWidth_1.default, cootsHeight_1.default);
-        (0, drawRectangle_1.default)("#e03c28", centerScreenCoords.x, centerScreenCoords.y, 1, 1);
       };
       exports.default = drawCoots;
+    }
+  });
+
+  // lib/functions/draw/drawRectangle.js
+  var require_drawRectangle = __commonJS({
+    "lib/functions/draw/drawRectangle.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var pixi_js_1 = require_pixi();
+      var state_1 = __importDefault(require_state());
+      var drawRectangle = (color, x, y, width, height) => {
+        const rectangle = new pixi_js_1.Graphics();
+        rectangle.beginFill(Number(`0x${color.substring(1)}`));
+        rectangle.lineStyle(0, Number(`0x${color.substring(1)}`));
+        rectangle.drawRect(x, y, width, height);
+        state_1.default.app.stage.addChild(rectangle);
+      };
+      exports.default = drawRectangle;
     }
   });
 
