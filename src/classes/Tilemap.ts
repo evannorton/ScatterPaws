@@ -1,7 +1,6 @@
 import getTileset from "../functions/definables/getTileset";
 import drawImage from "../functions/draw/drawImage";
-import getDrawStartX from "../functions/getDrawStartX";
-import getDrawStartY from "../functions/getDrawStartY";
+import getCameraScreenCoords from "../functions/getCameraScreenCoords";
 import Coords from "../interfaces/Coords";
 import TilemapData from "../interfaces/TilemapData";
 import Definable from "./Definable";
@@ -24,8 +23,7 @@ class Tilemap extends Definable {
   }
 
   public draw(): void {
-    const startX: number = getDrawStartX();
-    const startY: number = getDrawStartY();
+    const cameraScreenCoords: Coords = getCameraScreenCoords();
     this._data.layers.forEach((layer) => {
       if (layer.visible) {
         layer.chunks.forEach((chunk) => {
@@ -38,7 +36,7 @@ class Tilemap extends Definable {
               const tileSourceX = (tilesetIndex % tileset.columns) * tileset.tileWidth;
               const tileSourceY = Math.floor(tilesetIndex / tileset.columns) * tileset.tileHeight;
               const tileX = (
-                startX
+                cameraScreenCoords.x
                 + (datumX * this.tileWidth / 2)
                 - (datumY * this.tileWidth / 2)
                 + (chunk.x * this.tileWidth / 2)
@@ -46,7 +44,7 @@ class Tilemap extends Definable {
                 - (this.tileWidth / 2)
               );
               const tileY = (
-                startY
+                cameraScreenCoords.y
                 + (datumX * this.tileHeight / 2)
                 + (datumY * this.tileHeight / 2)
                 + (chunk.x * this.tileHeight / 2)
@@ -62,15 +60,16 @@ class Tilemap extends Definable {
   }
 
   public getCenterScreenCoordsOfTile(x: number, y: number): Coords {
+    const cameraScreenCoords: Coords = getCameraScreenCoords();
     return {
       x: (
-        getDrawStartX()
+        cameraScreenCoords.x
         + (x * this.tileWidth / 2)
         - (y * this.tileWidth / 2)
         - 1
       ),
       y: (
-        getDrawStartY()
+        cameraScreenCoords.y
         + (x * this.tileHeight / 2)
         + (y * this.tileHeight / 2)
         - 3

@@ -4,10 +4,10 @@ import state from "../state";
 import getCootsCenterScreenCoords from "./getCootsCenterScreenCoords";
 
 const getCootsDirection = (): Direction => {
-  if (state.hasMouseCoords()) {
+  if (state.hasMouseScreenCoords()) {
     const centerScreenCoords: Coords = getCootsCenterScreenCoords();
-    const right: boolean = state.mouseCoords.x > centerScreenCoords.x;
-    const up: boolean = state.mouseCoords.y < centerScreenCoords.y;
+    const right: boolean = state.mouseScreenCoords.x > centerScreenCoords.x;
+    const up: boolean = state.mouseScreenCoords.y < centerScreenCoords.y;
     if (up && right) {
       return Direction.UpRight
     }

@@ -25755,11 +25755,13 @@ void main() {
       var State = class {
         constructor() {
           this._app = null;
-          this._cootsX = startingTileX_1.default * unitsPerTile_1.default;
-          this._cootsY = startingTileY_1.default * unitsPerTile_1.default;
+          this._cootsCoords = {
+            x: startingTileX_1.default * unitsPerTile_1.default,
+            y: startingTileY_1.default * unitsPerTile_1.default
+          };
           this._currentTime = performance.now();
           this._loadedAssets = 0;
-          this._mouseCoords = null;
+          this._mouseScreenCoords = null;
           this._tilemapSlug = startingTilemapSlug_1.default;
         }
         get app() {
@@ -25768,11 +25770,8 @@ void main() {
           }
           throw new Error(this.getAccessorErrorMessage("app"));
         }
-        get cootsX() {
-          return this._cootsX;
-        }
-        get cootsY() {
-          return this._cootsY;
+        get cootsCoords() {
+          return this._cootsCoords;
         }
         get currentTime() {
           return this._currentTime;
@@ -25780,9 +25779,9 @@ void main() {
         get loadedAssets() {
           return this._loadedAssets;
         }
-        get mouseCoords() {
-          if (this._mouseCoords !== null) {
-            return this._mouseCoords;
+        get mouseScreenCoords() {
+          if (this._mouseScreenCoords !== null) {
+            return this._mouseScreenCoords;
           }
           throw new Error(this.getAccessorErrorMessage("mouseCoords"));
         }
@@ -25798,11 +25797,11 @@ void main() {
         set loadedAssets(loadedAssets) {
           this._loadedAssets = loadedAssets;
         }
-        set mouseCoords(mouseCoords) {
-          this._mouseCoords = mouseCoords;
+        set mouseScreenCoords(mouseScreenCoords) {
+          this._mouseScreenCoords = mouseScreenCoords;
         }
-        hasMouseCoords() {
-          return this._mouseCoords !== null;
+        hasMouseScreenCoords() {
+          return this._mouseScreenCoords !== null;
         }
         getAccessorErrorMessage(property) {
           return `Could not access ${this.constructor.name} ${property}.`;
@@ -25970,67 +25969,23 @@ void main() {
     }
   });
 
-  // lib/functions/getCameraX.js
-  var require_getCameraX = __commonJS({
-    "lib/functions/getCameraX.js"(exports) {
-      "use strict";
-      var __importDefault = exports && exports.__importDefault || function(mod) {
-        return mod && mod.__esModule ? mod : { "default": mod };
-      };
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var unitsPerTile_1 = __importDefault(require_unitsPerTile());
-      var state_1 = __importDefault(require_state());
-      var getCameraX = () => {
-        return state_1.default.cootsX / unitsPerTile_1.default * (state_1.default.tilemap.tileWidth / 2) - state_1.default.cootsY / unitsPerTile_1.default * (state_1.default.tilemap.tileWidth / 2) - 1;
-      };
-      exports.default = getCameraX;
-    }
-  });
-
-  // lib/functions/getDrawStartX.js
-  var require_getDrawStartX = __commonJS({
-    "lib/functions/getDrawStartX.js"(exports) {
-      "use strict";
-      var __importDefault = exports && exports.__importDefault || function(mod) {
-        return mod && mod.__esModule ? mod : { "default": mod };
-      };
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var gameWidth_1 = __importDefault(require_gameWidth());
-      var getCameraX_1 = __importDefault(require_getCameraX());
-      var getDrawStartX = () => gameWidth_1.default / 2 - (0, getCameraX_1.default)();
-      exports.default = getDrawStartX;
-    }
-  });
-
-  // lib/functions/getCameraY.js
-  var require_getCameraY = __commonJS({
-    "lib/functions/getCameraY.js"(exports) {
-      "use strict";
-      var __importDefault = exports && exports.__importDefault || function(mod) {
-        return mod && mod.__esModule ? mod : { "default": mod };
-      };
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var unitsPerTile_1 = __importDefault(require_unitsPerTile());
-      var state_1 = __importDefault(require_state());
-      var getCameraY = () => {
-        return state_1.default.cootsX / unitsPerTile_1.default * (state_1.default.tilemap.tileHeight / 2) + state_1.default.cootsY / unitsPerTile_1.default * (state_1.default.tilemap.tileHeight / 2) - 3;
-      };
-      exports.default = getCameraY;
-    }
-  });
-
-  // lib/functions/getDrawStartY.js
-  var require_getDrawStartY = __commonJS({
-    "lib/functions/getDrawStartY.js"(exports) {
+  // lib/functions/getCameraScreenCoords.js
+  var require_getCameraScreenCoords = __commonJS({
+    "lib/functions/getCameraScreenCoords.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
       };
       Object.defineProperty(exports, "__esModule", { value: true });
       var gameHeight_1 = __importDefault(require_gameHeight());
-      var getCameraY_1 = __importDefault(require_getCameraY());
-      var getDrawStartY = () => gameHeight_1.default / 2 - (0, getCameraY_1.default)();
-      exports.default = getDrawStartY;
+      var gameWidth_1 = __importDefault(require_gameWidth());
+      var unitsPerTile_1 = __importDefault(require_unitsPerTile());
+      var state_1 = __importDefault(require_state());
+      var getCameraScreenCoords = () => ({
+        x: gameWidth_1.default / 2 - (state_1.default.cootsCoords.x / unitsPerTile_1.default * (state_1.default.tilemap.tileWidth / 2) - state_1.default.cootsCoords.y / unitsPerTile_1.default * (state_1.default.tilemap.tileWidth / 2) - 1),
+        y: gameHeight_1.default / 2 - (state_1.default.cootsCoords.x / unitsPerTile_1.default * (state_1.default.tilemap.tileHeight / 2) + state_1.default.cootsCoords.y / unitsPerTile_1.default * (state_1.default.tilemap.tileHeight / 2) - 3)
+      });
+      exports.default = getCameraScreenCoords;
     }
   });
 
@@ -26044,8 +25999,7 @@ void main() {
       Object.defineProperty(exports, "__esModule", { value: true });
       var getTileset_1 = __importDefault(require_getTileset());
       var drawImage_1 = __importDefault(require_drawImage());
-      var getDrawStartX_1 = __importDefault(require_getDrawStartX());
-      var getDrawStartY_1 = __importDefault(require_getDrawStartY());
+      var getCameraScreenCoords_1 = __importDefault(require_getCameraScreenCoords());
       var Definable_1 = __importDefault(require_Definable());
       var Tilemap = class extends Definable_1.default {
         constructor(slug, data) {
@@ -26059,8 +26013,7 @@ void main() {
           return this._data.tileheight;
         }
         draw() {
-          const startX = (0, getDrawStartX_1.default)();
-          const startY = (0, getDrawStartY_1.default)();
+          const cameraScreenCoords = (0, getCameraScreenCoords_1.default)();
           this._data.layers.forEach((layer) => {
             if (layer.visible) {
               layer.chunks.forEach((chunk) => {
@@ -26072,8 +26025,8 @@ void main() {
                     const tilesetIndex = this.getDatumTilesetIndex(datum);
                     const tileSourceX = tilesetIndex % tileset.columns * tileset.tileWidth;
                     const tileSourceY = Math.floor(tilesetIndex / tileset.columns) * tileset.tileHeight;
-                    const tileX = startX + datumX * this.tileWidth / 2 - datumY * this.tileWidth / 2 + chunk.x * this.tileWidth / 2 - chunk.y * this.tileWidth / 2 - this.tileWidth / 2;
-                    const tileY = startY + datumX * this.tileHeight / 2 + datumY * this.tileHeight / 2 + chunk.x * this.tileHeight / 2 + chunk.y * this.tileHeight / 2 - this.tileHeight;
+                    const tileX = cameraScreenCoords.x + datumX * this.tileWidth / 2 - datumY * this.tileWidth / 2 + chunk.x * this.tileWidth / 2 - chunk.y * this.tileWidth / 2 - this.tileWidth / 2;
+                    const tileY = cameraScreenCoords.y + datumX * this.tileHeight / 2 + datumY * this.tileHeight / 2 + chunk.x * this.tileHeight / 2 + chunk.y * this.tileHeight / 2 - this.tileHeight;
                     (0, drawImage_1.default)("tilesets/tiles", tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight);
                   }
                 });
@@ -26082,9 +26035,10 @@ void main() {
           });
         }
         getCenterScreenCoordsOfTile(x, y) {
+          const cameraScreenCoords = (0, getCameraScreenCoords_1.default)();
           return {
-            x: (0, getDrawStartX_1.default)() + x * this.tileWidth / 2 - y * this.tileWidth / 2 - 1,
-            y: (0, getDrawStartY_1.default)() + x * this.tileHeight / 2 + y * this.tileHeight / 2 - 3
+            x: cameraScreenCoords.x + x * this.tileWidth / 2 - y * this.tileWidth / 2 - 1,
+            y: cameraScreenCoords.y + x * this.tileHeight / 2 + y * this.tileHeight / 2 - 3
           };
         }
         getDatumTileset(datum) {
@@ -32043,7 +31997,7 @@ void main() {
       Object.defineProperty(exports, "__esModule", { value: true });
       var unitsPerTile_1 = __importDefault(require_unitsPerTile());
       var state_1 = __importDefault(require_state());
-      var getCootsCenterScreenCoords = () => state_1.default.tilemap.getCenterScreenCoordsOfTile(state_1.default.cootsX / unitsPerTile_1.default, state_1.default.cootsY / unitsPerTile_1.default);
+      var getCootsCenterScreenCoords = () => state_1.default.tilemap.getCenterScreenCoordsOfTile(state_1.default.cootsCoords.x / unitsPerTile_1.default, state_1.default.cootsCoords.y / unitsPerTile_1.default);
       exports.default = getCootsCenterScreenCoords;
     }
   });
@@ -32060,10 +32014,10 @@ void main() {
       var state_1 = __importDefault(require_state());
       var getCootsCenterScreenCoords_1 = __importDefault(require_getCootsCenterScreenCoords());
       var getCootsDirection = () => {
-        if (state_1.default.hasMouseCoords()) {
+        if (state_1.default.hasMouseScreenCoords()) {
           const centerScreenCoords = (0, getCootsCenterScreenCoords_1.default)();
-          const right = state_1.default.mouseCoords.x > centerScreenCoords.x;
-          const up = state_1.default.mouseCoords.y < centerScreenCoords.y;
+          const right = state_1.default.mouseScreenCoords.x > centerScreenCoords.x;
+          const up = state_1.default.mouseScreenCoords.y < centerScreenCoords.y;
           if (up && right) {
             return Direction_1.default.UpRight;
           }
@@ -32183,8 +32137,8 @@ void main() {
       var assetsAreLoaded_1 = __importDefault(require_assetsAreLoaded());
       var update = () => {
         if ((0, assetsAreLoaded_1.default)()) {
-          if (state_1.default.hasMouseCoords()) {
-            console.log(`handle laser pointer at ${state_1.default.mouseCoords.x} ${state_1.default.mouseCoords.y}`);
+          if (state_1.default.hasMouseScreenCoords()) {
+            console.log(`handle laser pointer at ${state_1.default.mouseScreenCoords.x} ${state_1.default.mouseScreenCoords.y}`);
           }
         }
       };
@@ -32292,7 +32246,7 @@ void main() {
           screen.style.height = `${gameHeight_1.default * gameScale_1.default}px`;
           screen.addEventListener("mousemove", (e) => {
             if (e.target instanceof HTMLElement) {
-              state_1.default.mouseCoords = {
+              state_1.default.mouseScreenCoords = {
                 x: e.offsetX / e.target.offsetWidth * gameWidth_1.default,
                 y: e.offsetY / e.target.offsetHeight * gameHeight_1.default
               };

@@ -33,7 +33,7 @@ const run = async (): Promise<void> => {
     screen.style.height = `${gameHeight * gameScale}px`;
     screen.addEventListener("mousemove", (e) => {
       if (e.target instanceof HTMLElement) {
-        state.mouseCoords = {
+        state.mouseScreenCoords = {
           x: e.offsetX / e.target.offsetWidth * gameWidth,
           y: e.offsetY / e.target.offsetHeight * gameHeight
         }

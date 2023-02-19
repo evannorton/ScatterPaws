@@ -9,11 +9,13 @@ import Tilemap from "./Tilemap";
 
 class State {
   private _app: Application | null = null;
-  private _cootsX: number = startingTileX * unitsPerTile;
-  private _cootsY: number = startingTileY * unitsPerTile;
+  private _cootsCoords: Coords = {
+    x: startingTileX * unitsPerTile,
+    y: startingTileY * unitsPerTile
+  }
   private _currentTime: number = performance.now();
   private _loadedAssets: number = 0;
-  private _mouseCoords: Coords | null = null;
+  private _mouseScreenCoords: Coords | null = null;
   private _tilemapSlug: string = startingTilemapSlug;
 
   public get app(): Application {
@@ -23,12 +25,8 @@ class State {
     throw new Error(this.getAccessorErrorMessage("app"));
   }
 
-  public get cootsX(): number {
-    return this._cootsX;
-  }
-
-  public get cootsY(): number {
-    return this._cootsY;
+  public get cootsCoords(): Coords {
+    return this._cootsCoords;
   }
 
   public get currentTime(): number {
@@ -39,9 +37,9 @@ class State {
     return this._loadedAssets;
   }
 
-  public get mouseCoords(): Coords {
-    if (this._mouseCoords !== null) {
-      return this._mouseCoords;
+  public get mouseScreenCoords(): Coords {
+    if (this._mouseScreenCoords !== null) {
+      return this._mouseScreenCoords;
     }
     throw new Error(this.getAccessorErrorMessage("mouseCoords"));
   }
@@ -62,12 +60,12 @@ class State {
     this._loadedAssets = loadedAssets;
   }
 
-  public set mouseCoords(mouseCoords: Coords | null) {
-    this._mouseCoords = mouseCoords;
+  public set mouseScreenCoords(mouseScreenCoords: Coords | null) {
+    this._mouseScreenCoords = mouseScreenCoords;
   }
 
-  public hasMouseCoords(): boolean {
-    return this._mouseCoords !== null;
+  public hasMouseScreenCoords(): boolean {
+    return this._mouseScreenCoords !== null;
   }
 
   private getAccessorErrorMessage(property: string): string {
