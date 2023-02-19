@@ -32,7 +32,7 @@ const drawCoots = (): void => {
   ) * cootsHeight;
   const centerScreenCoords: Coords = getCootsScreenCoords();
   drawImage("coots", sourceX, sourceY, cootsWidth, cootsHeight, centerScreenCoords.x - 9, centerScreenCoords.y - 16, cootsWidth, cootsHeight);
-  drawRectangle("#e03c28", centerScreenCoords.x, centerScreenCoords.y, 1, 1)
+  // drawRectangle("#e03c28", centerScreenCoords.x, centerScreenCoords.y, 1, 1)
 };
 
 export default drawCoots;
