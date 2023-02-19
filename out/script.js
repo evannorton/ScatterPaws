@@ -32207,7 +32207,7 @@ void main() {
       };
       Object.defineProperty(exports, "__esModule", { value: true });
       var unitsPerTile_1 = __importDefault(require_unitsPerTile());
-      var cootsMaxVelocity = unitsPerTile_1.default * 5;
+      var cootsMaxVelocity = unitsPerTile_1.default * 8;
       exports.default = cootsMaxVelocity;
     }
   });
@@ -32253,6 +32253,8 @@ void main() {
             state_1.default.cootsVelocityX += xVector * multiplier;
             state_1.default.cootsVelocityY += yVector * multiplier;
           }
+          state_1.default.cootsVelocityX -= state_1.default.cootsVelocityX * (state_1.default.app.ticker.deltaMS / 1e3);
+          state_1.default.cootsVelocityY -= state_1.default.cootsVelocityY * (state_1.default.app.ticker.deltaMS / 1e3);
           if (state_1.default.cootsVelocityX > cootsMaxVelocity_1.default) {
             state_1.default.cootsVelocityX = cootsMaxVelocity_1.default;
           }

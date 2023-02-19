@@ -25,7 +25,8 @@ const updateCootsVelocity = (): void => {
       state.cootsVelocityY += yVector * multiplier;
     }
     // Decay
-    // TODO
+    state.cootsVelocityX -= state.cootsVelocityX * (state.app.ticker.deltaMS / 1000);
+    state.cootsVelocityY -= state.cootsVelocityY * (state.app.ticker.deltaMS / 1000);
     // Cap velocity at max
     if (state.cootsVelocityX > cootsMaxVelocity) {
       state.cootsVelocityX = cootsMaxVelocity;
