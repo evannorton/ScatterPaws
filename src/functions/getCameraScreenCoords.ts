@@ -5,18 +5,22 @@ import Coords from "../interfaces/Coords";
 import state from "../state";
 
 const getCameraScreenCoords = (): Coords => ({
-  x: (gameWidth / 2)
+  x: Math.floor(
+    (gameWidth / 2)
     - (
       ((state.cootsCoords.x / unitsPerTile) * (state.tilemap.tileWidth / 2))
       - ((state.cootsCoords.y / unitsPerTile) * (state.tilemap.tileWidth / 2))
       - 1
-    ),
-  y: (gameHeight / 2)
+    )
+  ),
+  y: Math.floor(
+    (gameHeight / 2)
     - (
       ((state.cootsCoords.x / unitsPerTile) * (state.tilemap.tileHeight / 2))
       + ((state.cootsCoords.y / unitsPerTile) * (state.tilemap.tileHeight / 2))
       - 3
     )
+  )
 });
 
 export default getCameraScreenCoords;

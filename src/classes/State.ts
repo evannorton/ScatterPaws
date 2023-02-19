@@ -13,7 +13,9 @@ class State {
     x: startingTileX * unitsPerTile,
     y: startingTileY * unitsPerTile
   }
-  private _currentTime: number = performance.now();
+  private _cootsVelocityX: number = 0;
+  private _cootsVelocityY: number = 0;
+  private _currentTime: number = 0;
   private _loadedAssets: number = 0;
   private _mouseScreenCoords: Coords | null = null;
   private _tilemapSlug: string = startingTilemapSlug;
@@ -27,6 +29,14 @@ class State {
 
   public get cootsCoords(): Coords {
     return this._cootsCoords;
+  }
+
+  public get cootsVelocityX(): number {
+    return this._cootsVelocityX;
+  }
+
+  public get cootsVelocityY(): number {
+    return this._cootsVelocityY;
   }
 
   public get currentTime(): number {
@@ -50,6 +60,18 @@ class State {
 
   public set app(app: Application | null) {
     this._app = app !== null ? app : null;
+  }
+
+  public set cootsCoords(cootsCoords: Coords) {
+    this._cootsCoords = cootsCoords;
+  }
+
+  public set cootsVelocityX(cootsVelocityX: number) {
+    this._cootsVelocityX = cootsVelocityX;
+  }
+
+  public set cootsVelocityY(cootsVelocityY: number) {
+    this._cootsVelocityY = cootsVelocityY;
   }
 
   public set currentTime(currentTime: number) {

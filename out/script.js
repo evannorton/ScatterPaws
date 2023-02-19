@@ -25696,7 +25696,7 @@ void main() {
     "lib/constants/unitsPerTile.js"(exports) {
       "use strict";
       Object.defineProperty(exports, "__esModule", { value: true });
-      var unitsPerTile = 24;
+      var unitsPerTile = 1e4;
       exports.default = unitsPerTile;
     }
   });
@@ -25759,7 +25759,9 @@ void main() {
             x: startingTileX_1.default * unitsPerTile_1.default,
             y: startingTileY_1.default * unitsPerTile_1.default
           };
-          this._currentTime = performance.now();
+          this._cootsVelocityX = 0;
+          this._cootsVelocityY = 0;
+          this._currentTime = 0;
           this._loadedAssets = 0;
           this._mouseScreenCoords = null;
           this._tilemapSlug = startingTilemapSlug_1.default;
@@ -25772,6 +25774,12 @@ void main() {
         }
         get cootsCoords() {
           return this._cootsCoords;
+        }
+        get cootsVelocityX() {
+          return this._cootsVelocityX;
+        }
+        get cootsVelocityY() {
+          return this._cootsVelocityY;
         }
         get currentTime() {
           return this._currentTime;
@@ -25790,6 +25798,15 @@ void main() {
         }
         set app(app) {
           this._app = app !== null ? app : null;
+        }
+        set cootsCoords(cootsCoords) {
+          this._cootsCoords = cootsCoords;
+        }
+        set cootsVelocityX(cootsVelocityX) {
+          this._cootsVelocityX = cootsVelocityX;
+        }
+        set cootsVelocityY(cootsVelocityY) {
+          this._cootsVelocityY = cootsVelocityY;
         }
         set currentTime(currentTime) {
           this._currentTime = currentTime;
@@ -25982,8 +25999,8 @@ void main() {
       var unitsPerTile_1 = __importDefault(require_unitsPerTile());
       var state_1 = __importDefault(require_state());
       var getCameraScreenCoords = () => ({
-        x: gameWidth_1.default / 2 - (state_1.default.cootsCoords.x / unitsPerTile_1.default * (state_1.default.tilemap.tileWidth / 2) - state_1.default.cootsCoords.y / unitsPerTile_1.default * (state_1.default.tilemap.tileWidth / 2) - 1),
-        y: gameHeight_1.default / 2 - (state_1.default.cootsCoords.x / unitsPerTile_1.default * (state_1.default.tilemap.tileHeight / 2) + state_1.default.cootsCoords.y / unitsPerTile_1.default * (state_1.default.tilemap.tileHeight / 2) - 3)
+        x: Math.floor(gameWidth_1.default / 2 - (state_1.default.cootsCoords.x / unitsPerTile_1.default * (state_1.default.tilemap.tileWidth / 2) - state_1.default.cootsCoords.y / unitsPerTile_1.default * (state_1.default.tilemap.tileWidth / 2) - 1)),
+        y: Math.floor(gameHeight_1.default / 2 - (state_1.default.cootsCoords.x / unitsPerTile_1.default * (state_1.default.tilemap.tileHeight / 2) + state_1.default.cootsCoords.y / unitsPerTile_1.default * (state_1.default.tilemap.tileHeight / 2) - 3))
       });
       exports.default = getCameraScreenCoords;
     }
@@ -26026,8 +26043,8 @@ void main() {
                     const tilesetIndex = this.getDatumTilesetIndex(datum);
                     const tileSourceX = tilesetIndex % tileset.columns * tileset.tileWidth;
                     const tileSourceY = Math.floor(tilesetIndex / tileset.columns) * tileset.tileHeight;
-                    const tileX = cameraScreenCoords.x + datumX * this.tileWidth / 2 - datumY * this.tileWidth / 2 + chunk.x * this.tileWidth / 2 - chunk.y * this.tileWidth / 2 - this.tileWidth / 2;
-                    const tileY = cameraScreenCoords.y + datumX * this.tileHeight / 2 + datumY * this.tileHeight / 2 + chunk.x * this.tileHeight / 2 + chunk.y * this.tileHeight / 2 - this.tileHeight;
+                    const tileX = Math.floor(cameraScreenCoords.x + datumX * this.tileWidth / 2 - datumY * this.tileWidth / 2 + chunk.x * this.tileWidth / 2 - chunk.y * this.tileWidth / 2 - this.tileWidth / 2);
+                    const tileY = Math.floor(cameraScreenCoords.y + datumX * this.tileHeight / 2 + datumY * this.tileHeight / 2 + chunk.x * this.tileHeight / 2 + chunk.y * this.tileHeight / 2 - this.tileHeight);
                     (0, drawImage_1.default)("tilesets/tiles", tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight);
                   }
                 });
@@ -26038,15 +26055,15 @@ void main() {
         getScreenCoordsFromCoords(coords) {
           const cameraScreenCoords = (0, getCameraScreenCoords_1.default)();
           return {
-            x: cameraScreenCoords.x + coords.x / unitsPerTile_1.default * this.tileWidth / 2 - coords.y / unitsPerTile_1.default * this.tileWidth / 2 - 1,
-            y: cameraScreenCoords.y + coords.x / unitsPerTile_1.default * this.tileHeight / 2 + coords.y / unitsPerTile_1.default * this.tileHeight / 2 - 3
+            x: Math.floor(cameraScreenCoords.x + coords.x / unitsPerTile_1.default * this.tileWidth / 2 - coords.y / unitsPerTile_1.default * this.tileWidth / 2 - 1),
+            y: Math.floor(cameraScreenCoords.y + coords.x / unitsPerTile_1.default * this.tileHeight / 2 + coords.y / unitsPerTile_1.default * this.tileHeight / 2 - 3)
           };
         }
         getCoordsFromScreenCoords(screenCoords) {
           const cameraScreenCoords = (0, getCameraScreenCoords_1.default)();
           return {
-            x: (screenCoords.x - cameraScreenCoords.x + 1) / this.tileWidth * unitsPerTile_1.default + (screenCoords.y - cameraScreenCoords.y + 3) / this.tileHeight * unitsPerTile_1.default,
-            y: (screenCoords.y - cameraScreenCoords.y + 3) / this.tileHeight * unitsPerTile_1.default - (screenCoords.x - cameraScreenCoords.x + 1) / this.tileWidth * unitsPerTile_1.default
+            x: Math.round((screenCoords.x - cameraScreenCoords.x + 1) / this.tileWidth * unitsPerTile_1.default + (screenCoords.y - cameraScreenCoords.y + 3) / this.tileHeight * unitsPerTile_1.default),
+            y: Math.round((screenCoords.y - cameraScreenCoords.y + 3) / this.tileHeight * unitsPerTile_1.default - (screenCoords.x - cameraScreenCoords.x + 1) / this.tileWidth * unitsPerTile_1.default)
           };
         }
         getDatumTileset(datum) {
@@ -32134,22 +32151,107 @@ void main() {
     }
   });
 
-  // lib/functions/update.js
-  var require_update = __commonJS({
-    "lib/functions/update.js"(exports) {
+  // lib/constants/cootsMaxVelocity.js
+  var require_cootsMaxVelocity = __commonJS({
+    "lib/constants/cootsMaxVelocity.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var unitsPerTile_1 = __importDefault(require_unitsPerTile());
+      var cootsMaxVelocity = unitsPerTile_1.default * 2;
+      exports.default = cootsMaxVelocity;
+    }
+  });
+
+  // lib/functions/getMouseCoords.js
+  var require_getMouseCoords = __commonJS({
+    "lib/functions/getMouseCoords.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
       };
       Object.defineProperty(exports, "__esModule", { value: true });
       var state_1 = __importDefault(require_state());
+      var getMouseCoords = () => state_1.default.tilemap.getCoordsFromScreenCoords(state_1.default.mouseScreenCoords);
+      exports.default = getMouseCoords;
+    }
+  });
+
+  // lib/functions/update/updateCootsVelocity.js
+  var require_updateCootsVelocity = __commonJS({
+    "lib/functions/update/updateCootsVelocity.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var cootsMaxVelocity_1 = __importDefault(require_cootsMaxVelocity());
+      var state_1 = __importDefault(require_state());
+      var getMouseCoords_1 = __importDefault(require_getMouseCoords());
+      var updateCootsVelocity = () => {
+        if (state_1.default.hasMouseScreenCoords()) {
+          const mouseCoords = (0, getMouseCoords_1.default)();
+          const diffX = mouseCoords.x - state_1.default.cootsCoords.x;
+          const diffY = mouseCoords.y - state_1.default.cootsCoords.y;
+          const angle = Math.atan2(diffY, diffX);
+          const xVector = Math.cos(angle);
+          const yVector = Math.sin(angle);
+          state_1.default.cootsVelocityX += xVector * (cootsMaxVelocity_1.default / 10) * state_1.default.app.ticker.deltaMS;
+          state_1.default.cootsVelocityY += yVector * (cootsMaxVelocity_1.default / 10) * state_1.default.app.ticker.deltaMS;
+          if (state_1.default.cootsVelocityX > cootsMaxVelocity_1.default) {
+            state_1.default.cootsVelocityX = cootsMaxVelocity_1.default;
+          }
+          if (state_1.default.cootsVelocityX < -cootsMaxVelocity_1.default) {
+            state_1.default.cootsVelocityX = -cootsMaxVelocity_1.default;
+          }
+          if (state_1.default.cootsVelocityY > cootsMaxVelocity_1.default) {
+            state_1.default.cootsVelocityY = cootsMaxVelocity_1.default;
+          }
+          if (state_1.default.cootsVelocityY < -cootsMaxVelocity_1.default) {
+            state_1.default.cootsVelocityY = -cootsMaxVelocity_1.default;
+          }
+        }
+      };
+      exports.default = updateCootsVelocity;
+    }
+  });
+
+  // lib/functions/update/updateCootsPosition.js
+  var require_updateCootsPosition = __commonJS({
+    "lib/functions/update/updateCootsPosition.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var state_1 = __importDefault(require_state());
+      var updateCootsPosition = () => {
+        state_1.default.cootsCoords = {
+          x: state_1.default.cootsCoords.x + Math.floor(state_1.default.cootsVelocityX * (state_1.default.app.ticker.deltaMS / 1e3)),
+          y: state_1.default.cootsCoords.y + Math.floor(state_1.default.cootsVelocityY * (state_1.default.app.ticker.deltaMS / 1e3))
+        };
+      };
+      exports.default = updateCootsPosition;
+    }
+  });
+
+  // lib/functions/update/update.js
+  var require_update = __commonJS({
+    "lib/functions/update/update.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
       var assetsAreLoaded_1 = __importDefault(require_assetsAreLoaded());
+      var updateCootsVelocity_1 = __importDefault(require_updateCootsVelocity());
+      var updateCootsPosition_1 = __importDefault(require_updateCootsPosition());
       var update = () => {
         if ((0, assetsAreLoaded_1.default)()) {
-          if (state_1.default.hasMouseScreenCoords()) {
-            const mouseCoords = state_1.default.tilemap.getCoordsFromScreenCoords(state_1.default.mouseScreenCoords);
-            console.log(`coots at ${state_1.default.cootsCoords.x} ${state_1.default.cootsCoords.y} | as laser pointer at ${mouseCoords.x} ${mouseCoords.y}`);
-          }
+          (0, updateCootsVelocity_1.default)();
+          (0, updateCootsPosition_1.default)();
         }
       };
       exports.default = update;

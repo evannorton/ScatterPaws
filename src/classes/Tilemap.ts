@@ -36,7 +36,7 @@ class Tilemap extends Definable {
               const tilesetIndex = this.getDatumTilesetIndex(datum);
               const tileSourceX = (tilesetIndex % tileset.columns) * tileset.tileWidth;
               const tileSourceY = Math.floor(tilesetIndex / tileset.columns) * tileset.tileHeight;
-              const tileX = (
+              const tileX = Math.floor(
                 cameraScreenCoords.x
                 + (datumX * this.tileWidth / 2)
                 - (datumY * this.tileWidth / 2)
@@ -44,7 +44,7 @@ class Tilemap extends Definable {
                 - (chunk.y * this.tileWidth / 2)
                 - (this.tileWidth / 2)
               );
-              const tileY = (
+              const tileY = Math.floor(
                 cameraScreenCoords.y
                 + (datumX * this.tileHeight / 2)
                 + (datumY * this.tileHeight / 2)
@@ -63,13 +63,13 @@ class Tilemap extends Definable {
   public getScreenCoordsFromCoords(coords: Coords): Coords {
     const cameraScreenCoords: Coords = getCameraScreenCoords();
     return {
-      x: (
+      x: Math.floor(
         cameraScreenCoords.x
         + (coords.x / unitsPerTile * this.tileWidth / 2)
         - (coords.y / unitsPerTile * this.tileWidth / 2)
         - 1
       ),
-      y: (
+      y: Math.floor(
         cameraScreenCoords.y
         + (coords.x / unitsPerTile * this.tileHeight / 2)
         + (coords.y / unitsPerTile * this.tileHeight / 2)
@@ -82,12 +82,12 @@ class Tilemap extends Definable {
     const cameraScreenCoords: Coords = getCameraScreenCoords();
     return {
       x:
-        (
+        Math.round(
           (screenCoords.x - cameraScreenCoords.x + 1) / this.tileWidth * unitsPerTile
           + (screenCoords.y - cameraScreenCoords.y + 3) / this.tileHeight * unitsPerTile
         ),
       y:
-        (
+        Math.round(
           (screenCoords.y - cameraScreenCoords.y + 3) / this.tileHeight * unitsPerTile
           - (screenCoords.x - cameraScreenCoords.x + 1) / this.tileWidth * unitsPerTile
         )

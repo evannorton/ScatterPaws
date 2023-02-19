@@ -1,3 +1,3 @@
-const unitsPerTile: number = 24;
+const unitsPerTile: number = 10000;
 
 export default unitsPerTile;
