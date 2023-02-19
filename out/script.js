@@ -32253,8 +32253,8 @@ void main() {
             state_1.default.cootsVelocityX += xVector * multiplier;
             state_1.default.cootsVelocityY += yVector * multiplier;
           }
-          state_1.default.cootsVelocityX -= state_1.default.cootsVelocityX * (state_1.default.app.ticker.deltaMS / 1e3);
-          state_1.default.cootsVelocityY -= state_1.default.cootsVelocityY * (state_1.default.app.ticker.deltaMS / 1e3);
+          state_1.default.cootsVelocityX -= state_1.default.cootsVelocityX * 0.5 * (state_1.default.app.ticker.deltaMS / 1e3);
+          state_1.default.cootsVelocityY -= state_1.default.cootsVelocityY * 0.5 * (state_1.default.app.ticker.deltaMS / 1e3);
           if (state_1.default.cootsVelocityX > cootsMaxVelocity_1.default) {
             state_1.default.cootsVelocityX = cootsMaxVelocity_1.default;
           }
