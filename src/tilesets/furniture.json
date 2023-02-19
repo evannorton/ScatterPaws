@@ -1,0 +1,107 @@
+{
+       "columns": 10,
+       "image": "..\/..\/out\/images\/tilesets\/furniture.png",
+       "imageheight": 240,
+       "imagewidth": 240,
+       "margin": 0,
+       "name": "furniture",
+       "spacing": 0,
+       "tilecount": 100,
+       "tiledversion": "1.9.2",
+       "tileheight": 24,
+       "tiles": [
+              {
+                     "id": 1,
+                     "properties": [
+                            {
+                                   "name": "furnitureID",
+                                   "type": "string",
+                                   "value": "bed"
+                            }
+                     ]
+              },
+              {
+                     "id": 2,
+                     "properties": [
+                            {
+                                   "name": "furnitureID",
+                                   "type": "string",
+                                   "value": "bed"
+                            }
+                     ]
+              },
+              {
+                     "id": 10,
+                     "properties": [
+                            {
+                                   "name": "furnitureID",
+                                   "type": "string",
+                                   "value": "block"
+                            }
+                     ]
+              },
+              {
+                     "id": 11,
+                     "properties": [
+                            {
+                                   "name": "furnitureID",
+                                   "type": "string",
+                                   "value": "bed"
+                            }
+                     ]
+              },
+              {
+                     "id": 12,
+                     "properties": [
+                            {
+                                   "name": "furnitureID",
+                                   "type": "string",
+                                   "value": "bed"
+                            }
+                     ]
+              },
+              {
+                     "id": 15,
+                     "properties": [
+                            {
+                                   "name": "furnitureID",
+                                   "type": "string",
+                                   "value": "stool"
+                            }
+                     ]
+              },
+              {
+                     "id": 20,
+                     "properties": [
+                            {
+                                   "name": "furnitureID",
+                                   "type": "string",
+                                   "value": "block"
+                            }
+                     ]
+              },
+              {
+                     "id": 21,
+                     "properties": [
+                            {
+                                   "name": "furnitureID",
+                                   "type": "string",
+                                   "value": "bed"
+                            }
+                     ]
+              },
+              {
+                     "id": 25,
+                     "properties": [
+                            {
+                                   "name": "furnitureID",
+                                   "type": "string",
+                                   "value": "stool"
+                            }
+                     ]
+              }
+       ],
+       "tilewidth": 24,
+       "type": "tileset",
+       "version": "1.9"
+}

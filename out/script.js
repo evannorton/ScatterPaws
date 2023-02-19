@@ -26048,7 +26048,9 @@ void main() {
         }
         draw() {
           for (const layer of this._data.layers) {
-            this.drawLayer(layer);
+            if (layer.name !== "collision") {
+              this.drawLayer(layer);
+            }
           }
         }
         getScreenCoordsFromCoords(coords) {
@@ -26084,7 +26086,7 @@ void main() {
                       }
                       break;
                     }
-                    case "collidables-bottom": {
+                    case "collision": {
                       if (datum > 0 && datumTileX === tileX && datumTileY === tileY) {
                         return true;
                       }
@@ -26113,11 +26115,11 @@ void main() {
                   const tileSourceX = tilesetIndex % tileset.columns * tileset.tileWidth;
                   const tileSourceY = Math.floor(tilesetIndex / tileset.columns) * tileset.tileHeight;
                   const tile = tileset.tiles.find((tile2) => tile2.id === tilesetIndex);
-                  const property = tile && ((_a = tile.properties) === null || _a === void 0 ? void 0 : _a.find((property2) => property2.name === "collidableID"));
-                  const collidableID = property === null || property === void 0 ? void 0 : property.value;
+                  const property = tile && ((_a = tile.properties) === null || _a === void 0 ? void 0 : _a.find((property2) => property2.name === "furnitureID"));
+                  const furnitureID = property === null || property === void 0 ? void 0 : property.value;
                   const tileX = Math.floor(cameraScreenCoords.x + datumX * this.tileWidth / 2 - datumY * this.tileWidth / 2 + chunk.x * this.tileWidth / 2 - chunk.y * this.tileWidth / 2 - this.tileWidth / 2);
                   const tileY = Math.floor(cameraScreenCoords.y + datumX * this.tileHeight / 2 + datumY * this.tileHeight / 2 + chunk.x * this.tileHeight / 2 + chunk.y * this.tileHeight / 2 - this.tileHeight);
-                  const ySortID = collidableID ? `collidable/${collidableID}` : null;
+                  const ySortID = furnitureID ? `collidable/${furnitureID}` : null;
                   (0, drawImage_1.default)(`tilesets/${tileset.slug}`, tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight, ySortID);
                 }
                 datumIndex++;
@@ -28063,7 +28065,7 @@ void main() {
             startx: 0,
             starty: 0,
             type: "tilelayer",
-            visible: false,
+            visible: true,
             width: 32,
             x: 0,
             y: 0
@@ -28192,7 +28194,7 @@ void main() {
                   0,
                   0,
                   0,
-                  242,
+                  301,
                   0,
                   0,
                   0,
@@ -28208,7 +28210,7 @@ void main() {
                   0,
                   0,
                   0,
-                  242,
+                  301,
                   0,
                   0,
                   0,
@@ -28276,7 +28278,7 @@ void main() {
                   0,
                   0,
                   0,
-                  242,
+                  301,
                   0,
                   0,
                   0,
@@ -28497,7 +28499,7 @@ void main() {
                   0,
                   0,
                   0,
-                  242,
+                  301,
                   0,
                   0,
                   0,
@@ -28599,9 +28601,9 @@ void main() {
                 y: 0
               }
             ],
-            height: 32,
-            id: 6,
-            name: "collidables-bottom",
+            height: 16,
+            id: 8,
+            name: "collision",
             opacity: 1,
             startx: 0,
             starty: 0,
@@ -29142,9 +29144,9 @@ void main() {
                 y: 0
               }
             ],
-            height: 32,
+            height: 16,
             id: 7,
-            name: "collidables-top",
+            name: "furniture",
             opacity: 1,
             startx: 0,
             starty: 0,
@@ -29155,7 +29157,7 @@ void main() {
             y: 0
           }
         ],
-        nextlayerid: 8,
+        nextlayerid: 9,
         nextobjectid: 1,
         orientation: "isometric",
         renderorder: "right-down",
@@ -29172,7 +29174,11 @@ void main() {
           },
           {
             firstgid: 201,
-            source: "../tilesets/collidables.json"
+            source: "../tilesets/furniture.json"
+          },
+          {
+            firstgid: 301,
+            source: "../tilesets/collision.json"
           }
         ],
         tilewidth: 24,
@@ -29225,16 +29231,16 @@ void main() {
     }
   });
 
-  // lib/tilesets/collidables.json
-  var require_collidables = __commonJS({
-    "lib/tilesets/collidables.json"(exports, module) {
+  // lib/tilesets/furniture.json
+  var require_furniture = __commonJS({
+    "lib/tilesets/furniture.json"(exports, module) {
       module.exports = {
         columns: 10,
-        image: "../../out/images/tilesets/collidables.png",
+        image: "../../out/images/tilesets/furniture.png",
         imageheight: 240,
         imagewidth: 240,
         margin: 0,
-        name: "collidables",
+        name: "furniture",
         spacing: 0,
         tilecount: 100,
         tiledversion: "1.9.2",
@@ -29244,7 +29250,7 @@ void main() {
             id: 1,
             properties: [
               {
-                name: "collidableID",
+                name: "furnitureID",
                 type: "string",
                 value: "bed"
               }
@@ -29254,7 +29260,7 @@ void main() {
             id: 2,
             properties: [
               {
-                name: "collidableID",
+                name: "furnitureID",
                 type: "string",
                 value: "bed"
               }
@@ -29264,7 +29270,7 @@ void main() {
             id: 10,
             properties: [
               {
-                name: "collidableID",
+                name: "furnitureID",
                 type: "string",
                 value: "block"
               }
@@ -29274,7 +29280,7 @@ void main() {
             id: 11,
             properties: [
               {
-                name: "collidableID",
+                name: "furnitureID",
                 type: "string",
                 value: "bed"
               }
@@ -29284,7 +29290,7 @@ void main() {
             id: 12,
             properties: [
               {
-                name: "collidableID",
+                name: "furnitureID",
                 type: "string",
                 value: "bed"
               }
@@ -29294,7 +29300,7 @@ void main() {
             id: 15,
             properties: [
               {
-                name: "collidableID",
+                name: "furnitureID",
                 type: "string",
                 value: "stool"
               }
@@ -29304,7 +29310,7 @@ void main() {
             id: 20,
             properties: [
               {
-                name: "collidableID",
+                name: "furnitureID",
                 type: "string",
                 value: "block"
               }
@@ -29314,7 +29320,7 @@ void main() {
             id: 21,
             properties: [
               {
-                name: "collidableID",
+                name: "furnitureID",
                 type: "string",
                 value: "bed"
               }
@@ -29324,13 +29330,34 @@ void main() {
             id: 25,
             properties: [
               {
-                name: "collidableID",
+                name: "furnitureID",
                 type: "string",
                 value: "stool"
               }
             ]
           }
         ],
+        tilewidth: 24,
+        type: "tileset",
+        version: "1.9"
+      };
+    }
+  });
+
+  // lib/tilesets/collision.json
+  var require_collision = __commonJS({
+    "lib/tilesets/collision.json"(exports, module) {
+      module.exports = {
+        columns: 10,
+        image: "../../out/images/tilesets/collision.png",
+        imageheight: 240,
+        imagewidth: 240,
+        margin: 0,
+        name: "collision",
+        spacing: 0,
+        tilecount: 100,
+        tiledversion: "1.9.2",
+        tileheight: 24,
         tilewidth: 24,
         type: "tileset",
         version: "1.9"
@@ -29352,16 +29379,19 @@ void main() {
       var map_json_1 = __importDefault(require_map());
       var floors_json_1 = __importDefault(require_floors());
       var walls_json_1 = __importDefault(require_walls());
-      var collidables_json_1 = __importDefault(require_collidables());
+      var furniture_json_1 = __importDefault(require_furniture());
+      var collision_json_1 = __importDefault(require_collision());
       var define2 = () => {
         new Tilemap_1.default("map", map_json_1.default);
         new ImageSource_1.default("coots");
         new Tileset_1.default("floors", floors_json_1.default);
         new Tileset_1.default("walls", walls_json_1.default);
-        new Tileset_1.default("collidables", collidables_json_1.default);
+        new Tileset_1.default("furniture", furniture_json_1.default);
+        new Tileset_1.default("collision", collision_json_1.default);
         new ImageSource_1.default("tilesets/floors");
         new ImageSource_1.default("tilesets/walls");
-        new ImageSource_1.default("tilesets/collidables");
+        new ImageSource_1.default("tilesets/furniture");
+        new ImageSource_1.default("tilesets/collision");
       };
       exports.default = define2;
     }
