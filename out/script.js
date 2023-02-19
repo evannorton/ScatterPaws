@@ -32160,7 +32160,7 @@ void main() {
       };
       Object.defineProperty(exports, "__esModule", { value: true });
       var unitsPerTile_1 = __importDefault(require_unitsPerTile());
-      var cootsMaxVelocity = unitsPerTile_1.default * 2;
+      var cootsMaxVelocity = unitsPerTile_1.default * 4;
       exports.default = cootsMaxVelocity;
     }
   });
@@ -32198,8 +32198,8 @@ void main() {
           const angle = Math.atan2(diffY, diffX);
           const xVector = Math.cos(angle);
           const yVector = Math.sin(angle);
-          state_1.default.cootsVelocityX += xVector * (cootsMaxVelocity_1.default / 10) * state_1.default.app.ticker.deltaMS;
-          state_1.default.cootsVelocityY += yVector * (cootsMaxVelocity_1.default / 10) * state_1.default.app.ticker.deltaMS;
+          state_1.default.cootsVelocityX += xVector * (cootsMaxVelocity_1.default * 10) * (state_1.default.app.ticker.deltaMS / 1e3);
+          state_1.default.cootsVelocityY += yVector * (cootsMaxVelocity_1.default * 10) * (state_1.default.app.ticker.deltaMS / 1e3);
           if (state_1.default.cootsVelocityX > cootsMaxVelocity_1.default) {
             state_1.default.cootsVelocityX = cootsMaxVelocity_1.default;
           }

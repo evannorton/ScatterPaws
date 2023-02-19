@@ -11,16 +11,20 @@ const updateCootsVelocity = (): void => {
     const angle: number = Math.atan2(diffY, diffX);
     const xVector: number = Math.cos(angle);
     const yVector: number = Math.sin(angle);
+    // Increase velocity based on laser pointer
     state.cootsVelocityX += (
       xVector
-      * (cootsMaxVelocity / 10)
-      * state.app.ticker.deltaMS
+      * (cootsMaxVelocity * 10)
+      * (state.app.ticker.deltaMS / 1000)
     );
     state.cootsVelocityY += (
       yVector
-      * (cootsMaxVelocity / 10)
-      * state.app.ticker.deltaMS
+      * (cootsMaxVelocity * 10)
+      * (state.app.ticker.deltaMS / 1000)
     );
+    // Decay
+    // TODO
+    // Cap velocity at max
     if (state.cootsVelocityX > cootsMaxVelocity) {
       state.cootsVelocityX = cootsMaxVelocity;
     }
