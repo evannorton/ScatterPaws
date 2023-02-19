@@ -8,7 +8,9 @@ import getCootsScreenCoords from "../getCootsScreenCoords";
 import getCootsDirection from "../getCootsDirection";
 import drawImage from "./drawImage";
 import drawRectangle from "./drawRectangle";
-import cootsMaxVelocity from "../../constants/cootsMaxVelocity";
+import getLaserPower from "../getLaserPower";
+import walkingThreshold from "../../constants/walkingThreshold";
+import runningThreshold from "../../constants/runningThreshold";
 
 const drawCoots = (): void => {
   const direction: Direction = getCootsDirection();
@@ -21,12 +23,11 @@ const drawCoots = (): void => {
         : 0) * cootsWidth * 4;
   const frameAnimationOffset: number = Math.floor((state.currentTime % (timePerCootsFrame * 4)) / timePerCootsFrame) * cootsWidth;
   const sourceX: number = frameDirectionOffset + frameAnimationOffset;
-  const walkingThreshold: number = .3 * cootsMaxVelocity;
-  const runningThreshold: number = .7 * cootsMaxVelocity;
+  const laserPower: number = getLaserPower();
   const sourceY: number = (
-    (Math.abs(state.cootsVelocityX) > runningThreshold || Math.abs(state.cootsVelocityY) > runningThreshold)
+    (laserPower >= runningThreshold)
       ? 2
-      : (Math.abs(state.cootsVelocityX) > walkingThreshold || Math.abs(state.cootsVelocityY) > walkingThreshold)
+      : (laserPower >= walkingThreshold)
         ? 1
         : 0
   ) * cootsHeight;
