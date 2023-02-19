@@ -32082,6 +32082,20 @@ void main() {
     }
   });
 
+  // lib/constants/cootsMaxVelocity.js
+  var require_cootsMaxVelocity = __commonJS({
+    "lib/constants/cootsMaxVelocity.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var unitsPerTile_1 = __importDefault(require_unitsPerTile());
+      var cootsMaxVelocity = unitsPerTile_1.default * 5;
+      exports.default = cootsMaxVelocity;
+    }
+  });
+
   // lib/functions/draw/drawCoots.js
   var require_drawCoots = __commonJS({
     "lib/functions/draw/drawCoots.js"(exports) {
@@ -32099,12 +32113,15 @@ void main() {
       var getCootsDirection_1 = __importDefault(require_getCootsDirection());
       var drawImage_1 = __importDefault(require_drawImage());
       var drawRectangle_1 = __importDefault(require_drawRectangle());
+      var cootsMaxVelocity_1 = __importDefault(require_cootsMaxVelocity());
       var drawCoots = () => {
         const direction = (0, getCootsDirection_1.default)();
         const frameDirectionOffset = (direction === Direction_1.default.DownRight ? 1 : direction === Direction_1.default.UpLeft ? 2 : direction === Direction_1.default.UpRight ? 3 : 0) * cootsWidth_1.default * 4;
         const frameAnimationOffset = Math.floor(state_1.default.currentTime % (timePerCootsFrame_1.default * 4) / timePerCootsFrame_1.default) * cootsWidth_1.default;
         const sourceX = frameDirectionOffset + frameAnimationOffset;
-        const sourceY = 0;
+        const walkingThreshold = 0.3 * cootsMaxVelocity_1.default;
+        const runningThreshold = 0.7 * cootsMaxVelocity_1.default;
+        const sourceY = (Math.abs(state_1.default.cootsVelocityX) > runningThreshold || Math.abs(state_1.default.cootsVelocityY) > runningThreshold ? 2 : Math.abs(state_1.default.cootsVelocityX) > walkingThreshold || Math.abs(state_1.default.cootsVelocityY) > walkingThreshold ? 1 : 0) * cootsHeight_1.default;
         const centerScreenCoords = (0, getCootsScreenCoords_1.default)();
         (0, drawImage_1.default)("coots", sourceX, sourceY, cootsWidth_1.default, cootsHeight_1.default, centerScreenCoords.x - 9, centerScreenCoords.y - 16, cootsWidth_1.default, cootsHeight_1.default);
         (0, drawRectangle_1.default)("#e03c28", centerScreenCoords.x, centerScreenCoords.y, 1, 1);
@@ -32151,20 +32168,6 @@ void main() {
     }
   });
 
-  // lib/constants/cootsMaxVelocity.js
-  var require_cootsMaxVelocity = __commonJS({
-    "lib/constants/cootsMaxVelocity.js"(exports) {
-      "use strict";
-      var __importDefault = exports && exports.__importDefault || function(mod) {
-        return mod && mod.__esModule ? mod : { "default": mod };
-      };
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var unitsPerTile_1 = __importDefault(require_unitsPerTile());
-      var cootsMaxVelocity = unitsPerTile_1.default * 4;
-      exports.default = cootsMaxVelocity;
-    }
-  });
-
   // lib/functions/getMouseCoords.js
   var require_getMouseCoords = __commonJS({
     "lib/functions/getMouseCoords.js"(exports) {
@@ -32188,18 +32191,26 @@ void main() {
       };
       Object.defineProperty(exports, "__esModule", { value: true });
       var cootsMaxVelocity_1 = __importDefault(require_cootsMaxVelocity());
+      var gameHeight_1 = __importDefault(require_gameHeight());
+      var gameWidth_1 = __importDefault(require_gameWidth());
       var state_1 = __importDefault(require_state());
+      var getCootsScreenCoords_1 = __importDefault(require_getCootsScreenCoords());
       var getMouseCoords_1 = __importDefault(require_getMouseCoords());
       var updateCootsVelocity = () => {
         if (state_1.default.hasMouseScreenCoords()) {
+          const cootsScreenCoords = (0, getCootsScreenCoords_1.default)();
           const mouseCoords = (0, getMouseCoords_1.default)();
           const diffX = mouseCoords.x - state_1.default.cootsCoords.x;
           const diffY = mouseCoords.y - state_1.default.cootsCoords.y;
           const angle = Math.atan2(diffY, diffX);
           const xVector = Math.cos(angle);
           const yVector = Math.sin(angle);
-          state_1.default.cootsVelocityX += xVector * (cootsMaxVelocity_1.default * 10) * (state_1.default.app.ticker.deltaMS / 1e3);
-          state_1.default.cootsVelocityY += yVector * (cootsMaxVelocity_1.default * 10) * (state_1.default.app.ticker.deltaMS / 1e3);
+          const distance = Math.sqrt(Math.pow(state_1.default.mouseScreenCoords.x - cootsScreenCoords.x, 2) + Math.pow(state_1.default.mouseScreenCoords.y - cootsScreenCoords.y, 2));
+          const maxDistance = Math.min(gameWidth_1.default, gameHeight_1.default) / 2;
+          console.log(Math.min(distance / maxDistance, 1));
+          const multiplier = cootsMaxVelocity_1.default * (state_1.default.app.ticker.deltaMS / 1e3) * Math.min(distance / maxDistance, 1);
+          state_1.default.cootsVelocityX += xVector * multiplier;
+          state_1.default.cootsVelocityY += yVector * multiplier;
           if (state_1.default.cootsVelocityX > cootsMaxVelocity_1.default) {
             state_1.default.cootsVelocityX = cootsMaxVelocity_1.default;
           }
