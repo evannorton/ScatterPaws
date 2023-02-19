@@ -22,35 +22,38 @@ const run = async (): Promise<void> => {
   state.app.renderer.view.style.height = "100%";
   state.app.renderer.view.style.width = "100%";
   state.app.renderer.view.tabIndex = 0;
+  state.app.renderer.view.addEventListener("contextmenu", (e: Event): void => {
+    e.preventDefault();
+  });
+  state.app.ticker.add(tick);
+  const screen = document.getElementById("screen");
+  if (screen) {
+    screen.appendChild(state.app.view);
+    screen.style.width = `${gameWidth * gameScale}px`;
+    screen.style.height = `${gameHeight * gameScale}px`;
+    screen.addEventListener("mousemove", (e) => {
+      if (e.target instanceof HTMLElement) {
+        state.mouseX = e.offsetX / e.target.offsetWidth * gameWidth;
+        state.mouseY = e.offsetY / e.target.offsetHeight * gameHeight;
+      }
+    });
+    document.getElementById("screen")?.addEventListener("keydown", (e) => {
+      const key: string = e.key.toLowerCase();
+      switch (key) {
+        case "p": {
+          const anchor: HTMLAnchorElement = document.createElement("a");
+          anchor.download = "Teleport Tower Screenshot.png";
+          anchor.href = state.app.renderer.plugins.extract.canvas(state.app.stage).toDataURL();
+          anchor.click();
+        }
+          break;
+      }
+    });
+  }
   socket.on("run-id", (runID: string) => {
     if (document.body.dataset.runId !== runID) {
       location.reload();
     }
-  });
-  state.app.ticker.add(tick);
-  document.getElementById("screen")?.appendChild(state.app.view);
-  state.app.view.style.width = `${gameWidth * gameScale}px`;
-  state.app.view.style.height = `${gameHeight * gameScale}px`;
-  document.getElementById("screen")?.addEventListener("mousemove", (e) => {
-    if (e.target instanceof HTMLElement) {
-      state.mouseX = e.offsetX / e.target.offsetWidth * gameWidth;
-      state.mouseY = e.offsetY / e.target.offsetHeight * gameHeight;
-    }
-  });
-  document.getElementById("screen")?.addEventListener("keydown", (e) => {
-    const key: string = e.key.toLowerCase();
-    switch (key) {
-      case "p": {
-        const anchor: HTMLAnchorElement = document.createElement("a");
-        anchor.download = "Teleport Tower Screenshot.png";
-        anchor.href = state.app.renderer.plugins.extract.canvas(state.app.stage).toDataURL();
-        anchor.click();
-      }
-        break;
-    }
-  });
-  state.app.renderer.view.addEventListener("contextmenu", (e: Event): void => {
-    e.preventDefault();
   });
 };
 
