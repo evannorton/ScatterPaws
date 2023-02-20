@@ -16,9 +16,11 @@ const updateCootsVelocity = (): void => {
     // Increase velocity based on laser pointer
     const laserPower: number = getLaserPower();
     if (laserPower >= walkingThreshold) {
+      const accelerationFactor: number = 1.5;
       const multiplier: number = (
         cootsMaxVelocity
         * (state.app.ticker.deltaMS / 1000)
+        * accelerationFactor
         * laserPower
       );
       state.cootsVelocityX += xVector * multiplier;

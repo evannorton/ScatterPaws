@@ -1,5 +1,5 @@
 import unitsPerTile from "./unitsPerTile";
 
-const cootsMaxVelocity: number = unitsPerTile * 8;
+const cootsMaxVelocity: number = unitsPerTile * 16;
 
 export default cootsMaxVelocity;

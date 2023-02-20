@@ -37211,7 +37211,7 @@ void main() {
       };
       Object.defineProperty(exports, "__esModule", { value: true });
       var unitsPerTile_1 = __importDefault(require_unitsPerTile());
-      var cootsMaxVelocity = unitsPerTile_1.default * 8;
+      var cootsMaxVelocity = unitsPerTile_1.default * 16;
       exports.default = cootsMaxVelocity;
     }
   });
@@ -37253,7 +37253,8 @@ void main() {
           const yVector = Math.sin(angle);
           const laserPower = (0, getLaserPower_1.default)();
           if (laserPower >= walkingThreshold_1.default) {
-            const multiplier = cootsMaxVelocity_1.default * (state_1.default.app.ticker.deltaMS / 1e3) * laserPower;
+            const accelerationFactor = 1.5;
+            const multiplier = cootsMaxVelocity_1.default * (state_1.default.app.ticker.deltaMS / 1e3) * accelerationFactor * laserPower;
             state_1.default.cootsVelocityX += xVector * multiplier;
             state_1.default.cootsVelocityY += yVector * multiplier;
           }
@@ -37288,6 +37289,7 @@ void main() {
       var unitsPerTile_1 = __importDefault(require_unitsPerTile());
       var state_1 = __importDefault(require_state());
       var updateCootsPosition = () => {
+        const collisionVelocityFactor = -0.85;
         const leftOffset = -0.5;
         const topOffset = -0.5;
         const bottomOffset = 0.85;
@@ -37327,12 +37329,12 @@ void main() {
           y: newBottomLeftCoords.y
         };
         if (state_1.default.tilemap.hasCollisionAtCoords({ x: newTopLeftCoords.x, y: topLeftCoords.y }) || state_1.default.tilemap.hasCollisionAtCoords({ x: newBottomLeftCoords.x, y: bottomLeftCoords.y }) || state_1.default.tilemap.hasCollisionAtCoords({ x: newTopRightCoords.x, y: topRightCoords.y }) || state_1.default.tilemap.hasCollisionAtCoords({ x: newBottomRightCoords.x, y: bottomRightCoords.y })) {
-          state_1.default.cootsVelocityX *= -1;
+          state_1.default.cootsVelocityX *= collisionVelocityFactor;
         } else if (state_1.default.tilemap.hasCollisionAtCoords({ x: topLeftCoords.x, y: newTopLeftCoords.y }) || state_1.default.tilemap.hasCollisionAtCoords({ x: bottomLeftCoords.x, y: newBottomLeftCoords.y }) || state_1.default.tilemap.hasCollisionAtCoords({ x: topRightCoords.x, y: newTopRightCoords.y }) || state_1.default.tilemap.hasCollisionAtCoords({ x: bottomRightCoords.x, y: newBottomRightCoords.y })) {
-          state_1.default.cootsVelocityY *= -1;
-        } else if (state_1.default.tilemap.hasCollisionAtCoords({ x: newTopLeftCoords.x, y: newTopLeftCoords.y }) || state_1.default.tilemap.hasCollisionAtCoords({ x: newBottomLeftCoords.x, y: bottomLeftCoords.y }) || state_1.default.tilemap.hasCollisionAtCoords({ x: newTopRightCoords.x, y: newTopRightCoords.y }) || state_1.default.tilemap.hasCollisionAtCoords({ x: newBottomRightCoords.x, y: bottomRightCoords.y })) {
-          state_1.default.cootsVelocityX *= -1;
-          state_1.default.cootsVelocityY *= -1;
+          state_1.default.cootsVelocityY *= collisionVelocityFactor;
+        } else if (state_1.default.tilemap.hasCollisionAtCoords({ x: newTopLeftCoords.x, y: newTopLeftCoords.y }) || state_1.default.tilemap.hasCollisionAtCoords({ x: newBottomLeftCoords.x, y: newBottomLeftCoords.y }) || state_1.default.tilemap.hasCollisionAtCoords({ x: newTopRightCoords.x, y: newTopRightCoords.y }) || state_1.default.tilemap.hasCollisionAtCoords({ x: newBottomRightCoords.x, y: newBottomRightCoords.y })) {
+          state_1.default.cootsVelocityX *= collisionVelocityFactor;
+          state_1.default.cootsVelocityY *= collisionVelocityFactor;
         } else {
           state_1.default.cootsCoords = { x: newX, y: newY };
         }
