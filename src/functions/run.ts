@@ -41,7 +41,7 @@ const run = async (): Promise<void> => {
         }
       }
     });
-    document.getElementById("screen")?.addEventListener("keydown", (e) => {
+    screen.addEventListener("keydown", (e) => {
       const key: string = e.key.toLowerCase();
       switch (key) {
         case "p": {
@@ -49,8 +49,18 @@ const run = async (): Promise<void> => {
           anchor.download = "Teleport Tower Screenshot.png";
           anchor.href = state.app.renderer.plugins.extract.canvas(state.app.stage).toDataURL();
           anchor.click();
-        }
           break;
+        }
+        case " ": {
+          const destructibleID: string | null = state.tilemap.getDestructibleIDWithinRange();
+          if (destructibleID !== null) {
+            const brokenDestructibles: string[] = state.brokenDestructibles;
+            if (brokenDestructibles.includes(destructibleID) === false) {
+              state.brokenDestructibles = [...brokenDestructibles, destructibleID];
+            }
+          }
+          break;
+        }
       }
     });
   }

@@ -5,7 +5,8 @@ import state from "../../state";
 import drawImage from "./drawImage";
 
 const drawInteractHUD = (): void => {
-  if (state.tilemap.cootsIsNextToDestructable()) {
+  const destructibleID: string | null = state.tilemap.getDestructibleIDWithinRange();
+  if (destructibleID !== null && state.brokenDestructibles.includes(destructibleID) === false) {
     const hardZIndex: HardZIndex = {
       value: 10001,
       type: ZIndexType.Hard

@@ -25755,6 +25755,7 @@ void main() {
       var State = class {
         constructor() {
           this._app = null;
+          this._brokenDestructibles = [];
           this._cootsCoords = {
             x: startingTileX_1.default * unitsPerTile_1.default,
             y: startingTileY_1.default * unitsPerTile_1.default
@@ -25772,6 +25773,9 @@ void main() {
             return this._app;
           }
           throw new Error(this.getAccessorErrorMessage("app"));
+        }
+        get brokenDestructibles() {
+          return [...this._brokenDestructibles];
         }
         get cootsCoords() {
           return this._cootsCoords;
@@ -25802,6 +25806,9 @@ void main() {
         }
         set app(app) {
           this._app = app !== null ? app : null;
+        }
+        set brokenDestructibles(brokenDestructibles) {
+          this._brokenDestructibles = [...brokenDestructibles];
         }
         set cootsCoords(cootsCoords) {
           this._cootsCoords = cootsCoords;
@@ -26138,7 +26145,7 @@ void main() {
           }
           return false;
         }
-        cootsIsNextToDestructable() {
+        getDestructibleIDWithinRange() {
           var _a;
           const tileX = Math.round(state_1.default.cootsCoords.x / unitsPerTile_1.default);
           const tileY = Math.round(state_1.default.cootsCoords.y / unitsPerTile_1.default);
@@ -26157,8 +26164,8 @@ void main() {
                     const tile = tileset.tiles.find((tile2) => tile2.id === tilesetIndex);
                     const destructibleIDProperty = tile && ((_a = tile.properties) === null || _a === void 0 ? void 0 : _a.find((property) => property.name === "destructibleID"));
                     const destructibleID = destructibleIDProperty === null || destructibleIDProperty === void 0 ? void 0 : destructibleIDProperty.value;
-                    if (datum > 0 && Math.abs(tileX - datumTileX) <= 1 && Math.abs(tileY - datumTileY) <= 1 && destructibleID) {
-                      return true;
+                    if (datum > 0 && Math.abs(tileX - datumTileX) <= 1 && Math.abs(tileY - datumTileY) <= 1 && typeof destructibleID === "string") {
+                      return destructibleID;
                     }
                   }
                   datumIndex++;
@@ -26166,10 +26173,10 @@ void main() {
               }
             }
           }
-          return false;
+          return null;
         }
         drawLayer(layer) {
-          var _a, _b, _c;
+          var _a, _b, _c, _d;
           const cameraScreenCoords = (0, getCameraScreenCoords_1.default)();
           if (layer.visible) {
             for (const chunk of layer.chunks) {
@@ -26180,8 +26187,15 @@ void main() {
                   const datumY = Math.floor(datumIndex / chunk.width);
                   const tileset = this.getDatumTileset(datum);
                   const tilesetIndex = this.getDatumTilesetIndex(datum);
-                  const tileSourceX = tilesetIndex % tileset.columns * tileset.tileWidth;
-                  const tileSourceY = Math.floor(tilesetIndex / tileset.columns) * tileset.tileHeight;
+                  const tile = tileset.tiles.find((tile2) => tile2.id === tilesetIndex);
+                  const destructibleIDProperty = tile && ((_a = tile.properties) === null || _a === void 0 ? void 0 : _a.find((property) => property.name === "destructibleID"));
+                  const destructibleID = destructibleIDProperty === null || destructibleIDProperty === void 0 ? void 0 : destructibleIDProperty.value;
+                  const brokenIDProperty = tile && ((_b = tile.properties) === null || _b === void 0 ? void 0 : _b.find((property) => property.name === "brokenID"));
+                  const brokenID = brokenIDProperty === null || brokenIDProperty === void 0 ? void 0 : brokenIDProperty.value;
+                  const isDestroyed = typeof destructibleID === "string" && state_1.default.brokenDestructibles.includes(destructibleID);
+                  const calculatedTilesetIndex = isDestroyed && typeof brokenID === "number" ? brokenID : this.getDatumTilesetIndex(datum);
+                  const tileSourceX = calculatedTilesetIndex % tileset.columns * tileset.tileWidth;
+                  const tileSourceY = Math.floor(calculatedTilesetIndex / tileset.columns) * tileset.tileHeight;
                   const tileX = Math.floor(cameraScreenCoords.x + datumX * this.tileWidth / 2 - datumY * this.tileWidth / 2 + chunk.x * this.tileWidth / 2 - chunk.y * this.tileWidth / 2 - this.tileWidth / 2);
                   const tileY = Math.floor(cameraScreenCoords.y + datumX * this.tileHeight / 2 + datumY * this.tileHeight / 2 + chunk.x * this.tileHeight / 2 + chunk.y * this.tileHeight / 2 - this.tileHeight);
                   const ySortID = layer.name === "furniture" ? `${layer.name}/${tileX}/${tileY}` : null;
@@ -26191,20 +26205,19 @@ void main() {
                   } : null;
                   (0, drawImage_1.default)(`tilesets/${tileset.slug}`, tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight, ySortZIndex);
                   if (layer.name === "furniture") {
-                    const tile = tileset.tiles.find((tile2) => tile2.id === tilesetIndex);
-                    const destructibleIDProperty = tile && ((_a = tile.properties) === null || _a === void 0 ? void 0 : _a.find((property) => property.name === "destructibleID"));
-                    const destructibleID = destructibleIDProperty === null || destructibleIDProperty === void 0 ? void 0 : destructibleIDProperty.value;
-                    const indicatorXOffsetProperty = tile && ((_b = tile.properties) === null || _b === void 0 ? void 0 : _b.find((property) => property.name === "indicatorXOffset"));
-                    const indicatorXOffset = indicatorXOffsetProperty === null || indicatorXOffsetProperty === void 0 ? void 0 : indicatorXOffsetProperty.value;
-                    const indicatorYOffsetProperty = tile && ((_c = tile.properties) === null || _c === void 0 ? void 0 : _c.find((property) => property.name === "indicatorYOffset"));
-                    const indicatorYOffset = indicatorYOffsetProperty === null || indicatorYOffsetProperty === void 0 ? void 0 : indicatorYOffsetProperty.value;
-                    if (typeof destructibleID === "string" && typeof indicatorXOffset === "number" && typeof indicatorYOffset === "number") {
-                      const hardZIndex = {
-                        value: 1e4,
-                        type: ZIndexType_1.default.Hard
-                      };
-                      const frameAnimationOffset = Math.floor(state_1.default.currentTime % (timePerIndicatorFrame_1.default * 4) / timePerIndicatorFrame_1.default) * 7;
-                      (0, drawImage_1.default)("indicator", frameAnimationOffset, 0, 7, 10, tileX + indicatorXOffset, tileY + indicatorYOffset, 7, 10, hardZIndex);
+                    if (typeof destructibleID === "string" && !isDestroyed) {
+                      const indicatorXOffsetProperty = tile && ((_c = tile.properties) === null || _c === void 0 ? void 0 : _c.find((property) => property.name === "indicatorXOffset"));
+                      const indicatorXOffset = indicatorXOffsetProperty === null || indicatorXOffsetProperty === void 0 ? void 0 : indicatorXOffsetProperty.value;
+                      const indicatorYOffsetProperty = tile && ((_d = tile.properties) === null || _d === void 0 ? void 0 : _d.find((property) => property.name === "indicatorYOffset"));
+                      const indicatorYOffset = indicatorYOffsetProperty === null || indicatorYOffsetProperty === void 0 ? void 0 : indicatorYOffsetProperty.value;
+                      if (typeof indicatorXOffset === "number" && typeof indicatorYOffset === "number") {
+                        const hardZIndex = {
+                          value: 1e4,
+                          type: ZIndexType_1.default.Hard
+                        };
+                        const frameAnimationOffset = Math.floor(state_1.default.currentTime % (timePerIndicatorFrame_1.default * 4) / timePerIndicatorFrame_1.default) * 7;
+                        (0, drawImage_1.default)("indicator", frameAnimationOffset, 0, 7, 10, tileX + indicatorXOffset, tileY + indicatorYOffset, 7, 10, hardZIndex);
+                      }
                     }
                   }
                 }
@@ -37288,7 +37301,8 @@ void main() {
       var state_1 = __importDefault(require_state());
       var drawImage_1 = __importDefault(require_drawImage());
       var drawInteractHUD = () => {
-        if (state_1.default.tilemap.cootsIsNextToDestructable()) {
+        const destructibleID = state_1.default.tilemap.getDestructibleIDWithinRange();
+        if (destructibleID !== null && state_1.default.brokenDestructibles.includes(destructibleID) === false) {
           const hardZIndex = {
             value: 10001,
             type: ZIndexType_1.default.Hard
@@ -37607,7 +37621,6 @@ void main() {
       var gameScale_1 = __importDefault(require_gameScale());
       var getAudioSource_1 = __importDefault(require_getAudioSource());
       var run = () => __awaiter(void 0, void 0, void 0, function* () {
-        var _a;
         console.log(`Running coots game.`);
         (0, define_1.default)();
         pixi_js_1.settings.ROUND_PIXELS = true;
@@ -37639,17 +37652,26 @@ void main() {
               };
             }
           });
-          (_a = document.getElementById("screen")) === null || _a === void 0 ? void 0 : _a.addEventListener("keydown", (e) => {
+          screen.addEventListener("keydown", (e) => {
             const key = e.key.toLowerCase();
             switch (key) {
-              case "p":
-                {
-                  const anchor = document.createElement("a");
-                  anchor.download = "Teleport Tower Screenshot.png";
-                  anchor.href = state_1.default.app.renderer.plugins.extract.canvas(state_1.default.app.stage).toDataURL();
-                  anchor.click();
+              case "p": {
+                const anchor = document.createElement("a");
+                anchor.download = "Teleport Tower Screenshot.png";
+                anchor.href = state_1.default.app.renderer.plugins.extract.canvas(state_1.default.app.stage).toDataURL();
+                anchor.click();
+                break;
+              }
+              case " ": {
+                const destructibleID = state_1.default.tilemap.getDestructibleIDWithinRange();
+                if (destructibleID !== null) {
+                  const brokenDestructibles = state_1.default.brokenDestructibles;
+                  if (brokenDestructibles.includes(destructibleID) === false) {
+                    state_1.default.brokenDestructibles = [...brokenDestructibles, destructibleID];
+                  }
                 }
                 break;
+              }
             }
           });
         }

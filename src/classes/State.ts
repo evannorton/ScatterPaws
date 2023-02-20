@@ -10,6 +10,7 @@ import Tilemap from "./Tilemap";
 
 class State {
   private _app: Application | null = null;
+  private _brokenDestructibles: string[] = [];
   private _cootsCoords: Coords = {
     x: startingTileX * unitsPerTile,
     y: startingTileY * unitsPerTile
@@ -27,6 +28,10 @@ class State {
       return this._app;
     }
     throw new Error(this.getAccessorErrorMessage("app"));
+  }
+
+  public get brokenDestructibles(): string[] {
+    return [...this._brokenDestructibles];
   }
 
   public get cootsCoords(): Coords {
@@ -66,6 +71,10 @@ class State {
 
   public set app(app: Application | null) {
     this._app = app !== null ? app : null;
+  }
+
+  public set brokenDestructibles(brokenDestructibles: string[]) {
+    this._brokenDestructibles = [...brokenDestructibles];
   }
 
   public set cootsCoords(cootsCoords: Coords) {
