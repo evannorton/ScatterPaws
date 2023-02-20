@@ -12,6 +12,8 @@ import walkingThreshold from "../../constants/walkingThreshold";
 import runningThreshold from "../../constants/runningThreshold";
 import drawRectangle from "./drawRectangle";
 import unitsPerTile from "../../constants/unitsPerTile";
+import YSortZIndex from "../../interfaces/ZIndex/YSortZIndex";
+import ZIndexType from "../../enums/ZIndexType";
 
 const drawCoots = (): void => {
   const direction: Direction = getCootsDirection();
@@ -35,7 +37,11 @@ const drawCoots = (): void => {
   const centerScreenCoords: Coords = getCootsScreenCoords();
   const x: number = centerScreenCoords.x - 9;
   const y: number = centerScreenCoords.y - 16;
-  drawImage("coots", sourceX, sourceY, cootsWidth, cootsHeight, x, y, cootsWidth, cootsHeight, "coots");
+  const ySortZIndex: YSortZIndex = {
+    ySortID: "coots",
+    type: ZIndexType.YSort
+  };
+  drawImage("coots", sourceX, sourceY, cootsWidth, cootsHeight, x, y, cootsWidth, cootsHeight, ySortZIndex);
 };
 
 export default drawCoots;

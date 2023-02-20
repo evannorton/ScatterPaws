@@ -1,4 +1,5 @@
 import unitsPerTile from "../constants/unitsPerTile";
+import ZIndexType from "../enums/ZIndexType";
 import getTileset from "../functions/definables/getTileset";
 import drawImage from "../functions/draw/drawImage";
 import getCameraScreenCoords from "../functions/getCameraScreenCoords";
@@ -7,6 +8,7 @@ import TilemapData from "../interfaces/TilemapData";
 import TilemapDataLayer from "../interfaces/TilemapDataLayer";
 import TilesetData from "../interfaces/TilesetData";
 import TilesetDataTile from "../interfaces/TilesetDataTile";
+import YSortZIndex from "../interfaces/ZIndex/YSortZIndex";
 import Definable from "./Definable";
 import Tileset from "./Tileset";
 
@@ -134,8 +136,14 @@ class Tilemap extends Definable {
               + (chunk.y * this.tileHeight / 2)
               - this.tileHeight
             );
-            const ySortID: string | null = layer.name === "furniture" ? `${tileX}/${tileY}` : null;
-            drawImage(`tilesets/${tileset.slug}`, tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight, ySortID);
+            const ySortID: string | null = layer.name === "furniture" ? `${layer.name}/${tileX}/${tileY}` : null;
+            const ySortZIndex: YSortZIndex | null = ySortID
+              ? {
+                ySortID,
+                type: ZIndexType.YSort
+              }
+              : null;
+            drawImage(`tilesets/${tileset.slug}`, tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight, ySortZIndex);
           }
           datumIndex++;
         };

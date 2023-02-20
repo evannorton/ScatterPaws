@@ -5,8 +5,11 @@ import state from "../../state";
 import gameWidth from "../../constants/gameWidth";
 import gameHeight from "../../constants/gameHeight";
 import YSortEntry from "../../interfaces/YSortEntry";
+import ZIndex from "../../interfaces/ZIndex/ZIndex";
+import ZIndexType from "../../enums/ZIndexType";
+import YSortZIndex from "../../interfaces/ZIndex/YSortZIndex";
 
-const drawImage = (imageSourceSlug: string, sourceX: number, sourceY: number, sourceWidth: number, sourceHeight: number, x: number, y: number, width: number, height: number, ySortID: string | null): void => {
+const drawImage = (imageSourceSlug: string, sourceX: number, sourceY: number, sourceWidth: number, sourceHeight: number, x: number, y: number, width: number, height: number, zIndex: ZIndex | null): void => {
   const imageSource: ImageSource = getImageSource(imageSourceSlug);
   if (x + width > 0 && x < gameWidth && y + height > 0 && y < gameHeight) {
     const texture: BaseTexture = imageSource.getBaseTexture();
@@ -25,17 +28,21 @@ const drawImage = (imageSourceSlug: string, sourceX: number, sourceY: number, so
     sprite.y = adjustedY;
     sprite.width = adjustedWidth;
     sprite.height = adjustedHeight;
-    if (ySortID) {
-      const ySortEntries: YSortEntry[] = state.ySortEntries;
-      ySortEntries.push({
-        id: ySortID,
-        sprite
-      });
-      state.ySortEntries = ySortEntries;
+    if (zIndex !== null) {
+      switch (zIndex.type) {
+        case ZIndexType.YSort: {
+          const ySortZindex: YSortZIndex = zIndex as YSortZIndex;
+          const ySortEntries: YSortEntry[] = state.ySortEntries;
+          ySortEntries.push({
+            id: ySortZindex.ySortID,
+            sprite
+          });
+          state.ySortEntries = ySortEntries;
+          break;
+        }
+      }
     }
-    else {
-      state.app.stage.addChild(sprite);
-    }
+    state.app.stage.addChild(sprite);
   }
 };
 

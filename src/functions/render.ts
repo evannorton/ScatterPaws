@@ -32,7 +32,6 @@ const render = (): void => {
     const y = entryYs.get(entry.id);
     if (typeof y !== "undefined") {
       entry.sprite.zIndex = y;
-      state.app.stage.addChild(entry.sprite)
     }
   }
   state.app.stage.sortChildren();
