@@ -3,7 +3,7 @@ interface TilesetDataTile {
   readonly properties?: {
     readonly name: string;
     readonly type: string;
-    readonly value: string;
+    readonly value: string | number;
   }[];
 }
 

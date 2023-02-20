@@ -116,8 +116,8 @@ class Tilemap extends Definable {
             const tileSourceX = (tilesetIndex % tileset.columns) * tileset.tileWidth;
             const tileSourceY = Math.floor(tilesetIndex / tileset.columns) * tileset.tileHeight;
             const tile: TilesetDataTile | undefined = tileset.tiles.find((tile: TilesetDataTile): boolean => tile.id === tilesetIndex);
-            const property = tile && tile.properties?.find((property): boolean => property.name === "furnitureID");
-            const furnitureID = property?.value;
+            const property = tile && tile.properties?.find((property): boolean => property.name === "brokenID");
+            const brokenID = property?.value;
             const tileX = Math.floor(
               cameraScreenCoords.x
               + (datumX * this.tileWidth / 2)
@@ -134,9 +134,7 @@ class Tilemap extends Definable {
               + (chunk.y * this.tileHeight / 2)
               - this.tileHeight
             );
-            const ySortID: string | null = furnitureID
-              ? `collidable/${furnitureID}`
-              : null;
+            const ySortID: string | null = layer.name === "furniture" ? `${tileX}/${tileY}` : null;
             drawImage(`tilesets/${tileset.slug}`, tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight, ySortID);
           }
           datumIndex++;

@@ -26115,11 +26115,11 @@ void main() {
                   const tileSourceX = tilesetIndex % tileset.columns * tileset.tileWidth;
                   const tileSourceY = Math.floor(tilesetIndex / tileset.columns) * tileset.tileHeight;
                   const tile = tileset.tiles.find((tile2) => tile2.id === tilesetIndex);
-                  const property = tile && ((_a = tile.properties) === null || _a === void 0 ? void 0 : _a.find((property2) => property2.name === "furnitureID"));
-                  const furnitureID = property === null || property === void 0 ? void 0 : property.value;
+                  const property = tile && ((_a = tile.properties) === null || _a === void 0 ? void 0 : _a.find((property2) => property2.name === "brokenID"));
+                  const brokenID = property === null || property === void 0 ? void 0 : property.value;
                   const tileX = Math.floor(cameraScreenCoords.x + datumX * this.tileWidth / 2 - datumY * this.tileWidth / 2 + chunk.x * this.tileWidth / 2 - chunk.y * this.tileWidth / 2 - this.tileWidth / 2);
                   const tileY = Math.floor(cameraScreenCoords.y + datumX * this.tileHeight / 2 + datumY * this.tileHeight / 2 + chunk.x * this.tileHeight / 2 + chunk.y * this.tileHeight / 2 - this.tileHeight);
-                  const ySortID = furnitureID ? `collidable/${furnitureID}` : null;
+                  const ySortID = layer.name === "furniture" ? `${tileX}/${tileY}` : null;
                   (0, drawImage_1.default)(`tilesets/${tileset.slug}`, tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight, ySortID);
                 }
                 datumIndex++;
@@ -28194,74 +28194,6 @@ void main() {
                   0,
                   0,
                   0,
-                  301,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  301,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
                   0,
                   0,
                   0,
@@ -28279,6 +28211,74 @@ void main() {
                   0,
                   0,
                   301,
+                  301,
+                  301,
+                  301,
+                  301,
+                  301,
+                  301,
+                  301,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
                   0,
                   0,
                   0,
@@ -28466,40 +28466,40 @@ void main() {
                   0,
                   0,
                   0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
                   301,
+                  301,
+                  301,
+                  301,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
                   0,
                   0,
                   0,
@@ -28720,74 +28720,6 @@ void main() {
                   0,
                   0,
                   0,
-                  213,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  212,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
                   0,
                   0,
                   0,
@@ -28805,6 +28737,74 @@ void main() {
                   0,
                   0,
                   211,
+                  211,
+                  211,
+                  211,
+                  211,
+                  211,
+                  211,
+                  211,
+                  211,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
                   0,
                   0,
                   0,
@@ -28993,6 +28993,9 @@ void main() {
                   0,
                   0,
                   0,
+                  211,
+                  211,
+                  211,
                   0,
                   0,
                   0,
@@ -29023,9 +29026,6 @@ void main() {
                   0,
                   0,
                   0,
-                  0,
-                  0,
-                  216,
                   0,
                   0,
                   0,
@@ -29247,42 +29247,12 @@ void main() {
         tileheight: 24,
         tiles: [
           {
-            id: 1,
-            properties: [
-              {
-                name: "furnitureID",
-                type: "string",
-                value: "bed"
-              }
-            ]
-          },
-          {
-            id: 2,
-            properties: [
-              {
-                name: "furnitureID",
-                type: "string",
-                value: "bed"
-              }
-            ]
-          },
-          {
-            id: 10,
-            properties: [
-              {
-                name: "furnitureID",
-                type: "string",
-                value: "block"
-              }
-            ]
-          },
-          {
             id: 11,
             properties: [
               {
-                name: "furnitureID",
-                type: "string",
-                value: "bed"
+                name: "brokenID",
+                type: "int",
+                value: 13
               }
             ]
           },
@@ -29290,49 +29260,9 @@ void main() {
             id: 12,
             properties: [
               {
-                name: "furnitureID",
-                type: "string",
-                value: "bed"
-              }
-            ]
-          },
-          {
-            id: 15,
-            properties: [
-              {
-                name: "furnitureID",
-                type: "string",
-                value: "stool"
-              }
-            ]
-          },
-          {
-            id: 20,
-            properties: [
-              {
-                name: "furnitureID",
-                type: "string",
-                value: "block"
-              }
-            ]
-          },
-          {
-            id: 21,
-            properties: [
-              {
-                name: "furnitureID",
-                type: "string",
-                value: "bed"
-              }
-            ]
-          },
-          {
-            id: 25,
-            properties: [
-              {
-                name: "furnitureID",
-                type: "string",
-                value: "stool"
+                name: "brokenID",
+                type: "int",
+                value: 14
               }
             ]
           }
@@ -32734,10 +32664,7 @@ void main() {
         }
         const entryYs = /* @__PURE__ */ new Map();
         for (const entry of state_1.default.ySortEntries) {
-          const mappedY = entryYs.get(entry.id);
-          if (!mappedY || entry.sprite.y + entry.sprite.height / 2 > mappedY) {
-            entryYs.set(entry.id, Math.max(entry.sprite.y + entry.sprite.height / 2, 0));
-          }
+          entryYs.set(entry.id, Math.max(entry.sprite.y + entry.sprite.height / 2, 0));
         }
         for (const entry of state_1.default.ySortEntries) {
           const y = entryYs.get(entry.id);
@@ -32840,17 +32767,21 @@ void main() {
       var unitsPerTile_1 = __importDefault(require_unitsPerTile());
       var state_1 = __importDefault(require_state());
       var updateCootsPosition = () => {
+        const leftOffset = -0.5;
+        const topOffset = -0.5;
+        const bottomOffset = 0.85;
+        const rightOffset = 1;
         const topLeftCoords = {
-          x: state_1.default.cootsCoords.x - 0.75 * unitsPerTile_1.default,
-          y: state_1.default.cootsCoords.y - 0.5 * unitsPerTile_1.default
+          x: state_1.default.cootsCoords.x + leftOffset * unitsPerTile_1.default,
+          y: state_1.default.cootsCoords.y + topOffset * unitsPerTile_1.default
         };
         const topRightCoords = {
-          x: topLeftCoords.x + 1 * unitsPerTile_1.default,
+          x: topLeftCoords.x + rightOffset * unitsPerTile_1.default,
           y: topLeftCoords.y
         };
         const bottomLeftCoords = {
           x: topLeftCoords.x,
-          y: topLeftCoords.y + 0.5 * unitsPerTile_1.default
+          y: topLeftCoords.y + bottomOffset * unitsPerTile_1.default
         };
         const bottomRightCoords = {
           x: topRightCoords.x,
@@ -32859,16 +32790,16 @@ void main() {
         const newX = state_1.default.cootsCoords.x + Math.floor(state_1.default.cootsVelocityX * (state_1.default.app.ticker.deltaMS / 1e3));
         const newY = state_1.default.cootsCoords.y + Math.floor(state_1.default.cootsVelocityY * (state_1.default.app.ticker.deltaMS / 1e3));
         const newTopLeftCoords = {
-          x: newX - 0.75 * unitsPerTile_1.default,
-          y: newY - 0.5 * unitsPerTile_1.default
+          x: newX + leftOffset * unitsPerTile_1.default,
+          y: newY + topOffset * unitsPerTile_1.default
         };
         const newTopRightCoords = {
-          x: newTopLeftCoords.x + 1 * unitsPerTile_1.default,
+          x: newTopLeftCoords.x + rightOffset * unitsPerTile_1.default,
           y: newTopLeftCoords.y
         };
         const newBottomLeftCoords = {
           x: newTopLeftCoords.x,
-          y: newTopLeftCoords.y + 0.5 * unitsPerTile_1.default
+          y: newTopLeftCoords.y + bottomOffset * unitsPerTile_1.default
         };
         const newBottomRightCoords = {
           x: newTopRightCoords.x,
