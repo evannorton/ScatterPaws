@@ -26155,9 +26155,9 @@ void main() {
                     const tileset = this.getDatumTileset(datum);
                     const tilesetIndex = this.getDatumTilesetIndex(datum);
                     const tile = tileset.tiles.find((tile2) => tile2.id === tilesetIndex);
-                    const destructableIDProperty = tile && ((_a = tile.properties) === null || _a === void 0 ? void 0 : _a.find((property) => property.name === "destructableID"));
-                    const destructableID = destructableIDProperty === null || destructableIDProperty === void 0 ? void 0 : destructableIDProperty.value;
-                    if (datum > 0 && Math.abs(tileX - datumTileX) <= 1 && Math.abs(tileY - datumTileY) <= 1 && destructableID) {
+                    const destructibleIDProperty = tile && ((_a = tile.properties) === null || _a === void 0 ? void 0 : _a.find((property) => property.name === "destructibleID"));
+                    const destructibleID = destructibleIDProperty === null || destructibleIDProperty === void 0 ? void 0 : destructibleIDProperty.value;
+                    if (datum > 0 && Math.abs(tileX - datumTileX) <= 1 && Math.abs(tileY - datumTileY) <= 1 && destructibleID) {
                       return true;
                     }
                   }
@@ -26192,13 +26192,13 @@ void main() {
                   (0, drawImage_1.default)(`tilesets/${tileset.slug}`, tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight, ySortZIndex);
                   if (layer.name === "furniture") {
                     const tile = tileset.tiles.find((tile2) => tile2.id === tilesetIndex);
-                    const destructableIDProperty = tile && ((_a = tile.properties) === null || _a === void 0 ? void 0 : _a.find((property) => property.name === "destructableID"));
-                    const destructableID = destructableIDProperty === null || destructableIDProperty === void 0 ? void 0 : destructableIDProperty.value;
+                    const destructibleIDProperty = tile && ((_a = tile.properties) === null || _a === void 0 ? void 0 : _a.find((property) => property.name === "destructibleID"));
+                    const destructibleID = destructibleIDProperty === null || destructibleIDProperty === void 0 ? void 0 : destructibleIDProperty.value;
                     const indicatorXOffsetProperty = tile && ((_b = tile.properties) === null || _b === void 0 ? void 0 : _b.find((property) => property.name === "indicatorXOffset"));
                     const indicatorXOffset = indicatorXOffsetProperty === null || indicatorXOffsetProperty === void 0 ? void 0 : indicatorXOffsetProperty.value;
                     const indicatorYOffsetProperty = tile && ((_c = tile.properties) === null || _c === void 0 ? void 0 : _c.find((property) => property.name === "indicatorYOffset"));
                     const indicatorYOffset = indicatorYOffsetProperty === null || indicatorYOffsetProperty === void 0 ? void 0 : indicatorYOffsetProperty.value;
-                    if (typeof destructableID === "string" && typeof indicatorXOffset === "number" && typeof indicatorYOffset === "number") {
+                    if (typeof destructibleID === "string" && typeof indicatorXOffset === "number" && typeof indicatorYOffset === "number") {
                       const hardZIndex = {
                         value: 1e4,
                         type: ZIndexType_1.default.Hard
@@ -31732,7 +31732,7 @@ void main() {
                 value: 6
               },
               {
-                name: "destructableID",
+                name: "destructibleID",
                 type: "string",
                 value: "vase1"
               }
@@ -31747,7 +31747,7 @@ void main() {
                 value: 13
               },
               {
-                name: "destructableID",
+                name: "destructibleID",
                 type: "string",
                 value: "bed1"
               },
@@ -31772,7 +31772,7 @@ void main() {
                 value: 14
               },
               {
-                name: "destructableID",
+                name: "destructibleID",
                 type: "string",
                 value: "bed1"
               }
@@ -31787,7 +31787,7 @@ void main() {
                 value: 16
               },
               {
-                name: "destructableID",
+                name: "destructibleID",
                 type: "string",
                 value: "vase1"
               },

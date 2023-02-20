@@ -122,9 +122,9 @@ class Tilemap extends Definable {
               const tileset: Tileset = this.getDatumTileset(datum);
               const tilesetIndex = this.getDatumTilesetIndex(datum);
               const tile: TilesetDataTile | undefined = tileset.tiles.find((tile: TilesetDataTile): boolean => tile.id === tilesetIndex);
-              const destructableIDProperty = tile && tile.properties?.find((property): boolean => property.name === "destructableID");
-              const destructableID = destructableIDProperty?.value;
-              if (datum > 0 && Math.abs(tileX - datumTileX) <= 1 && Math.abs(tileY - datumTileY) <= 1 && destructableID) {
+              const destructibleIDProperty = tile && tile.properties?.find((property): boolean => property.name === "destructibleID");
+              const destructibleID = destructibleIDProperty?.value;
+              if (datum > 0 && Math.abs(tileX - datumTileX) <= 1 && Math.abs(tileY - datumTileY) <= 1 && destructibleID) {
                 return true;
               }
             }
@@ -175,13 +175,13 @@ class Tilemap extends Definable {
             drawImage(`tilesets/${tileset.slug}`, tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight, ySortZIndex);
             if (layer.name === "furniture") {
               const tile: TilesetDataTile | undefined = tileset.tiles.find((tile: TilesetDataTile): boolean => tile.id === tilesetIndex);
-              const destructableIDProperty = tile && tile.properties?.find((property): boolean => property.name === "destructableID");
-              const destructableID = destructableIDProperty?.value;
+              const destructibleIDProperty = tile && tile.properties?.find((property): boolean => property.name === "destructibleID");
+              const destructibleID = destructibleIDProperty?.value;
               const indicatorXOffsetProperty = tile && tile.properties?.find((property): boolean => property.name === "indicatorXOffset");
               const indicatorXOffset = indicatorXOffsetProperty?.value;
               const indicatorYOffsetProperty = tile && tile.properties?.find((property): boolean => property.name === "indicatorYOffset");
               const indicatorYOffset = indicatorYOffsetProperty?.value;
-              if (typeof destructableID === "string" && typeof indicatorXOffset === "number" && typeof indicatorYOffset === "number") {
+              if (typeof destructibleID === "string" && typeof indicatorXOffset === "number" && typeof indicatorYOffset === "number") {
                 const hardZIndex: HardZIndex = {
                   value: 10000,
                   type: ZIndexType.Hard
