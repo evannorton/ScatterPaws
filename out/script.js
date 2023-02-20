@@ -25900,6 +25900,16 @@ void main() {
     }
   });
 
+  // lib/constants/timePerIndicatorFrame.js
+  var require_timePerIndicatorFrame = __commonJS({
+    "lib/constants/timePerIndicatorFrame.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var timePerIndicatorFrame = 200;
+      exports.default = timePerIndicatorFrame;
+    }
+  });
+
   // lib/enums/ZIndexType.js
   var require_ZIndexType = __commonJS({
     "lib/enums/ZIndexType.js"(exports) {
@@ -25907,6 +25917,7 @@ void main() {
       Object.defineProperty(exports, "__esModule", { value: true });
       var ZIndexType;
       (function(ZIndexType2) {
+        ZIndexType2["Hard"] = "hard";
         ZIndexType2["YSort"] = "y-sort";
       })(ZIndexType || (ZIndexType = {}));
       exports.default = ZIndexType;
@@ -26002,6 +26013,11 @@ void main() {
           sprite.height = adjustedHeight;
           if (zIndex !== null) {
             switch (zIndex.type) {
+              case ZIndexType_1.default.Hard: {
+                const hardZIndex = zIndex;
+                sprite.zIndex = hardZIndex.value;
+                break;
+              }
               case ZIndexType_1.default.YSort: {
                 const ySortZindex = zIndex;
                 const ySortEntries = state_1.default.ySortEntries;
@@ -26049,11 +26065,13 @@ void main() {
         return mod && mod.__esModule ? mod : { "default": mod };
       };
       Object.defineProperty(exports, "__esModule", { value: true });
+      var timePerIndicatorFrame_1 = __importDefault(require_timePerIndicatorFrame());
       var unitsPerTile_1 = __importDefault(require_unitsPerTile());
       var ZIndexType_1 = __importDefault(require_ZIndexType());
       var getTileset_1 = __importDefault(require_getTileset());
       var drawImage_1 = __importDefault(require_drawImage());
       var getCameraScreenCoords_1 = __importDefault(require_getCameraScreenCoords());
+      var state_1 = __importDefault(require_state());
       var Definable_1 = __importDefault(require_Definable());
       var Tilemap = class extends Definable_1.default {
         constructor(slug, data) {
@@ -26121,7 +26139,7 @@ void main() {
           return false;
         }
         drawLayer(layer) {
-          var _a;
+          var _a, _b, _c;
           const cameraScreenCoords = (0, getCameraScreenCoords_1.default)();
           if (layer.visible) {
             for (const chunk of layer.chunks) {
@@ -26134,9 +26152,6 @@ void main() {
                   const tilesetIndex = this.getDatumTilesetIndex(datum);
                   const tileSourceX = tilesetIndex % tileset.columns * tileset.tileWidth;
                   const tileSourceY = Math.floor(tilesetIndex / tileset.columns) * tileset.tileHeight;
-                  const tile = tileset.tiles.find((tile2) => tile2.id === tilesetIndex);
-                  const property = tile && ((_a = tile.properties) === null || _a === void 0 ? void 0 : _a.find((property2) => property2.name === "brokenID"));
-                  const brokenID = property === null || property === void 0 ? void 0 : property.value;
                   const tileX = Math.floor(cameraScreenCoords.x + datumX * this.tileWidth / 2 - datumY * this.tileWidth / 2 + chunk.x * this.tileWidth / 2 - chunk.y * this.tileWidth / 2 - this.tileWidth / 2);
                   const tileY = Math.floor(cameraScreenCoords.y + datumX * this.tileHeight / 2 + datumY * this.tileHeight / 2 + chunk.x * this.tileHeight / 2 + chunk.y * this.tileHeight / 2 - this.tileHeight);
                   const ySortID = layer.name === "furniture" ? `${layer.name}/${tileX}/${tileY}` : null;
@@ -26145,6 +26160,23 @@ void main() {
                     type: ZIndexType_1.default.YSort
                   } : null;
                   (0, drawImage_1.default)(`tilesets/${tileset.slug}`, tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight, ySortZIndex);
+                  if (layer.name === "furniture") {
+                    const tile = tileset.tiles.find((tile2) => tile2.id === tilesetIndex);
+                    const destructableIDProperty = tile && ((_a = tile.properties) === null || _a === void 0 ? void 0 : _a.find((property) => property.name === "destructableID"));
+                    const destructableID = destructableIDProperty === null || destructableIDProperty === void 0 ? void 0 : destructableIDProperty.value;
+                    const indicatorXOffsetProperty = tile && ((_b = tile.properties) === null || _b === void 0 ? void 0 : _b.find((property) => property.name === "indicatorXOffset"));
+                    const indicatorXOffset = indicatorXOffsetProperty === null || indicatorXOffsetProperty === void 0 ? void 0 : indicatorXOffsetProperty.value;
+                    const indicatorYOffsetProperty = tile && ((_c = tile.properties) === null || _c === void 0 ? void 0 : _c.find((property) => property.name === "indicatorYOffset"));
+                    const indicatorYOffset = indicatorYOffsetProperty === null || indicatorYOffsetProperty === void 0 ? void 0 : indicatorYOffsetProperty.value;
+                    if (typeof destructableID === "string" && typeof indicatorXOffset === "number" && typeof indicatorYOffset === "number") {
+                      const hardZIndex = {
+                        value: 1e4,
+                        type: ZIndexType_1.default.Hard
+                      };
+                      const frameAnimationOffset = Math.floor(state_1.default.currentTime % (timePerIndicatorFrame_1.default * 4) / timePerIndicatorFrame_1.default) * 7;
+                      (0, drawImage_1.default)("indicator", frameAnimationOffset, 0, 7, 10, tileX + indicatorXOffset, tileY + indicatorYOffset, 7, 10, hardZIndex);
+                    }
+                  }
                 }
                 datumIndex++;
               }
@@ -29871,7 +29903,7 @@ void main() {
                   0,
                   0,
                   0,
-                  0,
+                  301,
                   0,
                   0,
                   0,
@@ -29887,7 +29919,7 @@ void main() {
                   301,
                   301,
                   0,
-                  0,
+                  301,
                   0,
                   0,
                   0,
@@ -30122,7 +30154,7 @@ void main() {
                   0,
                   0,
                   0,
-                  0,
+                  301,
                   0,
                   0,
                   0,
@@ -30324,7 +30356,6 @@ void main() {
                   0,
                   0,
                   0,
-                  301,
                   0,
                   0,
                   0,
@@ -30340,7 +30371,8 @@ void main() {
                   0,
                   0,
                   0,
-                  301,
+                  0,
+                  0,
                   0,
                   0,
                   0,
@@ -30894,7 +30926,7 @@ void main() {
                   0,
                   0,
                   0,
-                  0,
+                  206,
                   0,
                   0,
                   0,
@@ -30925,7 +30957,7 @@ void main() {
                   0,
                   0,
                   0,
-                  0,
+                  213,
                   0,
                   0,
                   0,
@@ -30941,7 +30973,7 @@ void main() {
                   211,
                   211,
                   0,
-                  0,
+                  212,
                   0,
                   0,
                   0,
@@ -31176,7 +31208,7 @@ void main() {
                   0,
                   0,
                   0,
-                  0,
+                  216,
                   0,
                   0,
                   0,
@@ -31378,7 +31410,6 @@ void main() {
                   0,
                   0,
                   0,
-                  213,
                   0,
                   0,
                   0,
@@ -31394,7 +31425,8 @@ void main() {
                   0,
                   0,
                   0,
-                  212,
+                  0,
+                  0,
                   0,
                   0,
                   0,
@@ -31668,6 +31700,11 @@ void main() {
                 name: "brokenID",
                 type: "int",
                 value: 6
+              },
+              {
+                name: "destructableID",
+                type: "string",
+                value: "vase1"
               }
             ]
           },
@@ -31678,6 +31715,21 @@ void main() {
                 name: "brokenID",
                 type: "int",
                 value: 13
+              },
+              {
+                name: "destructableID",
+                type: "string",
+                value: "bed1"
+              },
+              {
+                name: "indicatorXOffset",
+                type: "int",
+                value: 21
+              },
+              {
+                name: "indicatorYOffset",
+                type: "int",
+                value: -20
               }
             ]
           },
@@ -31688,6 +31740,11 @@ void main() {
                 name: "brokenID",
                 type: "int",
                 value: 14
+              },
+              {
+                name: "destructableID",
+                type: "string",
+                value: "bed1"
               }
             ]
           },
@@ -31698,6 +31755,21 @@ void main() {
                 name: "brokenID",
                 type: "int",
                 value: 16
+              },
+              {
+                name: "destructableID",
+                type: "string",
+                value: "vase1"
+              },
+              {
+                name: "indicatorXOffset",
+                type: "int",
+                value: 10
+              },
+              {
+                name: "indicatorYOffset",
+                type: "int",
+                value: -18
               }
             ]
           }
@@ -33842,7 +33914,7 @@ void main() {
         new ImageSource_1.default("tilesets/walls");
         new ImageSource_1.default("tilesets/furniture");
         new ImageSource_1.default("tilesets/collision");
-        new ImageSource_1.default("indicators");
+        new ImageSource_1.default("indicator");
         new AudioSource_1.default("music/music");
       };
       exports.default = define2;

@@ -8,6 +8,7 @@ import YSortEntry from "../../interfaces/YSortEntry";
 import ZIndex from "../../interfaces/ZIndex/ZIndex";
 import ZIndexType from "../../enums/ZIndexType";
 import YSortZIndex from "../../interfaces/ZIndex/YSortZIndex";
+import HardZIndex from "../../interfaces/ZIndex/HardZIndex";
 
 const drawImage = (imageSourceSlug: string, sourceX: number, sourceY: number, sourceWidth: number, sourceHeight: number, x: number, y: number, width: number, height: number, zIndex: ZIndex | null): void => {
   const imageSource: ImageSource = getImageSource(imageSourceSlug);
@@ -30,6 +31,11 @@ const drawImage = (imageSourceSlug: string, sourceX: number, sourceY: number, so
     sprite.height = adjustedHeight;
     if (zIndex !== null) {
       switch (zIndex.type) {
+        case ZIndexType.Hard: {
+          const hardZIndex: HardZIndex = zIndex as HardZIndex;
+          sprite.zIndex = hardZIndex.value;
+          break;
+        }
         case ZIndexType.YSort: {
           const ySortZindex: YSortZIndex = zIndex as YSortZIndex;
           const ySortEntries: YSortEntry[] = state.ySortEntries;

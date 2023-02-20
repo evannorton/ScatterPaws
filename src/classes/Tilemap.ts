@@ -1,3 +1,4 @@
+import timePerIndicatorFrame from "../constants/timePerIndicatorFrame";
 import unitsPerTile from "../constants/unitsPerTile";
 import ZIndexType from "../enums/ZIndexType";
 import getTileset from "../functions/definables/getTileset";
@@ -6,9 +7,10 @@ import getCameraScreenCoords from "../functions/getCameraScreenCoords";
 import Coords from "../interfaces/Coords";
 import TilemapData from "../interfaces/TilemapData";
 import TilemapDataLayer from "../interfaces/TilemapDataLayer";
-import TilesetData from "../interfaces/TilesetData";
 import TilesetDataTile from "../interfaces/TilesetDataTile";
+import HardZIndex from "../interfaces/ZIndex/HardZIndex";
 import YSortZIndex from "../interfaces/ZIndex/YSortZIndex";
+import state from "../state";
 import Definable from "./Definable";
 import Tileset from "./Tileset";
 
@@ -117,9 +119,6 @@ class Tilemap extends Definable {
             const tilesetIndex = this.getDatumTilesetIndex(datum);
             const tileSourceX = (tilesetIndex % tileset.columns) * tileset.tileWidth;
             const tileSourceY = Math.floor(tilesetIndex / tileset.columns) * tileset.tileHeight;
-            const tile: TilesetDataTile | undefined = tileset.tiles.find((tile: TilesetDataTile): boolean => tile.id === tilesetIndex);
-            const property = tile && tile.properties?.find((property): boolean => property.name === "brokenID");
-            const brokenID = property?.value;
             const tileX = Math.floor(
               cameraScreenCoords.x
               + (datumX * this.tileWidth / 2)
@@ -144,6 +143,23 @@ class Tilemap extends Definable {
               }
               : null;
             drawImage(`tilesets/${tileset.slug}`, tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight, ySortZIndex);
+            if (layer.name === "furniture") {
+              const tile: TilesetDataTile | undefined = tileset.tiles.find((tile: TilesetDataTile): boolean => tile.id === tilesetIndex);
+              const destructableIDProperty = tile && tile.properties?.find((property): boolean => property.name === "destructableID");
+              const destructableID = destructableIDProperty?.value;
+              const indicatorXOffsetProperty = tile && tile.properties?.find((property): boolean => property.name === "indicatorXOffset");
+              const indicatorXOffset = indicatorXOffsetProperty?.value;
+              const indicatorYOffsetProperty = tile && tile.properties?.find((property): boolean => property.name === "indicatorYOffset");
+              const indicatorYOffset = indicatorYOffsetProperty?.value;
+              if (typeof destructableID === "string" && typeof indicatorXOffset === "number" && typeof indicatorYOffset === "number") {
+                const hardZIndex: HardZIndex = {
+                  value: 10000,
+                  type: ZIndexType.Hard
+                };
+                const frameAnimationOffset: number = Math.floor((state.currentTime % (timePerIndicatorFrame * 4)) / timePerIndicatorFrame) * 7;
+                drawImage("indicator", frameAnimationOffset, 0, 7, 10, tileX + indicatorXOffset, tileY + indicatorYOffset, 7, 10, hardZIndex);
+              }
+            }
           }
           datumIndex++;
         };

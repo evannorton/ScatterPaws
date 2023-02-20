@@ -1,4 +1,5 @@
 enum ZIndexType {
+  Hard = "hard",
   YSort = "y-sort"
 }
 

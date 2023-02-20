@@ -19,7 +19,7 @@ const define = (): void => {
   new ImageSource("tilesets/walls");
   new ImageSource("tilesets/furniture");
   new ImageSource("tilesets/collision");
-  new ImageSource("indicators");
+  new ImageSource("indicator");
   new AudioSource("music/music");
 };
 
