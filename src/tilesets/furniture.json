@@ -10,6 +10,15 @@
  "tileheight":24,
  "tiles":[
         {
+         "id":5,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":6
+                }]
+        }, 
+        {
          "id":11,
          "properties":[
                 {
@@ -25,6 +34,15 @@
                  "name":"brokenID",
                  "type":"int",
                  "value":14
+                }]
+        }, 
+        {
+         "id":15,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":16
                 }]
         }],
  "tilewidth":24,

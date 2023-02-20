@@ -30324,6 +30324,7 @@ void main() {
                   0,
                   0,
                   0,
+                  301,
                   0,
                   0,
                   0,
@@ -30339,8 +30340,7 @@ void main() {
                   0,
                   0,
                   0,
-                  0,
-                  0,
+                  301,
                   0,
                   0,
                   0,
@@ -31378,6 +31378,7 @@ void main() {
                   0,
                   0,
                   0,
+                  213,
                   0,
                   0,
                   0,
@@ -31393,8 +31394,7 @@ void main() {
                   0,
                   0,
                   0,
-                  0,
-                  0,
+                  212,
                   0,
                   0,
                   0,
@@ -31662,6 +31662,16 @@ void main() {
         tileheight: 24,
         tiles: [
           {
+            id: 5,
+            properties: [
+              {
+                name: "brokenID",
+                type: "int",
+                value: 6
+              }
+            ]
+          },
+          {
             id: 11,
             properties: [
               {
@@ -31678,6 +31688,16 @@ void main() {
                 name: "brokenID",
                 type: "int",
                 value: 14
+              }
+            ]
+          },
+          {
+            id: 15,
+            properties: [
+              {
+                name: "brokenID",
+                type: "int",
+                value: 16
               }
             ]
           }
@@ -33822,6 +33842,7 @@ void main() {
         new ImageSource_1.default("tilesets/walls");
         new ImageSource_1.default("tilesets/furniture");
         new ImageSource_1.default("tilesets/collision");
+        new ImageSource_1.default("indicators");
         new AudioSource_1.default("music/music");
       };
       exports.default = define2;
@@ -37290,10 +37311,10 @@ void main() {
       var state_1 = __importDefault(require_state());
       var updateCootsPosition = () => {
         const collisionVelocityFactor = -0.75;
-        const leftOffset = -0.5;
+        const leftOffset = -0.4;
         const topOffset = -0.5;
         const bottomOffset = 0.85;
-        const rightOffset = 1;
+        const rightOffset = 0.9;
         const topLeftCoords = {
           x: state_1.default.cootsCoords.x + leftOffset * unitsPerTile_1.default,
           y: state_1.default.cootsCoords.y + topOffset * unitsPerTile_1.default
