@@ -2,7 +2,7 @@ import unitsPerTile from "../../constants/unitsPerTile";
 import state from "../../state";
 
 const updateCootsPosition = (): void => {
-  const collisionVelocityFactor = -.85;
+  const collisionVelocityFactor = -.75;
   const leftOffset: number = -.5;
   const topOffset: number = - .5;
   const bottomOffset: number = .85;

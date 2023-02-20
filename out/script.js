@@ -37289,7 +37289,7 @@ void main() {
       var unitsPerTile_1 = __importDefault(require_unitsPerTile());
       var state_1 = __importDefault(require_state());
       var updateCootsPosition = () => {
-        const collisionVelocityFactor = -0.85;
+        const collisionVelocityFactor = -0.75;
         const leftOffset = -0.5;
         const topOffset = -0.5;
         const bottomOffset = 0.85;
