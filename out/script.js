@@ -26139,6 +26139,7 @@ void main() {
           return false;
         }
         cootsIsNextToDestructable() {
+          var _a;
           const tileX = Math.round(state_1.default.cootsCoords.x / unitsPerTile_1.default);
           const tileY = Math.round(state_1.default.cootsCoords.y / unitsPerTile_1.default);
           for (const layer of this._data.layers) {
@@ -26146,12 +26147,19 @@ void main() {
               for (const chunk of layer.chunks) {
                 let datumIndex = 0;
                 for (const datum of chunk.data) {
-                  const datumX = datumIndex % chunk.width + 1;
-                  const datumY = Math.floor(datumIndex / chunk.width) + 1;
-                  const datumTileX = chunk.x + datumX;
-                  const datumTileY = chunk.y + datumY;
-                  if (datum > 0 && Math.abs(tileX - datumTileX) <= 1 && Math.abs(tileY - datumTileY) <= 1) {
-                    return true;
+                  if (datum > 0) {
+                    const datumX = datumIndex % chunk.width + 1;
+                    const datumY = Math.floor(datumIndex / chunk.width) + 1;
+                    const datumTileX = chunk.x + datumX;
+                    const datumTileY = chunk.y + datumY;
+                    const tileset = this.getDatumTileset(datum);
+                    const tilesetIndex = this.getDatumTilesetIndex(datum);
+                    const tile = tileset.tiles.find((tile2) => tile2.id === tilesetIndex);
+                    const destructableIDProperty = tile && ((_a = tile.properties) === null || _a === void 0 ? void 0 : _a.find((property) => property.name === "destructableID"));
+                    const destructableID = destructableIDProperty === null || destructableIDProperty === void 0 ? void 0 : destructableIDProperty.value;
+                    if (datum > 0 && Math.abs(tileX - datumTileX) <= 1 && Math.abs(tileY - datumTileY) <= 1 && destructableID) {
+                      return true;
+                    }
                   }
                   datumIndex++;
                 }
@@ -37285,7 +37293,6 @@ void main() {
             value: 10001,
             type: ZIndexType_1.default.Hard
           };
-          console.log("draw");
           (0, drawImage_1.default)("interact-hud", 0, 0, 16, 16, 4, gameHeight_1.default - 20, 16, 16, hardZIndex);
         }
       };

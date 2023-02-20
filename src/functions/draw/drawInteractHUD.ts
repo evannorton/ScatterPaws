@@ -10,7 +10,6 @@ const drawInteractHUD = (): void => {
       value: 10001,
       type: ZIndexType.Hard
     };
-    console.log("draw");
     drawImage("interact-hud", 0, 0, 16, 16, 4, gameHeight - 20, 16, 16, hardZIndex);
   }
 };

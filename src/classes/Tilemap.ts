@@ -114,12 +114,19 @@ class Tilemap extends Definable {
         for (const chunk of layer.chunks) {
           let datumIndex = 0;
           for (const datum of chunk.data) {
-            const datumX: number = datumIndex % chunk.width + 1;
-            const datumY: number = Math.floor(datumIndex / chunk.width) + 1;
-            const datumTileX: number = chunk.x + datumX;
-            const datumTileY: number = chunk.y + datumY;
-            if (datum > 0 && Math.abs(tileX - datumTileX) <= 1 && Math.abs(tileY - datumTileY) <= 1) {
-              return true;
+            if (datum > 0) {
+              const datumX: number = datumIndex % chunk.width + 1;
+              const datumY: number = Math.floor(datumIndex / chunk.width) + 1;
+              const datumTileX: number = chunk.x + datumX;
+              const datumTileY: number = chunk.y + datumY;
+              const tileset: Tileset = this.getDatumTileset(datum);
+              const tilesetIndex = this.getDatumTilesetIndex(datum);
+              const tile: TilesetDataTile | undefined = tileset.tiles.find((tile: TilesetDataTile): boolean => tile.id === tilesetIndex);
+              const destructableIDProperty = tile && tile.properties?.find((property): boolean => property.name === "destructableID");
+              const destructableID = destructableIDProperty?.value;
+              if (datum > 0 && Math.abs(tileX - datumTileX) <= 1 && Math.abs(tileY - datumTileY) <= 1 && destructableID) {
+                return true;
+              }
             }
             datumIndex++;
           }
