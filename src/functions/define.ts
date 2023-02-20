@@ -6,6 +6,7 @@ import floors from "../tilesets/floors.json";
 import walls from "../tilesets/walls.json";
 import furniture from "../tilesets/furniture.json";
 import collision from "../tilesets/collision.json";
+import AudioSource from "../classes/AudioSource";
 
 const define = (): void => {
   new Tilemap("map", map)
@@ -18,6 +19,7 @@ const define = (): void => {
   new ImageSource("tilesets/walls");
   new ImageSource("tilesets/furniture");
   new ImageSource("tilesets/collision");
+  new AudioSource("music/music");
 };
 
 export default define;

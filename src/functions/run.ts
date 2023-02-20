@@ -6,6 +6,8 @@ import tick from "./tick";
 import gameWidth from "../constants/gameWidth";
 import gameHeight from "../constants/gameHeight";
 import gameScale from "../constants/gameScale";
+import AudioSource from "../classes/AudioSource";
+import getAudioSource from "./definables/getAudioSource";
 
 const run = async (): Promise<void> => {
   console.log(`Running coots game.`);
@@ -52,6 +54,8 @@ const run = async (): Promise<void> => {
       }
     });
   }
+  const music: AudioSource = getAudioSource("music/music");
+  music.play(0, null);
   socket.on("run-id", (runID: string) => {
     if (document.body.dataset.runId !== runID) {
       location.reload();

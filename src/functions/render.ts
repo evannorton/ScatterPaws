@@ -2,6 +2,7 @@ import gameHeight from "../constants/gameHeight";
 import gameWidth from "../constants/gameWidth";
 import state from "../state";
 import assetsAreLoaded from "./assetsAreLoaded";
+import getAudioSourcesCount from "./definables/getAudioSourcesCount";
 import getImageSourcesCount from "./definables/getImageSourcesCount";
 import drawCoots from "./draw/drawCoots";
 import drawRectangle from "./draw/drawRectangle";
@@ -15,7 +16,7 @@ const render = (): void => {
   }
   else {
     const current: number = state.loadedAssets;
-    const total: number = getImageSourcesCount();
+    const total: number = getImageSourcesCount() + getAudioSourcesCount();
     const percent: number = current / total;
     const width: number = 192;
     const x: number = (gameWidth - width) / 2;
