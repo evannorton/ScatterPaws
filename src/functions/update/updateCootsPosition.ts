@@ -3,10 +3,10 @@ import state from "../../state";
 
 const updateCootsPosition = (): void => {
   const collisionVelocityFactor = -.75;
-  const leftOffset: number = -.5;
+  const leftOffset: number = -.4;
   const topOffset: number = - .5;
   const bottomOffset: number = .85;
-  const rightOffset: number = 1;
+  const rightOffset: number = .9;
   const topLeftCoords = {
     x: state.cootsCoords.x + leftOffset * unitsPerTile,
     y: state.cootsCoords.y + topOffset * unitsPerTile
