@@ -106,6 +106,29 @@ class Tilemap extends Definable {
     return false;
   }
 
+  public cootsIsNextToDestructable(): boolean {
+    const tileX: number = Math.round(state.cootsCoords.x / unitsPerTile);
+    const tileY: number = Math.round(state.cootsCoords.y / unitsPerTile);
+    for (const layer of this._data.layers) {
+      if (layer.visible && layer.name === "furniture") {
+        for (const chunk of layer.chunks) {
+          let datumIndex = 0;
+          for (const datum of chunk.data) {
+            const datumX: number = datumIndex % chunk.width + 1;
+            const datumY: number = Math.floor(datumIndex / chunk.width) + 1;
+            const datumTileX: number = chunk.x + datumX;
+            const datumTileY: number = chunk.y + datumY;
+            if (datum > 0 && Math.abs(tileX - datumTileX) <= 1 && Math.abs(tileY - datumTileY) <= 1) {
+              return true;
+            }
+            datumIndex++;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
   private drawLayer(layer: TilemapDataLayer): void {
     const cameraScreenCoords: Coords = getCameraScreenCoords();
     if (layer.visible) {

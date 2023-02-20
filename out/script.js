@@ -26138,6 +26138,28 @@ void main() {
           }
           return false;
         }
+        cootsIsNextToDestructable() {
+          const tileX = Math.round(state_1.default.cootsCoords.x / unitsPerTile_1.default);
+          const tileY = Math.round(state_1.default.cootsCoords.y / unitsPerTile_1.default);
+          for (const layer of this._data.layers) {
+            if (layer.visible && layer.name === "furniture") {
+              for (const chunk of layer.chunks) {
+                let datumIndex = 0;
+                for (const datum of chunk.data) {
+                  const datumX = datumIndex % chunk.width + 1;
+                  const datumY = Math.floor(datumIndex / chunk.width) + 1;
+                  const datumTileX = chunk.x + datumX;
+                  const datumTileY = chunk.y + datumY;
+                  if (datum > 0 && Math.abs(tileX - datumTileX) <= 1 && Math.abs(tileY - datumTileY) <= 1) {
+                    return true;
+                  }
+                  datumIndex++;
+                }
+              }
+            }
+          }
+          return false;
+        }
         drawLayer(layer) {
           var _a, _b, _c;
           const cameraScreenCoords = (0, getCameraScreenCoords_1.default)();
@@ -37245,6 +37267,32 @@ void main() {
     }
   });
 
+  // lib/functions/draw/drawInteractHUD.js
+  var require_drawInteractHUD = __commonJS({
+    "lib/functions/draw/drawInteractHUD.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var gameHeight_1 = __importDefault(require_gameHeight());
+      var ZIndexType_1 = __importDefault(require_ZIndexType());
+      var state_1 = __importDefault(require_state());
+      var drawImage_1 = __importDefault(require_drawImage());
+      var drawInteractHUD = () => {
+        if (state_1.default.tilemap.cootsIsNextToDestructable()) {
+          const hardZIndex = {
+            value: 10001,
+            type: ZIndexType_1.default.Hard
+          };
+          console.log("draw");
+          (0, drawImage_1.default)("interact-hud", 0, 0, 16, 16, 4, gameHeight_1.default - 20, 16, 16, hardZIndex);
+        }
+      };
+      exports.default = drawInteractHUD;
+    }
+  });
+
   // lib/functions/render.js
   var require_render = __commonJS({
     "lib/functions/render.js"(exports) {
@@ -37261,12 +37309,14 @@ void main() {
       var getImageSourcesCount_1 = __importDefault(require_getImageSourcesCount());
       var drawCoots_1 = __importDefault(require_drawCoots());
       var drawRectangle_1 = __importDefault(require_drawRectangle());
+      var drawInteractHUD_1 = __importDefault(require_drawInteractHUD());
       var render = () => {
         state_1.default.app.stage.removeChildren();
         (0, drawRectangle_1.default)("#000000", 0, 0, gameWidth_1.default, gameHeight_1.default);
         if ((0, assetsAreLoaded_1.default)()) {
           state_1.default.tilemap.draw();
           (0, drawCoots_1.default)();
+          (0, drawInteractHUD_1.default)();
         } else {
           const current = state_1.default.loadedAssets;
           const total = (0, getImageSourcesCount_1.default)() + (0, getAudioSourcesCount_1.default)();

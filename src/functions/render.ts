@@ -6,6 +6,7 @@ import getAudioSourcesCount from "./definables/getAudioSourcesCount";
 import getImageSourcesCount from "./definables/getImageSourcesCount";
 import drawCoots from "./draw/drawCoots";
 import drawRectangle from "./draw/drawRectangle";
+import drawInteractHUD from "./draw/drawInteractHUD";
 
 const render = (): void => {
   state.app.stage.removeChildren();
@@ -13,6 +14,7 @@ const render = (): void => {
   if (assetsAreLoaded()) {
     state.tilemap.draw();
     drawCoots();
+    drawInteractHUD();
   }
   else {
     const current: number = state.loadedAssets;
