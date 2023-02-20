@@ -33915,6 +33915,7 @@ void main() {
         new ImageSource_1.default("tilesets/furniture");
         new ImageSource_1.default("tilesets/collision");
         new ImageSource_1.default("indicator");
+        new ImageSource_1.default("interact-hud");
         new AudioSource_1.default("music/music");
       };
       exports.default = define2;

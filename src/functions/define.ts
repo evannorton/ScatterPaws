@@ -20,6 +20,7 @@ const define = (): void => {
   new ImageSource("tilesets/furniture");
   new ImageSource("tilesets/collision");
   new ImageSource("indicator");
+  new ImageSource("interact-hud");
   new AudioSource("music/music");
 };
 
