@@ -37209,7 +37209,7 @@ void main() {
     "lib/constants/runningThreshold.js"(exports) {
       "use strict";
       Object.defineProperty(exports, "__esModule", { value: true });
-      var runningThreshold = 0.7;
+      var runningThreshold = 0.9;
       exports.default = runningThreshold;
     }
   });

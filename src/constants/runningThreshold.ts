@@ -1,3 +1,3 @@
-const runningThreshold: number = .7;
+const runningThreshold: number = .9;
 
 export default runningThreshold;
