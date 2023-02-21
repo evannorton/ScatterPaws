@@ -50,7 +50,7 @@ const run = async (): Promise<void> => {
         switch (key) {
           case "p": {
             const anchor: HTMLAnchorElement = document.createElement("a");
-            anchor.download = "Teleport Tower Screenshot.png";
+            anchor.download = "ScatterCat Screenshot.png";
             anchor.href = state.app.renderer.plugins.extract.canvas(state.app.stage).toDataURL();
             anchor.click();
             break;
