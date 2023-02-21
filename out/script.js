@@ -29231,12 +29231,6 @@ void main() {
                   0,
                   0,
                   0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
                   2701,
                   0,
                   0,
@@ -29244,16 +29238,6 @@ void main() {
                   0,
                   0,
                   2701,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
                   0,
                   0,
                   0,
@@ -29301,6 +29285,16 @@ void main() {
                   0,
                   0,
                   0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  2701,
+                  0,
+                  0,
+                  0,
                   2701,
                   0,
                   0,
@@ -29308,16 +29302,6 @@ void main() {
                   0,
                   0,
                   2701,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
                   0,
                   0,
                   0,
@@ -29382,6 +29366,22 @@ void main() {
                   0,
                   0,
                   0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  2701,
+                  0,
+                  0,
+                  0,
+                  2701,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  2701,
                   0,
                   0,
                   0,
@@ -29635,7 +29635,7 @@ void main() {
                   0,
                   0,
                   0,
-                  0,
+                  2701,
                   0,
                   0,
                   0,
@@ -34003,7 +34003,7 @@ void main() {
                   0,
                   0,
                   0,
-                  0,
+                  408,
                   0,
                   0,
                   0,
@@ -34603,7 +34603,7 @@ void main() {
                   0,
                   0,
                   0,
-                  0,
+                  409,
                   0,
                   0,
                   0,
@@ -34683,13 +34683,13 @@ void main() {
                   0,
                   0,
                   0,
+                  410,
                   0,
                   0,
                   0,
                   0,
                   0,
-                  0,
-                  0,
+                  411,
                   0,
                   0,
                   0,
@@ -34943,7 +34943,7 @@ void main() {
                   0,
                   0,
                   0,
-                  0,
+                  407,
                   0,
                   0,
                   0,
@@ -35318,7 +35318,7 @@ void main() {
               {
                 name: "indicatorYOffset",
                 type: "int",
-                value: -15
+                value: -20
               }
             ]
           },
@@ -35358,7 +35358,7 @@ void main() {
               {
                 name: "indicatorYOffset",
                 type: "int",
-                value: -15
+                value: -20
               }
             ]
           },
@@ -35398,7 +35398,7 @@ void main() {
               {
                 name: "indicatorYOffset",
                 type: "int",
-                value: -15
+                value: -20
               }
             ]
           },
@@ -35519,6 +35519,131 @@ void main() {
                 name: "destructibleID",
                 type: "string",
                 value: "chairYellow1"
+              },
+              {
+                name: "indicatorXOffset",
+                type: "int",
+                value: 10
+              },
+              {
+                name: "indicatorYOffset",
+                type: "int",
+                value: -15
+              }
+            ]
+          },
+          {
+            id: 206,
+            properties: [
+              {
+                name: "brokenID",
+                type: "int",
+                value: 256
+              },
+              {
+                name: "destructibleID",
+                type: "string",
+                value: "hamperLight1"
+              },
+              {
+                name: "indicatorXOffset",
+                type: "int",
+                value: 10
+              },
+              {
+                name: "indicatorYOffset",
+                type: "int",
+                value: -15
+              }
+            ]
+          },
+          {
+            id: 207,
+            properties: [
+              {
+                name: "brokenID",
+                type: "int",
+                value: 257
+              },
+              {
+                name: "destructibleID",
+                type: "string",
+                value: "hamperDark1"
+              },
+              {
+                name: "indicatorXOffset",
+                type: "int",
+                value: 10
+              },
+              {
+                name: "indicatorYOffset",
+                type: "int",
+                value: -15
+              }
+            ]
+          },
+          {
+            id: 208,
+            properties: [
+              {
+                name: "brokenID",
+                type: "int",
+                value: 258
+              },
+              {
+                name: "destructibleID",
+                type: "string",
+                value: "clothes1"
+              },
+              {
+                name: "indicatorXOffset",
+                type: "int",
+                value: 10
+              },
+              {
+                name: "indicatorYOffset",
+                type: "int",
+                value: -15
+              }
+            ]
+          },
+          {
+            id: 209,
+            properties: [
+              {
+                name: "brokenID",
+                type: "int",
+                value: 259
+              },
+              {
+                name: "destructibleID",
+                type: "string",
+                value: "trashBig1"
+              },
+              {
+                name: "indicatorXOffset",
+                type: "int",
+                value: 10
+              },
+              {
+                name: "indicatorYOffset",
+                type: "int",
+                value: -15
+              }
+            ]
+          },
+          {
+            id: 210,
+            properties: [
+              {
+                name: "brokenID",
+                type: "int",
+                value: 260
+              },
+              {
+                name: "destructibleID",
+                type: "string",
+                value: "trashSmall1"
               },
               {
                 name: "indicatorXOffset",
