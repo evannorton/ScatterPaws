@@ -124,7 +124,9 @@ class Tilemap extends Definable {
               const tile: TilesetDataTile | undefined = tileset.tiles.find((tile: TilesetDataTile): boolean => tile.id === tilesetIndex);
               const destructibleIDProperty = tile && tile.properties?.find((property): boolean => property.name === "destructibleID");
               const destructibleID = destructibleIDProperty?.value;
-              if (datum > 0 && Math.abs(tileX - datumTileX) <= 1 && Math.abs(tileY - datumTileY) <= 1 && typeof destructibleID === "string") {
+              const uninteractableProperty = tile && tile.properties?.find((property): boolean => property.name === "uninteractable");
+              const uninteractable = uninteractableProperty?.value
+              if (datum > 0 && Math.abs(tileX - datumTileX) <= 1 && Math.abs(tileY - datumTileY) <= 1 && typeof destructibleID === "string" && !uninteractable) {
                 return destructibleID;
               }
             }

@@ -21,6 +21,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"couchRed1"
+                }, 
+                {
+                 "name":"uninteractable",
+                 "type":"bool",
+                 "value":true
                 }]
         }, 
         {
