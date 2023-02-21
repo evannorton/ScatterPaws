@@ -26166,6 +26166,12 @@ void main() {
                       }
                       break;
                     }
+                    case "obstacles": {
+                      if (datum > 0 && datumTileX === tileX && datumTileY === tileY) {
+                        return CollisionType_1.default.Obstacle;
+                      }
+                      break;
+                    }
                   }
                   datumIndex++;
                 }
@@ -41943,23 +41949,29 @@ void main() {
           x: newTopRightCoords.x,
           y: newBottomLeftCoords.y
         };
-        const xCollision1 = state_1.default.tilemap.getCollisionAtCoords({ x: newTopLeftCoords.x, y: topLeftCoords.y });
-        const xCollision2 = state_1.default.tilemap.getCollisionAtCoords({ x: newBottomLeftCoords.x, y: bottomLeftCoords.y });
-        const xCollision3 = state_1.default.tilemap.getCollisionAtCoords({ x: newTopRightCoords.x, y: topRightCoords.y });
-        const xCollision4 = state_1.default.tilemap.getCollisionAtCoords({ x: newBottomRightCoords.x, y: bottomRightCoords.y });
-        const yCollision1 = state_1.default.tilemap.getCollisionAtCoords({ x: topLeftCoords.x, y: newTopLeftCoords.y });
-        const yCollision2 = state_1.default.tilemap.getCollisionAtCoords({ x: bottomLeftCoords.x, y: newBottomLeftCoords.y });
-        const yCollision3 = state_1.default.tilemap.getCollisionAtCoords({ x: topRightCoords.x, y: newTopRightCoords.y });
-        const yCollision4 = state_1.default.tilemap.getCollisionAtCoords({ x: bottomRightCoords.x, y: newBottomRightCoords.y });
-        const bothCollision1 = state_1.default.tilemap.getCollisionAtCoords({ x: newTopLeftCoords.x, y: newTopLeftCoords.y });
-        const bothCollision2 = state_1.default.tilemap.getCollisionAtCoords({ x: newBottomLeftCoords.x, y: newBottomLeftCoords.y });
-        const bothCollision3 = state_1.default.tilemap.getCollisionAtCoords({ x: newTopRightCoords.x, y: newTopRightCoords.y });
-        const bothCollision4 = state_1.default.tilemap.getCollisionAtCoords({ x: newBottomRightCoords.x, y: newBottomRightCoords.y });
-        if (xCollision1 === CollisionType_1.default.Bonk || xCollision2 === CollisionType_1.default.Bonk || xCollision3 === CollisionType_1.default.Bonk || xCollision4 === CollisionType_1.default.Bonk) {
+        const xCollision = [
+          state_1.default.tilemap.getCollisionAtCoords({ x: newTopLeftCoords.x, y: topLeftCoords.y }),
+          state_1.default.tilemap.getCollisionAtCoords({ x: newBottomLeftCoords.x, y: bottomLeftCoords.y }),
+          state_1.default.tilemap.getCollisionAtCoords({ x: newTopRightCoords.x, y: topRightCoords.y }),
+          state_1.default.tilemap.getCollisionAtCoords({ x: newBottomRightCoords.x, y: bottomRightCoords.y })
+        ];
+        const yCollision = [
+          state_1.default.tilemap.getCollisionAtCoords({ x: topLeftCoords.x, y: newTopLeftCoords.y }),
+          state_1.default.tilemap.getCollisionAtCoords({ x: bottomLeftCoords.x, y: newBottomLeftCoords.y }),
+          state_1.default.tilemap.getCollisionAtCoords({ x: topRightCoords.x, y: newTopRightCoords.y }),
+          state_1.default.tilemap.getCollisionAtCoords({ x: bottomRightCoords.x, y: newBottomRightCoords.y })
+        ];
+        const bothCollision = [
+          state_1.default.tilemap.getCollisionAtCoords({ x: newTopLeftCoords.x, y: newTopLeftCoords.y }),
+          state_1.default.tilemap.getCollisionAtCoords({ x: newBottomLeftCoords.x, y: newBottomLeftCoords.y }),
+          state_1.default.tilemap.getCollisionAtCoords({ x: newTopRightCoords.x, y: newTopRightCoords.y }),
+          state_1.default.tilemap.getCollisionAtCoords({ x: newBottomRightCoords.x, y: newBottomRightCoords.y })
+        ];
+        if (xCollision.some((collision) => collision === CollisionType_1.default.Bonk)) {
           state_1.default.cootsVelocityX *= collisionVelocityFactor;
-        } else if (yCollision1 === CollisionType_1.default.Bonk || yCollision2 === CollisionType_1.default.Bonk || yCollision3 === CollisionType_1.default.Bonk || yCollision4 === CollisionType_1.default.Bonk) {
+        } else if (yCollision.some((collision) => collision === CollisionType_1.default.Bonk)) {
           state_1.default.cootsVelocityY *= collisionVelocityFactor;
-        } else if (bothCollision1 === CollisionType_1.default.Bonk || bothCollision2 === CollisionType_1.default.Bonk || bothCollision3 === CollisionType_1.default.Bonk || bothCollision4 === CollisionType_1.default.Bonk) {
+        } else if (bothCollision.some((collision) => collision === CollisionType_1.default.Bonk)) {
           state_1.default.cootsVelocityX *= collisionVelocityFactor;
           state_1.default.cootsVelocityY *= collisionVelocityFactor;
         } else {
