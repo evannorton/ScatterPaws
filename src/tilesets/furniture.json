@@ -1,11 +1,11 @@
 { "columns":50,
  "image":"..\/..\/out\/images\/tilesets\/furniture.png",
- "imageheight":192,
+ "imageheight":1200,
  "imagewidth":1200,
  "margin":0,
  "name":"furniture",
  "spacing":0,
- "tilecount":1000,
+ "tilecount":2500,
  "tiledversion":"1.9.2",
  "tileheight":24,
  "tiles":[
@@ -15,12 +15,69 @@
                 {
                  "name":"brokenID",
                  "type":"int",
-                 "value":24
+                 "value":104
                 }, 
                 {
                  "name":"destructibleID",
                  "type":"string",
                  "value":"couchRed1"
+                }, 
+                {
+                 "name":"uninteractable",
+                 "type":"bool",
+                 "value":true
+                }]
+        }, 
+        {
+         "id":6,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":106
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"couchBlue1"
+                }, 
+                {
+                 "name":"uninteractable",
+                 "type":"bool",
+                 "value":true
+                }]
+        }, 
+        {
+         "id":9,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":109
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"computer1"
+                }, 
+                {
+                 "name":"uninteractable",
+                 "type":"bool",
+                 "value":true
+                }]
+        }, 
+        {
+         "id":10,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":110
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"computer1"
                 }, 
                 {
                  "name":"uninteractable",
@@ -105,17 +162,179 @@
                 }]
         }, 
         {
-         "id":201,
+         "id":55,
          "properties":[
                 {
                  "name":"brokenID",
                  "type":"int",
-                 "value":251
+                 "value":155
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"couchBlue1"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":21
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-15
+                }]
+        }, 
+        {
+         "id":56,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":156
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"couchBlue1"
+                }]
+        }, 
+        {
+         "id":57,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":157
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"couchYellow1"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":21
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-15
+                }]
+        }, 
+        {
+         "id":58,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":158
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"couchYellow1"
+                }]
+        }, 
+        {
+         "id":59,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":159
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"computer1"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":21
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-15
+                }]
+        }, 
+        {
+         "id":60,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":160
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"computer1"
+                }]
+        }, 
+        {
+         "id":203,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":253
                 }, 
                 {
                  "name":"destructibleID",
                  "type":"string",
                  "value":"chairRed1"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":10
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-15
+                }]
+        }, 
+        {
+         "id":204,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":254
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"chairBlue1"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":10
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-15
+                }]
+        }, 
+        {
+         "id":205,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":255
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"chairYellow1"
                 }, 
                 {
                  "name":"indicatorXOffset",
