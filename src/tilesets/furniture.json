@@ -1,97 +1,105 @@
-{
-       "columns": 10,
-       "image": "..\/..\/out\/images\/tilesets\/furniture.png",
-       "imageheight": 240,
-       "imagewidth": 240,
-       "margin": 0,
-       "name": "furniture",
-       "spacing": 0,
-       "tilecount": 100,
-       "tiledversion": "1.9.2",
-       "tileheight": 24,
-       "tiles": [
-              {
-                     "id": 5,
-                     "properties": [
-                            {
-                                   "name": "brokenID",
-                                   "type": "int",
-                                   "value": 6
-                            },
-                            {
-                                   "name": "destructibleID",
-                                   "type": "string",
-                                   "value": "vase1"
-                            }
-                     ]
-              },
-              {
-                     "id": 11,
-                     "properties": [
-                            {
-                                   "name": "brokenID",
-                                   "type": "int",
-                                   "value": 13
-                            },
-                            {
-                                   "name": "destructibleID",
-                                   "type": "string",
-                                   "value": "bed1"
-                            },
-                            {
-                                   "name": "indicatorXOffset",
-                                   "type": "int",
-                                   "value": 21
-                            },
-                            {
-                                   "name": "indicatorYOffset",
-                                   "type": "int",
-                                   "value": -20
-                            }
-                     ]
-              },
-              {
-                     "id": 12,
-                     "properties": [
-                            {
-                                   "name": "brokenID",
-                                   "type": "int",
-                                   "value": 14
-                            },
-                            {
-                                   "name": "destructibleID",
-                                   "type": "string",
-                                   "value": "bed1"
-                            }
-                     ]
-              },
-              {
-                     "id": 15,
-                     "properties": [
-                            {
-                                   "name": "brokenID",
-                                   "type": "int",
-                                   "value": 16
-                            },
-                            {
-                                   "name": "destructibleID",
-                                   "type": "string",
-                                   "value": "vase1"
-                            },
-                            {
-                                   "name": "indicatorXOffset",
-                                   "type": "int",
-                                   "value": 10
-                            },
-                            {
-                                   "name": "indicatorYOffset",
-                                   "type": "int",
-                                   "value": -18
-                            }
-                     ]
-              }
-       ],
-       "tilewidth": 24,
-       "type": "tileset",
-       "version": "1.9"
+{ "columns":100,
+ "image":"..\/..\/out\/images\/tilesets\/furniture.png",
+ "imageheight":240,
+ "imagewidth":2400,
+ "margin":0,
+ "name":"furniture",
+ "spacing":0,
+ "tilecount":1000,
+ "tiledversion":"1.9.2",
+ "tileheight":24,
+ "tiles":[
+        {
+         "id":4,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":205
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"couchRed1"
+                }]
+        }, 
+        {
+         "id":101,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":301
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"bed1"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":21
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-20
+                }]
+        }, 
+        {
+         "id":102,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":302
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"bed1"
+                }]
+        }, 
+        {
+         "id":103,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":303
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"couchRed1"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":21
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-20
+                }]
+        }, 
+        {
+         "id":104,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":304
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"couchRed1"
+                }]
+        }],
+ "tilewidth":24,
+ "type":"tileset",
+ "version":"1.9"
 }
