@@ -14,6 +14,7 @@ import drawRectangle from "./drawRectangle";
 import unitsPerTile from "../../constants/unitsPerTile";
 import YSortZIndex from "../../interfaces/ZIndex/YSortZIndex";
 import ZIndexType from "../../enums/ZIndexType";
+import obstacleDuration from "../../constants/obstacleDuration";
 
 const drawCoots = (): void => {
   const direction: Direction = getCootsDirection();
@@ -26,13 +27,16 @@ const drawCoots = (): void => {
         : 0) * cootsWidth * 4;
   const frameAnimationOffset: number = Math.floor((state.currentTime % (timePerCootsFrame * 4)) / timePerCootsFrame) * cootsWidth;
   const sourceX: number = frameDirectionOffset + frameAnimationOffset;
+  const hitObstacle: boolean = state.hasHitObstacleAt() && state.currentTime - state.hitObstacleAt < obstacleDuration;
   const laserPower: number = getLaserPower();
   const sourceY: number = (
-    (laserPower >= runningThreshold)
-      ? 2
-      : (laserPower >= walkingThreshold)
-        ? 1
-        : 0
+    hitObstacle
+      ? 3
+      : (laserPower >= runningThreshold)
+        ? 2
+        : (laserPower >= walkingThreshold)
+          ? 1
+          : 0
   ) * cootsHeight;
   const centerScreenCoords: Coords = getCootsScreenCoords();
   const x: number = centerScreenCoords.x - 9;

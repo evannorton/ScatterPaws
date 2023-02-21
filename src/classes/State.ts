@@ -20,6 +20,7 @@ class State {
   private _cootsVelocityY: number = 0;
   private _currentTime: number = 0;
   private _heldKeys: string[] = [];
+  private _hitObstacleAt: number | null = null;
   private _loadedAssets: number = 0;
   private _mouseScreenCoords: Coords | null = null;
   private _tilemapSlug: string = startingTilemapSlug;
@@ -58,6 +59,13 @@ class State {
 
   public get heldKeys(): string[] {
     return [...this._heldKeys];
+  }
+
+  public get hitObstacleAt(): number {
+    if (this._hitObstacleAt !== null) {
+      return this._hitObstacleAt;
+    }
+    throw new Error(this.getAccessorErrorMessage("hitObstacleAt"));
   }
 
   public get loadedAssets(): number {
@@ -111,6 +119,10 @@ class State {
     this._heldKeys = [...heldKeys];
   }
 
+  public set hitObstacleAt(hitObstacleAt: number | null) {
+    this._hitObstacleAt = hitObstacleAt;
+  }
+
   public set loadedAssets(loadedAssets: number) {
     this._loadedAssets = loadedAssets;
   }
@@ -121,6 +133,10 @@ class State {
 
   public set ySortEntries(ySortEntries: YSortEntry[]) {
     this._ySortEntries = [...ySortEntries];
+  }
+
+  public hasHitObstacleAt(): boolean {
+    return this._hitObstacleAt !== null;
   }
 
   public hasMouseScreenCoords(): boolean {

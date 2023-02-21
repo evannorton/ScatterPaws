@@ -99,7 +99,7 @@ class Tilemap extends Definable {
                 break;
               }
               case "obstacles": {
-                if (datum > 0 && datumTileX === tileX && datumTileY === tileY) {
+                if (datum > 0 && datumTileX === tileX - 1 && datumTileY === tileY - 1) {
                   return CollisionType.Obstacle;
                 }
                 break;

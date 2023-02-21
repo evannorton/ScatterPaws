@@ -25765,6 +25765,7 @@ void main() {
           this._cootsVelocityY = 0;
           this._currentTime = 0;
           this._heldKeys = [];
+          this._hitObstacleAt = null;
           this._loadedAssets = 0;
           this._mouseScreenCoords = null;
           this._tilemapSlug = startingTilemapSlug_1.default;
@@ -25796,6 +25797,12 @@ void main() {
         }
         get heldKeys() {
           return [...this._heldKeys];
+        }
+        get hitObstacleAt() {
+          if (this._hitObstacleAt !== null) {
+            return this._hitObstacleAt;
+          }
+          throw new Error(this.getAccessorErrorMessage("hitObstacleAt"));
         }
         get loadedAssets() {
           return this._loadedAssets;
@@ -25836,6 +25843,9 @@ void main() {
         set heldKeys(heldKeys) {
           this._heldKeys = [...heldKeys];
         }
+        set hitObstacleAt(hitObstacleAt) {
+          this._hitObstacleAt = hitObstacleAt;
+        }
         set loadedAssets(loadedAssets) {
           this._loadedAssets = loadedAssets;
         }
@@ -25844,6 +25854,9 @@ void main() {
         }
         set ySortEntries(ySortEntries) {
           this._ySortEntries = [...ySortEntries];
+        }
+        hasHitObstacleAt() {
+          return this._hitObstacleAt !== null;
         }
         hasMouseScreenCoords() {
           return this._mouseScreenCoords !== null;
@@ -26167,7 +26180,7 @@ void main() {
                       break;
                     }
                     case "obstacles": {
-                      if (datum > 0 && datumTileX === tileX && datumTileY === tileY) {
+                      if (datum > 0 && datumTileX === tileX - 1 && datumTileY === tileY - 1) {
                         return CollisionType_1.default.Obstacle;
                       }
                       break;
@@ -41680,6 +41693,16 @@ void main() {
     }
   });
 
+  // lib/constants/obstacleDuration.js
+  var require_obstacleDuration = __commonJS({
+    "lib/constants/obstacleDuration.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var obstacleDuration = 2500;
+      exports.default = obstacleDuration;
+    }
+  });
+
   // lib/functions/draw/drawCoots.js
   var require_drawCoots = __commonJS({
     "lib/functions/draw/drawCoots.js"(exports) {
@@ -41700,13 +41723,15 @@ void main() {
       var walkingThreshold_1 = __importDefault(require_walkingThreshold());
       var runningThreshold_1 = __importDefault(require_runningThreshold());
       var ZIndexType_1 = __importDefault(require_ZIndexType());
+      var obstacleDuration_1 = __importDefault(require_obstacleDuration());
       var drawCoots = () => {
         const direction = (0, getCootsDirection_1.default)();
         const frameDirectionOffset = (direction === Direction_1.default.DownRight ? 1 : direction === Direction_1.default.UpLeft ? 2 : direction === Direction_1.default.UpRight ? 3 : 0) * cootsWidth_1.default * 4;
         const frameAnimationOffset = Math.floor(state_1.default.currentTime % (timePerCootsFrame_1.default * 4) / timePerCootsFrame_1.default) * cootsWidth_1.default;
         const sourceX = frameDirectionOffset + frameAnimationOffset;
+        const hitObstacle = state_1.default.hasHitObstacleAt() && state_1.default.currentTime - state_1.default.hitObstacleAt < obstacleDuration_1.default;
         const laserPower = (0, getLaserPower_1.default)();
-        const sourceY = (laserPower >= runningThreshold_1.default ? 2 : laserPower >= walkingThreshold_1.default ? 1 : 0) * cootsHeight_1.default;
+        const sourceY = (hitObstacle ? 3 : laserPower >= runningThreshold_1.default ? 2 : laserPower >= walkingThreshold_1.default ? 1 : 0) * cootsHeight_1.default;
         const centerScreenCoords = (0, getCootsScreenCoords_1.default)();
         const x = centerScreenCoords.x - 9;
         const y = centerScreenCoords.y - 16;
@@ -41898,6 +41923,16 @@ void main() {
     }
   });
 
+  // lib/constants/obstacleInvincibleDuration.js
+  var require_obstacleInvincibleDuration = __commonJS({
+    "lib/constants/obstacleInvincibleDuration.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var obstacleInvincibleDuration = 2500;
+      exports.default = obstacleInvincibleDuration;
+    }
+  });
+
   // lib/functions/update/updateCootsPosition.js
   var require_updateCootsPosition = __commonJS({
     "lib/functions/update/updateCootsPosition.js"(exports) {
@@ -41906,76 +41941,87 @@ void main() {
         return mod && mod.__esModule ? mod : { "default": mod };
       };
       Object.defineProperty(exports, "__esModule", { value: true });
+      var obstacleDuration_1 = __importDefault(require_obstacleDuration());
+      var obstacleInvincibleDuration_1 = __importDefault(require_obstacleInvincibleDuration());
       var unitsPerTile_1 = __importDefault(require_unitsPerTile());
       var CollisionType_1 = __importDefault(require_CollisionType());
       var state_1 = __importDefault(require_state());
       var updateCootsPosition = () => {
-        const collisionVelocityFactor = -0.75;
-        const leftOffset = -0.4;
-        const topOffset = -0.5;
-        const bottomOffset = 0.85;
-        const rightOffset = 0.9;
-        const topLeftCoords = {
-          x: state_1.default.cootsCoords.x + leftOffset * unitsPerTile_1.default,
-          y: state_1.default.cootsCoords.y + topOffset * unitsPerTile_1.default
-        };
-        const topRightCoords = {
-          x: topLeftCoords.x + rightOffset * unitsPerTile_1.default,
-          y: topLeftCoords.y
-        };
-        const bottomLeftCoords = {
-          x: topLeftCoords.x,
-          y: topLeftCoords.y + bottomOffset * unitsPerTile_1.default
-        };
-        const bottomRightCoords = {
-          x: topRightCoords.x,
-          y: bottomLeftCoords.y
-        };
-        const newX = state_1.default.cootsCoords.x + Math.floor(state_1.default.cootsVelocityX * (state_1.default.app.ticker.deltaMS / 1e3));
-        const newY = state_1.default.cootsCoords.y + Math.floor(state_1.default.cootsVelocityY * (state_1.default.app.ticker.deltaMS / 1e3));
-        const newTopLeftCoords = {
-          x: newX + leftOffset * unitsPerTile_1.default,
-          y: newY + topOffset * unitsPerTile_1.default
-        };
-        const newTopRightCoords = {
-          x: newTopLeftCoords.x + rightOffset * unitsPerTile_1.default,
-          y: newTopLeftCoords.y
-        };
-        const newBottomLeftCoords = {
-          x: newTopLeftCoords.x,
-          y: newTopLeftCoords.y + bottomOffset * unitsPerTile_1.default
-        };
-        const newBottomRightCoords = {
-          x: newTopRightCoords.x,
-          y: newBottomLeftCoords.y
-        };
-        const xCollision = [
-          state_1.default.tilemap.getCollisionAtCoords({ x: newTopLeftCoords.x, y: topLeftCoords.y }),
-          state_1.default.tilemap.getCollisionAtCoords({ x: newBottomLeftCoords.x, y: bottomLeftCoords.y }),
-          state_1.default.tilemap.getCollisionAtCoords({ x: newTopRightCoords.x, y: topRightCoords.y }),
-          state_1.default.tilemap.getCollisionAtCoords({ x: newBottomRightCoords.x, y: bottomRightCoords.y })
-        ];
-        const yCollision = [
-          state_1.default.tilemap.getCollisionAtCoords({ x: topLeftCoords.x, y: newTopLeftCoords.y }),
-          state_1.default.tilemap.getCollisionAtCoords({ x: bottomLeftCoords.x, y: newBottomLeftCoords.y }),
-          state_1.default.tilemap.getCollisionAtCoords({ x: topRightCoords.x, y: newTopRightCoords.y }),
-          state_1.default.tilemap.getCollisionAtCoords({ x: bottomRightCoords.x, y: newBottomRightCoords.y })
-        ];
-        const bothCollision = [
-          state_1.default.tilemap.getCollisionAtCoords({ x: newTopLeftCoords.x, y: newTopLeftCoords.y }),
-          state_1.default.tilemap.getCollisionAtCoords({ x: newBottomLeftCoords.x, y: newBottomLeftCoords.y }),
-          state_1.default.tilemap.getCollisionAtCoords({ x: newTopRightCoords.x, y: newTopRightCoords.y }),
-          state_1.default.tilemap.getCollisionAtCoords({ x: newBottomRightCoords.x, y: newBottomRightCoords.y })
-        ];
-        if (xCollision.some((collision) => collision === CollisionType_1.default.Bonk)) {
-          state_1.default.cootsVelocityX *= collisionVelocityFactor;
-        } else if (yCollision.some((collision) => collision === CollisionType_1.default.Bonk)) {
-          state_1.default.cootsVelocityY *= collisionVelocityFactor;
-        } else if (bothCollision.some((collision) => collision === CollisionType_1.default.Bonk)) {
-          state_1.default.cootsVelocityX *= collisionVelocityFactor;
-          state_1.default.cootsVelocityY *= collisionVelocityFactor;
-        } else {
-          state_1.default.cootsCoords = { x: newX, y: newY };
+        if (state_1.default.hasHitObstacleAt() === false || state_1.default.currentTime - state_1.default.hitObstacleAt >= obstacleDuration_1.default) {
+          const collisionVelocityFactor = -0.75;
+          const leftOffset = -0.4;
+          const topOffset = -0.5;
+          const bottomOffset = 0.85;
+          const rightOffset = 0.9;
+          const topLeftCoords = {
+            x: state_1.default.cootsCoords.x + leftOffset * unitsPerTile_1.default,
+            y: state_1.default.cootsCoords.y + topOffset * unitsPerTile_1.default
+          };
+          const topRightCoords = {
+            x: topLeftCoords.x + rightOffset * unitsPerTile_1.default,
+            y: topLeftCoords.y
+          };
+          const bottomLeftCoords = {
+            x: topLeftCoords.x,
+            y: topLeftCoords.y + bottomOffset * unitsPerTile_1.default
+          };
+          const bottomRightCoords = {
+            x: topRightCoords.x,
+            y: bottomLeftCoords.y
+          };
+          const newX = state_1.default.cootsCoords.x + Math.floor(state_1.default.cootsVelocityX * (state_1.default.app.ticker.deltaMS / 1e3));
+          const newY = state_1.default.cootsCoords.y + Math.floor(state_1.default.cootsVelocityY * (state_1.default.app.ticker.deltaMS / 1e3));
+          const newTopLeftCoords = {
+            x: newX + leftOffset * unitsPerTile_1.default,
+            y: newY + topOffset * unitsPerTile_1.default
+          };
+          const newTopRightCoords = {
+            x: newTopLeftCoords.x + rightOffset * unitsPerTile_1.default,
+            y: newTopLeftCoords.y
+          };
+          const newBottomLeftCoords = {
+            x: newTopLeftCoords.x,
+            y: newTopLeftCoords.y + bottomOffset * unitsPerTile_1.default
+          };
+          const newBottomRightCoords = {
+            x: newTopRightCoords.x,
+            y: newBottomLeftCoords.y
+          };
+          const xCollision = [
+            state_1.default.tilemap.getCollisionAtCoords({ x: newTopLeftCoords.x, y: topLeftCoords.y }),
+            state_1.default.tilemap.getCollisionAtCoords({ x: newBottomLeftCoords.x, y: bottomLeftCoords.y }),
+            state_1.default.tilemap.getCollisionAtCoords({ x: newTopRightCoords.x, y: topRightCoords.y }),
+            state_1.default.tilemap.getCollisionAtCoords({ x: newBottomRightCoords.x, y: bottomRightCoords.y })
+          ];
+          const yCollision = [
+            state_1.default.tilemap.getCollisionAtCoords({ x: topLeftCoords.x, y: newTopLeftCoords.y }),
+            state_1.default.tilemap.getCollisionAtCoords({ x: bottomLeftCoords.x, y: newBottomLeftCoords.y }),
+            state_1.default.tilemap.getCollisionAtCoords({ x: topRightCoords.x, y: newTopRightCoords.y }),
+            state_1.default.tilemap.getCollisionAtCoords({ x: bottomRightCoords.x, y: newBottomRightCoords.y })
+          ];
+          const bothCollision = [
+            state_1.default.tilemap.getCollisionAtCoords({ x: newTopLeftCoords.x, y: newTopLeftCoords.y }),
+            state_1.default.tilemap.getCollisionAtCoords({ x: newBottomLeftCoords.x, y: newBottomLeftCoords.y }),
+            state_1.default.tilemap.getCollisionAtCoords({ x: newTopRightCoords.x, y: newTopRightCoords.y }),
+            state_1.default.tilemap.getCollisionAtCoords({ x: newBottomRightCoords.x, y: newBottomRightCoords.y })
+          ];
+          const invincible = state_1.default.hasHitObstacleAt() && state_1.default.currentTime - state_1.default.hitObstacleAt < obstacleInvincibleDuration_1.default + obstacleDuration_1.default;
+          if (invincible === false && xCollision.some((collision) => collision === CollisionType_1.default.Obstacle)) {
+            state_1.default.hitObstacleAt = state_1.default.currentTime;
+          } else if (invincible === false && yCollision.some((collision) => collision === CollisionType_1.default.Obstacle)) {
+            state_1.default.hitObstacleAt = state_1.default.currentTime;
+          } else if (invincible === false && bothCollision.some((collision) => collision === CollisionType_1.default.Obstacle)) {
+            state_1.default.hitObstacleAt = state_1.default.currentTime;
+          } else if (xCollision.some((collision) => collision === CollisionType_1.default.Bonk)) {
+            state_1.default.cootsVelocityX *= collisionVelocityFactor;
+          } else if (yCollision.some((collision) => collision === CollisionType_1.default.Bonk)) {
+            state_1.default.cootsVelocityY *= collisionVelocityFactor;
+          } else if (bothCollision.some((collision) => collision === CollisionType_1.default.Bonk)) {
+            state_1.default.cootsVelocityX *= collisionVelocityFactor;
+            state_1.default.cootsVelocityY *= collisionVelocityFactor;
+          } else {
+            state_1.default.cootsCoords = { x: newX, y: newY };
+          }
         }
       };
       exports.default = updateCootsPosition;
