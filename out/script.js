@@ -25754,6 +25754,7 @@ void main() {
       var getTilemap_1 = __importDefault(require_getTilemap());
       var State = class {
         constructor() {
+          this._activeDestructibles = [];
           this._app = null;
           this._brokenDestructibles = [];
           this._cootsCoords = {
@@ -25774,6 +25775,9 @@ void main() {
             return this._app;
           }
           throw new Error(this.getAccessorErrorMessage("app"));
+        }
+        get activeDestructibles() {
+          return [...this._activeDestructibles];
         }
         get brokenDestructibles() {
           return [...this._brokenDestructibles];
@@ -25807,6 +25811,9 @@ void main() {
         }
         get ySortEntries() {
           return [...this._ySortEntries];
+        }
+        set activeDestructibles(activeDestructibles) {
+          this._activeDestructibles = [...activeDestructibles];
         }
         set app(app) {
           this._app = app !== null ? app : null;
@@ -26214,7 +26221,7 @@ void main() {
                   } : null;
                   (0, drawImage_1.default)(`tilesets/${tileset.slug}`, tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight, ySortZIndex);
                   if (layer.name === "furniture") {
-                    if (typeof destructibleID === "string" && !isDestroyed) {
+                    if (typeof destructibleID === "string" && !isDestroyed && state_1.default.activeDestructibles.includes(destructibleID)) {
                       const indicatorXOffsetProperty = tile && ((_c = tile.properties) === null || _c === void 0 ? void 0 : _c.find((property) => property.name === "indicatorXOffset"));
                       const indicatorXOffset = indicatorXOffsetProperty === null || indicatorXOffsetProperty === void 0 ? void 0 : indicatorXOffsetProperty.value;
                       const indicatorYOffsetProperty = tile && ((_d = tile.properties) === null || _d === void 0 ? void 0 : _d.find((property) => property.name === "indicatorYOffset"));
@@ -26266,6 +26273,7 @@ void main() {
         return mod && mod.__esModule ? mod : { "default": mod };
       };
       Object.defineProperty(exports, "__esModule", { value: true });
+      var state_1 = __importDefault(require_state());
       var Definable_1 = __importDefault(require_Definable());
       var Tileset = class extends Definable_1.default {
         constructor(slug, data) {
@@ -26286,6 +26294,18 @@ void main() {
         }
         get tileHeight() {
           return this._data.tileheight;
+        }
+        getUnbrokenDestructibles() {
+          var _a;
+          const destructibles = [];
+          for (const tile of this.tiles) {
+            const property = (_a = tile.properties) === null || _a === void 0 ? void 0 : _a.find((property2) => property2.name === "destructibleID");
+            const destructibleID = property === null || property === void 0 ? void 0 : property.value;
+            if (typeof destructibleID === "string" && destructibles.includes(destructibleID) === false && state_1.default.brokenDestructibles.includes(destructibleID) === false) {
+              destructibles.push(destructibleID);
+            }
+          }
+          return destructibles;
         }
       };
       exports.default = Tileset;
@@ -41143,7 +41163,7 @@ void main() {
       var drawImage_1 = __importDefault(require_drawImage());
       var drawInteractHUD = () => {
         const destructibleID = state_1.default.tilemap.getDestructibleIDWithinRange();
-        const canDestroy = destructibleID !== null && state_1.default.brokenDestructibles.includes(destructibleID) === false;
+        const canDestroy = destructibleID !== null && state_1.default.brokenDestructibles.includes(destructibleID) === false && state_1.default.activeDestructibles.includes(destructibleID);
         const hardZIndex = {
           value: 10001,
           type: ZIndexType_1.default.Hard
@@ -41435,6 +41455,49 @@ void main() {
     }
   });
 
+  // lib/functions/getUnbrokenDestructibles.js
+  var require_getUnbrokenDestructibles = __commonJS({
+    "lib/functions/getUnbrokenDestructibles.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var getTileset_1 = __importDefault(require_getTileset());
+      var getUnbrokenDestructibles = () => (0, getTileset_1.default)("furniture").getUnbrokenDestructibles();
+      exports.default = getUnbrokenDestructibles;
+    }
+  });
+
+  // lib/functions/calculateActiveDestructibles.js
+  var require_calculateActiveDestructibles = __commonJS({
+    "lib/functions/calculateActiveDestructibles.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var state_1 = __importDefault(require_state());
+      var getUnbrokenDestructibles_1 = __importDefault(require_getUnbrokenDestructibles());
+      var calculateActiveDestructibles = () => {
+        const max = 2;
+        const activeDestructibles = state_1.default.activeDestructibles;
+        const diff = max - activeDestructibles.length;
+        const destructibles = (0, getUnbrokenDestructibles_1.default)().filter((unbrokenDestructible) => activeDestructibles.includes(unbrokenDestructible) === false);
+        for (let i = 0; i < diff; i++) {
+          if (destructibles.length > 0) {
+            const index = Math.floor(Math.random() * destructibles.length);
+            const destructible = destructibles[index];
+            activeDestructibles.push(destructible);
+            destructibles.splice(index, 1);
+          }
+        }
+        state_1.default.activeDestructibles = activeDestructibles;
+      };
+      exports.default = calculateActiveDestructibles;
+    }
+  });
+
   // lib/functions/run.js
   var require_run = __commonJS({
     "lib/functions/run.js"(exports) {
@@ -41480,6 +41543,7 @@ void main() {
       var gameScale_1 = __importDefault(require_gameScale());
       var getAudioSource_1 = __importDefault(require_getAudioSource());
       var focusScreen_1 = __importDefault(require_focusScreen());
+      var calculateActiveDestructibles_1 = __importDefault(require_calculateActiveDestructibles());
       var run = () => __awaiter(void 0, void 0, void 0, function* () {
         console.log(`Running coots game.`);
         (0, define_1.default)();
@@ -41529,8 +41593,13 @@ void main() {
                   const destructibleID = state_1.default.tilemap.getDestructibleIDWithinRange();
                   if (destructibleID !== null) {
                     const brokenDestructibles = state_1.default.brokenDestructibles;
-                    if (brokenDestructibles.includes(destructibleID) === false) {
+                    if (brokenDestructibles.includes(destructibleID) === false && state_1.default.activeDestructibles.includes(destructibleID)) {
                       state_1.default.brokenDestructibles = [...brokenDestructibles, destructibleID];
+                      state_1.default.activeDestructibles = state_1.default.activeDestructibles.filter((activeDestructible) => activeDestructible !== destructibleID);
+                      (0, calculateActiveDestructibles_1.default)();
+                      if (state_1.default.activeDestructibles.length === 0) {
+                        alert("You win!");
+                      }
                     }
                   }
                   break;
@@ -41557,6 +41626,7 @@ void main() {
           }
         });
         (0, focusScreen_1.default)();
+        (0, calculateActiveDestructibles_1.default)();
       });
       exports.default = run;
     }

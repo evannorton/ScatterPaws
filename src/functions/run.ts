@@ -9,6 +9,7 @@ import gameScale from "../constants/gameScale";
 import AudioSource from "../classes/AudioSource";
 import getAudioSource from "./definables/getAudioSource";
 import focusScreen from "./focusScreen";
+import calculateActiveDestructibles from "./calculateActiveDestructibles";
 
 const run = async (): Promise<void> => {
   console.log(`Running coots game.`);
@@ -59,8 +60,13 @@ const run = async (): Promise<void> => {
             const destructibleID: string | null = state.tilemap.getDestructibleIDWithinRange();
             if (destructibleID !== null) {
               const brokenDestructibles: string[] = state.brokenDestructibles;
-              if (brokenDestructibles.includes(destructibleID) === false) {
+              if (brokenDestructibles.includes(destructibleID) === false && state.activeDestructibles.includes(destructibleID)) {
                 state.brokenDestructibles = [...brokenDestructibles, destructibleID];
+                state.activeDestructibles = state.activeDestructibles.filter((activeDestructible) => activeDestructible !== destructibleID);
+                calculateActiveDestructibles();
+                if (state.activeDestructibles.length === 0) {
+                  alert("You win!");
+                }
               }
             }
             break;
@@ -87,6 +93,7 @@ const run = async (): Promise<void> => {
     }
   });
   focusScreen();
+  calculateActiveDestructibles();
 };
 
 export default run;

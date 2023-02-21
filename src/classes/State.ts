@@ -9,6 +9,7 @@ import YSortEntry from "../interfaces/YSortEntry";
 import Tilemap from "./Tilemap";
 
 class State {
+  private _activeDestructibles: string[] = [];
   private _app: Application | null = null;
   private _brokenDestructibles: string[] = [];
   private _cootsCoords: Coords = {
@@ -29,6 +30,10 @@ class State {
       return this._app;
     }
     throw new Error(this.getAccessorErrorMessage("app"));
+  }
+
+  public get activeDestructibles(): string[] {
+    return [...this._activeDestructibles];
   }
 
   public get brokenDestructibles(): string[] {
@@ -72,6 +77,10 @@ class State {
 
   public get ySortEntries(): YSortEntry[] {
     return [...this._ySortEntries];
+  }
+
+  public set activeDestructibles(activeDestructibles: string[]) {
+    this._activeDestructibles = [...activeDestructibles];
   }
 
   public set app(app: Application | null) {

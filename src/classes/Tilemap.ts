@@ -185,7 +185,7 @@ class Tilemap extends Definable {
               : null;
             drawImage(`tilesets/${tileset.slug}`, tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight, ySortZIndex);
             if (layer.name === "furniture") {
-              if (typeof destructibleID === "string" && !isDestroyed) {
+              if (typeof destructibleID === "string" && !isDestroyed && state.activeDestructibles.includes(destructibleID)) {
                 const indicatorXOffsetProperty = tile && tile.properties?.find((property): boolean => property.name === "indicatorXOffset");
                 const indicatorXOffset = indicatorXOffsetProperty?.value;
                 const indicatorYOffsetProperty = tile && tile.properties?.find((property): boolean => property.name === "indicatorYOffset");
