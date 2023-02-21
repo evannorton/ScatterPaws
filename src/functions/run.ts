@@ -8,6 +8,7 @@ import gameHeight from "../constants/gameHeight";
 import gameScale from "../constants/gameScale";
 import AudioSource from "../classes/AudioSource";
 import getAudioSource from "./definables/getAudioSource";
+import focusScreen from "./focusScreen";
 
 const run = async (): Promise<void> => {
   console.log(`Running coots game.`);
@@ -71,6 +72,7 @@ const run = async (): Promise<void> => {
       location.reload();
     }
   });
+  focusScreen();
 };
 
 export default run;

@@ -37302,13 +37302,15 @@ void main() {
       var drawImage_1 = __importDefault(require_drawImage());
       var drawInteractHUD = () => {
         const destructibleID = state_1.default.tilemap.getDestructibleIDWithinRange();
-        if (destructibleID !== null && state_1.default.brokenDestructibles.includes(destructibleID) === false) {
-          const hardZIndex = {
-            value: 10001,
-            type: ZIndexType_1.default.Hard
-          };
-          (0, drawImage_1.default)("interact-hud", 0, 0, 16, 16, 4, gameHeight_1.default - 20, 16, 16, hardZIndex);
-        }
+        const canDestroy = destructibleID !== null && state_1.default.brokenDestructibles.includes(destructibleID) === false;
+        const hardZIndex = {
+          value: 10001,
+          type: ZIndexType_1.default.Hard
+        };
+        const width = 36;
+        const height = 30;
+        const offset = 4;
+        (0, drawImage_1.default)("interact-hud", canDestroy ? 0 : width, 0, width, height, offset, gameHeight_1.default - height - offset, width, height, hardZIndex);
       };
       exports.default = drawInteractHUD;
     }
@@ -37576,6 +37578,22 @@ void main() {
     }
   });
 
+  // lib/functions/focusScreen.js
+  var require_focusScreen = __commonJS({
+    "lib/functions/focusScreen.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var state_1 = __importDefault(require_state());
+      var focusScreen = () => {
+        state_1.default.app.renderer.view.focus();
+      };
+      exports.default = focusScreen;
+    }
+  });
+
   // lib/functions/run.js
   var require_run = __commonJS({
     "lib/functions/run.js"(exports) {
@@ -37620,6 +37638,7 @@ void main() {
       var gameHeight_1 = __importDefault(require_gameHeight());
       var gameScale_1 = __importDefault(require_gameScale());
       var getAudioSource_1 = __importDefault(require_getAudioSource());
+      var focusScreen_1 = __importDefault(require_focusScreen());
       var run = () => __awaiter(void 0, void 0, void 0, function* () {
         console.log(`Running coots game.`);
         (0, define_1.default)();
@@ -37682,6 +37701,7 @@ void main() {
             location.reload();
           }
         });
+        (0, focusScreen_1.default)();
       });
       exports.default = run;
     }

@@ -6,13 +6,15 @@ import drawImage from "./drawImage";
 
 const drawInteractHUD = (): void => {
   const destructibleID: string | null = state.tilemap.getDestructibleIDWithinRange();
-  if (destructibleID !== null && state.brokenDestructibles.includes(destructibleID) === false) {
-    const hardZIndex: HardZIndex = {
-      value: 10001,
-      type: ZIndexType.Hard
-    };
-    drawImage("interact-hud", 0, 0, 16, 16, 4, gameHeight - 20, 16, 16, hardZIndex);
-  }
+  const canDestroy: boolean = destructibleID !== null && state.brokenDestructibles.includes(destructibleID) === false;
+  const hardZIndex: HardZIndex = {
+    value: 10001,
+    type: ZIndexType.Hard
+  };
+  const width: number = 36;
+  const height: number = 30;
+  const offset: number = 4;
+  drawImage("interact-hud", canDestroy ? 0 : width, 0, width, height, offset, gameHeight - height - offset, width, height, hardZIndex);
 };
 
 export default drawInteractHUD;
