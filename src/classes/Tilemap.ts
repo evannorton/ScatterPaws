@@ -1,5 +1,6 @@
 import timePerIndicatorFrame from "../constants/timePerIndicatorFrame";
 import unitsPerTile from "../constants/unitsPerTile";
+import CollisionType from "../enums/CollisionType";
 import ZIndexType from "../enums/ZIndexType";
 import getTileset from "../functions/definables/getTileset";
 import drawImage from "../functions/draw/drawImage";
@@ -72,7 +73,7 @@ class Tilemap extends Definable {
     };
   }
 
-  public hasCollisionAtCoords(coords: Coords): boolean {
+  public getCollisionAtCoords(coords: Coords): CollisionType | null {
     const tileX: number = Math.round(coords.x / unitsPerTile);
     const tileY: number = Math.round(coords.y / unitsPerTile);
     for (const layer of this._data.layers) {
@@ -87,13 +88,13 @@ class Tilemap extends Definable {
             switch (layer.name) {
               case "floor": {
                 if (datum === 0 && datumTileX === tileX && datumTileY === tileY) {
-                  return true;
+                  return CollisionType.Bonk;
                 }
                 break;
               }
               case "collision": {
                 if (datum > 0 && datumTileX === tileX && datumTileY === tileY) {
-                  return true;
+                  return CollisionType.Bonk;
                 }
                 break;
               }
@@ -103,7 +104,7 @@ class Tilemap extends Definable {
         }
       }
     }
-    return false;
+    return null;
   }
 
   public getDestructibleIDWithinRange(): string | null {

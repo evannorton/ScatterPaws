@@ -1,4 +1,5 @@
 import unitsPerTile from "../../constants/unitsPerTile";
+import CollisionType from "../../enums/CollisionType";
 import state from "../../state";
 
 const updateCootsPosition = (): void => {
@@ -41,27 +42,39 @@ const updateCootsPosition = (): void => {
     x: newTopRightCoords.x,
     y: newBottomLeftCoords.y
   };
+  const xCollision1 = state.tilemap.getCollisionAtCoords({ x: newTopLeftCoords.x, y: topLeftCoords.y });
+  const xCollision2 = state.tilemap.getCollisionAtCoords({ x: newBottomLeftCoords.x, y: bottomLeftCoords.y });
+  const xCollision3 = state.tilemap.getCollisionAtCoords({ x: newTopRightCoords.x, y: topRightCoords.y });
+  const xCollision4 = state.tilemap.getCollisionAtCoords({ x: newBottomRightCoords.x, y: bottomRightCoords.y });
+  const yCollision1 = state.tilemap.getCollisionAtCoords({ x: topLeftCoords.x, y: newTopLeftCoords.y });
+  const yCollision2 = state.tilemap.getCollisionAtCoords({ x: bottomLeftCoords.x, y: newBottomLeftCoords.y });
+  const yCollision3 = state.tilemap.getCollisionAtCoords({ x: topRightCoords.x, y: newTopRightCoords.y });
+  const yCollision4 = state.tilemap.getCollisionAtCoords({ x: bottomRightCoords.x, y: newBottomRightCoords.y });
+  const bothCollision1 = state.tilemap.getCollisionAtCoords({ x: newTopLeftCoords.x, y: newTopLeftCoords.y })
+  const bothCollision2 = state.tilemap.getCollisionAtCoords({ x: newBottomLeftCoords.x, y: newBottomLeftCoords.y })
+  const bothCollision3 = state.tilemap.getCollisionAtCoords({ x: newTopRightCoords.x, y: newTopRightCoords.y })
+  const bothCollision4 = state.tilemap.getCollisionAtCoords({ x: newBottomRightCoords.x, y: newBottomRightCoords.y })
   if (
-    state.tilemap.hasCollisionAtCoords({ x: newTopLeftCoords.x, y: topLeftCoords.y })
-    || state.tilemap.hasCollisionAtCoords({ x: newBottomLeftCoords.x, y: bottomLeftCoords.y })
-    || state.tilemap.hasCollisionAtCoords({ x: newTopRightCoords.x, y: topRightCoords.y })
-    || state.tilemap.hasCollisionAtCoords({ x: newBottomRightCoords.x, y: bottomRightCoords.y })
+    xCollision1 === CollisionType.Bonk
+    || xCollision2 === CollisionType.Bonk
+    || xCollision3 === CollisionType.Bonk
+    || xCollision4 === CollisionType.Bonk
   ) {
     state.cootsVelocityX *= collisionVelocityFactor;
   }
   else if (
-    state.tilemap.hasCollisionAtCoords({ x: topLeftCoords.x, y: newTopLeftCoords.y })
-    || state.tilemap.hasCollisionAtCoords({ x: bottomLeftCoords.x, y: newBottomLeftCoords.y })
-    || state.tilemap.hasCollisionAtCoords({ x: topRightCoords.x, y: newTopRightCoords.y })
-    || state.tilemap.hasCollisionAtCoords({ x: bottomRightCoords.x, y: newBottomRightCoords.y })
+    yCollision1 === CollisionType.Bonk
+    || yCollision2 === CollisionType.Bonk
+    || yCollision3 === CollisionType.Bonk
+    || yCollision4 === CollisionType.Bonk
   ) {
     state.cootsVelocityY *= collisionVelocityFactor;
   }
   else if (
-    state.tilemap.hasCollisionAtCoords({ x: newTopLeftCoords.x, y: newTopLeftCoords.y })
-    || state.tilemap.hasCollisionAtCoords({ x: newBottomLeftCoords.x, y: newBottomLeftCoords.y })
-    || state.tilemap.hasCollisionAtCoords({ x: newTopRightCoords.x, y: newTopRightCoords.y })
-    || state.tilemap.hasCollisionAtCoords({ x: newBottomRightCoords.x, y: newBottomRightCoords.y })
+    bothCollision1 === CollisionType.Bonk
+    || bothCollision2 === CollisionType.Bonk
+    || bothCollision3 === CollisionType.Bonk
+    || bothCollision4 === CollisionType.Bonk
   ) {
     state.cootsVelocityX *= collisionVelocityFactor;
     state.cootsVelocityY *= collisionVelocityFactor;

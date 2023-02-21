@@ -25931,6 +25931,20 @@ void main() {
     }
   });
 
+  // lib/enums/CollisionType.js
+  var require_CollisionType = __commonJS({
+    "lib/enums/CollisionType.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var CollisionType;
+      (function(CollisionType2) {
+        CollisionType2["Bonk"] = "bonk";
+        CollisionType2["Obstacle"] = "obstacle";
+      })(CollisionType || (CollisionType = {}));
+      exports.default = CollisionType;
+    }
+  });
+
   // lib/enums/ZIndexType.js
   var require_ZIndexType = __commonJS({
     "lib/enums/ZIndexType.js"(exports) {
@@ -26088,6 +26102,7 @@ void main() {
       Object.defineProperty(exports, "__esModule", { value: true });
       var timePerIndicatorFrame_1 = __importDefault(require_timePerIndicatorFrame());
       var unitsPerTile_1 = __importDefault(require_unitsPerTile());
+      var CollisionType_1 = __importDefault(require_CollisionType());
       var ZIndexType_1 = __importDefault(require_ZIndexType());
       var getTileset_1 = __importDefault(require_getTileset());
       var drawImage_1 = __importDefault(require_drawImage());
@@ -26126,7 +26141,7 @@ void main() {
             y: Math.round((screenCoords.y - cameraScreenCoords.y + 6) / this.tileHeight * unitsPerTile_1.default - (screenCoords.x - cameraScreenCoords.x + 1) / this.tileWidth * unitsPerTile_1.default)
           };
         }
-        hasCollisionAtCoords(coords) {
+        getCollisionAtCoords(coords) {
           const tileX = Math.round(coords.x / unitsPerTile_1.default);
           const tileY = Math.round(coords.y / unitsPerTile_1.default);
           for (const layer of this._data.layers) {
@@ -26141,13 +26156,13 @@ void main() {
                   switch (layer.name) {
                     case "floor": {
                       if (datum === 0 && datumTileX === tileX && datumTileY === tileY) {
-                        return true;
+                        return CollisionType_1.default.Bonk;
                       }
                       break;
                     }
                     case "collision": {
                       if (datum > 0 && datumTileX === tileX && datumTileY === tileY) {
-                        return true;
+                        return CollisionType_1.default.Bonk;
                       }
                       break;
                     }
@@ -26157,7 +26172,7 @@ void main() {
               }
             }
           }
-          return false;
+          return null;
         }
         getDestructibleIDWithinRange() {
           var _a, _b;
@@ -31141,6 +31156,549 @@ void main() {
                   0,
                   0,
                   0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  2813,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  2809,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                height: 16,
+                width: 16,
+                x: 0,
+                y: 0
+              },
+              {
+                data: [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  2805,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  2801,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                height: 16,
+                width: 16,
+                x: 0,
+                y: 16
+              }
+            ],
+            height: 32,
+            id: 12,
+            name: "obstacles",
+            opacity: 1,
+            startx: 0,
+            starty: 0,
+            type: "tilelayer",
+            visible: true,
+            width: 16,
+            x: 0,
+            y: 0
+          },
+          {
+            chunks: [
+              {
+                data: [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
                   112,
                   112,
                   112,
@@ -35108,7 +35666,7 @@ void main() {
             y: 0
           }
         ],
-        nextlayerid: 12,
+        nextlayerid: 13,
         nextobjectid: 1,
         orientation: "isometric",
         renderorder: "right-down",
@@ -35130,6 +35688,10 @@ void main() {
           {
             firstgid: 2701,
             source: "../tilesets/collision.json"
+          },
+          {
+            firstgid: 2801,
+            source: "../tilesets/obstacles.json"
           }
         ],
         tilewidth: 24,
@@ -35697,6 +36259,27 @@ void main() {
         name: "collision",
         spacing: 0,
         tilecount: 100,
+        tiledversion: "1.9.2",
+        tileheight: 24,
+        tilewidth: 24,
+        type: "tileset",
+        version: "1.9"
+      };
+    }
+  });
+
+  // lib/tilesets/obstacles.json
+  var require_obstacles = __commonJS({
+    "lib/tilesets/obstacles.json"(exports, module) {
+      module.exports = {
+        columns: 4,
+        image: "../../out/images/tilesets/obstacles.png",
+        imageheight: 96,
+        imagewidth: 96,
+        margin: 0,
+        name: "obstacles",
+        spacing: 0,
+        tilecount: 16,
         tiledversion: "1.9.2",
         tileheight: 24,
         tilewidth: 24,
@@ -37806,6 +38389,7 @@ void main() {
       var walls_json_1 = __importDefault(require_walls());
       var furniture_json_1 = __importDefault(require_furniture());
       var collision_json_1 = __importDefault(require_collision());
+      var obstacles_json_1 = __importDefault(require_obstacles());
       var AudioSource_1 = __importDefault(require_AudioSource());
       var define2 = () => {
         new Tilemap_1.default("map", map_json_1.default);
@@ -37814,10 +38398,12 @@ void main() {
         new Tileset_1.default("walls", walls_json_1.default);
         new Tileset_1.default("furniture", furniture_json_1.default);
         new Tileset_1.default("collision", collision_json_1.default);
+        new Tileset_1.default("obstacles", obstacles_json_1.default);
         new ImageSource_1.default("tilesets/floors");
         new ImageSource_1.default("tilesets/walls");
         new ImageSource_1.default("tilesets/furniture");
         new ImageSource_1.default("tilesets/collision");
+        new ImageSource_1.default("tilesets/obstacles");
         new ImageSource_1.default("indicator");
         new ImageSource_1.default("interact-hud");
         new AudioSource_1.default("music/music");
@@ -41315,6 +41901,7 @@ void main() {
       };
       Object.defineProperty(exports, "__esModule", { value: true });
       var unitsPerTile_1 = __importDefault(require_unitsPerTile());
+      var CollisionType_1 = __importDefault(require_CollisionType());
       var state_1 = __importDefault(require_state());
       var updateCootsPosition = () => {
         const collisionVelocityFactor = -0.75;
@@ -41356,11 +41943,23 @@ void main() {
           x: newTopRightCoords.x,
           y: newBottomLeftCoords.y
         };
-        if (state_1.default.tilemap.hasCollisionAtCoords({ x: newTopLeftCoords.x, y: topLeftCoords.y }) || state_1.default.tilemap.hasCollisionAtCoords({ x: newBottomLeftCoords.x, y: bottomLeftCoords.y }) || state_1.default.tilemap.hasCollisionAtCoords({ x: newTopRightCoords.x, y: topRightCoords.y }) || state_1.default.tilemap.hasCollisionAtCoords({ x: newBottomRightCoords.x, y: bottomRightCoords.y })) {
+        const xCollision1 = state_1.default.tilemap.getCollisionAtCoords({ x: newTopLeftCoords.x, y: topLeftCoords.y });
+        const xCollision2 = state_1.default.tilemap.getCollisionAtCoords({ x: newBottomLeftCoords.x, y: bottomLeftCoords.y });
+        const xCollision3 = state_1.default.tilemap.getCollisionAtCoords({ x: newTopRightCoords.x, y: topRightCoords.y });
+        const xCollision4 = state_1.default.tilemap.getCollisionAtCoords({ x: newBottomRightCoords.x, y: bottomRightCoords.y });
+        const yCollision1 = state_1.default.tilemap.getCollisionAtCoords({ x: topLeftCoords.x, y: newTopLeftCoords.y });
+        const yCollision2 = state_1.default.tilemap.getCollisionAtCoords({ x: bottomLeftCoords.x, y: newBottomLeftCoords.y });
+        const yCollision3 = state_1.default.tilemap.getCollisionAtCoords({ x: topRightCoords.x, y: newTopRightCoords.y });
+        const yCollision4 = state_1.default.tilemap.getCollisionAtCoords({ x: bottomRightCoords.x, y: newBottomRightCoords.y });
+        const bothCollision1 = state_1.default.tilemap.getCollisionAtCoords({ x: newTopLeftCoords.x, y: newTopLeftCoords.y });
+        const bothCollision2 = state_1.default.tilemap.getCollisionAtCoords({ x: newBottomLeftCoords.x, y: newBottomLeftCoords.y });
+        const bothCollision3 = state_1.default.tilemap.getCollisionAtCoords({ x: newTopRightCoords.x, y: newTopRightCoords.y });
+        const bothCollision4 = state_1.default.tilemap.getCollisionAtCoords({ x: newBottomRightCoords.x, y: newBottomRightCoords.y });
+        if (xCollision1 === CollisionType_1.default.Bonk || xCollision2 === CollisionType_1.default.Bonk || xCollision3 === CollisionType_1.default.Bonk || xCollision4 === CollisionType_1.default.Bonk) {
           state_1.default.cootsVelocityX *= collisionVelocityFactor;
-        } else if (state_1.default.tilemap.hasCollisionAtCoords({ x: topLeftCoords.x, y: newTopLeftCoords.y }) || state_1.default.tilemap.hasCollisionAtCoords({ x: bottomLeftCoords.x, y: newBottomLeftCoords.y }) || state_1.default.tilemap.hasCollisionAtCoords({ x: topRightCoords.x, y: newTopRightCoords.y }) || state_1.default.tilemap.hasCollisionAtCoords({ x: bottomRightCoords.x, y: newBottomRightCoords.y })) {
+        } else if (yCollision1 === CollisionType_1.default.Bonk || yCollision2 === CollisionType_1.default.Bonk || yCollision3 === CollisionType_1.default.Bonk || yCollision4 === CollisionType_1.default.Bonk) {
           state_1.default.cootsVelocityY *= collisionVelocityFactor;
-        } else if (state_1.default.tilemap.hasCollisionAtCoords({ x: newTopLeftCoords.x, y: newTopLeftCoords.y }) || state_1.default.tilemap.hasCollisionAtCoords({ x: newBottomLeftCoords.x, y: newBottomLeftCoords.y }) || state_1.default.tilemap.hasCollisionAtCoords({ x: newTopRightCoords.x, y: newTopRightCoords.y }) || state_1.default.tilemap.hasCollisionAtCoords({ x: newBottomRightCoords.x, y: newBottomRightCoords.y })) {
+        } else if (bothCollision1 === CollisionType_1.default.Bonk || bothCollision2 === CollisionType_1.default.Bonk || bothCollision3 === CollisionType_1.default.Bonk || bothCollision4 === CollisionType_1.default.Bonk) {
           state_1.default.cootsVelocityX *= collisionVelocityFactor;
           state_1.default.cootsVelocityY *= collisionVelocityFactor;
         } else {

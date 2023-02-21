@@ -1,0 +1,14 @@
+{ "columns":4,
+ "image":"..\/..\/out\/images\/tilesets\/obstacles.png",
+ "imageheight":96,
+ "imagewidth":96,
+ "margin":0,
+ "name":"obstacles",
+ "spacing":0,
+ "tilecount":16,
+ "tiledversion":"1.9.2",
+ "tileheight":24,
+ "tilewidth":24,
+ "type":"tileset",
+ "version":"1.9"
+}

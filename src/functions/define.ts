@@ -6,6 +6,7 @@ import floors from "../tilesets/floors.json";
 import walls from "../tilesets/walls.json";
 import furniture from "../tilesets/furniture.json";
 import collision from "../tilesets/collision.json";
+import obstacles from "../tilesets/obstacles.json";
 import AudioSource from "../classes/AudioSource";
 
 const define = (): void => {
@@ -15,10 +16,12 @@ const define = (): void => {
   new Tileset("walls", walls);
   new Tileset("furniture", furniture);
   new Tileset("collision", collision);
+  new Tileset("obstacles", obstacles);
   new ImageSource("tilesets/floors");
   new ImageSource("tilesets/walls");
   new ImageSource("tilesets/furniture");
   new ImageSource("tilesets/collision");
+  new ImageSource("tilesets/obstacles");
   new ImageSource("indicator");
   new ImageSource("interact-hud");
   new AudioSource("music/music");
