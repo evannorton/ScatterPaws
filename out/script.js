@@ -35273,12 +35273,12 @@ void main() {
               {
                 name: "indicatorXOffset",
                 type: "int",
-                value: 21
+                value: 14
               },
               {
                 name: "indicatorYOffset",
                 type: "int",
-                value: -20
+                value: -15
               }
             ]
           },
@@ -35313,12 +35313,12 @@ void main() {
               {
                 name: "indicatorXOffset",
                 type: "int",
-                value: 21
+                value: 14
               },
               {
                 name: "indicatorYOffset",
                 type: "int",
-                value: -20
+                value: -12
               }
             ]
           },
@@ -35353,12 +35353,12 @@ void main() {
               {
                 name: "indicatorXOffset",
                 type: "int",
-                value: 21
+                value: 14
               },
               {
                 name: "indicatorYOffset",
                 type: "int",
-                value: -20
+                value: -12
               }
             ]
           },
@@ -35393,12 +35393,12 @@ void main() {
               {
                 name: "indicatorXOffset",
                 type: "int",
-                value: 21
+                value: 14
               },
               {
                 name: "indicatorYOffset",
                 type: "int",
-                value: -20
+                value: -12
               }
             ]
           },
@@ -35433,7 +35433,7 @@ void main() {
               {
                 name: "indicatorXOffset",
                 type: "int",
-                value: 21
+                value: 14
               },
               {
                 name: "indicatorYOffset",
@@ -35473,12 +35473,12 @@ void main() {
               {
                 name: "indicatorXOffset",
                 type: "int",
-                value: 10
+                value: 8
               },
               {
                 name: "indicatorYOffset",
                 type: "int",
-                value: -15
+                value: -13
               }
             ]
           },
@@ -35498,12 +35498,12 @@ void main() {
               {
                 name: "indicatorXOffset",
                 type: "int",
-                value: 10
+                value: 8
               },
               {
                 name: "indicatorYOffset",
                 type: "int",
-                value: -15
+                value: -13
               }
             ]
           },
@@ -35523,12 +35523,12 @@ void main() {
               {
                 name: "indicatorXOffset",
                 type: "int",
-                value: 10
+                value: 8
               },
               {
                 name: "indicatorYOffset",
                 type: "int",
-                value: -15
+                value: -13
               }
             ]
           },
@@ -35548,12 +35548,12 @@ void main() {
               {
                 name: "indicatorXOffset",
                 type: "int",
-                value: 10
+                value: 8
               },
               {
                 name: "indicatorYOffset",
                 type: "int",
-                value: -15
+                value: -8
               }
             ]
           },
@@ -35573,12 +35573,12 @@ void main() {
               {
                 name: "indicatorXOffset",
                 type: "int",
-                value: 10
+                value: 8
               },
               {
                 name: "indicatorYOffset",
                 type: "int",
-                value: -15
+                value: -8
               }
             ]
           },
@@ -35598,12 +35598,12 @@ void main() {
               {
                 name: "indicatorXOffset",
                 type: "int",
-                value: 10
+                value: 8
               },
               {
                 name: "indicatorYOffset",
                 type: "int",
-                value: -15
+                value: -3
               }
             ]
           },
@@ -35623,12 +35623,12 @@ void main() {
               {
                 name: "indicatorXOffset",
                 type: "int",
-                value: 10
+                value: 8
               },
               {
                 name: "indicatorYOffset",
                 type: "int",
-                value: -15
+                value: -7
               }
             ]
           },
@@ -35648,12 +35648,12 @@ void main() {
               {
                 name: "indicatorXOffset",
                 type: "int",
-                value: 10
+                value: 8
               },
               {
                 name: "indicatorYOffset",
                 type: "int",
-                value: -15
+                value: -3
               }
             ]
           }
