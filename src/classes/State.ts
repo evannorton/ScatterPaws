@@ -18,6 +18,7 @@ class State {
   private _cootsVelocityX: number = 0;
   private _cootsVelocityY: number = 0;
   private _currentTime: number = 0;
+  private _heldKeys: string[] = [];
   private _loadedAssets: number = 0;
   private _mouseScreenCoords: Coords | null = null;
   private _tilemapSlug: string = startingTilemapSlug;
@@ -48,6 +49,10 @@ class State {
 
   public get currentTime(): number {
     return this._currentTime;
+  }
+
+  public get heldKeys(): string[] {
+    return [...this._heldKeys];
   }
 
   public get loadedAssets(): number {
@@ -91,6 +96,10 @@ class State {
 
   public set currentTime(currentTime: number) {
     this._currentTime = currentTime;
+  }
+
+  public set heldKeys(heldKeys: string[]) {
+    this._heldKeys = [...heldKeys];
   }
 
   public set loadedAssets(loadedAssets: number) {

@@ -25763,6 +25763,7 @@ void main() {
           this._cootsVelocityX = 0;
           this._cootsVelocityY = 0;
           this._currentTime = 0;
+          this._heldKeys = [];
           this._loadedAssets = 0;
           this._mouseScreenCoords = null;
           this._tilemapSlug = startingTilemapSlug_1.default;
@@ -25788,6 +25789,9 @@ void main() {
         }
         get currentTime() {
           return this._currentTime;
+        }
+        get heldKeys() {
+          return [...this._heldKeys];
         }
         get loadedAssets() {
           return this._loadedAssets;
@@ -25821,6 +25825,9 @@ void main() {
         }
         set currentTime(currentTime) {
           this._currentTime = currentTime;
+        }
+        set heldKeys(heldKeys) {
+          this._heldKeys = [...heldKeys];
         }
         set loadedAssets(loadedAssets) {
           this._loadedAssets = loadedAssets;
@@ -41382,25 +41389,39 @@ void main() {
           });
           screen.addEventListener("keydown", (e) => {
             const key = e.key.toLowerCase();
-            switch (key) {
-              case "p": {
-                const anchor = document.createElement("a");
-                anchor.download = "Teleport Tower Screenshot.png";
-                anchor.href = state_1.default.app.renderer.plugins.extract.canvas(state_1.default.app.stage).toDataURL();
-                anchor.click();
-                break;
-              }
-              case " ": {
-                const destructibleID = state_1.default.tilemap.getDestructibleIDWithinRange();
-                if (destructibleID !== null) {
-                  const brokenDestructibles = state_1.default.brokenDestructibles;
-                  if (brokenDestructibles.includes(destructibleID) === false) {
-                    state_1.default.brokenDestructibles = [...brokenDestructibles, destructibleID];
-                  }
+            const heldKeys = state_1.default.heldKeys;
+            if (heldKeys.includes(key) === false) {
+              heldKeys.push(key);
+              switch (key) {
+                case "p": {
+                  const anchor = document.createElement("a");
+                  anchor.download = "Teleport Tower Screenshot.png";
+                  anchor.href = state_1.default.app.renderer.plugins.extract.canvas(state_1.default.app.stage).toDataURL();
+                  anchor.click();
+                  break;
                 }
-                break;
+                case " ": {
+                  const destructibleID = state_1.default.tilemap.getDestructibleIDWithinRange();
+                  if (destructibleID !== null) {
+                    const brokenDestructibles = state_1.default.brokenDestructibles;
+                    if (brokenDestructibles.includes(destructibleID) === false) {
+                      state_1.default.brokenDestructibles = [...brokenDestructibles, destructibleID];
+                    }
+                  }
+                  break;
+                }
               }
             }
+            state_1.default.heldKeys = heldKeys;
+          });
+          screen.addEventListener("keyup", (e) => {
+            const key = e.key.toLowerCase();
+            const heldKeys = state_1.default.heldKeys;
+            const index = heldKeys.indexOf(key);
+            if (index >= 0) {
+              heldKeys.splice(index, 1);
+            }
+            state_1.default.heldKeys = heldKeys;
           });
         }
         const music = (0, getAudioSource_1.default)("music/music");

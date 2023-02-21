@@ -44,25 +44,39 @@ const run = async (): Promise<void> => {
     });
     screen.addEventListener("keydown", (e) => {
       const key: string = e.key.toLowerCase();
-      switch (key) {
-        case "p": {
-          const anchor: HTMLAnchorElement = document.createElement("a");
-          anchor.download = "Teleport Tower Screenshot.png";
-          anchor.href = state.app.renderer.plugins.extract.canvas(state.app.stage).toDataURL();
-          anchor.click();
-          break;
-        }
-        case " ": {
-          const destructibleID: string | null = state.tilemap.getDestructibleIDWithinRange();
-          if (destructibleID !== null) {
-            const brokenDestructibles: string[] = state.brokenDestructibles;
-            if (brokenDestructibles.includes(destructibleID) === false) {
-              state.brokenDestructibles = [...brokenDestructibles, destructibleID];
-            }
+      const heldKeys: string[] = state.heldKeys;
+      if (heldKeys.includes(key) === false) {
+        heldKeys.push(key);
+        switch (key) {
+          case "p": {
+            const anchor: HTMLAnchorElement = document.createElement("a");
+            anchor.download = "Teleport Tower Screenshot.png";
+            anchor.href = state.app.renderer.plugins.extract.canvas(state.app.stage).toDataURL();
+            anchor.click();
+            break;
           }
-          break;
+          case " ": {
+            const destructibleID: string | null = state.tilemap.getDestructibleIDWithinRange();
+            if (destructibleID !== null) {
+              const brokenDestructibles: string[] = state.brokenDestructibles;
+              if (brokenDestructibles.includes(destructibleID) === false) {
+                state.brokenDestructibles = [...brokenDestructibles, destructibleID];
+              }
+            }
+            break;
+          }
         }
       }
+      state.heldKeys = heldKeys;
+    });
+    screen.addEventListener("keyup", (e) => {
+      const key: string = e.key.toLowerCase();
+      const heldKeys: string[] = state.heldKeys;
+      const index = heldKeys.indexOf(key);
+      if (index >= 0) {
+        heldKeys.splice(index, 1);
+      }
+      state.heldKeys = heldKeys;
     });
   }
   const music: AudioSource = getAudioSource("music/music");
