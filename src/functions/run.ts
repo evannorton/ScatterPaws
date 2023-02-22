@@ -11,6 +11,8 @@ import getAudioSource from "./definables/getAudioSource";
 import focusScreen from "./focusScreen";
 import calculateActiveDestructibles from "./calculateActiveDestructibles";
 import isRunningOnLocal from "./isRunningOnLocal";
+import isCatStarving from "./isCatStarving";
+import startLevel from "./startLevel";
 
 const run = async (): Promise<void> => {
   console.log(`Running ScatterPaws.`);
@@ -40,6 +42,11 @@ const run = async (): Promise<void> => {
     screen.appendChild(state.app.view);
     screen.style.width = `${gameWidth * gameScale}px`;
     screen.style.height = `${gameHeight * gameScale}px`;
+    screen.addEventListener("mousedown", (e) => {
+      if (isCatStarving()) {
+        startLevel();
+      }
+    });
     screen.addEventListener("mousemove", (e) => {
       if (e.target instanceof HTMLElement) {
         state.mouseScreenCoords = {
@@ -98,8 +105,7 @@ const run = async (): Promise<void> => {
     }
   });
   focusScreen();
-  calculateActiveDestructibles();
-  state.levelStartedAt = state.currentTime;
+  startLevel();
 };
 
 export default run;

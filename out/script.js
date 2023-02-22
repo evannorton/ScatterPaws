@@ -42335,6 +42335,36 @@ void main() {
     }
   });
 
+  // lib/functions/startLevel.js
+  var require_startLevel = __commonJS({
+    "lib/functions/startLevel.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var startingTileX_1 = __importDefault(require_startingTileX());
+      var startingTileY_1 = __importDefault(require_startingTileY());
+      var unitsPerTile_1 = __importDefault(require_unitsPerTile());
+      var state_1 = __importDefault(require_state());
+      var calculateActiveDestructibles_1 = __importDefault(require_calculateActiveDestructibles());
+      var startLevel = () => {
+        state_1.default.levelStartedAt = state_1.default.currentTime;
+        state_1.default.brokenDestructibles = [];
+        state_1.default.activeDestructibles = [];
+        state_1.default.hitObstacleAt = null;
+        state_1.default.cootsVelocityX = 0;
+        state_1.default.cootsVelocityY = 0;
+        state_1.default.cootsCoords = {
+          x: startingTileX_1.default * unitsPerTile_1.default,
+          y: startingTileY_1.default * unitsPerTile_1.default
+        };
+        (0, calculateActiveDestructibles_1.default)();
+      };
+      exports.default = startLevel;
+    }
+  });
+
   // lib/functions/run.js
   var require_run = __commonJS({
     "lib/functions/run.js"(exports) {
@@ -42382,6 +42412,8 @@ void main() {
       var focusScreen_1 = __importDefault(require_focusScreen());
       var calculateActiveDestructibles_1 = __importDefault(require_calculateActiveDestructibles());
       var isRunningOnLocal_1 = __importDefault(require_isRunningOnLocal());
+      var isCatStarving_1 = __importDefault(require_isCatStarving());
+      var startLevel_1 = __importDefault(require_startLevel());
       var run = () => __awaiter(void 0, void 0, void 0, function* () {
         console.log(`Running ScatterPaws.`);
         (0, define_1.default)();
@@ -42410,6 +42442,11 @@ void main() {
           screen.appendChild(state_1.default.app.view);
           screen.style.width = `${gameWidth_1.default * gameScale_1.default}px`;
           screen.style.height = `${gameHeight_1.default * gameScale_1.default}px`;
+          screen.addEventListener("mousedown", (e) => {
+            if ((0, isCatStarving_1.default)()) {
+              (0, startLevel_1.default)();
+            }
+          });
           screen.addEventListener("mousemove", (e) => {
             if (e.target instanceof HTMLElement) {
               state_1.default.mouseScreenCoords = {
@@ -42468,8 +42505,7 @@ void main() {
           }
         });
         (0, focusScreen_1.default)();
-        (0, calculateActiveDestructibles_1.default)();
-        state_1.default.levelStartedAt = state_1.default.currentTime;
+        (0, startLevel_1.default)();
       });
       exports.default = run;
     }
