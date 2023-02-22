@@ -10,8 +10,6 @@ import drawImage from "./drawImage";
 import getLaserPower from "../getLaserPower";
 import walkingThreshold from "../../constants/walkingThreshold";
 import runningThreshold from "../../constants/runningThreshold";
-import drawRectangle from "./drawRectangle";
-import unitsPerTile from "../../constants/unitsPerTile";
 import YSortZIndex from "../../interfaces/ZIndex/YSortZIndex";
 import ZIndexType from "../../enums/ZIndexType";
 import obstacleDuration from "../../constants/obstacleDuration";
