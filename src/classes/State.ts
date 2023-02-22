@@ -21,6 +21,7 @@ class State {
   private _currentTime: number = 0;
   private _heldKeys: string[] = [];
   private _hitObstacleAt: number | null = null;
+  private _levelStartedAt: number | null = null;
   private _loadedAssets: number = 0;
   private _mouseScreenCoords: Coords | null = null;
   private _tilemapSlug: string = startingTilemapSlug;
@@ -66,6 +67,13 @@ class State {
       return this._hitObstacleAt;
     }
     throw new Error(this.getAccessorErrorMessage("hitObstacleAt"));
+  }
+
+  public get levelStartedAt(): number {
+    if (this._levelStartedAt !== null) {
+      return this._levelStartedAt;
+    }
+    throw new Error("levelStartedAt");
   }
 
   public get loadedAssets(): number {
@@ -123,6 +131,10 @@ class State {
     this._hitObstacleAt = hitObstacleAt;
   }
 
+  public set levelStartedAt(levelStartedAt: number | null) {
+    this._levelStartedAt = levelStartedAt;
+  }
+
   public set loadedAssets(loadedAssets: number) {
     this._loadedAssets = loadedAssets;
   }
@@ -137,6 +149,10 @@ class State {
 
   public hasHitObstacleAt(): boolean {
     return this._hitObstacleAt !== null;
+  }
+
+  public hasLevelStartedAt(): boolean {
+    return this._levelStartedAt !== null;
   }
 
   public hasMouseScreenCoords(): boolean {

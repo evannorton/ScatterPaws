@@ -10,3 +10,7 @@ body {
 #screen {
   cursor: url("./cursor.png") 16 16, default;
 }
+
+canvas:focus {
+  outline: none;
+}

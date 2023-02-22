@@ -1,4 +1,4 @@
-import { Application, SCALE_MODES, settings, utils } from "pixi.js";
+import { Application, Loader, SCALE_MODES, settings, utils } from "pixi.js";
 import define from "./define";
 import socket from "../socket";
 import state from "../state";
@@ -10,9 +10,10 @@ import AudioSource from "../classes/AudioSource";
 import getAudioSource from "./definables/getAudioSource";
 import focusScreen from "./focusScreen";
 import calculateActiveDestructibles from "./calculateActiveDestructibles";
+import isRunningOnLocal from "./isRunningOnLocal";
 
 const run = async (): Promise<void> => {
-  console.log(`Running coots game.`);
+  console.log(`Running ScatterPaws.`);
   define();
   settings.ROUND_PIXELS = true;
   settings.SCALE_MODE = SCALE_MODES.NEAREST;
@@ -28,6 +29,10 @@ const run = async (): Promise<void> => {
   state.app.renderer.view.tabIndex = 0;
   state.app.renderer.view.addEventListener("contextmenu", (e: Event): void => {
     e.preventDefault();
+  });
+  const loader: Loader = new Loader;
+  loader.add(isRunningOnLocal() ? "./out/fonts/RetroPixels.fnt" : "./fonts/RetroPixels.fnt").load((): void => {
+    state.loadedAssets++;
   });
   state.app.ticker.add(tick);
   const screen = document.getElementById("screen");
@@ -94,6 +99,7 @@ const run = async (): Promise<void> => {
   });
   focusScreen();
   calculateActiveDestructibles();
+  state.levelStartedAt = state.currentTime;
 };
 
 export default run;

@@ -1,13 +1,14 @@
-
-import state from "../../state";
 import assetsAreLoaded from "../assetsAreLoaded";
 import updateCootsVelocity from "./updateCootsVelocity";
 import updateCootsPosition from "./updateCootsPosition";
+import isCatStarving from "../isCatStarving";
 
 const update = (): void => {
   if (assetsAreLoaded()) {
-    updateCootsVelocity();
-    updateCootsPosition();
+    if (isCatStarving() === false) {
+      updateCootsVelocity();
+      updateCootsPosition();
+    }
   }
 };
 

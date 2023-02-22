@@ -24,6 +24,7 @@ const define = (): void => {
   new ImageSource("tilesets/obstacles");
   new ImageSource("indicator");
   new ImageSource("interact-hud");
+  new ImageSource("game-over");
   new AudioSource("music/music");
 };
 

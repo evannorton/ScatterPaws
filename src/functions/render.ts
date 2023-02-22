@@ -7,25 +7,34 @@ import getImageSourcesCount from "./definables/getImageSourcesCount";
 import drawCoots from "./draw/drawCoots";
 import drawRectangle from "./draw/drawRectangle";
 import drawInteractHUD from "./draw/drawInteractHUD";
+import drawTimer from "./draw/drawTimer";
+import isCatStarving from "./isCatStarving";
+import drawGameOver from "./draw/drawGameOver";
 
 const render = (): void => {
   state.app.stage.removeChildren();
-  drawRectangle("#000000", 0, 0, gameWidth, gameHeight);
+  drawRectangle("#000000", 1, 0, 0, gameWidth, gameHeight, 0);
   if (assetsAreLoaded()) {
-    state.tilemap.draw();
-    drawCoots();
-    drawInteractHUD();
+    if (isCatStarving()) {
+      drawGameOver();
+    }
+    else {
+      state.tilemap.draw();
+      drawCoots();
+      drawInteractHUD();
+      drawTimer();
+    }
   }
   else {
     const current: number = state.loadedAssets;
-    const total: number = getImageSourcesCount() + getAudioSourcesCount();
+    const total: number = getImageSourcesCount() + getAudioSourcesCount() + 1;
     const percent: number = current / total;
     const width: number = 192;
     const x: number = (gameWidth - width) / 2;
     const height: number = 32;
     const y: number = (gameHeight - height) / 2;
-    drawRectangle("#343434", x, y, width, height);
-    drawRectangle("#7b7b7b", x, y, Math.round(width * percent), height);
+    drawRectangle("#343434", 1, x, y, width, height, 0);
+    drawRectangle("#7b7b7b", 1, x, y, Math.round(width * percent), height, 0);
   }
   const entryYs: Map<string, number> = new Map;
   for (const entry of state.ySortEntries) {

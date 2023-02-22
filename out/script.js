@@ -25766,6 +25766,7 @@ void main() {
           this._currentTime = 0;
           this._heldKeys = [];
           this._hitObstacleAt = null;
+          this._levelStartedAt = null;
           this._loadedAssets = 0;
           this._mouseScreenCoords = null;
           this._tilemapSlug = startingTilemapSlug_1.default;
@@ -25803,6 +25804,12 @@ void main() {
             return this._hitObstacleAt;
           }
           throw new Error(this.getAccessorErrorMessage("hitObstacleAt"));
+        }
+        get levelStartedAt() {
+          if (this._levelStartedAt !== null) {
+            return this._levelStartedAt;
+          }
+          throw new Error("levelStartedAt");
         }
         get loadedAssets() {
           return this._loadedAssets;
@@ -25846,6 +25853,9 @@ void main() {
         set hitObstacleAt(hitObstacleAt) {
           this._hitObstacleAt = hitObstacleAt;
         }
+        set levelStartedAt(levelStartedAt) {
+          this._levelStartedAt = levelStartedAt;
+        }
         set loadedAssets(loadedAssets) {
           this._loadedAssets = loadedAssets;
         }
@@ -25857,6 +25867,9 @@ void main() {
         }
         hasHitObstacleAt() {
           return this._hitObstacleAt !== null;
+        }
+        hasLevelStartedAt() {
+          return this._levelStartedAt !== null;
         }
         hasMouseScreenCoords() {
           return this._mouseScreenCoords !== null;
@@ -38425,6 +38438,7 @@ void main() {
         new ImageSource_1.default("tilesets/obstacles");
         new ImageSource_1.default("indicator");
         new ImageSource_1.default("interact-hud");
+        new ImageSource_1.default("game-over");
         new AudioSource_1.default("music/music");
       };
       exports.default = define2;
@@ -41548,7 +41562,7 @@ void main() {
       var getImageSourcesCount_1 = __importDefault(require_getImageSourcesCount());
       var state_1 = __importDefault(require_state());
       var getAudioSourcesCount_1 = __importDefault(require_getAudioSourcesCount());
-      var assetsAreLoaded = () => state_1.default.loadedAssets === (0, getImageSourcesCount_1.default)() + (0, getAudioSourcesCount_1.default)();
+      var assetsAreLoaded = () => state_1.default.loadedAssets === (0, getImageSourcesCount_1.default)() + (0, getAudioSourcesCount_1.default)() + 1;
       exports.default = assetsAreLoaded;
     }
   });
@@ -41755,11 +41769,13 @@ void main() {
       Object.defineProperty(exports, "__esModule", { value: true });
       var pixi_js_1 = require_pixi();
       var state_1 = __importDefault(require_state());
-      var drawRectangle = (color, x, y, width, height) => {
+      var drawRectangle = (color, opacity, x, y, width, height, zIndex) => {
         const rectangle = new pixi_js_1.Graphics();
         rectangle.beginFill(Number(`0x${color.substring(1)}`));
         rectangle.lineStyle(0, Number(`0x${color.substring(1)}`));
         rectangle.drawRect(x, y, width, height);
+        rectangle.alpha = opacity;
+        rectangle.zIndex = zIndex;
         state_1.default.app.stage.addChild(rectangle);
       };
       exports.default = drawRectangle;
@@ -41794,6 +41810,159 @@ void main() {
     }
   });
 
+  // lib/functions/getBitmapText.js
+  var require_getBitmapText = __commonJS({
+    "lib/functions/getBitmapText.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var pixi_js_1 = require_pixi();
+      var getBitmapText = (text, color, size, maxWidth, maxLines, horizontalAlignment) => {
+        const replaced = text.replace(new RegExp("\\*", "gu"), "");
+        const bitmapText = new pixi_js_1.BitmapText(replaced, {
+          align: horizontalAlignment,
+          fontName: "RetroPixels",
+          fontSize: size * 16,
+          maxWidth,
+          tint: Number(`0x${color.substring(1)}`)
+        });
+        if (bitmapText.textHeight <= size * maxLines * 11 && bitmapText.width <= maxWidth) {
+          return bitmapText;
+        }
+        const indices = [];
+        text.split("").forEach((char, key) => {
+          if (char === "*") {
+            indices.push(key);
+          }
+        });
+        const asterisks = [];
+        indices.forEach((index) => {
+          const fragment = text.substring(0, index);
+          const wordStart = Math.max(0, fragment.lastIndexOf(" "));
+          asterisks.push({
+            index,
+            word: fragment.substring(wordStart)
+          });
+        });
+        const sortedAsterisks = [...asterisks].sort((asterisk1, asterisk2) => {
+          const word1BitmapText = new pixi_js_1.BitmapText(asterisk1.word, {
+            align: horizontalAlignment,
+            fontName: "RetroPixels",
+            fontSize: size * 16
+          });
+          const word2BitmapText = new pixi_js_1.BitmapText(asterisk2.word, {
+            align: horizontalAlignment,
+            fontName: "RetroPixels",
+            fontSize: size * 16
+          });
+          return word2BitmapText.width - word1BitmapText.width;
+        });
+        const pieces = text.split("");
+        if (sortedAsterisks.length > 0) {
+          const asterisk = sortedAsterisks[0];
+          pieces.splice(asterisk.index - 1, 1);
+        }
+        const joined = pieces.join("");
+        if (joined === text) {
+          throw new Error(`Text "${text}" of max width ${maxWidth} and lines ${maxLines} does not fit.`);
+        }
+        return getBitmapText(joined, color, size, maxWidth, maxLines, horizontalAlignment);
+      };
+      exports.default = getBitmapText;
+    }
+  });
+
+  // lib/functions/draw/drawText.js
+  var require_drawText = __commonJS({
+    "lib/functions/draw/drawText.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var getBitmapText_1 = __importDefault(require_getBitmapText());
+      var state_1 = __importDefault(require_state());
+      var drawText = (text, color, x, y, size, maxWidth, maxLines, horizontalAlignment, verticalAlignment) => {
+        const sprite = (0, getBitmapText_1.default)(text, color, size, maxWidth, maxLines, horizontalAlignment);
+        const startX = x - size;
+        sprite.x = horizontalAlignment === "right" ? startX - sprite.width : horizontalAlignment === "center" ? startX - Math.ceil(sprite.width / 2) : startX;
+        sprite.y = verticalAlignment === "bottom" ? y + size * 3 : verticalAlignment === "middle" ? y : y - size * 3;
+        sprite.anchor.set(0, verticalAlignment === "bottom" ? 1 : verticalAlignment === "middle" ? size * 7 / 2 / (size * 7) : 0);
+        sprite.zIndex = 10003;
+        state_1.default.app.stage.addChild(sprite);
+      };
+      exports.default = drawText;
+    }
+  });
+
+  // lib/constants/timePerLevel.js
+  var require_timePerLevel = __commonJS({
+    "lib/constants/timePerLevel.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var timePerLevel = 1e4;
+      exports.default = timePerLevel;
+    }
+  });
+
+  // lib/functions/draw/drawTimer.js
+  var require_drawTimer = __commonJS({
+    "lib/functions/draw/drawTimer.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var gameWidth_1 = __importDefault(require_gameWidth());
+      var drawText_1 = __importDefault(require_drawText());
+      var drawRectangle_1 = __importDefault(require_drawRectangle());
+      var state_1 = __importDefault(require_state());
+      var timePerLevel_1 = __importDefault(require_timePerLevel());
+      var drawTimer = () => {
+        const offset = 4;
+        const width = 26;
+        const height = 11;
+        const timeLeft = timePerLevel_1.default - (state_1.default.currentTime - state_1.default.levelStartedAt);
+        const secondsLeft = Math.floor(timeLeft / 1e3);
+        (0, drawText_1.default)(`${Math.floor(secondsLeft / 60)}:${`${secondsLeft % 60}`.padStart(2, "0")}`, "#ffffff", gameWidth_1.default - offset - 2, offset + 2, 1, gameWidth_1.default, 1, "right", "top");
+        (0, drawRectangle_1.default)("#000000", 0.25, gameWidth_1.default - offset - width, offset, width, height, 10002);
+      };
+      exports.default = drawTimer;
+    }
+  });
+
+  // lib/functions/isCatStarving.js
+  var require_isCatStarving = __commonJS({
+    "lib/functions/isCatStarving.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var timePerLevel_1 = __importDefault(require_timePerLevel());
+      var state_1 = __importDefault(require_state());
+      var isCatStarving = () => state_1.default.hasLevelStartedAt() && state_1.default.currentTime - state_1.default.levelStartedAt >= timePerLevel_1.default;
+      exports.default = isCatStarving;
+    }
+  });
+
+  // lib/functions/draw/drawGameOver.js
+  var require_drawGameOver = __commonJS({
+    "lib/functions/draw/drawGameOver.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var gameHeight_1 = __importDefault(require_gameHeight());
+      var gameWidth_1 = __importDefault(require_gameWidth());
+      var drawImage_1 = __importDefault(require_drawImage());
+      var drawGameOver = () => {
+        (0, drawImage_1.default)("game-over", 0, 0, gameWidth_1.default, gameHeight_1.default, 0, 0, gameWidth_1.default, gameHeight_1.default, null);
+      };
+      exports.default = drawGameOver;
+    }
+  });
+
   // lib/functions/render.js
   var require_render = __commonJS({
     "lib/functions/render.js"(exports) {
@@ -41811,23 +41980,31 @@ void main() {
       var drawCoots_1 = __importDefault(require_drawCoots());
       var drawRectangle_1 = __importDefault(require_drawRectangle());
       var drawInteractHUD_1 = __importDefault(require_drawInteractHUD());
+      var drawTimer_1 = __importDefault(require_drawTimer());
+      var isCatStarving_1 = __importDefault(require_isCatStarving());
+      var drawGameOver_1 = __importDefault(require_drawGameOver());
       var render = () => {
         state_1.default.app.stage.removeChildren();
-        (0, drawRectangle_1.default)("#000000", 0, 0, gameWidth_1.default, gameHeight_1.default);
+        (0, drawRectangle_1.default)("#000000", 1, 0, 0, gameWidth_1.default, gameHeight_1.default, 0);
         if ((0, assetsAreLoaded_1.default)()) {
-          state_1.default.tilemap.draw();
-          (0, drawCoots_1.default)();
-          (0, drawInteractHUD_1.default)();
+          if ((0, isCatStarving_1.default)()) {
+            (0, drawGameOver_1.default)();
+          } else {
+            state_1.default.tilemap.draw();
+            (0, drawCoots_1.default)();
+            (0, drawInteractHUD_1.default)();
+            (0, drawTimer_1.default)();
+          }
         } else {
           const current = state_1.default.loadedAssets;
-          const total = (0, getImageSourcesCount_1.default)() + (0, getAudioSourcesCount_1.default)();
+          const total = (0, getImageSourcesCount_1.default)() + (0, getAudioSourcesCount_1.default)() + 1;
           const percent = current / total;
           const width = 192;
           const x = (gameWidth_1.default - width) / 2;
           const height = 32;
           const y = (gameHeight_1.default - height) / 2;
-          (0, drawRectangle_1.default)("#343434", x, y, width, height);
-          (0, drawRectangle_1.default)("#7b7b7b", x, y, Math.round(width * percent), height);
+          (0, drawRectangle_1.default)("#343434", 1, x, y, width, height, 0);
+          (0, drawRectangle_1.default)("#7b7b7b", 1, x, y, Math.round(width * percent), height, 0);
         }
         const entryYs = /* @__PURE__ */ new Map();
         for (const entry of state_1.default.ySortEntries) {
@@ -41928,7 +42105,7 @@ void main() {
     "lib/constants/obstacleInvincibleDuration.js"(exports) {
       "use strict";
       Object.defineProperty(exports, "__esModule", { value: true });
-      var obstacleInvincibleDuration = 2500;
+      var obstacleInvincibleDuration = 1e3;
       exports.default = obstacleInvincibleDuration;
     }
   });
@@ -42039,10 +42216,13 @@ void main() {
       var assetsAreLoaded_1 = __importDefault(require_assetsAreLoaded());
       var updateCootsVelocity_1 = __importDefault(require_updateCootsVelocity());
       var updateCootsPosition_1 = __importDefault(require_updateCootsPosition());
+      var isCatStarving_1 = __importDefault(require_isCatStarving());
       var update = () => {
         if ((0, assetsAreLoaded_1.default)()) {
-          (0, updateCootsVelocity_1.default)();
-          (0, updateCootsPosition_1.default)();
+          if ((0, isCatStarving_1.default)() === false) {
+            (0, updateCootsVelocity_1.default)();
+            (0, updateCootsPosition_1.default)();
+          }
         }
       };
       exports.default = update;
@@ -42201,8 +42381,9 @@ void main() {
       var getAudioSource_1 = __importDefault(require_getAudioSource());
       var focusScreen_1 = __importDefault(require_focusScreen());
       var calculateActiveDestructibles_1 = __importDefault(require_calculateActiveDestructibles());
+      var isRunningOnLocal_1 = __importDefault(require_isRunningOnLocal());
       var run = () => __awaiter(void 0, void 0, void 0, function* () {
-        console.log(`Running coots game.`);
+        console.log(`Running ScatterPaws.`);
         (0, define_1.default)();
         pixi_js_1.settings.ROUND_PIXELS = true;
         pixi_js_1.settings.SCALE_MODE = pixi_js_1.SCALE_MODES.NEAREST;
@@ -42218,6 +42399,10 @@ void main() {
         state_1.default.app.renderer.view.tabIndex = 0;
         state_1.default.app.renderer.view.addEventListener("contextmenu", (e) => {
           e.preventDefault();
+        });
+        const loader = new pixi_js_1.Loader();
+        loader.add((0, isRunningOnLocal_1.default)() ? "./out/fonts/RetroPixels.fnt" : "./fonts/RetroPixels.fnt").load(() => {
+          state_1.default.loadedAssets++;
         });
         state_1.default.app.ticker.add(tick_1.default);
         const screen = document.getElementById("screen");
@@ -42284,6 +42469,7 @@ void main() {
         });
         (0, focusScreen_1.default)();
         (0, calculateActiveDestructibles_1.default)();
+        state_1.default.levelStartedAt = state_1.default.currentTime;
       });
       exports.default = run;
     }
