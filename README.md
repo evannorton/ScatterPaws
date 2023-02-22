@@ -1,8 +1,8 @@
-# coots-game
+# ScatterPaws
 
 ## Play
 
-[https://evannorton.github.io/coots-game/out/index.html](https://evannorton.github.io/coots-game/out/index.html)
+[https://evannorton.github.io/scatterpaws/out/index.html](https://evannorton.github.io/scatterpaws/out/index.html)
 
 ## Credits
 EvanMMO - Programming
