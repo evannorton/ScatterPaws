@@ -884,7 +884,7 @@
          "source":"..\/tilesets\/obstacles.json"
         }],
  "tilewidth":24,
- "type":"map2",
+ "type":"map",
  "version":"1.9",
  "width":48
 }

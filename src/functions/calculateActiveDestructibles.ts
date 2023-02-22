@@ -1,11 +1,11 @@
 import state from "../state";
-import getUnbrokenDestructibles from "./getUnbrokenDestructibles";
+import getTilemap from "./definables/getTilemap";
 
 const calculateActiveDestructibles = (): void => {
   const max: number = 2;
   const activeDestructibles = state.activeDestructibles;
   const diff: number = max - activeDestructibles.length;
-  const destructibles: string[] = getUnbrokenDestructibles().filter((unbrokenDestructible) => activeDestructibles.includes(unbrokenDestructible) === false);
+  const destructibles: string[] = getTilemap(state.level.tilemapSlug).getUnbrokenDestructibles().filter((unbrokenDestructible) => activeDestructibles.includes(unbrokenDestructible) === false);
   for (let i: number = 0; i < diff; i++) {
     if (destructibles.length > 0) {
       const index = Math.floor(Math.random() * destructibles.length);

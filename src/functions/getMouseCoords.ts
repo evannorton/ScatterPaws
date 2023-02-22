@@ -1,6 +1,7 @@
 import Coords from "../interfaces/Coords";
 import state from "../state";
+import getTilemap from "./definables/getTilemap";
 
-const getMouseCoords = (): Coords => state.tilemap.getCoordsFromScreenCoords(state.mouseScreenCoords);
+const getMouseCoords = (): Coords => getTilemap(state.level.tilemapSlug).getCoordsFromScreenCoords(state.mouseScreenCoords);
 
 export default getMouseCoords;

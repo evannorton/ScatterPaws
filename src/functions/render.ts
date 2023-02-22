@@ -10,16 +10,21 @@ import drawInteractHUD from "./draw/drawInteractHUD";
 import drawTimer from "./draw/drawTimer";
 import isCatStarving from "./isCatStarving";
 import drawGameOver from "./draw/drawGameOver";
+import getTilemap from "./definables/getTilemap";
+import drawVictory from "./draw/drawVictory";
 
 const render = (): void => {
   state.app.stage.removeChildren();
   drawRectangle("#000000", 1, 0, 0, gameWidth, gameHeight, 0);
   if (assetsAreLoaded()) {
-    if (isCatStarving()) {
+    if (state.won) {
+      drawVictory();
+    }
+    else if (isCatStarving()) {
       drawGameOver();
     }
     else {
-      state.tilemap.draw();
+      getTilemap(state.level.tilemapSlug).draw();
       drawCoots();
       drawInteractHUD();
       drawTimer();

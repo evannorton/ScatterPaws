@@ -3,6 +3,7 @@ import obstacleInvincibleDuration from "../../constants/obstacleInvincibleDurati
 import unitsPerTile from "../../constants/unitsPerTile";
 import CollisionType from "../../enums/CollisionType";
 import state from "../../state";
+import getTilemap from "../definables/getTilemap";
 
 const updateCootsPosition = (): void => {
   const collisionVelocityFactor = -.75;
@@ -45,22 +46,22 @@ const updateCootsPosition = (): void => {
     y: newBottomLeftCoords.y
   };
   const xCollision = [
-    state.tilemap.getCollisionAtCoords({ x: newTopLeftCoords.x, y: topLeftCoords.y }),
-    state.tilemap.getCollisionAtCoords({ x: newBottomLeftCoords.x, y: bottomLeftCoords.y }),
-    state.tilemap.getCollisionAtCoords({ x: newTopRightCoords.x, y: topRightCoords.y }),
-    state.tilemap.getCollisionAtCoords({ x: newBottomRightCoords.x, y: bottomRightCoords.y })
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: newTopLeftCoords.x, y: topLeftCoords.y }),
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: newBottomLeftCoords.x, y: bottomLeftCoords.y }),
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: newTopRightCoords.x, y: topRightCoords.y }),
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: newBottomRightCoords.x, y: bottomRightCoords.y })
   ];
   const yCollision = [
-    state.tilemap.getCollisionAtCoords({ x: topLeftCoords.x, y: newTopLeftCoords.y }),
-    state.tilemap.getCollisionAtCoords({ x: bottomLeftCoords.x, y: newBottomLeftCoords.y }),
-    state.tilemap.getCollisionAtCoords({ x: topRightCoords.x, y: newTopRightCoords.y }),
-    state.tilemap.getCollisionAtCoords({ x: bottomRightCoords.x, y: newBottomRightCoords.y })
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: topLeftCoords.x, y: newTopLeftCoords.y }),
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: bottomLeftCoords.x, y: newBottomLeftCoords.y }),
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: topRightCoords.x, y: newTopRightCoords.y }),
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: bottomRightCoords.x, y: newBottomRightCoords.y })
   ];
   const bothCollision = [
-    state.tilemap.getCollisionAtCoords({ x: newTopLeftCoords.x, y: newTopLeftCoords.y }),
-    state.tilemap.getCollisionAtCoords({ x: newBottomLeftCoords.x, y: newBottomLeftCoords.y }),
-    state.tilemap.getCollisionAtCoords({ x: newTopRightCoords.x, y: newTopRightCoords.y }),
-    state.tilemap.getCollisionAtCoords({ x: newBottomRightCoords.x, y: newBottomRightCoords.y })
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: newTopLeftCoords.x, y: newTopLeftCoords.y }),
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: newBottomLeftCoords.x, y: newBottomLeftCoords.y }),
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: newTopRightCoords.x, y: newTopRightCoords.y }),
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: newBottomRightCoords.x, y: newBottomRightCoords.y })
   ];
   const invincible: boolean = state.hasHitObstacleAt() && state.currentTime - state.hitObstacleAt < obstacleInvincibleDuration + obstacleDuration;
   if (invincible === false && xCollision.some((collision) => collision === CollisionType.Obstacle)) {

@@ -13,6 +13,8 @@ import calculateActiveDestructibles from "./calculateActiveDestructibles";
 import isRunningOnLocal from "./isRunningOnLocal";
 import isCatStarving from "./isCatStarving";
 import startLevel from "./startLevel";
+import levels from "../constants/levels";
+import getTilemap from "./definables/getTilemap";
 
 const run = async (): Promise<void> => {
   console.log(`Running ScatterPaws.`);
@@ -69,7 +71,7 @@ const run = async (): Promise<void> => {
             break;
           }
           case " ": {
-            const destructibleID: string | null = state.tilemap.getDestructibleIDWithinRange();
+            const destructibleID: string | null = getTilemap(state.level.tilemapSlug).getDestructibleIDWithinRange();
             if (destructibleID !== null) {
               const brokenDestructibles: string[] = state.brokenDestructibles;
               if (brokenDestructibles.includes(destructibleID) === false && state.activeDestructibles.includes(destructibleID)) {
@@ -77,7 +79,15 @@ const run = async (): Promise<void> => {
                 state.activeDestructibles = state.activeDestructibles.filter((activeDestructible) => activeDestructible !== destructibleID);
                 calculateActiveDestructibles();
                 if (state.activeDestructibles.length === 0) {
-                  alert("You win!");
+                  const levelIndex = levels.findIndex((level) => level === state.level);
+                  const newLevel = levels[levelIndex + 1];
+                  if (newLevel) {
+                    state.level = newLevel;
+                    startLevel();
+                  }
+                  else {
+                    state.won = true;
+                  }
                 }
               }
             }

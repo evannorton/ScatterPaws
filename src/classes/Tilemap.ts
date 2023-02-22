@@ -145,6 +145,30 @@ class Tilemap extends Definable {
     return null;
   }
 
+  public getUnbrokenDestructibles(): string[] {
+    const destructibles: string[] = [];
+    for (const layer of this._data.layers) {
+      if (layer.visible && layer.name === "furniture") {
+        for (const chunk of layer.chunks) {
+          let datumIndex = 0;
+          for (const datum of chunk.data) {
+            if (datum > 0) {
+              const tileset: Tileset = this.getDatumTileset(datum);
+              const tilesetIndex = this.getDatumTilesetIndex(datum);
+              const tile: TilesetDataTile | undefined = tileset.tiles.find((tile: TilesetDataTile): boolean => tile.id === tilesetIndex);
+              const property = tile?.properties?.find((property) => property.name === "destructibleID");
+              const destructibleID = property?.value;
+              if (typeof destructibleID === "string" && destructibles.includes(destructibleID) === false && state.brokenDestructibles.includes(destructibleID) === false) {
+                destructibles.push(destructibleID);
+              }
+            }
+          }
+        }
+      }
+    }
+    return destructibles;
+  }
+
   private drawLayer(layer: TilemapDataLayer): void {
     const cameraScreenCoords: Coords = getCameraScreenCoords();
     if (layer.visible) {

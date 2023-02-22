@@ -1,11 +1,9 @@
 import { Application } from "pixi.js";
 import levels from "../constants/levels";
 import unitsPerTile from "../constants/unitsPerTile";
-import getTilemap from "../functions/definables/getTilemap";
 import Coords from "../interfaces/Coords";
 import Level from "../interfaces/Level";
 import YSortEntry from "../interfaces/YSortEntry";
-import Tilemap from "./Tilemap";
 
 class State {
   private _activeDestructibles: string[] = [];
@@ -24,7 +22,7 @@ class State {
   private _levelStartedAt: number | null = null;
   private _loadedAssets: number = 0;
   private _mouseScreenCoords: Coords | null = null;
-  private _tilemapSlug: string = levels[0].tilemapSlug;
+  private _won: boolean = false;
   private _ySortEntries: YSortEntry[] = [];
 
   public get app(): Application {
@@ -91,12 +89,12 @@ class State {
     throw new Error(this.getAccessorErrorMessage("mouseCoords"));
   }
 
-  public get tilemap(): Tilemap {
-    return getTilemap(this._tilemapSlug);
-  }
-
   public get ySortEntries(): YSortEntry[] {
     return [...this._ySortEntries];
+  }
+
+  public get won(): boolean {
+    return this._won;
   }
 
   public set activeDestructibles(activeDestructibles: string[]) {
@@ -149,6 +147,10 @@ class State {
 
   public set mouseScreenCoords(mouseScreenCoords: Coords | null) {
     this._mouseScreenCoords = mouseScreenCoords;
+  }
+
+  public set won(won: boolean) {
+    this._won = won;
   }
 
   public set ySortEntries(ySortEntries: YSortEntry[]) {

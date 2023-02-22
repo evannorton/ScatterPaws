@@ -29,18 +29,6 @@ class Tileset extends Definable {
   public get tileHeight(): number {
     return this._data.tileheight;
   }
-
-  public getUnbrokenDestructibles(): string[] {
-    const destructibles: string[] = [];
-    for (const tile of this.tiles) {
-      const property = tile.properties?.find((property) => property.name === "destructibleID");
-      const destructibleID = property?.value;
-      if (typeof destructibleID === "string" && destructibles.includes(destructibleID) === false && state.brokenDestructibles.includes(destructibleID) === false) {
-        destructibles.push(destructibleID);
-      }
-    }
-    return destructibles;
-  }
 }
 
 export default Tileset;
