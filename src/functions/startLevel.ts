@@ -1,5 +1,3 @@
-import startingTileX from "../constants/startingTileX";
-import startingTileY from "../constants/startingTileY";
 import unitsPerTile from "../constants/unitsPerTile";
 import state from "../state";
 import calculateActiveDestructibles from "./calculateActiveDestructibles";
@@ -12,8 +10,8 @@ const startLevel = (): void => {
   state.cootsVelocityX = 0;
   state.cootsVelocityY = 0;
   state.cootsCoords = {
-    x: startingTileX * unitsPerTile,
-    y: startingTileY * unitsPerTile
+    x: state.level.startingTileX * unitsPerTile,
+    y: state.level.startingTileY * unitsPerTile
   };
   calculateActiveDestructibles();
 };

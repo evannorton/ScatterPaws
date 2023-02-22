@@ -25661,33 +25661,20 @@ void main() {
     }
   });
 
-  // lib/constants/startingTilemapSlug.js
-  var require_startingTilemapSlug = __commonJS({
-    "lib/constants/startingTilemapSlug.js"(exports) {
+  // lib/constants/levels.js
+  var require_levels = __commonJS({
+    "lib/constants/levels.js"(exports) {
       "use strict";
       Object.defineProperty(exports, "__esModule", { value: true });
-      var startingTilemapSlug = "map";
-      exports.default = startingTilemapSlug;
-    }
-  });
-
-  // lib/constants/startingTileX.js
-  var require_startingTileX = __commonJS({
-    "lib/constants/startingTileX.js"(exports) {
-      "use strict";
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var startingTileX = 6;
-      exports.default = startingTileX;
-    }
-  });
-
-  // lib/constants/startingTileY.js
-  var require_startingTileY = __commonJS({
-    "lib/constants/startingTileY.js"(exports) {
-      "use strict";
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var startingTileY = 6;
-      exports.default = startingTileY;
+      var levels = [
+        {
+          startingTileX: 6,
+          startingTileY: 6,
+          tilemapSlug: "map",
+          time: 1e4
+        }
+      ];
+      exports.default = levels;
     }
   });
 
@@ -25747,9 +25734,7 @@ void main() {
         return mod && mod.__esModule ? mod : { "default": mod };
       };
       Object.defineProperty(exports, "__esModule", { value: true });
-      var startingTilemapSlug_1 = __importDefault(require_startingTilemapSlug());
-      var startingTileX_1 = __importDefault(require_startingTileX());
-      var startingTileY_1 = __importDefault(require_startingTileY());
+      var levels_1 = __importDefault(require_levels());
       var unitsPerTile_1 = __importDefault(require_unitsPerTile());
       var getTilemap_1 = __importDefault(require_getTilemap());
       var State = class {
@@ -25758,18 +25743,19 @@ void main() {
           this._app = null;
           this._brokenDestructibles = [];
           this._cootsCoords = {
-            x: startingTileX_1.default * unitsPerTile_1.default,
-            y: startingTileY_1.default * unitsPerTile_1.default
+            x: levels_1.default[0].startingTileX * unitsPerTile_1.default,
+            y: levels_1.default[0].startingTileY * unitsPerTile_1.default
           };
           this._cootsVelocityX = 0;
           this._cootsVelocityY = 0;
           this._currentTime = 0;
           this._heldKeys = [];
           this._hitObstacleAt = null;
+          this._level = levels_1.default[0];
           this._levelStartedAt = null;
           this._loadedAssets = 0;
           this._mouseScreenCoords = null;
-          this._tilemapSlug = startingTilemapSlug_1.default;
+          this._tilemapSlug = levels_1.default[0].tilemapSlug;
           this._ySortEntries = [];
         }
         get app() {
@@ -25804,6 +25790,9 @@ void main() {
             return this._hitObstacleAt;
           }
           throw new Error(this.getAccessorErrorMessage("hitObstacleAt"));
+        }
+        get level() {
+          return this._level;
         }
         get levelStartedAt() {
           if (this._levelStartedAt !== null) {
@@ -25852,6 +25841,9 @@ void main() {
         }
         set hitObstacleAt(hitObstacleAt) {
           this._hitObstacleAt = hitObstacleAt;
+        }
+        set level(level) {
+          this._level = level;
         }
         set levelStartedAt(levelStartedAt) {
           this._levelStartedAt = levelStartedAt;
@@ -41894,16 +41886,6 @@ void main() {
     }
   });
 
-  // lib/constants/timePerLevel.js
-  var require_timePerLevel = __commonJS({
-    "lib/constants/timePerLevel.js"(exports) {
-      "use strict";
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var timePerLevel = 1e4;
-      exports.default = timePerLevel;
-    }
-  });
-
   // lib/functions/draw/drawTimer.js
   var require_drawTimer = __commonJS({
     "lib/functions/draw/drawTimer.js"(exports) {
@@ -41916,12 +41898,11 @@ void main() {
       var drawText_1 = __importDefault(require_drawText());
       var drawRectangle_1 = __importDefault(require_drawRectangle());
       var state_1 = __importDefault(require_state());
-      var timePerLevel_1 = __importDefault(require_timePerLevel());
       var drawTimer = () => {
         const offset = 4;
         const width = 26;
         const height = 11;
-        const timeLeft = timePerLevel_1.default - (state_1.default.currentTime - state_1.default.levelStartedAt);
+        const timeLeft = state_1.default.level.time - (state_1.default.currentTime - state_1.default.levelStartedAt);
         const secondsLeft = Math.floor(timeLeft / 1e3);
         (0, drawText_1.default)(`${Math.floor(secondsLeft / 60)}:${`${secondsLeft % 60}`.padStart(2, "0")}`, "#ffffff", gameWidth_1.default - offset - 2, offset + 2, 1, gameWidth_1.default, 1, "right", "top");
         (0, drawRectangle_1.default)("#000000", 0.25, gameWidth_1.default - offset - width, offset, width, height, 10002);
@@ -41938,9 +41919,8 @@ void main() {
         return mod && mod.__esModule ? mod : { "default": mod };
       };
       Object.defineProperty(exports, "__esModule", { value: true });
-      var timePerLevel_1 = __importDefault(require_timePerLevel());
       var state_1 = __importDefault(require_state());
-      var isCatStarving = () => state_1.default.hasLevelStartedAt() && state_1.default.currentTime - state_1.default.levelStartedAt >= timePerLevel_1.default;
+      var isCatStarving = () => state_1.default.hasLevelStartedAt() && state_1.default.currentTime - state_1.default.levelStartedAt >= state_1.default.level.time;
       exports.default = isCatStarving;
     }
   });
@@ -42359,8 +42339,6 @@ void main() {
         return mod && mod.__esModule ? mod : { "default": mod };
       };
       Object.defineProperty(exports, "__esModule", { value: true });
-      var startingTileX_1 = __importDefault(require_startingTileX());
-      var startingTileY_1 = __importDefault(require_startingTileY());
       var unitsPerTile_1 = __importDefault(require_unitsPerTile());
       var state_1 = __importDefault(require_state());
       var calculateActiveDestructibles_1 = __importDefault(require_calculateActiveDestructibles());
@@ -42372,8 +42350,8 @@ void main() {
         state_1.default.cootsVelocityX = 0;
         state_1.default.cootsVelocityY = 0;
         state_1.default.cootsCoords = {
-          x: startingTileX_1.default * unitsPerTile_1.default,
-          y: startingTileY_1.default * unitsPerTile_1.default
+          x: state_1.default.level.startingTileX * unitsPerTile_1.default,
+          y: state_1.default.level.startingTileY * unitsPerTile_1.default
         };
         (0, calculateActiveDestructibles_1.default)();
       };

@@ -1,10 +1,9 @@
 import { Application } from "pixi.js";
-import startingTilemapSlug from "../constants/startingTilemapSlug";
-import startingTileX from "../constants/startingTileX";
-import startingTileY from "../constants/startingTileY";
+import levels from "../constants/levels";
 import unitsPerTile from "../constants/unitsPerTile";
 import getTilemap from "../functions/definables/getTilemap";
 import Coords from "../interfaces/Coords";
+import Level from "../interfaces/Level";
 import YSortEntry from "../interfaces/YSortEntry";
 import Tilemap from "./Tilemap";
 
@@ -13,18 +12,19 @@ class State {
   private _app: Application | null = null;
   private _brokenDestructibles: string[] = [];
   private _cootsCoords: Coords = {
-    x: startingTileX * unitsPerTile,
-    y: startingTileY * unitsPerTile
+    x: levels[0].startingTileX * unitsPerTile,
+    y: levels[0].startingTileY * unitsPerTile
   }
   private _cootsVelocityX: number = 0;
   private _cootsVelocityY: number = 0;
   private _currentTime: number = 0;
   private _heldKeys: string[] = [];
   private _hitObstacleAt: number | null = null;
+  private _level: Level = levels[0];
   private _levelStartedAt: number | null = null;
   private _loadedAssets: number = 0;
   private _mouseScreenCoords: Coords | null = null;
-  private _tilemapSlug: string = startingTilemapSlug;
+  private _tilemapSlug: string = levels[0].tilemapSlug;
   private _ySortEntries: YSortEntry[] = [];
 
   public get app(): Application {
@@ -67,6 +67,10 @@ class State {
       return this._hitObstacleAt;
     }
     throw new Error(this.getAccessorErrorMessage("hitObstacleAt"));
+  }
+
+  public get level(): Level {
+    return this._level;
   }
 
   public get levelStartedAt(): number {
@@ -129,6 +133,10 @@ class State {
 
   public set hitObstacleAt(hitObstacleAt: number | null) {
     this._hitObstacleAt = hitObstacleAt;
+  }
+
+  public set level(level: Level) {
+    this._level = level;
   }
 
   public set levelStartedAt(levelStartedAt: number | null) {
