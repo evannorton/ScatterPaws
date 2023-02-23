@@ -5,7 +5,7 @@ import drawImage from "./drawImage";
 import drawRectangle from "./drawRectangle";
 
 const drawTitle = (): void => {
-  drawRectangle("#dc7b9a", 1, 0, 0, gameWidth, gameHeight, 0);
+  drawRectangle("#e3c7b1", 1, 0, 0, gameWidth, gameHeight, 0);
   const frameDuration: number = 50;
   const xOffset = Math.floor((state.currentTime % (gameWidth / 2 * frameDuration)) / frameDuration);
   const yOffset = Math.floor((state.currentTime % (gameHeight * frameDuration)) / frameDuration);
