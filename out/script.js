@@ -45259,7 +45259,7 @@ void main() {
         const x = 110;
         const height = 81;
         const y = gameHeight_1.default / 2 - height / 2;
-        (0, drawRectangle_1.default)("#000000", 0.75, x, y, gameWidth_1.default - x * 2, height, 1e4);
+        (0, drawRectangle_1.default)("#000000", 0.5, x, y, gameWidth_1.default - x * 2, height, 1e4);
         (0, drawText_1.default)("Level Complete!", "#ffffff", gameWidth_1.default / 2, y + 6, 1, gameWidth_1.default, 1, "center", "top");
         const frameDuration = 65;
         const frame = Math.floor(state_1.default.currentTime % (frameDuration * 4) / frameDuration);
