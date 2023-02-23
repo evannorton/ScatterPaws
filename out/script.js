@@ -26222,8 +26222,8 @@ void main() {
         }
         getDestructibleWithinRange() {
           var _a, _b;
-          const tileX = Math.round(state_1.default.cootsCoords.x / unitsPerTile_1.default);
-          const tileY = Math.round(state_1.default.cootsCoords.y / unitsPerTile_1.default);
+          const tileX = state_1.default.cootsCoords.x / unitsPerTile_1.default;
+          const tileY = state_1.default.cootsCoords.y / unitsPerTile_1.default;
           for (const layer of this._data.layers) {
             if (layer.visible && layer.name === "furniture") {
               for (const chunk of layer.chunks) {
@@ -26241,7 +26241,8 @@ void main() {
                     const destructibleID = destructibleIDProperty === null || destructibleIDProperty === void 0 ? void 0 : destructibleIDProperty.value;
                     const uninteractableProperty = tile && ((_b = tile.properties) === null || _b === void 0 ? void 0 : _b.find((property) => property.name === "uninteractable"));
                     const uninteractable = uninteractableProperty === null || uninteractableProperty === void 0 ? void 0 : uninteractableProperty.value;
-                    if (datum > 0 && Math.abs(tileX - datumTileX) <= 1 && Math.abs(tileY - datumTileY) <= 1 && typeof destructibleID === "string" && !uninteractable) {
+                    const scratchRange = 2;
+                    if (datum > 0 && Math.abs(tileX - datumTileX) <= scratchRange && Math.abs(tileY - datumTileY) <= scratchRange && typeof destructibleID === "string" && !uninteractable) {
                       return {
                         destructibleID,
                         tileID: tilesetIndex

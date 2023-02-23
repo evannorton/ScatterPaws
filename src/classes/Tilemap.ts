@@ -115,8 +115,8 @@ class Tilemap extends Definable {
   }
 
   public getDestructibleWithinRange(): Destructible | null {
-    const tileX: number = Math.round(state.cootsCoords.x / unitsPerTile);
-    const tileY: number = Math.round(state.cootsCoords.y / unitsPerTile);
+    const tileX: number = state.cootsCoords.x / unitsPerTile;
+    const tileY: number = state.cootsCoords.y / unitsPerTile;
     for (const layer of this._data.layers) {
       if (layer.visible && layer.name === "furniture") {
         for (const chunk of layer.chunks) {
@@ -133,8 +133,9 @@ class Tilemap extends Definable {
               const destructibleIDProperty = tile && tile.properties?.find((property): boolean => property.name === "destructibleID");
               const destructibleID = destructibleIDProperty?.value;
               const uninteractableProperty = tile && tile.properties?.find((property): boolean => property.name === "uninteractable");
-              const uninteractable = uninteractableProperty?.value
-              if (datum > 0 && Math.abs(tileX - datumTileX) <= 1 && Math.abs(tileY - datumTileY) <= 1 && typeof destructibleID === "string" && !uninteractable) {
+              const uninteractable = uninteractableProperty?.value;
+              const scratchRange = 2;
+              if (datum > 0 && Math.abs(tileX - datumTileX) <= scratchRange && Math.abs(tileY - datumTileY) <= scratchRange && typeof destructibleID === "string" && !uninteractable) {
                 return {
                   destructibleID,
                   tileID: tilesetIndex
