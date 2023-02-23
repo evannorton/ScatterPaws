@@ -44727,6 +44727,7 @@ void main() {
         new ImageSource_1.default("scratch");
         new ImageSource_1.default("title");
         new ImageSource_1.default("pattern");
+        new ImageSource_1.default("buttons/play");
         new AudioSource_1.default("music/music");
         new AudioSource_1.default("noises/scratch");
         new AudioSource_1.default("noises/meow");
@@ -48308,6 +48309,7 @@ void main() {
           }
         }
         (0, drawImage_1.default)("title", 1, 0, 0, gameWidth_1.default, gameHeight_1.default, 0, 0, gameWidth_1.default, gameHeight_1.default, null);
+        (0, drawImage_1.default)("buttons/play", 1, 0, 0, 48, 24, 84, 134, 48, 24, null);
       };
       exports.default = drawTitle;
     }

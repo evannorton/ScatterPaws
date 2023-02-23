@@ -31,6 +31,7 @@ const define = (): void => {
   new ImageSource("scratch");
   new ImageSource("title");
   new ImageSource("pattern");
+  new ImageSource("buttons/play");
   new AudioSource("music/music");
   new AudioSource("noises/scratch");
   new AudioSource("noises/meow");

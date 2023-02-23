@@ -17,6 +17,7 @@ const drawTitle = (): void => {
     }
   }
   drawImage("title", 1, 0, 0, gameWidth, gameHeight, 0, 0, gameWidth, gameHeight, null);
+  drawImage("buttons/play", 1, 0, 0, 48, 24, 84, 134, 48, 24, null);
 }
 
 export default drawTitle;
