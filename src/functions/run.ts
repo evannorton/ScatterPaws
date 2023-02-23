@@ -9,14 +9,10 @@ import gameScale from "../constants/gameScale";
 import AudioSource from "../classes/AudioSource";
 import getAudioSource from "./definables/getAudioSource";
 import focusScreen from "./focusScreen";
-import calculateActiveDestructibles from "./calculateActiveDestructibles";
 import isRunningOnLocal from "./isRunningOnLocal";
 import isCatStarving from "./isCatStarving";
 import startLevel from "./startLevel";
-import levels from "../constants/levels";
-import getTilemap from "./definables/getTilemap";
-import gameIsOngoing from "./gameIsOngoing";
-import isClawOnCooldown from "./isClawOnCooldown";
+import attemptScratch from "./attemptScratch";
 
 const run = async (): Promise<void> => {
   console.log(`Running ScatterPaws.`);
@@ -46,7 +42,8 @@ const run = async (): Promise<void> => {
     screen.appendChild(state.app.view);
     screen.style.width = `${gameWidth * gameScale}px`;
     screen.style.height = `${gameHeight * gameScale}px`;
-    screen.addEventListener("mousedown", (e) => {
+    screen.addEventListener("mousedown", () => {
+      attemptScratch();
       if (isCatStarving()) {
         startLevel();
       }
@@ -73,34 +70,8 @@ const run = async (): Promise<void> => {
             break;
           }
           case " ": {
-            if (gameIsOngoing()) {
-              const cooldown: boolean = isClawOnCooldown();
-              if (cooldown === false) {
-                getAudioSource("noises/scratch").play(null, null);
-                state.clawedAt = state.currentTime;
-                const destructibleID: string | null = getTilemap(state.level.tilemapSlug).getDestructibleIDWithinRange();
-                if (destructibleID !== null) {
-                  const brokenDestructibles: string[] = state.brokenDestructibles;
-                  if (brokenDestructibles.includes(destructibleID) === false && state.activeDestructibles.includes(destructibleID)) {
-                    state.brokenDestructibles = [...brokenDestructibles, destructibleID];
-                    state.activeDestructibles = state.activeDestructibles.filter((activeDestructible) => activeDestructible !== destructibleID);
-                    calculateActiveDestructibles();
-                    if (state.activeDestructibles.length === 0) {
-                      const levelIndex = levels.findIndex((level) => level === state.level);
-                      const newLevel = levels[levelIndex + 1];
-                      if (newLevel) {
-                        state.level = newLevel;
-                        startLevel();
-                      }
-                      else {
-                        state.won = true;
-                      }
-                    }
-                  }
-                }
-              }
-              break;
-            }
+            attemptScratch();
+            break;
           }
         }
       }

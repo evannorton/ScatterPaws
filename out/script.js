@@ -48650,6 +48650,54 @@ void main() {
     }
   });
 
+  // lib/functions/attemptScratch.js
+  var require_attemptScratch = __commonJS({
+    "lib/functions/attemptScratch.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var calculateActiveDestructibles_1 = __importDefault(require_calculateActiveDestructibles());
+      var levels_1 = __importDefault(require_levels());
+      var getTilemap_1 = __importDefault(require_getTilemap());
+      var gameIsOngoing_1 = __importDefault(require_gameIsOngoing());
+      var isClawOnCooldown_1 = __importDefault(require_isClawOnCooldown());
+      var getAudioSource_1 = __importDefault(require_getAudioSource());
+      var state_1 = __importDefault(require_state());
+      var startLevel_1 = __importDefault(require_startLevel());
+      var attemptScratch = () => {
+        if ((0, gameIsOngoing_1.default)()) {
+          const cooldown = (0, isClawOnCooldown_1.default)();
+          if (cooldown === false) {
+            (0, getAudioSource_1.default)("noises/scratch").play(null, null);
+            state_1.default.clawedAt = state_1.default.currentTime;
+            const destructibleID = (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getDestructibleIDWithinRange();
+            if (destructibleID !== null) {
+              const brokenDestructibles = state_1.default.brokenDestructibles;
+              if (brokenDestructibles.includes(destructibleID) === false && state_1.default.activeDestructibles.includes(destructibleID)) {
+                state_1.default.brokenDestructibles = [...brokenDestructibles, destructibleID];
+                state_1.default.activeDestructibles = state_1.default.activeDestructibles.filter((activeDestructible) => activeDestructible !== destructibleID);
+                (0, calculateActiveDestructibles_1.default)();
+                if (state_1.default.activeDestructibles.length === 0) {
+                  const levelIndex = levels_1.default.findIndex((level) => level === state_1.default.level);
+                  const newLevel = levels_1.default[levelIndex + 1];
+                  if (newLevel) {
+                    state_1.default.level = newLevel;
+                    (0, startLevel_1.default)();
+                  } else {
+                    state_1.default.won = true;
+                  }
+                }
+              }
+            }
+          }
+        }
+      };
+      exports.default = attemptScratch;
+    }
+  });
+
   // lib/functions/run.js
   var require_run = __commonJS({
     "lib/functions/run.js"(exports) {
@@ -48695,14 +48743,10 @@ void main() {
       var gameScale_1 = __importDefault(require_gameScale());
       var getAudioSource_1 = __importDefault(require_getAudioSource());
       var focusScreen_1 = __importDefault(require_focusScreen());
-      var calculateActiveDestructibles_1 = __importDefault(require_calculateActiveDestructibles());
       var isRunningOnLocal_1 = __importDefault(require_isRunningOnLocal());
       var isCatStarving_1 = __importDefault(require_isCatStarving());
       var startLevel_1 = __importDefault(require_startLevel());
-      var levels_1 = __importDefault(require_levels());
-      var getTilemap_1 = __importDefault(require_getTilemap());
-      var gameIsOngoing_1 = __importDefault(require_gameIsOngoing());
-      var isClawOnCooldown_1 = __importDefault(require_isClawOnCooldown());
+      var attemptScratch_1 = __importDefault(require_attemptScratch());
       var run = () => __awaiter(void 0, void 0, void 0, function* () {
         console.log(`Running ScatterPaws.`);
         (0, define_1.default)();
@@ -48731,7 +48775,8 @@ void main() {
           screen.appendChild(state_1.default.app.view);
           screen.style.width = `${gameWidth_1.default * gameScale_1.default}px`;
           screen.style.height = `${gameHeight_1.default * gameScale_1.default}px`;
-          screen.addEventListener("mousedown", (e) => {
+          screen.addEventListener("mousedown", () => {
+            (0, attemptScratch_1.default)();
             if ((0, isCatStarving_1.default)()) {
               (0, startLevel_1.default)();
             }
@@ -48758,33 +48803,8 @@ void main() {
                   break;
                 }
                 case " ": {
-                  if ((0, gameIsOngoing_1.default)()) {
-                    const cooldown = (0, isClawOnCooldown_1.default)();
-                    if (cooldown === false) {
-                      (0, getAudioSource_1.default)("noises/scratch").play(null, null);
-                      state_1.default.clawedAt = state_1.default.currentTime;
-                      const destructibleID = (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getDestructibleIDWithinRange();
-                      if (destructibleID !== null) {
-                        const brokenDestructibles = state_1.default.brokenDestructibles;
-                        if (brokenDestructibles.includes(destructibleID) === false && state_1.default.activeDestructibles.includes(destructibleID)) {
-                          state_1.default.brokenDestructibles = [...brokenDestructibles, destructibleID];
-                          state_1.default.activeDestructibles = state_1.default.activeDestructibles.filter((activeDestructible) => activeDestructible !== destructibleID);
-                          (0, calculateActiveDestructibles_1.default)();
-                          if (state_1.default.activeDestructibles.length === 0) {
-                            const levelIndex = levels_1.default.findIndex((level) => level === state_1.default.level);
-                            const newLevel = levels_1.default[levelIndex + 1];
-                            if (newLevel) {
-                              state_1.default.level = newLevel;
-                              (0, startLevel_1.default)();
-                            } else {
-                              state_1.default.won = true;
-                            }
-                          }
-                        }
-                      }
-                    }
-                    break;
-                  }
+                  (0, attemptScratch_1.default)();
+                  break;
                 }
               }
             }
