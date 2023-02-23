@@ -2,6 +2,9 @@ import gameWidth from "../../constants/gameWidth";
 import drawText from "./drawText";
 import drawRectangle from "./drawRectangle";
 import state from "../../state";
+import drawImage from "./drawImage";
+import HardZIndex from "../../interfaces/ZIndex/HardZIndex";
+import ZIndexType from "../../enums/ZIndexType";
 
 const drawTimer = (): void => {
   const offset: number = 4;
@@ -9,6 +12,17 @@ const drawTimer = (): void => {
   const height: number = 11;
   const timeLeft: number = state.level.time - (state.currentTime - state.levelStartedAt);
   const secondsLeft: number = Math.floor(timeLeft / 1000);
+  const hungerZIndex: HardZIndex = {
+    type: ZIndexType.Hard,
+    value: 10003
+  }
+  const percent: number = 1 - secondsLeft / state.level.time * 1000;
+  const frame: number = percent < 1 / 3
+    ? 0
+    : percent < 2 / 3
+      ? 1
+      : 2;
+  drawImage("hunger", 1, frame * 14, 0, 14, 14, gameWidth - offset - width - 17, offset - 2, 14, 14, hungerZIndex);
   drawText(`${Math.floor(secondsLeft / 60)}:${`${secondsLeft % 60}`.padStart(2, "0")}`, "#ffffff", gameWidth - offset - 2, offset + 2, 1, gameWidth, 1, "right", "top");
   drawRectangle("#000000", .25, gameWidth - offset - width, offset, width, height, 10003);
 }

@@ -44728,6 +44728,7 @@ void main() {
         new ImageSource_1.default("title");
         new ImageSource_1.default("pattern");
         new ImageSource_1.default("buttons/play");
+        new ImageSource_1.default("hunger");
         new AudioSource_1.default("music/music");
         new AudioSource_1.default("noises/scratch");
         new AudioSource_1.default("noises/meow");
@@ -48220,12 +48221,21 @@ void main() {
       var drawText_1 = __importDefault(require_drawText());
       var drawRectangle_1 = __importDefault(require_drawRectangle());
       var state_1 = __importDefault(require_state());
+      var drawImage_1 = __importDefault(require_drawImage());
+      var ZIndexType_1 = __importDefault(require_ZIndexType());
       var drawTimer = () => {
         const offset = 4;
         const width = 26;
         const height = 11;
         const timeLeft = state_1.default.level.time - (state_1.default.currentTime - state_1.default.levelStartedAt);
         const secondsLeft = Math.floor(timeLeft / 1e3);
+        const hungerZIndex = {
+          type: ZIndexType_1.default.Hard,
+          value: 10003
+        };
+        const percent = 1 - secondsLeft / state_1.default.level.time * 1e3;
+        const frame = percent < 1 / 3 ? 0 : percent < 2 / 3 ? 1 : 2;
+        (0, drawImage_1.default)("hunger", 1, frame * 14, 0, 14, 14, gameWidth_1.default - offset - width - 17, offset - 2, 14, 14, hungerZIndex);
         (0, drawText_1.default)(`${Math.floor(secondsLeft / 60)}:${`${secondsLeft % 60}`.padStart(2, "0")}`, "#ffffff", gameWidth_1.default - offset - 2, offset + 2, 1, gameWidth_1.default, 1, "right", "top");
         (0, drawRectangle_1.default)("#000000", 0.25, gameWidth_1.default - offset - width, offset, width, height, 10003);
       };
