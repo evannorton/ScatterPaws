@@ -44675,6 +44675,7 @@ void main() {
         new ImageSource_1.default("game-over");
         new ImageSource_1.default("victory");
         new AudioSource_1.default("music/music");
+        new AudioSource_1.default("noises/scratch");
       };
       exports.default = define2;
     }
@@ -47735,11 +47736,15 @@ void main() {
   var require_socket3 = __commonJS({
     "lib/socket.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
       var socket_io_client_1 = require_cjs5();
-      var socket = (0, socket_io_client_1.io)(location.href, {
+      var isRunningOnLocal_1 = __importDefault(require_isRunningOnLocal());
+      var socket = (0, isRunningOnLocal_1.default)() ? (0, socket_io_client_1.io)(location.href, {
         autoConnect: true
-      });
+      }) : null;
       exports.default = socket;
     }
   });
@@ -48756,6 +48761,7 @@ void main() {
                   if ((0, gameIsOngoing_1.default)()) {
                     const cooldown = (0, isClawOnCooldown_1.default)();
                     if (cooldown === false) {
+                      (0, getAudioSource_1.default)("noises/scratch").play(null, null);
                       state_1.default.clawedAt = state_1.default.currentTime;
                       const destructibleID = (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getDestructibleIDWithinRange();
                       if (destructibleID !== null) {
@@ -48796,11 +48802,13 @@ void main() {
         }
         const music = (0, getAudioSource_1.default)("music/music");
         music.play(132e3, null);
-        socket_1.default.on("run-id", (runID) => {
-          if (document.body.dataset.runId !== runID) {
-            location.reload();
-          }
-        });
+        if (socket_1.default) {
+          socket_1.default.on("run-id", (runID) => {
+            if (document.body.dataset.runId !== runID) {
+              location.reload();
+            }
+          });
+        }
         (0, focusScreen_1.default)();
         (0, startLevel_1.default)();
       });

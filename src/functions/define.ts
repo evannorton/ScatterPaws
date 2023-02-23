@@ -29,6 +29,7 @@ const define = (): void => {
   new ImageSource("game-over");
   new ImageSource("victory");
   new AudioSource("music/music");
+  new AudioSource("noises/scratch");
 };
 
 export default define;

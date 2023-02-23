@@ -76,6 +76,7 @@ const run = async (): Promise<void> => {
             if (gameIsOngoing()) {
               const cooldown: boolean = isClawOnCooldown();
               if (cooldown === false) {
+                getAudioSource("noises/scratch").play(null, null);
                 state.clawedAt = state.currentTime;
                 const destructibleID: string | null = getTilemap(state.level.tilemapSlug).getDestructibleIDWithinRange();
                 if (destructibleID !== null) {
@@ -117,11 +118,13 @@ const run = async (): Promise<void> => {
   }
   const music: AudioSource = getAudioSource("music/music");
   music.play(132000, null);
-  socket.on("run-id", (runID: string) => {
-    if (document.body.dataset.runId !== runID) {
-      location.reload();
-    }
-  });
+  if (socket) {
+    socket.on("run-id", (runID: string) => {
+      if (document.body.dataset.runId !== runID) {
+        location.reload();
+      }
+    });
+  }
   focusScreen();
   startLevel();
 };
