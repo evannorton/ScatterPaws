@@ -43,7 +43,7 @@ const drawCoots = (): void => {
     ySortID: "coots",
     type: ZIndexType.YSort
   };
-  drawImage("coots", sourceX, sourceY, cootsWidth, cootsHeight, x, y, cootsWidth, cootsHeight, ySortZIndex);
+  drawImage("coots", 1, sourceX, sourceY, cootsWidth, cootsHeight, x, y, cootsWidth, cootsHeight, ySortZIndex);
 };
 
 export default drawCoots;

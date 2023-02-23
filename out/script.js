@@ -25718,6 +25718,7 @@ void main() {
           this._currentTime = 0;
           this._heldKeys = [];
           this._hitObstacleAt = null;
+          this._isAtTitle = true;
           this._level = levels_1.default[0];
           this._levelStartedAt = null;
           this._loadedAssets = 0;
@@ -25758,6 +25759,9 @@ void main() {
             return this._hitObstacleAt;
           }
           throw new Error(this.getAccessorErrorMessage("hitObstacleAt"));
+        }
+        get isAtTitle() {
+          return this._isAtTitle;
         }
         get level() {
           return this._level;
@@ -25815,6 +25819,9 @@ void main() {
         }
         set hitObstacleAt(hitObstacleAt) {
           this._hitObstacleAt = hitObstacleAt;
+        }
+        set isAtTitle(isAtTitle) {
+          this._isAtTitle = isAtTitle;
         }
         set level(level) {
           this._level = level;
@@ -26049,7 +26056,7 @@ void main() {
       var gameWidth_1 = __importDefault(require_gameWidth());
       var gameHeight_1 = __importDefault(require_gameHeight());
       var ZIndexType_1 = __importDefault(require_ZIndexType());
-      var drawImage = (imageSourceSlug, sourceX, sourceY, sourceWidth, sourceHeight, x, y, width, height, zIndex) => {
+      var drawImage = (imageSourceSlug, opacity, sourceX, sourceY, sourceWidth, sourceHeight, x, y, width, height, zIndex) => {
         const imageSource = (0, getImageSource_1.default)(imageSourceSlug);
         if (x + width > 0 && x < gameWidth_1.default && y + height > 0 && y < gameHeight_1.default) {
           const texture = imageSource.getBaseTexture();
@@ -26068,6 +26075,7 @@ void main() {
           sprite.y = adjustedY;
           sprite.width = adjustedWidth;
           sprite.height = adjustedHeight;
+          sprite.alpha = opacity;
           if (zIndex !== null) {
             switch (zIndex.type) {
               case ZIndexType_1.default.Hard: {
@@ -26311,7 +26319,7 @@ void main() {
                     ySortID,
                     type: ZIndexType_1.default.YSort
                   } : null;
-                  (0, drawImage_1.default)(`tilesets/${tileset.slug}`, tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight, ySortZIndex);
+                  (0, drawImage_1.default)(`tilesets/${tileset.slug}`, 1, tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight, ySortZIndex);
                   if (state_1.default.hasRecentDestruction() && state_1.default.recentDestruction.destructibleID === destructibleID && state_1.default.recentDestruction.tileID === tilesetIndex) {
                     const diff = state_1.default.currentTime - state_1.default.recentDestruction.clawedAt;
                     const frame = Math.floor(diff / 100);
@@ -26320,7 +26328,7 @@ void main() {
                         value: 1e4,
                         type: ZIndexType_1.default.Hard
                       };
-                      (0, drawImage_1.default)("scratch", frame * 16, 0, 16, 16, tileX, tileY, 16, 16, scratchZIndex);
+                      (0, drawImage_1.default)("scratch", 1, frame * 16, 0, 16, 16, tileX, tileY, 16, 16, scratchZIndex);
                     }
                   }
                   if (layer.name === "furniture") {
@@ -26335,7 +26343,7 @@ void main() {
                           type: ZIndexType_1.default.Hard
                         };
                         const frameAnimationOffset = Math.floor(state_1.default.currentTime % (timePerIndicatorFrame_1.default * 4) / timePerIndicatorFrame_1.default) * 7;
-                        (0, drawImage_1.default)("indicator", frameAnimationOffset, 0, 7, 10, tileX + indicatorXOffset, tileY + indicatorYOffset, 7, 10, hardZIndex);
+                        (0, drawImage_1.default)("indicator", 1, frameAnimationOffset, 0, 7, 10, tileX + indicatorXOffset, tileY + indicatorYOffset, 7, 10, hardZIndex);
                       }
                     }
                   }
@@ -44717,6 +44725,8 @@ void main() {
         new ImageSource_1.default("game-over");
         new ImageSource_1.default("victory");
         new ImageSource_1.default("scratch");
+        new ImageSource_1.default("title");
+        new ImageSource_1.default("pattern");
         new AudioSource_1.default("music/music");
         new AudioSource_1.default("noises/scratch");
         new AudioSource_1.default("noises/destroy/electronic");
@@ -48038,7 +48048,7 @@ void main() {
           ySortID: "coots",
           type: ZIndexType_1.default.YSort
         };
-        (0, drawImage_1.default)("coots", sourceX, sourceY, cootsWidth_1.default, cootsHeight_1.default, x, y, cootsWidth_1.default, cootsHeight_1.default, ySortZIndex);
+        (0, drawImage_1.default)("coots", 1, sourceX, sourceY, cootsWidth_1.default, cootsHeight_1.default, x, y, cootsWidth_1.default, cootsHeight_1.default, ySortZIndex);
       };
       exports.default = drawCoots;
     }
@@ -48106,7 +48116,7 @@ void main() {
         const height = 30;
         const offset = 4;
         const sourceX = ((0, isClawOnCooldown_1.default)() ? width * 2 : 0) + (canDestroy ? 0 : width);
-        (0, drawImage_1.default)("interact-hud", sourceX, 0, width, height, offset, gameHeight_1.default - height - offset, width, height, hardZIndex);
+        (0, drawImage_1.default)("interact-hud", 1, sourceX, 0, width, height, offset, gameHeight_1.default - height - offset, width, height, hardZIndex);
       };
       exports.default = drawInteractHUD;
     }
@@ -48247,7 +48257,7 @@ void main() {
       var gameWidth_1 = __importDefault(require_gameWidth());
       var drawImage_1 = __importDefault(require_drawImage());
       var drawGameOver = () => {
-        (0, drawImage_1.default)("game-over", 0, 0, gameWidth_1.default, gameHeight_1.default, 0, 0, gameWidth_1.default, gameHeight_1.default, null);
+        (0, drawImage_1.default)("game-over", 1, 0, 0, gameWidth_1.default, gameHeight_1.default, 0, 0, gameWidth_1.default, gameHeight_1.default, null);
       };
       exports.default = drawGameOver;
     }
@@ -48265,9 +48275,40 @@ void main() {
       var gameWidth_1 = __importDefault(require_gameWidth());
       var drawImage_1 = __importDefault(require_drawImage());
       var drawVictory = () => {
-        (0, drawImage_1.default)("victory", 0, 0, gameWidth_1.default, gameHeight_1.default, 0, 0, gameWidth_1.default, gameHeight_1.default, null);
+        (0, drawImage_1.default)("victory", 1, 0, 0, gameWidth_1.default, gameHeight_1.default, 0, 0, gameWidth_1.default, gameHeight_1.default, null);
       };
       exports.default = drawVictory;
+    }
+  });
+
+  // lib/functions/draw/drawTitle.js
+  var require_drawTitle = __commonJS({
+    "lib/functions/draw/drawTitle.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var gameHeight_1 = __importDefault(require_gameHeight());
+      var gameWidth_1 = __importDefault(require_gameWidth());
+      var state_1 = __importDefault(require_state());
+      var drawImage_1 = __importDefault(require_drawImage());
+      var drawRectangle_1 = __importDefault(require_drawRectangle());
+      var drawTitle = () => {
+        (0, drawRectangle_1.default)("#dc7b9a", 1, 0, 0, gameWidth_1.default, gameHeight_1.default, 0);
+        const frameDuration = 50;
+        const xOffset = Math.floor(state_1.default.currentTime % (gameWidth_1.default / 2 * frameDuration) / frameDuration);
+        const yOffset = Math.floor(state_1.default.currentTime % (gameHeight_1.default * frameDuration) / frameDuration);
+        for (let x = 0; x < 3; x++) {
+          for (let y = 0; y < 3; y++) {
+            const renderX = xOffset + gameWidth_1.default / 2 * x - gameWidth_1.default / 2;
+            const renderY = yOffset + gameHeight_1.default * y - gameHeight_1.default;
+            (0, drawImage_1.default)("pattern", 0.25, 0, 0, gameWidth_1.default / 2, gameHeight_1.default, renderX, renderY, gameWidth_1.default / 2, gameHeight_1.default, null);
+          }
+        }
+        (0, drawImage_1.default)("title", 1, 0, 0, gameWidth_1.default, gameHeight_1.default, 0, 0, gameWidth_1.default, gameHeight_1.default, null);
+      };
+      exports.default = drawTitle;
     }
   });
 
@@ -48293,11 +48334,14 @@ void main() {
       var drawGameOver_1 = __importDefault(require_drawGameOver());
       var getTilemap_1 = __importDefault(require_getTilemap());
       var drawVictory_1 = __importDefault(require_drawVictory());
+      var drawTitle_1 = __importDefault(require_drawTitle());
       var render = () => {
         state_1.default.app.stage.removeChildren();
         (0, drawRectangle_1.default)("#000000", 1, 0, 0, gameWidth_1.default, gameHeight_1.default, 0);
         if ((0, assetsAreLoaded_1.default)()) {
-          if (state_1.default.won) {
+          if (state_1.default.isAtTitle) {
+            (0, drawTitle_1.default)();
+          } else if (state_1.default.won) {
             (0, drawVictory_1.default)();
           } else if ((0, isCatStarving_1.default)()) {
             (0, drawGameOver_1.default)();
@@ -48545,7 +48589,7 @@ void main() {
       Object.defineProperty(exports, "__esModule", { value: true });
       var state_1 = __importDefault(require_state());
       var isCatStarving_1 = __importDefault(require_isCatStarving());
-      var gameIsOngoing = () => (0, isCatStarving_1.default)() === false && state_1.default.won === false;
+      var gameIsOngoing = () => state_1.default.isAtTitle === false && (0, isCatStarving_1.default)() === false && state_1.default.won === false;
       exports.default = gameIsOngoing;
     }
   });
@@ -48867,7 +48911,12 @@ void main() {
           screen.style.height = `${gameHeight_1.default * gameScale_1.default}px`;
           screen.addEventListener("mousedown", () => {
             (0, attemptScratch_1.default)();
-            if ((0, isCatStarving_1.default)()) {
+            if (state_1.default.isAtTitle) {
+              state_1.default.isAtTitle = false;
+              const music = (0, getAudioSource_1.default)("music/music");
+              music.play(132e3, null, null);
+              (0, startLevel_1.default)();
+            } else if ((0, isCatStarving_1.default)()) {
               (0, startLevel_1.default)();
             }
           });
@@ -48894,7 +48943,12 @@ void main() {
                 }
                 case " ": {
                   (0, attemptScratch_1.default)();
-                  if ((0, isCatStarving_1.default)()) {
+                  if (state_1.default.isAtTitle) {
+                    state_1.default.isAtTitle = false;
+                    const music = (0, getAudioSource_1.default)("music/music");
+                    music.play(132e3, null, null);
+                    (0, startLevel_1.default)();
+                  } else if ((0, isCatStarving_1.default)()) {
                     (0, startLevel_1.default)();
                   }
                   break;
@@ -48913,8 +48967,6 @@ void main() {
             state_1.default.heldKeys = heldKeys;
           });
         }
-        const music = (0, getAudioSource_1.default)("music/music");
-        music.play(132e3, null, null);
         if (socket_1.default) {
           socket_1.default.on("run-id", (runID) => {
             if (document.body.dataset.runId !== runID) {
@@ -48923,7 +48975,6 @@ void main() {
           });
         }
         (0, focusScreen_1.default)();
-        (0, startLevel_1.default)();
       });
       exports.default = run;
     }

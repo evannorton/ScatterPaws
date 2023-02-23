@@ -10,7 +10,7 @@ import ZIndexType from "../../enums/ZIndexType";
 import YSortZIndex from "../../interfaces/ZIndex/YSortZIndex";
 import HardZIndex from "../../interfaces/ZIndex/HardZIndex";
 
-const drawImage = (imageSourceSlug: string, sourceX: number, sourceY: number, sourceWidth: number, sourceHeight: number, x: number, y: number, width: number, height: number, zIndex: ZIndex | null): void => {
+const drawImage = (imageSourceSlug: string, opacity: number, sourceX: number, sourceY: number, sourceWidth: number, sourceHeight: number, x: number, y: number, width: number, height: number, zIndex: ZIndex | null): void => {
   const imageSource: ImageSource = getImageSource(imageSourceSlug);
   if (x + width > 0 && x < gameWidth && y + height > 0 && y < gameHeight) {
     const texture: BaseTexture = imageSource.getBaseTexture();
@@ -29,6 +29,7 @@ const drawImage = (imageSourceSlug: string, sourceX: number, sourceY: number, so
     sprite.y = adjustedY;
     sprite.width = adjustedWidth;
     sprite.height = adjustedHeight;
+    sprite.alpha = opacity;
     if (zIndex !== null) {
       switch (zIndex.type) {
         case ZIndexType.Hard: {

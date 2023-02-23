@@ -44,7 +44,13 @@ const run = async (): Promise<void> => {
     screen.style.height = `${gameHeight * gameScale}px`;
     screen.addEventListener("mousedown", () => {
       attemptScratch();
-      if (isCatStarving()) {
+      if (state.isAtTitle) {
+        state.isAtTitle = false;
+        const music: AudioSource = getAudioSource("music/music");
+        music.play(132000, null, null);
+        startLevel();
+      }
+      else if (isCatStarving()) {
         startLevel();
       }
     });
@@ -71,7 +77,13 @@ const run = async (): Promise<void> => {
           }
           case " ": {
             attemptScratch();
-            if (isCatStarving()) {
+            if (state.isAtTitle) {
+              state.isAtTitle = false;
+              const music: AudioSource = getAudioSource("music/music");
+              music.play(132000, null, null);
+              startLevel();
+            }
+            else if (isCatStarving()) {
               startLevel();
             }
             break;
@@ -90,8 +102,6 @@ const run = async (): Promise<void> => {
       state.heldKeys = heldKeys;
     });
   }
-  const music: AudioSource = getAudioSource("music/music");
-  music.play(132000, null, null);
   if (socket) {
     socket.on("run-id", (runID: string) => {
       if (document.body.dataset.runId !== runID) {
@@ -100,7 +110,6 @@ const run = async (): Promise<void> => {
     });
   }
   focusScreen();
-  startLevel();
 };
 
 export default run;

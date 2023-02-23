@@ -222,7 +222,7 @@ class Tilemap extends Definable {
                 type: ZIndexType.YSort
               }
               : null;
-            drawImage(`tilesets/${tileset.slug}`, tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight, ySortZIndex);
+            drawImage(`tilesets/${tileset.slug}`, 1, tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight, ySortZIndex);
             if (state.hasRecentDestruction() && state.recentDestruction.destructibleID === destructibleID && state.recentDestruction.tileID === tilesetIndex) {
               const diff = state.currentTime - state.recentDestruction.clawedAt;
               const frame: number = Math.floor(diff / 100);
@@ -231,7 +231,7 @@ class Tilemap extends Definable {
                   value: 10000,
                   type: ZIndexType.Hard
                 };
-                drawImage("scratch", frame * 16, 0, 16, 16, tileX, tileY, 16, 16, scratchZIndex);
+                drawImage("scratch", 1, frame * 16, 0, 16, 16, tileX, tileY, 16, 16, scratchZIndex);
               }
             }
             if (layer.name === "furniture") {
@@ -246,7 +246,7 @@ class Tilemap extends Definable {
                     type: ZIndexType.Hard
                   };
                   const frameAnimationOffset: number = Math.floor((state.currentTime % (timePerIndicatorFrame * 4)) / timePerIndicatorFrame) * 7;
-                  drawImage("indicator", frameAnimationOffset, 0, 7, 10, tileX + indicatorXOffset, tileY + indicatorYOffset, 7, 10, hardZIndex);
+                  drawImage("indicator", 1, frameAnimationOffset, 0, 7, 10, tileX + indicatorXOffset, tileY + indicatorYOffset, 7, 10, hardZIndex);
                 }
               }
             }

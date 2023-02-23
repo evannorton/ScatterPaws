@@ -23,7 +23,7 @@ const drawInteractHUD = (): void => {
     + (canDestroy
       ? 0
       : width);
-  drawImage("interact-hud", sourceX, 0, width, height, offset, gameHeight - height - offset, width, height, hardZIndex);
+  drawImage("interact-hud", 1, sourceX, 0, width, height, offset, gameHeight - height - offset, width, height, hardZIndex);
 };
 
 export default drawInteractHUD;

@@ -29,6 +29,8 @@ const define = (): void => {
   new ImageSource("game-over");
   new ImageSource("victory");
   new ImageSource("scratch");
+  new ImageSource("title");
+  new ImageSource("pattern");
   new AudioSource("music/music");
   new AudioSource("noises/scratch");
   new AudioSource("noises/destroy/electronic");

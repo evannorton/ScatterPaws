@@ -12,12 +12,16 @@ import isCatStarving from "./isCatStarving";
 import drawGameOver from "./draw/drawGameOver";
 import getTilemap from "./definables/getTilemap";
 import drawVictory from "./draw/drawVictory";
+import drawTitle from "./draw/drawTitle";
 
 const render = (): void => {
   state.app.stage.removeChildren();
   drawRectangle("#000000", 1, 0, 0, gameWidth, gameHeight, 0);
   if (assetsAreLoaded()) {
-    if (state.won) {
+    if (state.isAtTitle) {
+      drawTitle();
+    }
+    else if (state.won) {
       drawVictory();
     }
     else if (isCatStarving()) {
