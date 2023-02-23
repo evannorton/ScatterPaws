@@ -13,6 +13,7 @@ const startLevel = (): void => {
     x: state.level.startingTileX * unitsPerTile,
     y: state.level.startingTileY * unitsPerTile
   };
+  state.clawedAt = null;
   calculateActiveDestructibles();
 };
 
