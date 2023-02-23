@@ -9,6 +9,7 @@ class State {
   private _activeDestructibles: string[] = [];
   private _app: Application | null = null;
   private _brokenDestructibles: string[] = [];
+  private _clawedAt: number | null = null;
   private _cootsCoords: Coords = {
     x: levels[0].startingTileX * unitsPerTile,
     y: levels[0].startingTileY * unitsPerTile
@@ -38,6 +39,13 @@ class State {
 
   public get brokenDestructibles(): string[] {
     return [...this._brokenDestructibles];
+  }
+
+  public get clawedAt(): number {
+    if (this._clawedAt !== null) {
+      return this._clawedAt;
+    }
+    throw new Error(this.getAccessorErrorMessage("clawedAt"));
   }
 
   public get cootsCoords(): Coords {
@@ -109,6 +117,10 @@ class State {
     this._brokenDestructibles = [...brokenDestructibles];
   }
 
+  public set clawedAt(clawedAt: number | null) {
+    this._clawedAt = clawedAt;
+  }
+
   public set cootsCoords(cootsCoords: Coords) {
     this._cootsCoords = cootsCoords;
   }
@@ -155,6 +167,10 @@ class State {
 
   public set ySortEntries(ySortEntries: YSortEntry[]) {
     this._ySortEntries = [...ySortEntries];
+  }
+
+  public hasClawedAt(): boolean {
+    return this._clawedAt !== null; 
   }
 
   public hasHitObstacleAt(): boolean {

@@ -25709,6 +25709,7 @@ void main() {
           this._activeDestructibles = [];
           this._app = null;
           this._brokenDestructibles = [];
+          this._clawedAt = null;
           this._cootsCoords = {
             x: levels_1.default[0].startingTileX * unitsPerTile_1.default,
             y: levels_1.default[0].startingTileY * unitsPerTile_1.default
@@ -25736,6 +25737,12 @@ void main() {
         }
         get brokenDestructibles() {
           return [...this._brokenDestructibles];
+        }
+        get clawedAt() {
+          if (this._clawedAt !== null) {
+            return this._clawedAt;
+          }
+          throw new Error(this.getAccessorErrorMessage("clawedAt"));
         }
         get cootsCoords() {
           return this._cootsCoords;
@@ -25791,6 +25798,9 @@ void main() {
         set brokenDestructibles(brokenDestructibles) {
           this._brokenDestructibles = [...brokenDestructibles];
         }
+        set clawedAt(clawedAt) {
+          this._clawedAt = clawedAt;
+        }
         set cootsCoords(cootsCoords) {
           this._cootsCoords = cootsCoords;
         }
@@ -25826,6 +25836,9 @@ void main() {
         }
         set ySortEntries(ySortEntries) {
           this._ySortEntries = [...ySortEntries];
+        }
+        hasClawedAt() {
+          return this._clawedAt !== null;
         }
         hasHitObstacleAt() {
           return this._hitObstacleAt !== null;
@@ -48005,6 +48018,20 @@ void main() {
     }
   });
 
+  // lib/functions/isClawOnCooldown.js
+  var require_isClawOnCooldown = __commonJS({
+    "lib/functions/isClawOnCooldown.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var state_1 = __importDefault(require_state());
+      var isClawOnCooldown = () => state_1.default.hasClawedAt() && state_1.default.currentTime - state_1.default.clawedAt < 1e3;
+      exports.default = isClawOnCooldown;
+    }
+  });
+
   // lib/functions/draw/drawInteractHUD.js
   var require_drawInteractHUD = __commonJS({
     "lib/functions/draw/drawInteractHUD.js"(exports) {
@@ -48017,6 +48044,7 @@ void main() {
       var ZIndexType_1 = __importDefault(require_ZIndexType());
       var state_1 = __importDefault(require_state());
       var getTilemap_1 = __importDefault(require_getTilemap());
+      var isClawOnCooldown_1 = __importDefault(require_isClawOnCooldown());
       var drawImage_1 = __importDefault(require_drawImage());
       var drawInteractHUD = () => {
         const destructibleID = (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getDestructibleIDWithinRange();
@@ -48028,7 +48056,8 @@ void main() {
         const width = 36;
         const height = 30;
         const offset = 4;
-        (0, drawImage_1.default)("interact-hud", canDestroy ? 0 : width, 0, width, height, offset, gameHeight_1.default - height - offset, width, height, hardZIndex);
+        const sourceX = ((0, isClawOnCooldown_1.default)() ? width * 2 : 0) + (canDestroy ? 0 : width);
+        (0, drawImage_1.default)("interact-hud", sourceX, 0, width, height, offset, gameHeight_1.default - height - offset, width, height, hardZIndex);
       };
       exports.default = drawInteractHUD;
     }
@@ -48457,6 +48486,21 @@ void main() {
     }
   });
 
+  // lib/functions/gameIsOngoing.js
+  var require_gameIsOngoing = __commonJS({
+    "lib/functions/gameIsOngoing.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var state_1 = __importDefault(require_state());
+      var isCatStarving_1 = __importDefault(require_isCatStarving());
+      var gameIsOngoing = () => (0, isCatStarving_1.default)() === false && state_1.default.won === false;
+      exports.default = gameIsOngoing;
+    }
+  });
+
   // lib/functions/update/update.js
   var require_update = __commonJS({
     "lib/functions/update/update.js"(exports) {
@@ -48468,11 +48512,10 @@ void main() {
       var assetsAreLoaded_1 = __importDefault(require_assetsAreLoaded());
       var updateCootsVelocity_1 = __importDefault(require_updateCootsVelocity());
       var updateCootsPosition_1 = __importDefault(require_updateCootsPosition());
-      var isCatStarving_1 = __importDefault(require_isCatStarving());
-      var state_1 = __importDefault(require_state());
+      var gameIsOngoing_1 = __importDefault(require_gameIsOngoing());
       var update = () => {
         if ((0, assetsAreLoaded_1.default)()) {
-          if ((0, isCatStarving_1.default)() === false && state_1.default.won === false) {
+          if ((0, gameIsOngoing_1.default)()) {
             (0, updateCootsVelocity_1.default)();
             (0, updateCootsPosition_1.default)();
           }
@@ -48653,6 +48696,8 @@ void main() {
       var startLevel_1 = __importDefault(require_startLevel());
       var levels_1 = __importDefault(require_levels());
       var getTilemap_1 = __importDefault(require_getTilemap());
+      var gameIsOngoing_1 = __importDefault(require_gameIsOngoing());
+      var isClawOnCooldown_1 = __importDefault(require_isClawOnCooldown());
       var run = () => __awaiter(void 0, void 0, void 0, function* () {
         console.log(`Running ScatterPaws.`);
         (0, define_1.default)();
@@ -48708,26 +48753,32 @@ void main() {
                   break;
                 }
                 case " ": {
-                  const destructibleID = (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getDestructibleIDWithinRange();
-                  if (destructibleID !== null) {
-                    const brokenDestructibles = state_1.default.brokenDestructibles;
-                    if (brokenDestructibles.includes(destructibleID) === false && state_1.default.activeDestructibles.includes(destructibleID)) {
-                      state_1.default.brokenDestructibles = [...brokenDestructibles, destructibleID];
-                      state_1.default.activeDestructibles = state_1.default.activeDestructibles.filter((activeDestructible) => activeDestructible !== destructibleID);
-                      (0, calculateActiveDestructibles_1.default)();
-                      if (state_1.default.activeDestructibles.length === 0) {
-                        const levelIndex = levels_1.default.findIndex((level) => level === state_1.default.level);
-                        const newLevel = levels_1.default[levelIndex + 1];
-                        if (newLevel) {
-                          state_1.default.level = newLevel;
-                          (0, startLevel_1.default)();
-                        } else {
-                          state_1.default.won = true;
+                  if ((0, gameIsOngoing_1.default)()) {
+                    const cooldown = (0, isClawOnCooldown_1.default)();
+                    if (cooldown === false) {
+                      state_1.default.clawedAt = state_1.default.currentTime;
+                      const destructibleID = (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getDestructibleIDWithinRange();
+                      if (destructibleID !== null) {
+                        const brokenDestructibles = state_1.default.brokenDestructibles;
+                        if (brokenDestructibles.includes(destructibleID) === false && state_1.default.activeDestructibles.includes(destructibleID)) {
+                          state_1.default.brokenDestructibles = [...brokenDestructibles, destructibleID];
+                          state_1.default.activeDestructibles = state_1.default.activeDestructibles.filter((activeDestructible) => activeDestructible !== destructibleID);
+                          (0, calculateActiveDestructibles_1.default)();
+                          if (state_1.default.activeDestructibles.length === 0) {
+                            const levelIndex = levels_1.default.findIndex((level) => level === state_1.default.level);
+                            const newLevel = levels_1.default[levelIndex + 1];
+                            if (newLevel) {
+                              state_1.default.level = newLevel;
+                              (0, startLevel_1.default)();
+                            } else {
+                              state_1.default.won = true;
+                            }
+                          }
                         }
                       }
                     }
+                    break;
                   }
-                  break;
                 }
               }
             }

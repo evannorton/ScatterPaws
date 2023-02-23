@@ -1,12 +1,11 @@
 import assetsAreLoaded from "../assetsAreLoaded";
 import updateCootsVelocity from "./updateCootsVelocity";
 import updateCootsPosition from "./updateCootsPosition";
-import isCatStarving from "../isCatStarving";
-import state from "../../state";
+import gameIsOngoing from "../gameIsOngoing";
 
 const update = (): void => {
   if (assetsAreLoaded()) {
-    if (isCatStarving() === false && state.won === false) {
+    if (gameIsOngoing()) {
       updateCootsVelocity();
       updateCootsPosition();
     }
