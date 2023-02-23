@@ -10,6 +10,44 @@
  "tileheight":24,
  "tiles":[
         {
+         "id":1,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":51
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"bed_pink"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":14
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-15
+                }]
+        }, 
+        {
+         "id":2,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":52
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"bed_pink"
+                }]
+        }, 
+        {
          "id":4,
          "properties":[
                 {
@@ -58,7 +96,7 @@
                 {
                  "name":"destructibleID",
                  "type":"string",
-                 "value":"computer1"
+                 "value":"computerPink"
                 }, 
                 {
                  "name":"uninteractable",
@@ -86,41 +124,17 @@
                 }]
         }, 
         {
-         "id":51,
+         "id":12,
          "properties":[
                 {
                  "name":"brokenID",
                  "type":"int",
-                 "value":151
+                 "value":112
                 }, 
                 {
                  "name":"destructibleID",
                  "type":"string",
-                 "value":"bed1"
-                }, 
-                {
-                 "name":"indicatorXOffset",
-                 "type":"int",
-                 "value":14
-                }, 
-                {
-                 "name":"indicatorYOffset",
-                 "type":"int",
-                 "value":-15
-                }]
-        }, 
-        {
-         "id":52,
-         "properties":[
-                {
-                 "name":"brokenID",
-                 "type":"int",
-                 "value":152
-                }, 
-                {
-                 "name":"destructibleID",
-                 "type":"string",
-                 "value":"bed1"
+                 "value":"computerRed"
                 }]
         }, 
         {
@@ -129,12 +143,12 @@
                 {
                  "name":"brokenID",
                  "type":"int",
-                 "value":153
+                 "value":103
                 }, 
                 {
                  "name":"destructibleID",
                  "type":"string",
-                 "value":"couchRed1"
+                 "value":"couchPink"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -153,12 +167,12 @@
                 {
                  "name":"brokenID",
                  "type":"int",
-                 "value":154
+                 "value":104
                 }, 
                 {
                  "name":"destructibleID",
                  "type":"string",
-                 "value":"couchRed1"
+                 "value":"couchPink"
                 }]
         }, 
         {
@@ -248,7 +262,7 @@
                 {
                  "name":"destructibleID",
                  "type":"string",
-                 "value":"computer1"
+                 "value":"computerPink"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -272,7 +286,159 @@
                 {
                  "name":"destructibleID",
                  "type":"string",
-                 "value":"computer1"
+                 "value":"computerPink"
+                }]
+        }, 
+        {
+         "id":61,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":161
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"computerRed"
+                }]
+        }, 
+        {
+         "id":62,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":162
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"computerRed"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":14
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-15
+                }]
+        }, 
+        {
+         "id":101,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":201
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"bedRed"
+                }]
+        }, 
+        {
+         "id":102,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":202
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"bedRed"
+                }]
+        }, 
+        {
+         "id":151,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":251
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"bedRed"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":14
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-15
+                }]
+        }, 
+        {
+         "id":152,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":252
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"bedRed"
+                }]
+        }, 
+        {
+         "id":153,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":253
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"chairPink1"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":8
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-13
+                }]
+        }, 
+        {
+         "id":154,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":253
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"chairPink2"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":8
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-13
                 }]
         }, 
         {
@@ -286,7 +452,7 @@
                 {
                  "name":"destructibleID",
                  "type":"string",
-                 "value":"chairRed1"
+                 "value":"chairPink3"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -310,7 +476,7 @@
                 {
                  "name":"destructibleID",
                  "type":"string",
-                 "value":"chairBlue1"
+                 "value":"chairPink4"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -321,54 +487,6 @@
                  "name":"indicatorYOffset",
                  "type":"int",
                  "value":-13
-                }]
-        }, 
-        {
-         "id":205,
-         "properties":[
-                {
-                 "name":"brokenID",
-                 "type":"int",
-                 "value":255
-                }, 
-                {
-                 "name":"destructibleID",
-                 "type":"string",
-                 "value":"chairYellow1"
-                }, 
-                {
-                 "name":"indicatorXOffset",
-                 "type":"int",
-                 "value":8
-                }, 
-                {
-                 "name":"indicatorYOffset",
-                 "type":"int",
-                 "value":-13
-                }]
-        }, 
-        {
-         "id":206,
-         "properties":[
-                {
-                 "name":"brokenID",
-                 "type":"int",
-                 "value":256
-                }, 
-                {
-                 "name":"destructibleID",
-                 "type":"string",
-                 "value":"hamperLight1"
-                }, 
-                {
-                 "name":"indicatorXOffset",
-                 "type":"int",
-                 "value":8
-                }, 
-                {
-                 "name":"indicatorYOffset",
-                 "type":"int",
-                 "value":-8
                 }]
         }, 
         {
@@ -396,65 +514,72 @@
                 }]
         }, 
         {
-         "id":208,
+         "id":211,
          "properties":[
                 {
-                 "name":"brokenID",
-                 "type":"int",
-                 "value":258
-                }, 
-                {
-                 "name":"destructibleID",
-                 "type":"string",
-                 "value":"clothes1"
-                }, 
-                {
-                 "name":"indicatorXOffset",
-                 "type":"int",
-                 "value":8
-                }, 
-                {
-                 "name":"indicatorYOffset",
-                 "type":"int",
-                 "value":-3
+                 "name":"uninteractable",
+                 "type":"bool",
+                 "value":true
                 }]
         }, 
         {
-         "id":209,
+         "id":212,
          "properties":[
                 {
-                 "name":"brokenID",
-                 "type":"int",
-                 "value":259
-                }, 
-                {
-                 "name":"destructibleID",
-                 "type":"string",
-                 "value":"trashBig1"
-                }, 
-                {
-                 "name":"indicatorXOffset",
-                 "type":"int",
-                 "value":8
-                }, 
-                {
-                 "name":"indicatorYOffset",
-                 "type":"int",
-                 "value":-7
+                 "name":"uninteractable",
+                 "type":"bool",
+                 "value":true
                 }]
         }, 
         {
-         "id":210,
+         "id":213,
+         "properties":[
+                {
+                 "name":"uninteractable",
+                 "type":"bool",
+                 "value":true
+                }]
+        }, 
+        {
+         "id":215,
+         "properties":[
+                {
+                 "name":"uninteractable",
+                 "type":"bool",
+                 "value":true
+                }]
+        }, 
+        {
+         "id":216,
          "properties":[
                 {
                  "name":"brokenID",
                  "type":"int",
-                 "value":260
+                 "value":316
                 }, 
                 {
                  "name":"destructibleID",
                  "type":"string",
-                 "value":"trashSmall1"
+                 "value":"tvSmash"
+                }, 
+                {
+                 "name":"uninteractable",
+                 "type":"bool",
+                 "value":true
+                }]
+        }, 
+        {
+         "id":261,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":312
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"fridge1"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -464,7 +589,643 @@
                 {
                  "name":"indicatorYOffset",
                  "type":"int",
-                 "value":-3
+                 "value":-13
+                }]
+        }, 
+        {
+         "id":262,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":262
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"fridge1"
+                }]
+        }, 
+        {
+         "id":263,
+         "properties":[
+                {
+                 "name":"uninteractable",
+                 "type":"bool",
+                 "value":true
+                }]
+        }, 
+        {
+         "id":264,
+         "properties":[
+                {
+                 "name":"uninteractable",
+                 "type":"bool",
+                 "value":true
+                }]
+        }, 
+        {
+         "id":265,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":365
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"tvSmash"
+                }]
+        }, 
+        {
+         "id":266,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":366
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"tvSmash"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":14
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-15
+                }]
+        }, 
+        {
+         "id":303,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":353
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"chairRed1"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":8
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-13
+                }]
+        }, 
+        {
+         "id":304,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":353
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"chairRed2"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":8
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-13
+                }]
+        }, 
+        {
+         "id":313,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":214
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"fridgeWide1"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":14
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-15
+                }]
+        }, 
+        {
+         "id":314,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":314
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"fridgeWide1"
+                }]
+        }, 
+        {
+         "id":500,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":550
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"floorClothes1"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":8
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-13
+                }]
+        }, 
+        {
+         "id":501,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":550
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"floorClothes2"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":8
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-13
+                }]
+        }, 
+        {
+         "id":502,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":550
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"floorClothes3"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":8
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-13
+                }]
+        }, 
+        {
+         "id":503,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":553
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"post1"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":8
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-13
+                }]
+        }, 
+        {
+         "id":504,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":553
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"post2"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":8
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-13
+                }]
+        }, 
+        {
+         "id":505,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":553
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"post3"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":8
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-13
+                }]
+        }, 
+        {
+         "id":506,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":555
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"hamper1"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":8
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-13
+                }]
+        }, 
+        {
+         "id":507,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":558
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"bigTrash1"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":8
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-13
+                }]
+        }, 
+        {
+         "id":509,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":508
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"trash1"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":8
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-13
+                }]
+        }, 
+        {
+         "id":510,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":508
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"trash2"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":8
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-13
+                }]
+        }, 
+        {
+         "id":511,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":560
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"chairKitchenPink1"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":8
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-13
+                }]
+        }, 
+        {
+         "id":512,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":563
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"chairKitchenPink2"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":8
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-13
+                }]
+        }, 
+        {
+         "id":551,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":550
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"floorClothes4"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":8
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-13
+                }]
+        }, 
+        {
+         "id":552,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":550
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"floorClothes5"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":8
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-13
+                }]
+        }, 
+        {
+         "id":554,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":553
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"post4"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":8
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-13
+                }]
+        }, 
+        {
+         "id":556,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":555
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"hamper2"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":8
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-13
+                }]
+        }, 
+        {
+         "id":557,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":558
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"bigTrash2"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":8
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-13
+                }]
+        }, 
+        {
+         "id":559,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":508
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"trash3"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":8
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-13
+                }]
+        }, 
+        {
+         "id":561,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":560
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"chairKitchenPink3"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":8
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-13
+                }]
+        }, 
+        {
+         "id":562,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":563
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"chairKitchenPink4"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":8
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-13
                 }]
         }],
  "tilewidth":24,
