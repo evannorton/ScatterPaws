@@ -23,7 +23,7 @@ const drawTimer = (): void => {
       ? 1
       : 2;
   drawImage("hunger", 1, frame * 14, 0, 14, 14, gameWidth - offset - width - 17, offset - 2, 14, 14, hungerZIndex);
-  drawText(`${Math.floor(secondsLeft / 60)}:${`${secondsLeft % 60}`.padStart(2, "0")}`, "#ffffff", gameWidth - offset - 2, offset + 2, 1, gameWidth, 1, "right", "top");
+  drawText(`${Math.floor(secondsLeft / 60)}:${`${secondsLeft % 60}`.padStart(2, "0")}`, frame === 2 ? "#fd3232" : "#ffffff", gameWidth - offset - 2, offset + 2, 1, gameWidth, 1, "right", "top");
   drawRectangle("#000000", .25, gameWidth - offset - width, offset, width, height, 10003);
 }
 

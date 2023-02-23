@@ -45079,7 +45079,7 @@ void main() {
         const percent = 1 - secondsLeft / state_1.default.level.time * 1e3;
         const frame = percent < 1 / 3 ? 0 : percent < 2 / 3 ? 1 : 2;
         (0, drawImage_1.default)("hunger", 1, frame * 14, 0, 14, 14, gameWidth_1.default - offset - width - 17, offset - 2, 14, 14, hungerZIndex);
-        (0, drawText_1.default)(`${Math.floor(secondsLeft / 60)}:${`${secondsLeft % 60}`.padStart(2, "0")}`, "#ffffff", gameWidth_1.default - offset - 2, offset + 2, 1, gameWidth_1.default, 1, "right", "top");
+        (0, drawText_1.default)(`${Math.floor(secondsLeft / 60)}:${`${secondsLeft % 60}`.padStart(2, "0")}`, frame === 2 ? "#fd3232" : "#ffffff", gameWidth_1.default - offset - 2, offset + 2, 1, gameWidth_1.default, 1, "right", "top");
         (0, drawRectangle_1.default)("#000000", 0.25, gameWidth_1.default - offset - width, offset, width, height, 10003);
       };
       exports.default = drawTimer;
