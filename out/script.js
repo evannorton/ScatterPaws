@@ -48804,6 +48804,9 @@ void main() {
                 }
                 case " ": {
                   (0, attemptScratch_1.default)();
+                  if ((0, isCatStarving_1.default)()) {
+                    (0, startLevel_1.default)();
+                  }
                   break;
                 }
               }

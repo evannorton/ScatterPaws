@@ -71,6 +71,9 @@ const run = async (): Promise<void> => {
           }
           case " ": {
             attemptScratch();
+            if (isCatStarving()) {
+              startLevel();
+            }
             break;
           }
         }
