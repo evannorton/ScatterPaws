@@ -45150,7 +45150,7 @@ void main() {
       var drawImage_1 = __importDefault(require_drawImage());
       var drawRectangle_1 = __importDefault(require_drawRectangle());
       var drawTitle = () => {
-        (0, drawRectangle_1.default)("#dc7b9a", 1, 0, 0, gameWidth_1.default, gameHeight_1.default, 0);
+        (0, drawRectangle_1.default)("#e3c7b1", 1, 0, 0, gameWidth_1.default, gameHeight_1.default, 0);
         const frameDuration = 50;
         const xOffset = Math.floor(state_1.default.currentTime % (gameWidth_1.default / 2 * frameDuration) / frameDuration);
         const yOffset = Math.floor(state_1.default.currentTime % (gameHeight_1.default * frameDuration) / frameDuration);
@@ -45172,8 +45172,19 @@ void main() {
   var require_drawTutorialHUD = __commonJS({
     "lib/functions/drawTutorialHUD.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
+      var drawRectangle_1 = __importDefault(require_drawRectangle());
+      var drawText_1 = __importDefault(require_drawText());
       var drawTutorialHUD = () => {
+        const width = 224;
+        (0, drawRectangle_1.default)("#000000", 0.25, 4, 4, width, 63, 10003);
+        (0, drawText_1.default)("Kitty wants food! Guide kitty to cause a ruckus and get owner's attention!", "#ffffff", 6, 6, 1, width - 4, 10, "left", "top");
+        (0, drawText_1.default)("- Mouse to move.", "#ffffff", 6, 30, 1, width - 4, 2, "left", "top");
+        (0, drawText_1.default)("- Click/space to scratch.", "#ffffff", 6, 43, 1, width - 4, 2, "left", "top");
+        (0, drawText_1.default)("- M to meow.", "#ffffff", 6, 56, 1, width - 4, 2, "left", "top");
       };
       exports.default = drawTutorialHUD;
     }
