@@ -11,7 +11,7 @@ import drawImage from "./drawImage";
 const drawInteractHUD = (): void => {
   if (isCootsInObstacle() === false) {
     const destructible: Destructible | null = getTilemap(state.level.tilemapSlug).getDestructibleWithinRange();
-    const canDestroy: boolean = destructible !== null && state.brokenDestructibleIDs.includes(destructible.destructibleID) === false && state.activeDestructibleIDs.includes(destructible.destructibleID);
+    const canDestroy: boolean = destructible !== null;
     const hardZIndex: HardZIndex = {
       value: 10002,
       type: ZIndexType.Hard

@@ -14,7 +14,7 @@ const attemptScratch = (): void => {
     if (cooldown === false) {
       const clawedAt = state.currentTime;
       const destructible: Destructible | null = getTilemap(state.level.tilemapSlug).getDestructibleWithinRange();
-      const willDestroy = destructible !== null && state.brokenDestructibleIDs.includes(destructible.destructibleID) === false && state.activeDestructibleIDs.includes(destructible.destructibleID);
+      const willDestroy = destructible !== null;
       if (!willDestroy) {
         state.recentDestruction = {
           clawedAt,

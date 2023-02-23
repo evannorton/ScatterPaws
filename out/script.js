@@ -26253,11 +26253,13 @@ void main() {
                     const destructibleNoise = destructibleNoiseProperty === null || destructibleNoiseProperty === void 0 ? void 0 : destructibleNoiseProperty.value;
                     const scratchRange = 2;
                     if (datum > 0 && Math.abs(tileX - datumTileX) <= scratchRange && Math.abs(tileY - datumTileY) <= scratchRange && typeof destructibleID === "string" && !uninteractable) {
-                      return {
-                        destructibleID,
-                        tileID: tilesetIndex,
-                        audioSourceSlug: typeof destructibleNoise === "string" ? `noises/destroy/${destructibleNoise}` : null
-                      };
+                      if (state_1.default.brokenDestructibleIDs.includes(destructibleID) === false && state_1.default.activeDestructibleIDs.includes(destructibleID)) {
+                        return {
+                          destructibleID,
+                          tileID: tilesetIndex,
+                          audioSourceSlug: typeof destructibleNoise === "string" ? `noises/destroy/${destructibleNoise}` : null
+                        };
+                      }
                     }
                   }
                   datumIndex++;
@@ -26319,7 +26321,11 @@ void main() {
                     ySortID,
                     type: ZIndexType_1.default.YSort
                   } : null;
-                  (0, drawImage_1.default)(`tilesets/${tileset.slug}`, 1, tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight, ySortZIndex);
+                  const furnitureUpperZIndex = {
+                    value: 1e4,
+                    type: ZIndexType_1.default.Hard
+                  };
+                  (0, drawImage_1.default)(`tilesets/${tileset.slug}`, 1, tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight, layer.name === "upper-furniture" ? furnitureUpperZIndex : ySortZIndex);
                   if (state_1.default.hasRecentDestruction() && state_1.default.recentDestruction.destructibleID === destructibleID && state_1.default.recentDestruction.tileID === tilesetIndex) {
                     const diff = state_1.default.currentTime - state_1.default.recentDestruction.clawedAt;
                     const frame = Math.floor(diff / 100);
@@ -47886,7 +47892,7 @@ void main() {
       var drawInteractHUD = () => {
         if ((0, isCootsInObstacle_1.default)() === false) {
           const destructible = (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getDestructibleWithinRange();
-          const canDestroy = destructible !== null && state_1.default.brokenDestructibleIDs.includes(destructible.destructibleID) === false && state_1.default.activeDestructibleIDs.includes(destructible.destructibleID);
+          const canDestroy = destructible !== null;
           const hardZIndex = {
             value: 10002,
             type: ZIndexType_1.default.Hard
@@ -48684,7 +48690,7 @@ void main() {
           if (cooldown === false) {
             const clawedAt = state_1.default.currentTime;
             const destructible = (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getDestructibleWithinRange();
-            const willDestroy = destructible !== null && state_1.default.brokenDestructibleIDs.includes(destructible.destructibleID) === false && state_1.default.activeDestructibleIDs.includes(destructible.destructibleID);
+            const willDestroy = destructible !== null;
             if (!willDestroy) {
               state_1.default.recentDestruction = {
                 clawedAt,

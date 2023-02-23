@@ -138,11 +138,13 @@ class Tilemap extends Definable {
               const destructibleNoise = destructibleNoiseProperty?.value;
               const scratchRange = 2;
               if (datum > 0 && Math.abs(tileX - datumTileX) <= scratchRange && Math.abs(tileY - datumTileY) <= scratchRange && typeof destructibleID === "string" && !uninteractable) {
-                return {
-                  destructibleID,
-                  tileID: tilesetIndex,
-                  audioSourceSlug: typeof destructibleNoise === "string" ? `noises/destroy/${destructibleNoise}` : null
-                };
+                if (state.brokenDestructibleIDs.includes(destructibleID) === false && state.activeDestructibleIDs.includes(destructibleID)) {
+                  return {
+                    destructibleID,
+                    tileID: tilesetIndex,
+                    audioSourceSlug: typeof destructibleNoise === "string" ? `noises/destroy/${destructibleNoise}` : null
+                  };
+                }
               }
             }
             datumIndex++;
@@ -222,7 +224,12 @@ class Tilemap extends Definable {
                 type: ZIndexType.YSort
               }
               : null;
-            drawImage(`tilesets/${tileset.slug}`, 1, tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight, ySortZIndex);
+            const furnitureUpperZIndex: HardZIndex = {
+              value: 10000,
+              type: ZIndexType.Hard
+            };
+            drawImage(`tilesets/${tileset.slug}`, 1, tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight,
+              (layer.name === "upper-furniture") ? furnitureUpperZIndex : ySortZIndex);
             if (state.hasRecentDestruction() && state.recentDestruction.destructibleID === destructibleID && state.recentDestruction.tileID === tilesetIndex) {
               const diff = state.currentTime - state.recentDestruction.clawedAt;
               const frame: number = Math.floor(diff / 100);
