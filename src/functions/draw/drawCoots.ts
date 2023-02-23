@@ -12,7 +12,7 @@ import walkingThreshold from "../../constants/walkingThreshold";
 import runningThreshold from "../../constants/runningThreshold";
 import YSortZIndex from "../../interfaces/ZIndex/YSortZIndex";
 import ZIndexType from "../../enums/ZIndexType";
-import obstacleDuration from "../../constants/obstacleDuration";
+import isCootsInObstacle from "../isCootsInObstacle";
 
 const drawCoots = (): void => {
   const direction: Direction = getCootsDirection();
@@ -25,7 +25,7 @@ const drawCoots = (): void => {
         : 0) * cootsWidth * 4;
   const frameAnimationOffset: number = Math.floor((state.currentTime % (timePerCootsFrame * 4)) / timePerCootsFrame) * cootsWidth;
   const sourceX: number = frameDirectionOffset + frameAnimationOffset;
-  const hitObstacle: boolean = state.hasHitObstacleAt() && state.currentTime - state.hitObstacleAt < obstacleDuration;
+  const hitObstacle: boolean = isCootsInObstacle();
   const laserPower: number = getLaserPower();
   const sourceY: number = (
     hitObstacle

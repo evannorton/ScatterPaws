@@ -44858,6 +44858,21 @@ void main() {
     }
   });
 
+  // lib/functions/isCootsInObstacle.js
+  var require_isCootsInObstacle = __commonJS({
+    "lib/functions/isCootsInObstacle.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var obstacleDuration_1 = __importDefault(require_obstacleDuration());
+      var state_1 = __importDefault(require_state());
+      var isCootsInObstacle = () => state_1.default.hasHitObstacleAt() && state_1.default.currentTime - state_1.default.hitObstacleAt < obstacleDuration_1.default;
+      exports.default = isCootsInObstacle;
+    }
+  });
+
   // lib/functions/draw/drawCoots.js
   var require_drawCoots = __commonJS({
     "lib/functions/draw/drawCoots.js"(exports) {
@@ -44878,13 +44893,13 @@ void main() {
       var walkingThreshold_1 = __importDefault(require_walkingThreshold());
       var runningThreshold_1 = __importDefault(require_runningThreshold());
       var ZIndexType_1 = __importDefault(require_ZIndexType());
-      var obstacleDuration_1 = __importDefault(require_obstacleDuration());
+      var isCootsInObstacle_1 = __importDefault(require_isCootsInObstacle());
       var drawCoots = () => {
         const direction = (0, getCootsDirection_1.default)();
         const frameDirectionOffset = (direction === Direction_1.default.DownRight ? 1 : direction === Direction_1.default.UpLeft ? 2 : direction === Direction_1.default.UpRight ? 3 : 0) * cootsWidth_1.default * 4;
         const frameAnimationOffset = Math.floor(state_1.default.currentTime % (timePerCootsFrame_1.default * 4) / timePerCootsFrame_1.default) * cootsWidth_1.default;
         const sourceX = frameDirectionOffset + frameAnimationOffset;
-        const hitObstacle = state_1.default.hasHitObstacleAt() && state_1.default.currentTime - state_1.default.hitObstacleAt < obstacleDuration_1.default;
+        const hitObstacle = (0, isCootsInObstacle_1.default)();
         const laserPower = (0, getLaserPower_1.default)();
         const sourceY = (hitObstacle ? 3 : laserPower >= runningThreshold_1.default ? 2 : laserPower >= walkingThreshold_1.default ? 1 : 0) * cootsHeight_1.default;
         const centerScreenCoords = (0, getCootsScreenCoords_1.default)();
@@ -44950,19 +44965,22 @@ void main() {
       var state_1 = __importDefault(require_state());
       var getTilemap_1 = __importDefault(require_getTilemap());
       var isClawOnCooldown_1 = __importDefault(require_isClawOnCooldown());
+      var isCootsInObstacle_1 = __importDefault(require_isCootsInObstacle());
       var drawImage_1 = __importDefault(require_drawImage());
       var drawInteractHUD = () => {
-        const destructible = (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getDestructibleWithinRange();
-        const canDestroy = destructible !== null && state_1.default.brokenDestructibleIDs.includes(destructible.destructibleID) === false && state_1.default.activeDestructibleIDs.includes(destructible.destructibleID);
-        const hardZIndex = {
-          value: 10002,
-          type: ZIndexType_1.default.Hard
-        };
-        const width = 36;
-        const height = 30;
-        const offset = 4;
-        const sourceX = ((0, isClawOnCooldown_1.default)() ? width * 2 : 0) + (canDestroy ? 0 : width);
-        (0, drawImage_1.default)("interact-hud", 1, sourceX, 0, width, height, offset, gameHeight_1.default - height - offset, width, height, hardZIndex);
+        if ((0, isCootsInObstacle_1.default)() === false) {
+          const destructible = (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getDestructibleWithinRange();
+          const canDestroy = destructible !== null && state_1.default.brokenDestructibleIDs.includes(destructible.destructibleID) === false && state_1.default.activeDestructibleIDs.includes(destructible.destructibleID);
+          const hardZIndex = {
+            value: 10002,
+            type: ZIndexType_1.default.Hard
+          };
+          const width = 36;
+          const height = 30;
+          const offset = 4;
+          const sourceX = ((0, isClawOnCooldown_1.default)() ? width * 2 : 0) + (canDestroy ? 0 : width);
+          (0, drawImage_1.default)("interact-hud", 1, sourceX, 0, width, height, offset, gameHeight_1.default - height - offset, width, height, hardZIndex);
+        }
       };
       exports.default = drawInteractHUD;
     }
@@ -45735,8 +45753,9 @@ void main() {
       var getAudioSource_1 = __importDefault(require_getAudioSource());
       var state_1 = __importDefault(require_state());
       var startLevel_1 = __importDefault(require_startLevel());
+      var isCootsInObstacle_1 = __importDefault(require_isCootsInObstacle());
       var attemptScratch = () => {
-        if ((0, gameIsOngoing_1.default)()) {
+        if ((0, gameIsOngoing_1.default)() && (0, isCootsInObstacle_1.default)() === false) {
           const cooldown = (0, isClawOnCooldown_1.default)();
           if (cooldown === false) {
             const clawedAt = state_1.default.currentTime;

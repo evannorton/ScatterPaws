@@ -8,9 +8,10 @@ import getAudioSource from "./definables/getAudioSource";
 import state from "../state";
 import startLevel from "./startLevel";
 import Destructible from "../interfaces/Destructible";
+import isCootsInObstacle from "./isCootsInObstacle";
 
 const attemptScratch = (): void => {
-  if (gameIsOngoing()) {
+  if (gameIsOngoing() && isCootsInObstacle() === false) {
     const cooldown: boolean = isClawOnCooldown();
     if (cooldown === false) {
       const clawedAt = state.currentTime;
