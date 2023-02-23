@@ -48747,7 +48747,7 @@ void main() {
               switch (key) {
                 case "p": {
                   const anchor = document.createElement("a");
-                  anchor.download = "ScatterCat Screenshot.png";
+                  anchor.download = "ScatterPaws Screenshot.png";
                   anchor.href = state_1.default.app.renderer.plugins.extract.canvas(state_1.default.app.stage).toDataURL();
                   anchor.click();
                   break;
