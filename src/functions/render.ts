@@ -13,6 +13,8 @@ import drawGameOver from "./draw/drawGameOver";
 import getTilemap from "./definables/getTilemap";
 import drawVictory from "./draw/drawVictory";
 import drawTitle from "./draw/drawTitle";
+import levels from "../constants/levels";
+import drawTutorialHUD from "./drawTutorialHUD";
 
 const render = (): void => {
   state.app.stage.removeChildren();
@@ -31,6 +33,9 @@ const render = (): void => {
       getTilemap(state.level.tilemapSlug).draw();
       drawCoots();
       drawInteractHUD();
+      if (state.level === levels[0]) {
+        drawTutorialHUD();
+      }
       drawTimer();
     }
   }

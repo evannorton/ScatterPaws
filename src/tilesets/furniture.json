@@ -80,11 +80,6 @@
                  "value":"computer1"
                 }, 
                 {
-                 "name":"destructibleNoise",
-                 "type":"string",
-                 "value":"electronic"
-                }, 
-                {
                  "name":"uninteractable",
                  "type":"bool",
                  "value":true
@@ -256,11 +251,6 @@
                  "value":"computer1"
                 }, 
                 {
-                 "name":"destructibleNoise",
-                 "type":"string",
-                 "value":"electronic"
-                }, 
-                {
                  "name":"indicatorXOffset",
                  "type":"int",
                  "value":14
@@ -283,11 +273,6 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"computer1"
-                }, 
-                {
-                 "name":"destructibleNoise",
-                 "type":"string",
-                 "value":"electronic"
                 }]
         }, 
         {
