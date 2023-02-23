@@ -1,6 +1,7 @@
 import unitsPerTile from "../constants/unitsPerTile";
 import state from "../state";
 import calculateActiveDestructibles from "./calculateActiveDestructibles";
+import getAudioSource from "./definables/getAudioSource";
 
 const startLevel = (): void => {
   state.levelStartedAt = state.currentTime;
@@ -15,6 +16,7 @@ const startLevel = (): void => {
   };
   state.recentDestruction = null;
   calculateActiveDestructibles();
+  getAudioSource("noises/meow").play(null, null, null);
 };
 
 export default startLevel;

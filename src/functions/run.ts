@@ -75,6 +75,10 @@ const run = async (): Promise<void> => {
             anchor.click();
             break;
           }
+          case "m": {
+            getAudioSource("noises/meow").play(null, null, null);
+            break;
+          }
           case " ": {
             attemptScratch();
             if (state.isAtTitle) {

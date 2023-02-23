@@ -44729,6 +44729,7 @@ void main() {
         new ImageSource_1.default("pattern");
         new AudioSource_1.default("music/music");
         new AudioSource_1.default("noises/scratch");
+        new AudioSource_1.default("noises/meow");
         new AudioSource_1.default("noises/destroy/electronic");
       };
       exports.default = define2;
@@ -48751,6 +48752,7 @@ void main() {
       var unitsPerTile_1 = __importDefault(require_unitsPerTile());
       var state_1 = __importDefault(require_state());
       var calculateActiveDestructibles_1 = __importDefault(require_calculateActiveDestructibles());
+      var getAudioSource_1 = __importDefault(require_getAudioSource());
       var startLevel = () => {
         state_1.default.levelStartedAt = state_1.default.currentTime;
         state_1.default.brokenDestructibleIDs = [];
@@ -48764,6 +48766,7 @@ void main() {
         };
         state_1.default.recentDestruction = null;
         (0, calculateActiveDestructibles_1.default)();
+        (0, getAudioSource_1.default)("noises/meow").play(null, null, null);
       };
       exports.default = startLevel;
     }
@@ -48939,6 +48942,10 @@ void main() {
                   anchor.download = "ScatterPaws Screenshot.png";
                   anchor.href = state_1.default.app.renderer.plugins.extract.canvas(state_1.default.app.stage).toDataURL();
                   anchor.click();
+                  break;
+                }
+                case "m": {
+                  (0, getAudioSource_1.default)("noises/meow").play(null, null, null);
                   break;
                 }
                 case " ": {

@@ -33,6 +33,7 @@ const define = (): void => {
   new ImageSource("pattern");
   new AudioSource("music/music");
   new AudioSource("noises/scratch");
+  new AudioSource("noises/meow");
   new AudioSource("noises/destroy/electronic");
 };
 
