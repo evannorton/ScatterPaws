@@ -48504,74 +48504,128 @@ void main() {
       var getTilemap_1 = __importDefault(require_getTilemap());
       var updateCootsPosition = () => {
         const collisionVelocityFactor = -0.75;
-        const leftOffset = -0.4;
-        const topOffset = -0.5;
-        const bottomOffset = 0.85;
-        const rightOffset = 0.9;
-        const topLeftCoords = {
-          x: state_1.default.cootsCoords.x + leftOffset * unitsPerTile_1.default,
-          y: state_1.default.cootsCoords.y + topOffset * unitsPerTile_1.default
+        const furnitureLeftOffset = -0.4;
+        const furnitureTopOffset = -0.5;
+        const furnitureBottomOffset = 0.85;
+        const furnitureRightOffset = 0.9;
+        const furnitureTopLeftCoords = {
+          x: state_1.default.cootsCoords.x + furnitureLeftOffset * unitsPerTile_1.default,
+          y: state_1.default.cootsCoords.y + furnitureTopOffset * unitsPerTile_1.default
         };
-        const topRightCoords = {
-          x: topLeftCoords.x + rightOffset * unitsPerTile_1.default,
-          y: topLeftCoords.y
+        const furnitureTopRightCoords = {
+          x: furnitureTopLeftCoords.x + furnitureRightOffset * unitsPerTile_1.default,
+          y: furnitureTopLeftCoords.y
         };
-        const bottomLeftCoords = {
-          x: topLeftCoords.x,
-          y: topLeftCoords.y + bottomOffset * unitsPerTile_1.default
+        const furnitureBottomLeftCoords = {
+          x: furnitureTopLeftCoords.x,
+          y: furnitureTopLeftCoords.y + furnitureBottomOffset * unitsPerTile_1.default
         };
-        const bottomRightCoords = {
-          x: topRightCoords.x,
-          y: bottomLeftCoords.y
+        const furnitureBottomRightCoords = {
+          x: furnitureTopRightCoords.x,
+          y: furnitureBottomLeftCoords.y
         };
         const newX = state_1.default.cootsCoords.x + Math.floor(state_1.default.cootsVelocityX * (state_1.default.app.ticker.deltaMS / 1e3));
         const newY = state_1.default.cootsCoords.y + Math.floor(state_1.default.cootsVelocityY * (state_1.default.app.ticker.deltaMS / 1e3));
-        const newTopLeftCoords = {
-          x: newX + leftOffset * unitsPerTile_1.default,
-          y: newY + topOffset * unitsPerTile_1.default
+        const furnitureNewTopLeftCoords = {
+          x: newX + furnitureLeftOffset * unitsPerTile_1.default,
+          y: newY + furnitureTopOffset * unitsPerTile_1.default
         };
-        const newTopRightCoords = {
-          x: newTopLeftCoords.x + rightOffset * unitsPerTile_1.default,
-          y: newTopLeftCoords.y
+        const furnitureNewTopRightCoords = {
+          x: furnitureNewTopLeftCoords.x + furnitureRightOffset * unitsPerTile_1.default,
+          y: furnitureNewTopLeftCoords.y
         };
-        const newBottomLeftCoords = {
-          x: newTopLeftCoords.x,
-          y: newTopLeftCoords.y + bottomOffset * unitsPerTile_1.default
+        const furnitureNewBottomLeftCoords = {
+          x: furnitureNewTopLeftCoords.x,
+          y: furnitureNewTopLeftCoords.y + furnitureBottomOffset * unitsPerTile_1.default
         };
-        const newBottomRightCoords = {
-          x: newTopRightCoords.x,
-          y: newBottomLeftCoords.y
+        const furnitureNewBottomRightCoords = {
+          x: furnitureNewTopRightCoords.x,
+          y: furnitureNewBottomLeftCoords.y
         };
-        const xCollision = [
-          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: newTopLeftCoords.x, y: topLeftCoords.y }),
-          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: newBottomLeftCoords.x, y: bottomLeftCoords.y }),
-          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: newTopRightCoords.x, y: topRightCoords.y }),
-          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: newBottomRightCoords.x, y: bottomRightCoords.y })
+        const furnitureXCollision = [
+          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: furnitureNewTopLeftCoords.x, y: furnitureTopLeftCoords.y }),
+          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: furnitureNewBottomLeftCoords.x, y: furnitureBottomLeftCoords.y }),
+          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: furnitureNewTopRightCoords.x, y: furnitureTopRightCoords.y }),
+          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: furnitureNewBottomRightCoords.x, y: furnitureBottomRightCoords.y })
         ];
-        const yCollision = [
-          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: topLeftCoords.x, y: newTopLeftCoords.y }),
-          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: bottomLeftCoords.x, y: newBottomLeftCoords.y }),
-          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: topRightCoords.x, y: newTopRightCoords.y }),
-          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: bottomRightCoords.x, y: newBottomRightCoords.y })
+        const furnitureYCollision = [
+          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: furnitureTopLeftCoords.x, y: furnitureNewTopLeftCoords.y }),
+          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: furnitureBottomLeftCoords.x, y: furnitureNewBottomLeftCoords.y }),
+          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: furnitureTopRightCoords.x, y: furnitureNewTopRightCoords.y }),
+          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: furnitureBottomRightCoords.x, y: furnitureNewBottomRightCoords.y })
         ];
-        const bothCollision = [
-          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: newTopLeftCoords.x, y: newTopLeftCoords.y }),
-          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: newBottomLeftCoords.x, y: newBottomLeftCoords.y }),
-          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: newTopRightCoords.x, y: newTopRightCoords.y }),
-          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: newBottomRightCoords.x, y: newBottomRightCoords.y })
+        const furnitureBothCollision = [
+          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: furnitureNewTopLeftCoords.x, y: furnitureNewTopLeftCoords.y }),
+          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: furnitureNewBottomLeftCoords.x, y: furnitureNewBottomLeftCoords.y }),
+          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: furnitureNewTopRightCoords.x, y: furnitureNewTopRightCoords.y }),
+          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: furnitureNewBottomRightCoords.x, y: furnitureNewBottomRightCoords.y })
+        ];
+        const obstacleLeftOffset = 0;
+        const obstacleTopOffset = 0;
+        const obstacleBottomOffset = 0;
+        const obstacleRightOffset = 0;
+        const obstacleTopLeftCoords = {
+          x: state_1.default.cootsCoords.x + obstacleLeftOffset * unitsPerTile_1.default,
+          y: state_1.default.cootsCoords.y + obstacleTopOffset * unitsPerTile_1.default
+        };
+        const obstacleTopRightCoords = {
+          x: obstacleTopLeftCoords.x + obstacleRightOffset * unitsPerTile_1.default,
+          y: obstacleTopLeftCoords.y
+        };
+        const obstacleBottomLeftCoords = {
+          x: obstacleTopLeftCoords.x,
+          y: obstacleTopLeftCoords.y + obstacleBottomOffset * unitsPerTile_1.default
+        };
+        const obstacleBottomRightCoords = {
+          x: obstacleTopRightCoords.x,
+          y: obstacleBottomLeftCoords.y
+        };
+        const obstacleNewTopLeftCoords = {
+          x: newX + obstacleLeftOffset * unitsPerTile_1.default,
+          y: newY + obstacleTopOffset * unitsPerTile_1.default
+        };
+        const obstacleNewTopRightCoords = {
+          x: obstacleNewTopLeftCoords.x + obstacleRightOffset * unitsPerTile_1.default,
+          y: obstacleNewTopLeftCoords.y
+        };
+        const obstacleNewBottomLeftCoords = {
+          x: obstacleNewTopLeftCoords.x,
+          y: obstacleNewTopLeftCoords.y + obstacleBottomOffset * unitsPerTile_1.default
+        };
+        const obstacleNewBottomRightCoords = {
+          x: obstacleNewTopRightCoords.x,
+          y: obstacleNewBottomLeftCoords.y
+        };
+        const obstacleXCollision = [
+          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: obstacleNewTopLeftCoords.x, y: obstacleTopLeftCoords.y }),
+          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: obstacleNewBottomLeftCoords.x, y: obstacleBottomLeftCoords.y }),
+          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: obstacleNewTopRightCoords.x, y: obstacleTopRightCoords.y }),
+          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: obstacleNewBottomRightCoords.x, y: obstacleBottomRightCoords.y })
+        ];
+        const obstacleYCollision = [
+          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: obstacleTopLeftCoords.x, y: obstacleNewTopLeftCoords.y }),
+          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: obstacleBottomLeftCoords.x, y: obstacleNewBottomLeftCoords.y }),
+          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: obstacleTopRightCoords.x, y: obstacleNewTopRightCoords.y }),
+          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: obstacleBottomRightCoords.x, y: obstacleNewBottomRightCoords.y })
+        ];
+        const obstacleBothCollision = [
+          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: obstacleNewTopLeftCoords.x, y: obstacleNewTopLeftCoords.y }),
+          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: obstacleNewBottomLeftCoords.x, y: obstacleNewBottomLeftCoords.y }),
+          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: obstacleNewTopRightCoords.x, y: obstacleNewTopRightCoords.y }),
+          (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getCollisionAtCoords({ x: obstacleNewBottomRightCoords.x, y: obstacleNewBottomRightCoords.y })
         ];
         const invincible = state_1.default.hasHitObstacleAt() && state_1.default.currentTime - state_1.default.hitObstacleAt < obstacleInvincibleDuration_1.default + obstacleDuration_1.default;
-        if (invincible === false && xCollision.some((collision) => collision === CollisionType_1.default.Obstacle)) {
+        if (invincible === false && obstacleXCollision.some((collision) => collision === CollisionType_1.default.Obstacle)) {
           state_1.default.hitObstacleAt = state_1.default.currentTime;
-        } else if (invincible === false && yCollision.some((collision) => collision === CollisionType_1.default.Obstacle)) {
+        } else if (invincible === false && obstacleYCollision.some((collision) => collision === CollisionType_1.default.Obstacle)) {
           state_1.default.hitObstacleAt = state_1.default.currentTime;
-        } else if (invincible === false && bothCollision.some((collision) => collision === CollisionType_1.default.Obstacle)) {
+        } else if (invincible === false && obstacleBothCollision.some((collision) => collision === CollisionType_1.default.Obstacle)) {
           state_1.default.hitObstacleAt = state_1.default.currentTime;
-        } else if (xCollision.some((collision) => collision === CollisionType_1.default.Bonk)) {
+        } else if (furnitureXCollision.some((collision) => collision === CollisionType_1.default.Bonk)) {
           state_1.default.cootsVelocityX *= collisionVelocityFactor;
-        } else if (yCollision.some((collision) => collision === CollisionType_1.default.Bonk)) {
+        } else if (furnitureYCollision.some((collision) => collision === CollisionType_1.default.Bonk)) {
           state_1.default.cootsVelocityY *= collisionVelocityFactor;
-        } else if (bothCollision.some((collision) => collision === CollisionType_1.default.Bonk)) {
+        } else if (furnitureBothCollision.some((collision) => collision === CollisionType_1.default.Bonk)) {
           state_1.default.cootsVelocityX *= collisionVelocityFactor;
           state_1.default.cootsVelocityY *= collisionVelocityFactor;
         } else {

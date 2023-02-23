@@ -7,79 +7,136 @@ import getTilemap from "../definables/getTilemap";
 
 const updateCootsPosition = (): void => {
   const collisionVelocityFactor = -.75;
-  const leftOffset: number = -.4;
-  const topOffset: number = - .5;
-  const bottomOffset: number = .85;
-  const rightOffset: number = .9;
-  const topLeftCoords = {
-    x: state.cootsCoords.x + leftOffset * unitsPerTile,
-    y: state.cootsCoords.y + topOffset * unitsPerTile
+  // Furniture
+  const furnitureLeftOffset: number = -.4;
+  const furnitureTopOffset: number = - .5;
+  const furnitureBottomOffset: number = .85;
+  const furnitureRightOffset: number = .9;
+  const furnitureTopLeftCoords = {
+    x: state.cootsCoords.x + furnitureLeftOffset * unitsPerTile,
+    y: state.cootsCoords.y + furnitureTopOffset * unitsPerTile
   };
-  const topRightCoords = {
-    x: topLeftCoords.x + rightOffset * unitsPerTile,
-    y: topLeftCoords.y
+  const furnitureTopRightCoords = {
+    x: furnitureTopLeftCoords.x + furnitureRightOffset * unitsPerTile,
+    y: furnitureTopLeftCoords.y
   };
-  const bottomLeftCoords = {
-    x: topLeftCoords.x,
-    y: topLeftCoords.y + bottomOffset * unitsPerTile
+  const furnitureBottomLeftCoords = {
+    x: furnitureTopLeftCoords.x,
+    y: furnitureTopLeftCoords.y + furnitureBottomOffset * unitsPerTile
   };
-  const bottomRightCoords = {
-    x: topRightCoords.x,
-    y: bottomLeftCoords.y
+  const furnitureBottomRightCoords = {
+    x: furnitureTopRightCoords.x,
+    y: furnitureBottomLeftCoords.y
   };
   const newX: number = state.cootsCoords.x + Math.floor(state.cootsVelocityX * (state.app.ticker.deltaMS / 1000));
   const newY: number = state.cootsCoords.y + Math.floor(state.cootsVelocityY * (state.app.ticker.deltaMS / 1000));
-  const newTopLeftCoords = {
-    x: newX + leftOffset * unitsPerTile,
-    y: newY + topOffset * unitsPerTile
+  const furnitureNewTopLeftCoords = {
+    x: newX + furnitureLeftOffset * unitsPerTile,
+    y: newY + furnitureTopOffset * unitsPerTile
   };
-  const newTopRightCoords = {
-    x: newTopLeftCoords.x + rightOffset * unitsPerTile,
-    y: newTopLeftCoords.y
+  const furnitureNewTopRightCoords = {
+    x: furnitureNewTopLeftCoords.x + furnitureRightOffset * unitsPerTile,
+    y: furnitureNewTopLeftCoords.y
   };
-  const newBottomLeftCoords = {
-    x: newTopLeftCoords.x,
-    y: newTopLeftCoords.y + bottomOffset * unitsPerTile
+  const furnitureNewBottomLeftCoords = {
+    x: furnitureNewTopLeftCoords.x,
+    y: furnitureNewTopLeftCoords.y + furnitureBottomOffset * unitsPerTile
   };
-  const newBottomRightCoords = {
-    x: newTopRightCoords.x,
-    y: newBottomLeftCoords.y
+  const furnitureNewBottomRightCoords = {
+    x: furnitureNewTopRightCoords.x,
+    y: furnitureNewBottomLeftCoords.y
   };
-  const xCollision = [
-    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: newTopLeftCoords.x, y: topLeftCoords.y }),
-    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: newBottomLeftCoords.x, y: bottomLeftCoords.y }),
-    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: newTopRightCoords.x, y: topRightCoords.y }),
-    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: newBottomRightCoords.x, y: bottomRightCoords.y })
+  const furnitureXCollision = [
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: furnitureNewTopLeftCoords.x, y: furnitureTopLeftCoords.y }),
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: furnitureNewBottomLeftCoords.x, y: furnitureBottomLeftCoords.y }),
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: furnitureNewTopRightCoords.x, y: furnitureTopRightCoords.y }),
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: furnitureNewBottomRightCoords.x, y: furnitureBottomRightCoords.y })
   ];
-  const yCollision = [
-    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: topLeftCoords.x, y: newTopLeftCoords.y }),
-    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: bottomLeftCoords.x, y: newBottomLeftCoords.y }),
-    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: topRightCoords.x, y: newTopRightCoords.y }),
-    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: bottomRightCoords.x, y: newBottomRightCoords.y })
+  const furnitureYCollision = [
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: furnitureTopLeftCoords.x, y: furnitureNewTopLeftCoords.y }),
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: furnitureBottomLeftCoords.x, y: furnitureNewBottomLeftCoords.y }),
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: furnitureTopRightCoords.x, y: furnitureNewTopRightCoords.y }),
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: furnitureBottomRightCoords.x, y: furnitureNewBottomRightCoords.y })
   ];
-  const bothCollision = [
-    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: newTopLeftCoords.x, y: newTopLeftCoords.y }),
-    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: newBottomLeftCoords.x, y: newBottomLeftCoords.y }),
-    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: newTopRightCoords.x, y: newTopRightCoords.y }),
-    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: newBottomRightCoords.x, y: newBottomRightCoords.y })
+  const furnitureBothCollision = [
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: furnitureNewTopLeftCoords.x, y: furnitureNewTopLeftCoords.y }),
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: furnitureNewBottomLeftCoords.x, y: furnitureNewBottomLeftCoords.y }),
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: furnitureNewTopRightCoords.x, y: furnitureNewTopRightCoords.y }),
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: furnitureNewBottomRightCoords.x, y: furnitureNewBottomRightCoords.y })
   ];
+  // Obstacles
+  const obstacleLeftOffset: number = 0;
+  const obstacleTopOffset: number = 0;
+  const obstacleBottomOffset: number = 0;
+  const obstacleRightOffset: number = 0;
+  const obstacleTopLeftCoords = {
+    x: state.cootsCoords.x + obstacleLeftOffset * unitsPerTile,
+    y: state.cootsCoords.y + obstacleTopOffset * unitsPerTile
+  };
+  const obstacleTopRightCoords = {
+    x: obstacleTopLeftCoords.x + obstacleRightOffset * unitsPerTile,
+    y: obstacleTopLeftCoords.y
+  };
+  const obstacleBottomLeftCoords = {
+    x: obstacleTopLeftCoords.x,
+    y: obstacleTopLeftCoords.y + obstacleBottomOffset * unitsPerTile
+  };
+  const obstacleBottomRightCoords = {
+    x: obstacleTopRightCoords.x,
+    y: obstacleBottomLeftCoords.y
+  };
+  const obstacleNewTopLeftCoords = {
+    x: newX + obstacleLeftOffset * unitsPerTile,
+    y: newY + obstacleTopOffset * unitsPerTile
+  };
+  const obstacleNewTopRightCoords = {
+    x: obstacleNewTopLeftCoords.x + obstacleRightOffset * unitsPerTile,
+    y: obstacleNewTopLeftCoords.y
+  };
+  const obstacleNewBottomLeftCoords = {
+    x: obstacleNewTopLeftCoords.x,
+    y: obstacleNewTopLeftCoords.y + obstacleBottomOffset * unitsPerTile
+  };
+  const obstacleNewBottomRightCoords = {
+    x: obstacleNewTopRightCoords.x,
+    y: obstacleNewBottomLeftCoords.y
+  };
+  const obstacleXCollision = [
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: obstacleNewTopLeftCoords.x, y: obstacleTopLeftCoords.y }),
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: obstacleNewBottomLeftCoords.x, y: obstacleBottomLeftCoords.y }),
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: obstacleNewTopRightCoords.x, y: obstacleTopRightCoords.y }),
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: obstacleNewBottomRightCoords.x, y: obstacleBottomRightCoords.y })
+  ];
+  const obstacleYCollision = [
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: obstacleTopLeftCoords.x, y: obstacleNewTopLeftCoords.y }),
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: obstacleBottomLeftCoords.x, y: obstacleNewBottomLeftCoords.y }),
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: obstacleTopRightCoords.x, y: obstacleNewTopRightCoords.y }),
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: obstacleBottomRightCoords.x, y: obstacleNewBottomRightCoords.y })
+  ];
+  const obstacleBothCollision = [
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: obstacleNewTopLeftCoords.x, y: obstacleNewTopLeftCoords.y }),
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: obstacleNewBottomLeftCoords.x, y: obstacleNewBottomLeftCoords.y }),
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: obstacleNewTopRightCoords.x, y: obstacleNewTopRightCoords.y }),
+    getTilemap(state.level.tilemapSlug).getCollisionAtCoords({ x: obstacleNewBottomRightCoords.x, y: obstacleNewBottomRightCoords.y })
+  ];
+  // Checks
   const invincible: boolean = state.hasHitObstacleAt() && state.currentTime - state.hitObstacleAt < obstacleInvincibleDuration + obstacleDuration;
-  if (invincible === false && xCollision.some((collision) => collision === CollisionType.Obstacle)) {
+  if (invincible === false && obstacleXCollision.some((collision) => collision === CollisionType.Obstacle)) {
     state.hitObstacleAt = state.currentTime;
   }
-  else if (invincible === false && yCollision.some((collision) => collision === CollisionType.Obstacle)) {
+  else if (invincible === false && obstacleYCollision.some((collision) => collision === CollisionType.Obstacle)) {
     state.hitObstacleAt = state.currentTime;
   }
-  else if (invincible === false && bothCollision.some((collision) => collision === CollisionType.Obstacle)) {
+  else if (invincible === false && obstacleBothCollision.some((collision) => collision === CollisionType.Obstacle)) {
     state.hitObstacleAt = state.currentTime;
   }
-  else if (xCollision.some((collision) => collision === CollisionType.Bonk)) {
+  else if (furnitureXCollision.some((collision) => collision === CollisionType.Bonk)) {
     state.cootsVelocityX *= collisionVelocityFactor;
   }
-  else if (yCollision.some((collision) => collision === CollisionType.Bonk)) {
+  else if (furnitureYCollision.some((collision) => collision === CollisionType.Bonk)) {
     state.cootsVelocityY *= collisionVelocityFactor;
   }
-  else if (bothCollision.some((collision) => collision === CollisionType.Bonk)) {
+  else if (furnitureBothCollision.some((collision) => collision === CollisionType.Bonk)) {
     state.cootsVelocityX *= collisionVelocityFactor;
     state.cootsVelocityY *= collisionVelocityFactor;
   }
