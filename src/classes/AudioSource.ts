@@ -9,6 +9,7 @@ class AudioSource extends Definable {
   private _fadeVolume: number = 0.5;
   private _fadeInAction: FadeInAction | null = null;
   private _fadeOutAction: FadeOutAction | null = null;
+  private _onEnds: ((() => void) | null)[] = [];
   private readonly _howl: Howl;
   private _onPlay: (() => void) | null = null;
   private _loopPoint: number | null = null;
@@ -85,9 +86,10 @@ class AudioSource extends Definable {
     this._howl.pause();
   }
 
-  public play(loopPoint: number | null, onPlay: (() => void) | null): void {
+  public play(loopPoint: number | null, onPlay: (() => void) | null, onEnd: (() => void) | null): void {
     this._loopPoint = loopPoint;
     this._onPlay = onPlay;
+    this._onEnds.push(onEnd);
     this._howl.play();
   }
 
@@ -105,6 +107,10 @@ class AudioSource extends Definable {
     this._howl.mute(false);
   }
 
+  public cancelOnEnds(): void {
+    this._onEnds = [];
+  }
+
   private getSRC(): string {
     if (isRunningOnLocal()) {
       return `./out/audio/${this._slug}.mp3`;
@@ -118,6 +124,10 @@ class AudioSource extends Definable {
       this._howl.seek(this._loopPoint / 1000);
       this._howl.play();
     }
+    if (this._onEnds[0]) {
+      this._onEnds[0]();
+    }
+    this._onEnds.shift();
   }
 
   private onHowlFade(): void {

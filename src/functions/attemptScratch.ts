@@ -14,34 +14,40 @@ const attemptScratch = (): void => {
     const cooldown: boolean = isClawOnCooldown();
     if (cooldown === false) {
       const clawedAt = state.currentTime;
-      state.recentDestruction = {
-        clawedAt,
-        destructibleID: null,
-        tileID: null
-      };
-      getAudioSource("noises/scratch").play(null, null);
       const destructible: Destructible | null = getTilemap(state.level.tilemapSlug).getDestructibleWithinRange();
-      if (destructible !== null) {
-        const brokenDestructibles: string[] = state.brokenDestructibleIDs;
-        if (brokenDestructibles.includes(destructible.destructibleID) === false && state.activeDestructibleIDs.includes(destructible.destructibleID)) {
-          state.recentDestruction = {
-            clawedAt,
-            destructibleID: destructible.destructibleID,
-            tileID: destructible.tileID
-          };
-          state.brokenDestructibleIDs = [...brokenDestructibles, destructible.destructibleID];
-          state.activeDestructibleIDs = state.activeDestructibleIDs.filter((activeDestructible) => activeDestructible !== destructible.destructibleID);
-          calculateActiveDestructibles();
-          if (state.activeDestructibleIDs.length === 0) {
-            const levelIndex = levels.findIndex((level) => level === state.level);
-            const newLevel = levels[levelIndex + 1];
-            if (newLevel) {
-              state.level = newLevel;
-              startLevel();
-            }
-            else {
-              state.won = true;
-            }
+      const willDestroy = destructible !== null && state.brokenDestructibleIDs.includes(destructible.destructibleID) === false && state.activeDestructibleIDs.includes(destructible.destructibleID);
+      if (!willDestroy) {
+        state.recentDestruction = {
+          clawedAt,
+          destructibleID: null,
+          tileID: null
+        };
+        getAudioSource("noises/scratch").play(null, null, null);
+      }
+      else {
+        state.recentDestruction = {
+          clawedAt,
+          destructibleID: destructible.destructibleID,
+          tileID: destructible.tileID
+        };
+        getAudioSource("noises/scratch").play(null, null, () => {
+          if (destructible.audioSourceSlug) {
+            getAudioSource(destructible.audioSourceSlug).play(null, null, null);
+          }
+        });
+        const brokenDestructibleIDs: string[] = state.brokenDestructibleIDs;
+        state.brokenDestructibleIDs = [...brokenDestructibleIDs, destructible.destructibleID];
+        state.activeDestructibleIDs = state.activeDestructibleIDs.filter((activeDestructible) => activeDestructible !== destructible.destructibleID);
+        calculateActiveDestructibles();
+        if (state.activeDestructibleIDs.length === 0) {
+          const levelIndex = levels.findIndex((level) => level === state.level);
+          const newLevel = levels[levelIndex + 1];
+          if (newLevel) {
+            state.level = newLevel;
+            startLevel();
+          }
+          else {
+            state.won = true;
           }
         }
       }

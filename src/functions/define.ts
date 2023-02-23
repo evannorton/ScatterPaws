@@ -31,6 +31,7 @@ const define = (): void => {
   new ImageSource("scratch");
   new AudioSource("music/music");
   new AudioSource("noises/scratch");
+  new AudioSource("noises/destroy/electronic");
 };
 
 export default define;

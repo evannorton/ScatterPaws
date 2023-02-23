@@ -134,11 +134,14 @@ class Tilemap extends Definable {
               const destructibleID = destructibleIDProperty?.value;
               const uninteractableProperty = tile && tile.properties?.find((property): boolean => property.name === "uninteractable");
               const uninteractable = uninteractableProperty?.value;
+              const destructibleNoiseProperty = tile && tile.properties?.find((property): boolean => property.name === "destructibleNoise");
+              const destructibleNoise = destructibleNoiseProperty?.value;
               const scratchRange = 2;
               if (datum > 0 && Math.abs(tileX - datumTileX) <= scratchRange && Math.abs(tileY - datumTileY) <= scratchRange && typeof destructibleID === "string" && !uninteractable) {
                 return {
                   destructibleID,
-                  tileID: tilesetIndex
+                  tileID: tilesetIndex,
+                  audioSourceSlug: typeof destructibleNoise === "string" ? `noises/destroy/${destructibleNoise}` : null
                 };
               }
             }

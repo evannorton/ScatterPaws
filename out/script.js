@@ -26221,7 +26221,7 @@ void main() {
           return null;
         }
         getDestructibleWithinRange() {
-          var _a, _b;
+          var _a, _b, _c;
           const tileX = state_1.default.cootsCoords.x / unitsPerTile_1.default;
           const tileY = state_1.default.cootsCoords.y / unitsPerTile_1.default;
           for (const layer of this._data.layers) {
@@ -26241,11 +26241,14 @@ void main() {
                     const destructibleID = destructibleIDProperty === null || destructibleIDProperty === void 0 ? void 0 : destructibleIDProperty.value;
                     const uninteractableProperty = tile && ((_b = tile.properties) === null || _b === void 0 ? void 0 : _b.find((property) => property.name === "uninteractable"));
                     const uninteractable = uninteractableProperty === null || uninteractableProperty === void 0 ? void 0 : uninteractableProperty.value;
+                    const destructibleNoiseProperty = tile && ((_c = tile.properties) === null || _c === void 0 ? void 0 : _c.find((property) => property.name === "destructibleNoise"));
+                    const destructibleNoise = destructibleNoiseProperty === null || destructibleNoiseProperty === void 0 ? void 0 : destructibleNoiseProperty.value;
                     const scratchRange = 2;
                     if (datum > 0 && Math.abs(tileX - datumTileX) <= scratchRange && Math.abs(tileY - datumTileY) <= scratchRange && typeof destructibleID === "string" && !uninteractable) {
                       return {
                         destructibleID,
-                        tileID: tilesetIndex
+                        tileID: tilesetIndex,
+                        audioSourceSlug: typeof destructibleNoise === "string" ? `noises/destroy/${destructibleNoise}` : null
                       };
                     }
                   }
@@ -42112,6 +42115,11 @@ void main() {
                 value: "computer1"
               },
               {
+                name: "destructibleNoise",
+                type: "string",
+                value: "electronic"
+              },
+              {
                 name: "uninteractable",
                 type: "bool",
                 value: true
@@ -42292,6 +42300,11 @@ void main() {
                 value: "computer1"
               },
               {
+                name: "destructibleNoise",
+                type: "string",
+                value: "electronic"
+              },
+              {
                 name: "indicatorXOffset",
                 type: "int",
                 value: 14
@@ -42315,6 +42328,11 @@ void main() {
                 name: "destructibleID",
                 type: "string",
                 value: "computer1"
+              },
+              {
+                name: "destructibleNoise",
+                type: "string",
+                value: "electronic"
               }
             ]
           },
@@ -44536,6 +44554,7 @@ void main() {
           this._fadeVolume = 0.5;
           this._fadeInAction = null;
           this._fadeOutAction = null;
+          this._onEnds = [];
           this._onPlay = null;
           this._loopPoint = null;
           this._plays = 0;
@@ -44599,9 +44618,10 @@ void main() {
         pause() {
           this._howl.pause();
         }
-        play(loopPoint, onPlay) {
+        play(loopPoint, onPlay, onEnd) {
           this._loopPoint = loopPoint;
           this._onPlay = onPlay;
+          this._onEnds.push(onEnd);
           this._howl.play();
         }
         resume() {
@@ -44615,6 +44635,9 @@ void main() {
         unmute() {
           this._howl.mute(false);
         }
+        cancelOnEnds() {
+          this._onEnds = [];
+        }
         getSRC() {
           if ((0, isRunningOnLocal_1.default)()) {
             return `./out/audio/${this._slug}.mp3`;
@@ -44627,6 +44650,10 @@ void main() {
             this._howl.seek(this._loopPoint / 1e3);
             this._howl.play();
           }
+          if (this._onEnds[0]) {
+            this._onEnds[0]();
+          }
+          this._onEnds.shift();
         }
         onHowlFade() {
           if (this._fadeInAction !== null) {
@@ -44692,6 +44719,7 @@ void main() {
         new ImageSource_1.default("scratch");
         new AudioSource_1.default("music/music");
         new AudioSource_1.default("noises/scratch");
+        new AudioSource_1.default("noises/destroy/electronic");
       };
       exports.default = define2;
     }
@@ -48522,6 +48550,30 @@ void main() {
     }
   });
 
+  // lib/functions/definables/getAudioSources.js
+  var require_getAudioSources = __commonJS({
+    "lib/functions/definables/getAudioSources.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var AudioSource_1 = __importDefault(require_AudioSource());
+      var getDefinables_1 = __importDefault(require_getDefinables());
+      var getAudioSources = () => {
+        const audioSources = /* @__PURE__ */ new Map();
+        (0, getDefinables_1.default)("AudioSource").forEach((audioSource) => {
+          const slug = audioSource.slug;
+          if (audioSource instanceof AudioSource_1.default) {
+            audioSources.set(slug, audioSource);
+          }
+        });
+        return audioSources;
+      };
+      exports.default = getAudioSources;
+    }
+  });
+
   // lib/functions/update/update.js
   var require_update = __commonJS({
     "lib/functions/update/update.js"(exports) {
@@ -48534,11 +48586,17 @@ void main() {
       var updateCootsVelocity_1 = __importDefault(require_updateCootsVelocity());
       var updateCootsPosition_1 = __importDefault(require_updateCootsPosition());
       var gameIsOngoing_1 = __importDefault(require_gameIsOngoing());
+      var isCatStarving_1 = __importDefault(require_isCatStarving());
+      var getAudioSources_1 = __importDefault(require_getAudioSources());
       var update = () => {
         if ((0, assetsAreLoaded_1.default)()) {
           if ((0, gameIsOngoing_1.default)()) {
             (0, updateCootsVelocity_1.default)();
             (0, updateCootsPosition_1.default)();
+          } else if ((0, isCatStarving_1.default)()) {
+            (0, getAudioSources_1.default)().forEach((audioSource) => {
+              audioSource.cancelOnEnds();
+            });
           }
         }
       };
@@ -48688,33 +48746,38 @@ void main() {
           const cooldown = (0, isClawOnCooldown_1.default)();
           if (cooldown === false) {
             const clawedAt = state_1.default.currentTime;
-            state_1.default.recentDestruction = {
-              clawedAt,
-              destructibleID: null,
-              tileID: null
-            };
-            (0, getAudioSource_1.default)("noises/scratch").play(null, null);
             const destructible = (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getDestructibleWithinRange();
-            if (destructible !== null) {
-              const brokenDestructibles = state_1.default.brokenDestructibleIDs;
-              if (brokenDestructibles.includes(destructible.destructibleID) === false && state_1.default.activeDestructibleIDs.includes(destructible.destructibleID)) {
-                state_1.default.recentDestruction = {
-                  clawedAt,
-                  destructibleID: destructible.destructibleID,
-                  tileID: destructible.tileID
-                };
-                state_1.default.brokenDestructibleIDs = [...brokenDestructibles, destructible.destructibleID];
-                state_1.default.activeDestructibleIDs = state_1.default.activeDestructibleIDs.filter((activeDestructible) => activeDestructible !== destructible.destructibleID);
-                (0, calculateActiveDestructibles_1.default)();
-                if (state_1.default.activeDestructibleIDs.length === 0) {
-                  const levelIndex = levels_1.default.findIndex((level) => level === state_1.default.level);
-                  const newLevel = levels_1.default[levelIndex + 1];
-                  if (newLevel) {
-                    state_1.default.level = newLevel;
-                    (0, startLevel_1.default)();
-                  } else {
-                    state_1.default.won = true;
-                  }
+            const willDestroy = destructible !== null && state_1.default.brokenDestructibleIDs.includes(destructible.destructibleID) === false && state_1.default.activeDestructibleIDs.includes(destructible.destructibleID);
+            if (!willDestroy) {
+              state_1.default.recentDestruction = {
+                clawedAt,
+                destructibleID: null,
+                tileID: null
+              };
+              (0, getAudioSource_1.default)("noises/scratch").play(null, null, null);
+            } else {
+              state_1.default.recentDestruction = {
+                clawedAt,
+                destructibleID: destructible.destructibleID,
+                tileID: destructible.tileID
+              };
+              (0, getAudioSource_1.default)("noises/scratch").play(null, null, () => {
+                if (destructible.audioSourceSlug) {
+                  (0, getAudioSource_1.default)(destructible.audioSourceSlug).play(null, null, null);
+                }
+              });
+              const brokenDestructibleIDs = state_1.default.brokenDestructibleIDs;
+              state_1.default.brokenDestructibleIDs = [...brokenDestructibleIDs, destructible.destructibleID];
+              state_1.default.activeDestructibleIDs = state_1.default.activeDestructibleIDs.filter((activeDestructible) => activeDestructible !== destructible.destructibleID);
+              (0, calculateActiveDestructibles_1.default)();
+              if (state_1.default.activeDestructibleIDs.length === 0) {
+                const levelIndex = levels_1.default.findIndex((level) => level === state_1.default.level);
+                const newLevel = levels_1.default[levelIndex + 1];
+                if (newLevel) {
+                  state_1.default.level = newLevel;
+                  (0, startLevel_1.default)();
+                } else {
+                  state_1.default.won = true;
                 }
               }
             }
@@ -48851,7 +48914,7 @@ void main() {
           });
         }
         const music = (0, getAudioSource_1.default)("music/music");
-        music.play(132e3, null);
+        music.play(132e3, null, null);
         if (socket_1.default) {
           socket_1.default.on("run-id", (runID) => {
             if (document.body.dataset.runId !== runID) {

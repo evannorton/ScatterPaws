@@ -91,7 +91,7 @@ const run = async (): Promise<void> => {
     });
   }
   const music: AudioSource = getAudioSource("music/music");
-  music.play(132000, null);
+  music.play(132000, null, null);
   if (socket) {
     socket.on("run-id", (runID: string) => {
       if (document.body.dataset.runId !== runID) {
