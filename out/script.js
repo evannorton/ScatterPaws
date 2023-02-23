@@ -48795,7 +48795,7 @@ void main() {
           });
         }
         const music = (0, getAudioSource_1.default)("music/music");
-        music.play(0, null);
+        music.play(132e3, null);
         socket_1.default.on("run-id", (runID) => {
           if (document.body.dataset.runId !== runID) {
             location.reload();
