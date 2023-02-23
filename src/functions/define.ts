@@ -32,7 +32,9 @@ const define = (): void => {
   new ImageSource("title");
   new ImageSource("pattern");
   new ImageSource("buttons/play");
+  new ImageSource("buttons/next");
   new ImageSource("hunger");
+  new ImageSource("eating");
   new AudioSource("music/music");
   new AudioSource("noises/scratch");
   new AudioSource("noises/meow");

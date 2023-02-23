@@ -6,13 +6,10 @@ import tick from "./tick";
 import gameWidth from "../constants/gameWidth";
 import gameHeight from "../constants/gameHeight";
 import gameScale from "../constants/gameScale";
-import AudioSource from "../classes/AudioSource";
 import getAudioSource from "./definables/getAudioSource";
 import focusScreen from "./focusScreen";
 import isRunningOnLocal from "./isRunningOnLocal";
-import isCatStarving from "./isCatStarving";
-import startLevel from "./startLevel";
-import attemptScratch from "./attemptScratch";
+import handleAction from "./handleAction";
 
 const run = async (): Promise<void> => {
   console.log(`Running ScatterPaws.`);
@@ -43,16 +40,7 @@ const run = async (): Promise<void> => {
     screen.style.width = `${gameWidth * gameScale}px`;
     screen.style.height = `${gameHeight * gameScale}px`;
     screen.addEventListener("mousedown", () => {
-      attemptScratch();
-      if (state.isAtTitle) {
-        state.isAtTitle = false;
-        const music: AudioSource = getAudioSource("music/music");
-        music.play(132000, null, null);
-        startLevel();
-      }
-      else if (isCatStarving()) {
-        startLevel();
-      }
+      handleAction();
     });
     screen.addEventListener("mousemove", (e) => {
       if (e.target instanceof HTMLElement) {
@@ -80,16 +68,7 @@ const run = async (): Promise<void> => {
             break;
           }
           case " ": {
-            attemptScratch();
-            if (state.isAtTitle) {
-              state.isAtTitle = false;
-              const music: AudioSource = getAudioSource("music/music");
-              music.play(132000, null, null);
-              startLevel();
-            }
-            else if (isCatStarving()) {
-              startLevel();
-            }
+            handleAction();
             break;
           }
         }

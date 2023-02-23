@@ -15,6 +15,8 @@ import drawVictory from "./draw/drawVictory";
 import drawTitle from "./draw/drawTitle";
 import levels from "../constants/levels";
 import drawTutorialHUD from "./drawTutorialHUD";
+import gameIsOngoing from "./gameIsOngoing";
+import drawLevelCompleteHUD from "./drawLevelCompleteHUD";
 
 const render = (): void => {
   state.app.stage.removeChildren();
@@ -29,14 +31,19 @@ const render = (): void => {
     else if (isCatStarving()) {
       drawGameOver();
     }
-    else {
+    else if (gameIsOngoing()) {
       getTilemap(state.level.tilemapSlug).draw();
-      drawCoots();
-      drawInteractHUD();
-      if (state.level === levels[0]) {
-        drawTutorialHUD();
+      if (state.activeDestructibleIDs.length === 0) {
+        drawLevelCompleteHUD();
       }
-      drawTimer();
+      else {
+        drawCoots();
+        drawInteractHUD();
+        if (state.level === levels[0]) {
+          drawTutorialHUD();
+        }
+        drawTimer();
+      }
     }
   }
   else {

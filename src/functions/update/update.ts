@@ -5,10 +5,11 @@ import gameIsOngoing from "../gameIsOngoing";
 import isCatStarving from "../isCatStarving";
 import getAudioSources from "../definables/getAudioSources";
 import AudioSource from "../../classes/AudioSource";
+import state from "../../state";
 
 const update = (): void => {
   if (assetsAreLoaded()) {
-    if (gameIsOngoing()) {
+    if (gameIsOngoing() && state.activeDestructibleIDs.length > 0) {
       updateCootsVelocity();
       updateCootsPosition();
     }

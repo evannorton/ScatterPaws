@@ -41571,7 +41571,9 @@ void main() {
         new ImageSource_1.default("title");
         new ImageSource_1.default("pattern");
         new ImageSource_1.default("buttons/play");
+        new ImageSource_1.default("buttons/next");
         new ImageSource_1.default("hunger");
+        new ImageSource_1.default("eating");
         new AudioSource_1.default("music/music");
         new AudioSource_1.default("noises/scratch");
         new AudioSource_1.default("noises/meow");
@@ -45113,7 +45115,7 @@ void main() {
       };
       Object.defineProperty(exports, "__esModule", { value: true });
       var state_1 = __importDefault(require_state());
-      var isCatStarving = () => state_1.default.hasLevelStartedAt() && state_1.default.currentTime - state_1.default.levelStartedAt >= state_1.default.level.time;
+      var isCatStarving = () => state_1.default.activeDestructibleIDs.length > 0 && state_1.default.hasLevelStartedAt() && state_1.default.currentTime - state_1.default.levelStartedAt >= state_1.default.level.time;
       exports.default = isCatStarving;
     }
   });
@@ -45219,6 +45221,55 @@ void main() {
     }
   });
 
+  // lib/functions/gameIsOngoing.js
+  var require_gameIsOngoing = __commonJS({
+    "lib/functions/gameIsOngoing.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var state_1 = __importDefault(require_state());
+      var isCatStarving_1 = __importDefault(require_isCatStarving());
+      var gameIsOngoing = () => state_1.default.isAtTitle === false && (0, isCatStarving_1.default)() === false && state_1.default.won === false;
+      exports.default = gameIsOngoing;
+    }
+  });
+
+  // lib/functions/drawLevelCompleteHUD.js
+  var require_drawLevelCompleteHUD = __commonJS({
+    "lib/functions/drawLevelCompleteHUD.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var gameHeight_1 = __importDefault(require_gameHeight());
+      var gameWidth_1 = __importDefault(require_gameWidth());
+      var ZIndexType_1 = __importDefault(require_ZIndexType());
+      var state_1 = __importDefault(require_state());
+      var drawImage_1 = __importDefault(require_drawImage());
+      var drawRectangle_1 = __importDefault(require_drawRectangle());
+      var drawText_1 = __importDefault(require_drawText());
+      var drawLevelCompleteHUD = () => {
+        const nextZIndex = {
+          value: 1e4,
+          type: ZIndexType_1.default.Hard
+        };
+        const x = 110;
+        const height = 81;
+        const y = gameHeight_1.default / 2 - height / 2;
+        (0, drawRectangle_1.default)("#000000", 0.75, x, y, gameWidth_1.default - x * 2, height, 1e4);
+        (0, drawText_1.default)("Level Complete!", "#ffffff", gameWidth_1.default / 2, y + 6, 1, gameWidth_1.default, 1, "center", "top");
+        const frameDuration = 65;
+        const frame = Math.floor(state_1.default.currentTime % (frameDuration * 4) / frameDuration);
+        (0, drawImage_1.default)("eating", 1, frame * 32, 0, 32, 26, gameWidth_1.default / 2 - 16, y + 19, 32, 26, nextZIndex);
+        (0, drawImage_1.default)("buttons/next", 1, 0, 0, 47, 24, gameWidth_1.default / 2 - 24, y + 51, 47, 24, nextZIndex);
+      };
+      exports.default = drawLevelCompleteHUD;
+    }
+  });
+
   // lib/functions/render.js
   var require_render = __commonJS({
     "lib/functions/render.js"(exports) {
@@ -45244,6 +45295,8 @@ void main() {
       var drawTitle_1 = __importDefault(require_drawTitle());
       var levels_1 = __importDefault(require_levels());
       var drawTutorialHUD_1 = __importDefault(require_drawTutorialHUD());
+      var gameIsOngoing_1 = __importDefault(require_gameIsOngoing());
+      var drawLevelCompleteHUD_1 = __importDefault(require_drawLevelCompleteHUD());
       var render = () => {
         state_1.default.app.stage.removeChildren();
         (0, drawRectangle_1.default)("#000000", 1, 0, 0, gameWidth_1.default, gameHeight_1.default, 0);
@@ -45254,14 +45307,18 @@ void main() {
             (0, drawVictory_1.default)();
           } else if ((0, isCatStarving_1.default)()) {
             (0, drawGameOver_1.default)();
-          } else {
+          } else if ((0, gameIsOngoing_1.default)()) {
             (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).draw();
-            (0, drawCoots_1.default)();
-            (0, drawInteractHUD_1.default)();
-            if (state_1.default.level === levels_1.default[0]) {
-              (0, drawTutorialHUD_1.default)();
+            if (state_1.default.activeDestructibleIDs.length === 0) {
+              (0, drawLevelCompleteHUD_1.default)();
+            } else {
+              (0, drawCoots_1.default)();
+              (0, drawInteractHUD_1.default)();
+              if (state_1.default.level === levels_1.default[0]) {
+                (0, drawTutorialHUD_1.default)();
+              }
+              (0, drawTimer_1.default)();
             }
-            (0, drawTimer_1.default)();
           }
         } else {
           const current = state_1.default.loadedAssets;
@@ -45545,21 +45602,6 @@ void main() {
     }
   });
 
-  // lib/functions/gameIsOngoing.js
-  var require_gameIsOngoing = __commonJS({
-    "lib/functions/gameIsOngoing.js"(exports) {
-      "use strict";
-      var __importDefault = exports && exports.__importDefault || function(mod) {
-        return mod && mod.__esModule ? mod : { "default": mod };
-      };
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var state_1 = __importDefault(require_state());
-      var isCatStarving_1 = __importDefault(require_isCatStarving());
-      var gameIsOngoing = () => state_1.default.isAtTitle === false && (0, isCatStarving_1.default)() === false && state_1.default.won === false;
-      exports.default = gameIsOngoing;
-    }
-  });
-
   // lib/functions/definables/getAudioSources.js
   var require_getAudioSources = __commonJS({
     "lib/functions/definables/getAudioSources.js"(exports) {
@@ -45598,9 +45640,10 @@ void main() {
       var gameIsOngoing_1 = __importDefault(require_gameIsOngoing());
       var isCatStarving_1 = __importDefault(require_isCatStarving());
       var getAudioSources_1 = __importDefault(require_getAudioSources());
+      var state_1 = __importDefault(require_state());
       var update = () => {
         if ((0, assetsAreLoaded_1.default)()) {
-          if ((0, gameIsOngoing_1.default)()) {
+          if ((0, gameIsOngoing_1.default)() && state_1.default.activeDestructibleIDs.length > 0) {
             (0, updateCootsVelocity_1.default)();
             (0, updateCootsPosition_1.default)();
           } else if ((0, isCatStarving_1.default)()) {
@@ -45706,6 +45749,58 @@ void main() {
     }
   });
 
+  // lib/functions/attemptScratch.js
+  var require_attemptScratch = __commonJS({
+    "lib/functions/attemptScratch.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var calculateActiveDestructibles_1 = __importDefault(require_calculateActiveDestructibles());
+      var getTilemap_1 = __importDefault(require_getTilemap());
+      var gameIsOngoing_1 = __importDefault(require_gameIsOngoing());
+      var isClawOnCooldown_1 = __importDefault(require_isClawOnCooldown());
+      var getAudioSource_1 = __importDefault(require_getAudioSource());
+      var state_1 = __importDefault(require_state());
+      var isCootsInObstacle_1 = __importDefault(require_isCootsInObstacle());
+      var attemptScratch = () => {
+        if ((0, gameIsOngoing_1.default)() && (0, isCootsInObstacle_1.default)() === false && state_1.default.activeDestructibleIDs.length > 0) {
+          const cooldown = (0, isClawOnCooldown_1.default)();
+          if (cooldown === false) {
+            const clawedAt = state_1.default.currentTime;
+            const destructible = (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getDestructibleWithinRange();
+            const willDestroy = destructible !== null && state_1.default.brokenDestructibleIDs.includes(destructible.destructibleID) === false && state_1.default.activeDestructibleIDs.includes(destructible.destructibleID);
+            if (!willDestroy) {
+              state_1.default.recentDestruction = {
+                clawedAt,
+                destructibleID: null,
+                tileID: null
+              };
+              (0, getAudioSource_1.default)("noises/scratch").play(null, null, null);
+            } else {
+              state_1.default.recentDestruction = {
+                clawedAt,
+                destructibleID: destructible.destructibleID,
+                tileID: destructible.tileID
+              };
+              (0, getAudioSource_1.default)("noises/scratch").play(null, null, () => {
+                if (destructible.audioSourceSlug) {
+                  (0, getAudioSource_1.default)(destructible.audioSourceSlug).play(null, null, null);
+                }
+              });
+              const brokenDestructibleIDs = state_1.default.brokenDestructibleIDs;
+              state_1.default.brokenDestructibleIDs = [...brokenDestructibleIDs, destructible.destructibleID];
+              state_1.default.activeDestructibleIDs = state_1.default.activeDestructibleIDs.filter((activeDestructible) => activeDestructible !== destructible.destructibleID);
+              (0, calculateActiveDestructibles_1.default)();
+            }
+          }
+        }
+      };
+      exports.default = attemptScratch;
+    }
+  });
+
   // lib/functions/startLevel.js
   var require_startLevel = __commonJS({
     "lib/functions/startLevel.js"(exports) {
@@ -45737,67 +45832,42 @@ void main() {
     }
   });
 
-  // lib/functions/attemptScratch.js
-  var require_attemptScratch = __commonJS({
-    "lib/functions/attemptScratch.js"(exports) {
+  // lib/functions/handleAction.js
+  var require_handleAction = __commonJS({
+    "lib/functions/handleAction.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
       };
       Object.defineProperty(exports, "__esModule", { value: true });
-      var calculateActiveDestructibles_1 = __importDefault(require_calculateActiveDestructibles());
       var levels_1 = __importDefault(require_levels());
-      var getTilemap_1 = __importDefault(require_getTilemap());
-      var gameIsOngoing_1 = __importDefault(require_gameIsOngoing());
-      var isClawOnCooldown_1 = __importDefault(require_isClawOnCooldown());
-      var getAudioSource_1 = __importDefault(require_getAudioSource());
       var state_1 = __importDefault(require_state());
+      var attemptScratch_1 = __importDefault(require_attemptScratch());
+      var getAudioSource_1 = __importDefault(require_getAudioSource());
+      var isCatStarving_1 = __importDefault(require_isCatStarving());
       var startLevel_1 = __importDefault(require_startLevel());
-      var isCootsInObstacle_1 = __importDefault(require_isCootsInObstacle());
-      var attemptScratch = () => {
-        if ((0, gameIsOngoing_1.default)() && (0, isCootsInObstacle_1.default)() === false) {
-          const cooldown = (0, isClawOnCooldown_1.default)();
-          if (cooldown === false) {
-            const clawedAt = state_1.default.currentTime;
-            const destructible = (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getDestructibleWithinRange();
-            const willDestroy = destructible !== null && state_1.default.brokenDestructibleIDs.includes(destructible.destructibleID) === false && state_1.default.activeDestructibleIDs.includes(destructible.destructibleID);
-            if (!willDestroy) {
-              state_1.default.recentDestruction = {
-                clawedAt,
-                destructibleID: null,
-                tileID: null
-              };
-              (0, getAudioSource_1.default)("noises/scratch").play(null, null, null);
-            } else {
-              state_1.default.recentDestruction = {
-                clawedAt,
-                destructibleID: destructible.destructibleID,
-                tileID: destructible.tileID
-              };
-              (0, getAudioSource_1.default)("noises/scratch").play(null, null, () => {
-                if (destructible.audioSourceSlug) {
-                  (0, getAudioSource_1.default)(destructible.audioSourceSlug).play(null, null, null);
-                }
-              });
-              const brokenDestructibleIDs = state_1.default.brokenDestructibleIDs;
-              state_1.default.brokenDestructibleIDs = [...brokenDestructibleIDs, destructible.destructibleID];
-              state_1.default.activeDestructibleIDs = state_1.default.activeDestructibleIDs.filter((activeDestructible) => activeDestructible !== destructible.destructibleID);
-              (0, calculateActiveDestructibles_1.default)();
-              if (state_1.default.activeDestructibleIDs.length === 0) {
-                const levelIndex = levels_1.default.findIndex((level) => level === state_1.default.level);
-                const newLevel = levels_1.default[levelIndex + 1];
-                if (newLevel) {
-                  state_1.default.level = newLevel;
-                  (0, startLevel_1.default)();
-                } else {
-                  state_1.default.won = true;
-                }
-              }
-            }
+      var handleAction = () => {
+        if (state_1.default.isAtTitle) {
+          state_1.default.isAtTitle = false;
+          const music = (0, getAudioSource_1.default)("music/music");
+          music.play(132e3, null, null);
+          (0, startLevel_1.default)();
+        } else if ((0, isCatStarving_1.default)()) {
+          (0, startLevel_1.default)();
+        } else if (state_1.default.activeDestructibleIDs.length === 0) {
+          const levelIndex = levels_1.default.findIndex((level) => level === state_1.default.level);
+          const newLevel = levels_1.default[levelIndex + 1];
+          if (newLevel) {
+            state_1.default.level = newLevel;
+            (0, startLevel_1.default)();
+          } else {
+            state_1.default.won = true;
           }
+        } else {
+          (0, attemptScratch_1.default)();
         }
       };
-      exports.default = attemptScratch;
+      exports.default = handleAction;
     }
   });
 
@@ -45847,9 +45917,7 @@ void main() {
       var getAudioSource_1 = __importDefault(require_getAudioSource());
       var focusScreen_1 = __importDefault(require_focusScreen());
       var isRunningOnLocal_1 = __importDefault(require_isRunningOnLocal());
-      var isCatStarving_1 = __importDefault(require_isCatStarving());
-      var startLevel_1 = __importDefault(require_startLevel());
-      var attemptScratch_1 = __importDefault(require_attemptScratch());
+      var handleAction_1 = __importDefault(require_handleAction());
       var run = () => __awaiter(void 0, void 0, void 0, function* () {
         console.log(`Running ScatterPaws.`);
         (0, define_1.default)();
@@ -45879,15 +45947,7 @@ void main() {
           screen.style.width = `${gameWidth_1.default * gameScale_1.default}px`;
           screen.style.height = `${gameHeight_1.default * gameScale_1.default}px`;
           screen.addEventListener("mousedown", () => {
-            (0, attemptScratch_1.default)();
-            if (state_1.default.isAtTitle) {
-              state_1.default.isAtTitle = false;
-              const music = (0, getAudioSource_1.default)("music/music");
-              music.play(132e3, null, null);
-              (0, startLevel_1.default)();
-            } else if ((0, isCatStarving_1.default)()) {
-              (0, startLevel_1.default)();
-            }
+            (0, handleAction_1.default)();
           });
           screen.addEventListener("mousemove", (e) => {
             if (e.target instanceof HTMLElement) {
@@ -45915,15 +45975,7 @@ void main() {
                   break;
                 }
                 case " ": {
-                  (0, attemptScratch_1.default)();
-                  if (state_1.default.isAtTitle) {
-                    state_1.default.isAtTitle = false;
-                    const music = (0, getAudioSource_1.default)("music/music");
-                    music.play(132e3, null, null);
-                    (0, startLevel_1.default)();
-                  } else if ((0, isCatStarving_1.default)()) {
-                    (0, startLevel_1.default)();
-                  }
+                  (0, handleAction_1.default)();
                   break;
                 }
               }
