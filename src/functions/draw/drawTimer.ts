@@ -10,7 +10,7 @@ const drawTimer = (): void => {
   const timeLeft: number = state.level.time - (state.currentTime - state.levelStartedAt);
   const secondsLeft: number = Math.floor(timeLeft / 1000);
   drawText(`${Math.floor(secondsLeft / 60)}:${`${secondsLeft % 60}`.padStart(2, "0")}`, "#ffffff", gameWidth - offset - 2, offset + 2, 1, gameWidth, 1, "right", "top");
-  drawRectangle("#000000", .25, gameWidth - offset - width, offset, width, height, 10002);
+  drawRectangle("#000000", .25, gameWidth - offset - width, offset, width, height, 10003);
 }
 
 export default drawTimer;

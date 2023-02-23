@@ -4,8 +4,8 @@ import calculateActiveDestructibles from "./calculateActiveDestructibles";
 
 const startLevel = (): void => {
   state.levelStartedAt = state.currentTime;
-  state.brokenDestructibles = [];
-  state.activeDestructibles = [];
+  state.brokenDestructibleIDs = [];
+  state.activeDestructibleIDs = [];
   state.hitObstacleAt = null;
   state.cootsVelocityX = 0;
   state.cootsVelocityY = 0;
@@ -13,7 +13,7 @@ const startLevel = (): void => {
     x: state.level.startingTileX * unitsPerTile,
     y: state.level.startingTileY * unitsPerTile
   };
-  state.clawedAt = null;
+  state.recentDestruction = null;
   calculateActiveDestructibles();
 };
 

@@ -25708,8 +25708,7 @@ void main() {
         constructor() {
           this._activeDestructibles = [];
           this._app = null;
-          this._brokenDestructibles = [];
-          this._clawedAt = null;
+          this._brokenDestructibleIDs = [];
           this._cootsCoords = {
             x: levels_1.default[0].startingTileX * unitsPerTile_1.default,
             y: levels_1.default[0].startingTileY * unitsPerTile_1.default
@@ -25723,6 +25722,7 @@ void main() {
           this._levelStartedAt = null;
           this._loadedAssets = 0;
           this._mouseScreenCoords = null;
+          this._recentDestruction = null;
           this._won = false;
           this._ySortEntries = [];
         }
@@ -25732,17 +25732,11 @@ void main() {
           }
           throw new Error(this.getAccessorErrorMessage("app"));
         }
-        get activeDestructibles() {
+        get activeDestructibleIDs() {
           return [...this._activeDestructibles];
         }
-        get brokenDestructibles() {
-          return [...this._brokenDestructibles];
-        }
-        get clawedAt() {
-          if (this._clawedAt !== null) {
-            return this._clawedAt;
-          }
-          throw new Error(this.getAccessorErrorMessage("clawedAt"));
+        get brokenDestructibleIDs() {
+          return [...this._brokenDestructibleIDs];
         }
         get cootsCoords() {
           return this._cootsCoords;
@@ -25783,23 +25777,26 @@ void main() {
           }
           throw new Error(this.getAccessorErrorMessage("mouseCoords"));
         }
+        get recentDestruction() {
+          if (this._recentDestruction !== null) {
+            return this._recentDestruction;
+          }
+          throw new Error(this.getAccessorErrorMessage("clawedAt"));
+        }
         get ySortEntries() {
           return [...this._ySortEntries];
         }
         get won() {
           return this._won;
         }
-        set activeDestructibles(activeDestructibles) {
-          this._activeDestructibles = [...activeDestructibles];
+        set activeDestructibleIDs(activeDestructibleIDs) {
+          this._activeDestructibles = [...activeDestructibleIDs];
         }
         set app(app) {
           this._app = app !== null ? app : null;
         }
-        set brokenDestructibles(brokenDestructibles) {
-          this._brokenDestructibles = [...brokenDestructibles];
-        }
-        set clawedAt(clawedAt) {
-          this._clawedAt = clawedAt;
+        set brokenDestructibleIDs(brokenDestructibles) {
+          this._brokenDestructibleIDs = [...brokenDestructibles];
         }
         set cootsCoords(cootsCoords) {
           this._cootsCoords = cootsCoords;
@@ -25831,14 +25828,14 @@ void main() {
         set mouseScreenCoords(mouseScreenCoords) {
           this._mouseScreenCoords = mouseScreenCoords;
         }
+        set recentDestruction(destruction) {
+          this._recentDestruction = destruction;
+        }
         set won(won) {
           this._won = won;
         }
         set ySortEntries(ySortEntries) {
           this._ySortEntries = [...ySortEntries];
-        }
-        hasClawedAt() {
-          return this._clawedAt !== null;
         }
         hasHitObstacleAt() {
           return this._hitObstacleAt !== null;
@@ -25848,6 +25845,9 @@ void main() {
         }
         hasMouseScreenCoords() {
           return this._mouseScreenCoords !== null;
+        }
+        hasRecentDestruction() {
+          return this._recentDestruction !== null;
         }
         getAccessorErrorMessage(property) {
           return `Could not access ${this.constructor.name} ${property}.`;
@@ -26220,7 +26220,7 @@ void main() {
           }
           return null;
         }
-        getDestructibleIDWithinRange() {
+        getDestructibleWithinRange() {
           var _a, _b;
           const tileX = Math.round(state_1.default.cootsCoords.x / unitsPerTile_1.default);
           const tileY = Math.round(state_1.default.cootsCoords.y / unitsPerTile_1.default);
@@ -26242,7 +26242,10 @@ void main() {
                     const uninteractableProperty = tile && ((_b = tile.properties) === null || _b === void 0 ? void 0 : _b.find((property) => property.name === "uninteractable"));
                     const uninteractable = uninteractableProperty === null || uninteractableProperty === void 0 ? void 0 : uninteractableProperty.value;
                     if (datum > 0 && Math.abs(tileX - datumTileX) <= 1 && Math.abs(tileY - datumTileY) <= 1 && typeof destructibleID === "string" && !uninteractable) {
-                      return destructibleID;
+                      return {
+                        destructibleID,
+                        tileID: tilesetIndex
+                      };
                     }
                   }
                   datumIndex++;
@@ -26266,7 +26269,7 @@ void main() {
                     const tile = tileset.tiles.find((tile2) => tile2.id === tilesetIndex);
                     const property = (_a = tile === null || tile === void 0 ? void 0 : tile.properties) === null || _a === void 0 ? void 0 : _a.find((property2) => property2.name === "destructibleID");
                     const destructibleID = property === null || property === void 0 ? void 0 : property.value;
-                    if (typeof destructibleID === "string" && destructibles.includes(destructibleID) === false && state_1.default.brokenDestructibles.includes(destructibleID) === false) {
+                    if (typeof destructibleID === "string" && destructibles.includes(destructibleID) === false && state_1.default.brokenDestructibleIDs.includes(destructibleID) === false) {
                       destructibles.push(destructibleID);
                     }
                   }
@@ -26293,7 +26296,7 @@ void main() {
                   const destructibleID = destructibleIDProperty === null || destructibleIDProperty === void 0 ? void 0 : destructibleIDProperty.value;
                   const brokenIDProperty = tile && ((_b = tile.properties) === null || _b === void 0 ? void 0 : _b.find((property) => property.name === "brokenID"));
                   const brokenID = brokenIDProperty === null || brokenIDProperty === void 0 ? void 0 : brokenIDProperty.value;
-                  const isDestroyed = typeof destructibleID === "string" && state_1.default.brokenDestructibles.includes(destructibleID);
+                  const isDestroyed = typeof destructibleID === "string" && state_1.default.brokenDestructibleIDs.includes(destructibleID);
                   const calculatedTilesetIndex = isDestroyed && typeof brokenID === "number" ? brokenID : this.getDatumTilesetIndex(datum);
                   const tileSourceX = calculatedTilesetIndex % tileset.columns * tileset.tileWidth;
                   const tileSourceY = Math.floor(calculatedTilesetIndex / tileset.columns) * tileset.tileHeight;
@@ -26305,15 +26308,26 @@ void main() {
                     type: ZIndexType_1.default.YSort
                   } : null;
                   (0, drawImage_1.default)(`tilesets/${tileset.slug}`, tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight, ySortZIndex);
+                  if (state_1.default.hasRecentDestruction() && state_1.default.recentDestruction.destructibleID === destructibleID && state_1.default.recentDestruction.tileID === tilesetIndex) {
+                    const diff = state_1.default.currentTime - state_1.default.recentDestruction.clawedAt;
+                    const frame = Math.floor(diff / 100);
+                    if (frame <= 4) {
+                      const scratchZIndex = {
+                        value: 1e4,
+                        type: ZIndexType_1.default.Hard
+                      };
+                      (0, drawImage_1.default)("scratch", frame * 16, 0, 16, 16, tileX, tileY, 16, 16, scratchZIndex);
+                    }
+                  }
                   if (layer.name === "furniture") {
-                    if (typeof destructibleID === "string" && !isDestroyed && state_1.default.activeDestructibles.includes(destructibleID)) {
+                    if (typeof destructibleID === "string" && !isDestroyed && state_1.default.activeDestructibleIDs.includes(destructibleID)) {
                       const indicatorXOffsetProperty = tile && ((_c = tile.properties) === null || _c === void 0 ? void 0 : _c.find((property) => property.name === "indicatorXOffset"));
                       const indicatorXOffset = indicatorXOffsetProperty === null || indicatorXOffsetProperty === void 0 ? void 0 : indicatorXOffsetProperty.value;
                       const indicatorYOffsetProperty = tile && ((_d = tile.properties) === null || _d === void 0 ? void 0 : _d.find((property) => property.name === "indicatorYOffset"));
                       const indicatorYOffset = indicatorYOffsetProperty === null || indicatorYOffsetProperty === void 0 ? void 0 : indicatorYOffsetProperty.value;
                       if (typeof indicatorXOffset === "number" && typeof indicatorYOffset === "number") {
                         const hardZIndex = {
-                          value: 1e4,
+                          value: 10001,
                           type: ZIndexType_1.default.Hard
                         };
                         const frameAnimationOffset = Math.floor(state_1.default.currentTime % (timePerIndicatorFrame_1.default * 4) / timePerIndicatorFrame_1.default) * 7;
@@ -44674,6 +44688,7 @@ void main() {
         new ImageSource_1.default("interact-hud");
         new ImageSource_1.default("game-over");
         new ImageSource_1.default("victory");
+        new ImageSource_1.default("scratch");
         new AudioSource_1.default("music/music");
         new AudioSource_1.default("noises/scratch");
       };
@@ -48032,7 +48047,7 @@ void main() {
       };
       Object.defineProperty(exports, "__esModule", { value: true });
       var state_1 = __importDefault(require_state());
-      var isClawOnCooldown = () => state_1.default.hasClawedAt() && state_1.default.currentTime - state_1.default.clawedAt < 1e3;
+      var isClawOnCooldown = () => state_1.default.hasRecentDestruction() && state_1.default.currentTime - state_1.default.recentDestruction.clawedAt < 1e3;
       exports.default = isClawOnCooldown;
     }
   });
@@ -48052,10 +48067,10 @@ void main() {
       var isClawOnCooldown_1 = __importDefault(require_isClawOnCooldown());
       var drawImage_1 = __importDefault(require_drawImage());
       var drawInteractHUD = () => {
-        const destructibleID = (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getDestructibleIDWithinRange();
-        const canDestroy = destructibleID !== null && state_1.default.brokenDestructibles.includes(destructibleID) === false && state_1.default.activeDestructibles.includes(destructibleID);
+        const destructible = (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getDestructibleWithinRange();
+        const canDestroy = destructible !== null && state_1.default.brokenDestructibleIDs.includes(destructible.destructibleID) === false && state_1.default.activeDestructibleIDs.includes(destructible.destructibleID);
         const hardZIndex = {
-          value: 10001,
+          value: 10002,
           type: ZIndexType_1.default.Hard
         };
         const width = 36;
@@ -48145,7 +48160,7 @@ void main() {
         sprite.x = horizontalAlignment === "right" ? startX - sprite.width : horizontalAlignment === "center" ? startX - Math.ceil(sprite.width / 2) : startX;
         sprite.y = verticalAlignment === "bottom" ? y + size * 3 : verticalAlignment === "middle" ? y : y - size * 3;
         sprite.anchor.set(0, verticalAlignment === "bottom" ? 1 : verticalAlignment === "middle" ? size * 7 / 2 / (size * 7) : 0);
-        sprite.zIndex = 10003;
+        sprite.zIndex = 10004;
         state_1.default.app.stage.addChild(sprite);
       };
       exports.default = drawText;
@@ -48171,7 +48186,7 @@ void main() {
         const timeLeft = state_1.default.level.time - (state_1.default.currentTime - state_1.default.levelStartedAt);
         const secondsLeft = Math.floor(timeLeft / 1e3);
         (0, drawText_1.default)(`${Math.floor(secondsLeft / 60)}:${`${secondsLeft % 60}`.padStart(2, "0")}`, "#ffffff", gameWidth_1.default - offset - 2, offset + 2, 1, gameWidth_1.default, 1, "right", "top");
-        (0, drawRectangle_1.default)("#000000", 0.25, gameWidth_1.default - offset - width, offset, width, height, 10002);
+        (0, drawRectangle_1.default)("#000000", 0.25, gameWidth_1.default - offset - width, offset, width, height, 10003);
       };
       exports.default = drawTimer;
     }
@@ -48605,7 +48620,7 @@ void main() {
       var getTilemap_1 = __importDefault(require_getTilemap());
       var calculateActiveDestructibles = () => {
         const max = 2;
-        const activeDestructibles = state_1.default.activeDestructibles;
+        const activeDestructibles = state_1.default.activeDestructibleIDs;
         const diff = max - activeDestructibles.length;
         const destructibles = (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getUnbrokenDestructibles().filter((unbrokenDestructible) => activeDestructibles.includes(unbrokenDestructible) === false);
         for (let i = 0; i < diff; i++) {
@@ -48616,7 +48631,7 @@ void main() {
             destructibles.splice(index, 1);
           }
         }
-        state_1.default.activeDestructibles = activeDestructibles;
+        state_1.default.activeDestructibleIDs = activeDestructibles;
       };
       exports.default = calculateActiveDestructibles;
     }
@@ -48635,8 +48650,8 @@ void main() {
       var calculateActiveDestructibles_1 = __importDefault(require_calculateActiveDestructibles());
       var startLevel = () => {
         state_1.default.levelStartedAt = state_1.default.currentTime;
-        state_1.default.brokenDestructibles = [];
-        state_1.default.activeDestructibles = [];
+        state_1.default.brokenDestructibleIDs = [];
+        state_1.default.activeDestructibleIDs = [];
         state_1.default.hitObstacleAt = null;
         state_1.default.cootsVelocityX = 0;
         state_1.default.cootsVelocityY = 0;
@@ -48644,6 +48659,7 @@ void main() {
           x: state_1.default.level.startingTileX * unitsPerTile_1.default,
           y: state_1.default.level.startingTileY * unitsPerTile_1.default
         };
+        state_1.default.recentDestruction = null;
         (0, calculateActiveDestructibles_1.default)();
       };
       exports.default = startLevel;
@@ -48670,16 +48686,26 @@ void main() {
         if ((0, gameIsOngoing_1.default)()) {
           const cooldown = (0, isClawOnCooldown_1.default)();
           if (cooldown === false) {
+            const clawedAt = state_1.default.currentTime;
+            state_1.default.recentDestruction = {
+              clawedAt,
+              destructibleID: null,
+              tileID: null
+            };
             (0, getAudioSource_1.default)("noises/scratch").play(null, null);
-            state_1.default.clawedAt = state_1.default.currentTime;
-            const destructibleID = (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getDestructibleIDWithinRange();
-            if (destructibleID !== null) {
-              const brokenDestructibles = state_1.default.brokenDestructibles;
-              if (brokenDestructibles.includes(destructibleID) === false && state_1.default.activeDestructibles.includes(destructibleID)) {
-                state_1.default.brokenDestructibles = [...brokenDestructibles, destructibleID];
-                state_1.default.activeDestructibles = state_1.default.activeDestructibles.filter((activeDestructible) => activeDestructible !== destructibleID);
+            const destructible = (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getDestructibleWithinRange();
+            if (destructible !== null) {
+              const brokenDestructibles = state_1.default.brokenDestructibleIDs;
+              if (brokenDestructibles.includes(destructible.destructibleID) === false && state_1.default.activeDestructibleIDs.includes(destructible.destructibleID)) {
+                state_1.default.recentDestruction = {
+                  clawedAt,
+                  destructibleID: destructible.destructibleID,
+                  tileID: destructible.tileID
+                };
+                state_1.default.brokenDestructibleIDs = [...brokenDestructibles, destructible.destructibleID];
+                state_1.default.activeDestructibleIDs = state_1.default.activeDestructibleIDs.filter((activeDestructible) => activeDestructible !== destructible.destructibleID);
                 (0, calculateActiveDestructibles_1.default)();
-                if (state_1.default.activeDestructibles.length === 0) {
+                if (state_1.default.activeDestructibleIDs.length === 0) {
                   const levelIndex = levels_1.default.findIndex((level) => level === state_1.default.level);
                   const newLevel = levels_1.default[levelIndex + 1];
                   if (newLevel) {

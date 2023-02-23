@@ -1,5 +1,6 @@
 import gameHeight from "../../constants/gameHeight";
 import ZIndexType from "../../enums/ZIndexType";
+import Destructible from "../../interfaces/Destructible";
 import HardZIndex from "../../interfaces/ZIndex/HardZIndex";
 import state from "../../state";
 import getTilemap from "../definables/getTilemap";
@@ -7,10 +8,10 @@ import isClawOnCooldown from "../isClawOnCooldown";
 import drawImage from "./drawImage";
 
 const drawInteractHUD = (): void => {
-  const destructibleID: string | null = getTilemap(state.level.tilemapSlug).getDestructibleIDWithinRange();
-  const canDestroy: boolean = destructibleID !== null && state.brokenDestructibles.includes(destructibleID) === false && state.activeDestructibles.includes(destructibleID);
+  const destructible: Destructible | null = getTilemap(state.level.tilemapSlug).getDestructibleWithinRange();
+  const canDestroy: boolean = destructible !== null && state.brokenDestructibleIDs.includes(destructible.destructibleID) === false && state.activeDestructibleIDs.includes(destructible.destructibleID);
   const hardZIndex: HardZIndex = {
-    value: 10001,
+    value: 10002,
     type: ZIndexType.Hard
   };
   const width: number = 36;

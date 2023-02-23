@@ -2,14 +2,14 @@ import { Application } from "pixi.js";
 import levels from "../constants/levels";
 import unitsPerTile from "../constants/unitsPerTile";
 import Coords from "../interfaces/Coords";
+import Destruction from "../interfaces/Destruction";
 import Level from "../interfaces/Level";
 import YSortEntry from "../interfaces/YSortEntry";
 
 class State {
   private _activeDestructibles: string[] = [];
   private _app: Application | null = null;
-  private _brokenDestructibles: string[] = [];
-  private _clawedAt: number | null = null;
+  private _brokenDestructibleIDs: string[] = [];
   private _cootsCoords: Coords = {
     x: levels[0].startingTileX * unitsPerTile,
     y: levels[0].startingTileY * unitsPerTile
@@ -23,6 +23,7 @@ class State {
   private _levelStartedAt: number | null = null;
   private _loadedAssets: number = 0;
   private _mouseScreenCoords: Coords | null = null;
+  private _recentDestruction: Destruction | null = null;
   private _won: boolean = false;
   private _ySortEntries: YSortEntry[] = [];
 
@@ -33,19 +34,12 @@ class State {
     throw new Error(this.getAccessorErrorMessage("app"));
   }
 
-  public get activeDestructibles(): string[] {
+  public get activeDestructibleIDs(): string[] {
     return [...this._activeDestructibles];
   }
 
-  public get brokenDestructibles(): string[] {
-    return [...this._brokenDestructibles];
-  }
-
-  public get clawedAt(): number {
-    if (this._clawedAt !== null) {
-      return this._clawedAt;
-    }
-    throw new Error(this.getAccessorErrorMessage("clawedAt"));
+  public get brokenDestructibleIDs(): string[] {
+    return [...this._brokenDestructibleIDs];
   }
 
   public get cootsCoords(): Coords {
@@ -97,6 +91,13 @@ class State {
     throw new Error(this.getAccessorErrorMessage("mouseCoords"));
   }
 
+  public get recentDestruction(): Destruction {
+    if (this._recentDestruction !== null) {
+      return this._recentDestruction;
+    }
+    throw new Error(this.getAccessorErrorMessage("clawedAt"));
+  }
+
   public get ySortEntries(): YSortEntry[] {
     return [...this._ySortEntries];
   }
@@ -105,20 +106,16 @@ class State {
     return this._won;
   }
 
-  public set activeDestructibles(activeDestructibles: string[]) {
-    this._activeDestructibles = [...activeDestructibles];
+  public set activeDestructibleIDs(activeDestructibleIDs: string[]) {
+    this._activeDestructibles = [...activeDestructibleIDs];
   }
 
   public set app(app: Application | null) {
     this._app = app !== null ? app : null;
   }
 
-  public set brokenDestructibles(brokenDestructibles: string[]) {
-    this._brokenDestructibles = [...brokenDestructibles];
-  }
-
-  public set clawedAt(clawedAt: number | null) {
-    this._clawedAt = clawedAt;
+  public set brokenDestructibleIDs(brokenDestructibles: string[]) {
+    this._brokenDestructibleIDs = [...brokenDestructibles];
   }
 
   public set cootsCoords(cootsCoords: Coords) {
@@ -161,16 +158,16 @@ class State {
     this._mouseScreenCoords = mouseScreenCoords;
   }
 
+  public set recentDestruction(destruction: Destruction | null) {
+    this._recentDestruction = destruction;
+  }
+
   public set won(won: boolean) {
     this._won = won;
   }
 
   public set ySortEntries(ySortEntries: YSortEntry[]) {
     this._ySortEntries = [...ySortEntries];
-  }
-
-  public hasClawedAt(): boolean {
-    return this._clawedAt !== null; 
   }
 
   public hasHitObstacleAt(): boolean {
@@ -183,6 +180,10 @@ class State {
 
   public hasMouseScreenCoords(): boolean {
     return this._mouseScreenCoords !== null;
+  }
+
+  public hasRecentDestruction(): boolean {
+    return this._recentDestruction !== null;
   }
 
   private getAccessorErrorMessage(property: string): string {

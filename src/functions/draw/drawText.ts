@@ -20,7 +20,7 @@ const drawText = (text: string, color: string, x: number, y: number, size: numbe
     : verticalAlignment === "middle"
       ? size * 7 / 2 / (size * 7)
       : 0);
-  sprite.zIndex = 10003;
+  sprite.zIndex = 10004;
   state.app.stage.addChild(sprite);
 };
 

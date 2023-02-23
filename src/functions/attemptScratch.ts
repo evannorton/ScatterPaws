@@ -7,21 +7,32 @@ import isClawOnCooldown from "./isClawOnCooldown";
 import getAudioSource from "./definables/getAudioSource";
 import state from "../state";
 import startLevel from "./startLevel";
+import Destructible from "../interfaces/Destructible";
 
 const attemptScratch = (): void => {
   if (gameIsOngoing()) {
     const cooldown: boolean = isClawOnCooldown();
     if (cooldown === false) {
+      const clawedAt = state.currentTime;
+      state.recentDestruction = {
+        clawedAt,
+        destructibleID: null,
+        tileID: null
+      };
       getAudioSource("noises/scratch").play(null, null);
-      state.clawedAt = state.currentTime;
-      const destructibleID: string | null = getTilemap(state.level.tilemapSlug).getDestructibleIDWithinRange();
-      if (destructibleID !== null) {
-        const brokenDestructibles: string[] = state.brokenDestructibles;
-        if (brokenDestructibles.includes(destructibleID) === false && state.activeDestructibles.includes(destructibleID)) {
-          state.brokenDestructibles = [...brokenDestructibles, destructibleID];
-          state.activeDestructibles = state.activeDestructibles.filter((activeDestructible) => activeDestructible !== destructibleID);
+      const destructible: Destructible | null = getTilemap(state.level.tilemapSlug).getDestructibleWithinRange();
+      if (destructible !== null) {
+        const brokenDestructibles: string[] = state.brokenDestructibleIDs;
+        if (brokenDestructibles.includes(destructible.destructibleID) === false && state.activeDestructibleIDs.includes(destructible.destructibleID)) {
+          state.recentDestruction = {
+            clawedAt,
+            destructibleID: destructible.destructibleID,
+            tileID: destructible.tileID
+          };
+          state.brokenDestructibleIDs = [...brokenDestructibles, destructible.destructibleID];
+          state.activeDestructibleIDs = state.activeDestructibleIDs.filter((activeDestructible) => activeDestructible !== destructible.destructibleID);
           calculateActiveDestructibles();
-          if (state.activeDestructibles.length === 0) {
+          if (state.activeDestructibleIDs.length === 0) {
             const levelIndex = levels.findIndex((level) => level === state.level);
             const newLevel = levels[levelIndex + 1];
             if (newLevel) {

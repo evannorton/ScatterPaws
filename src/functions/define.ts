@@ -28,6 +28,7 @@ const define = (): void => {
   new ImageSource("interact-hud");
   new ImageSource("game-over");
   new ImageSource("victory");
+  new ImageSource("scratch");
   new AudioSource("music/music");
   new AudioSource("noises/scratch");
 };

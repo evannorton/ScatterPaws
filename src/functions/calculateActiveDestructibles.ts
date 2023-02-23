@@ -3,7 +3,7 @@ import getTilemap from "./definables/getTilemap";
 
 const calculateActiveDestructibles = (): void => {
   const max: number = 2;
-  const activeDestructibles = state.activeDestructibles;
+  const activeDestructibles = state.activeDestructibleIDs;
   const diff: number = max - activeDestructibles.length;
   const destructibles: string[] = getTilemap(state.level.tilemapSlug).getUnbrokenDestructibles().filter((unbrokenDestructible) => activeDestructibles.includes(unbrokenDestructible) === false);
   for (let i: number = 0; i < diff; i++) {
@@ -14,7 +14,7 @@ const calculateActiveDestructibles = (): void => {
       destructibles.splice(index, 1);
     }
   }
-  state.activeDestructibles = activeDestructibles;
+  state.activeDestructibleIDs = activeDestructibles;
 }
 
 export default calculateActiveDestructibles;
