@@ -17,7 +17,6 @@ const startLevel = (): void => {
   };
   state.recentDestruction = null;
   calculateActiveDestructibles();
-  getAudioSource("noises/meow").play(null, null);
 };
 
 export default startLevel;

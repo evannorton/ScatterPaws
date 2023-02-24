@@ -42,6 +42,11 @@ const handleAction = (): void => {
         state.won = true;
       }
     }
+    else if (state.isInBed) {
+      getAudioSource("noises/meow").play(null, null);
+      state.isInBed = false;
+      state.levelStartedAt = state.currentTime;
+    }
     else {
       attemptScratch();
     }

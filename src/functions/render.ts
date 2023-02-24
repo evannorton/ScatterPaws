@@ -19,7 +19,7 @@ import gameIsOngoing from "./gameIsOngoing";
 import drawLevelCompleteHUD from "./drawLevelCompleteHUD";
 import levelIsCompleted from "./levelIsCompleted";
 import drawCounterHUD from "./drawCounterHUD";
-import drawBedHUD from "./drawBedHUD";
+import drawBedHUD from "./draw/drawBedHUD";
 
 const render = (): void => {
   state.app.stage.removeChildren();
@@ -43,7 +43,7 @@ const render = (): void => {
         drawCoots();
         if (state.isInBed) {
           drawBedHUD();
-        } 
+        }
         else {
           drawInteractHUD();
           if (state.level === levels[0]) {

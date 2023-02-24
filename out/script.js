@@ -25674,6 +25674,14 @@ void main() {
           startingTileY: 17,
           tilemapSlug: "map",
           time: 6e4
+        },
+        {
+          bed: 1,
+          requiredDestructibles: 13,
+          startingTileX: -10,
+          startingTileY: 36,
+          tilemapSlug: "map-2",
+          time: 12e4
         }
       ];
       exports.default = levels;
@@ -57284,12 +57292,22 @@ void main() {
     }
   });
 
-  // lib/functions/drawBedHUD.js
+  // lib/functions/draw/drawBedHUD.js
   var require_drawBedHUD = __commonJS({
-    "lib/functions/drawBedHUD.js"(exports) {
+    "lib/functions/draw/drawBedHUD.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
+      var gameHeight_1 = __importDefault(require_gameHeight());
+      var gameWidth_1 = __importDefault(require_gameWidth());
+      var drawRectangle_1 = __importDefault(require_drawRectangle());
+      var drawText_1 = __importDefault(require_drawText());
       var drawBedHUD = () => {
+        const offset = 4;
+        (0, drawRectangle_1.default)("#000000", 0.5, gameWidth_1.default / 2 - 43, gameHeight_1.default / 2 - 26 - offset, 86, 15, 10004);
+        (0, drawText_1.default)("Click to start!", "#ffffff", gameWidth_1.default / 2, gameHeight_1.default / 2 - 24 + 2 - offset, 1, gameWidth_1.default, 1, "center", "top");
       };
       exports.default = drawBedHUD;
     }
@@ -57863,7 +57881,6 @@ void main() {
       var unitsPerTile_1 = __importDefault(require_unitsPerTile());
       var state_1 = __importDefault(require_state());
       var calculateActiveDestructibles_1 = __importDefault(require_calculateActiveDestructibles());
-      var getAudioSource_1 = __importDefault(require_getAudioSource());
       var startLevel = () => {
         state_1.default.isInBed = true;
         state_1.default.levelStartedAt = null;
@@ -57878,7 +57895,6 @@ void main() {
         };
         state_1.default.recentDestruction = null;
         (0, calculateActiveDestructibles_1.default)();
-        (0, getAudioSource_1.default)("noises/meow").play(null, null);
       };
       exports.default = startLevel;
     }
@@ -57931,6 +57947,10 @@ void main() {
               victoryMusic.play(null, null);
               state_1.default.won = true;
             }
+          } else if (state_1.default.isInBed) {
+            (0, getAudioSource_1.default)("noises/meow").play(null, null);
+            state_1.default.isInBed = false;
+            state_1.default.levelStartedAt = state_1.default.currentTime;
           } else {
             (0, attemptScratch_1.default)();
           }
