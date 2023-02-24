@@ -26250,7 +26250,7 @@ void main() {
           const tileX = state_1.default.cootsCoords.x / unitsPerTile_1.default;
           const tileY = state_1.default.cootsCoords.y / unitsPerTile_1.default;
           for (const layer of this._data.layers) {
-            if (layer.visible && layer.name === "furniture") {
+            if (layer.visible && (layer.name === "furniture" || layer.name === "floor-furniture")) {
               for (const chunk of layer.chunks) {
                 let datumIndex = 0;
                 for (const datum of chunk.data) {
@@ -26290,7 +26290,7 @@ void main() {
           var _a;
           const destructibles = [];
           for (const layer of this._data.layers) {
-            if (layer.visible && layer.name === "furniture") {
+            if (layer.visible && (layer.name === "furniture" || layer.name === "floor-furniture")) {
               for (const chunk of layer.chunks) {
                 let datumIndex = 0;
                 for (const datum of chunk.data) {
@@ -26354,7 +26354,7 @@ void main() {
                       (0, drawImage_1.default)("scratch", 1, frame * 16, 0, 16, 16, tileX, tileY, 16, 16, scratchZIndex);
                     }
                   }
-                  if ((0, levelIsCompleted_1.default)() === false && layer.name === "furniture") {
+                  if ((0, levelIsCompleted_1.default)() === false && (layer.name === "furniture" || layer.name === "floor-furniture")) {
                     if (typeof destructibleID === "string" && !isDestroyed && state_1.default.activeDestructibleIDs.includes(destructibleID)) {
                       const indicatorXOffsetProperty = tile && ((_c = tile.properties) === null || _c === void 0 ? void 0 : _c.find((property) => property.name === "indicatorXOffset"));
                       const indicatorXOffset = indicatorXOffsetProperty === null || indicatorXOffsetProperty === void 0 ? void 0 : indicatorXOffsetProperty.value;

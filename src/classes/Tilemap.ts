@@ -119,7 +119,7 @@ class Tilemap extends Definable {
     const tileX: number = state.cootsCoords.x / unitsPerTile;
     const tileY: number = state.cootsCoords.y / unitsPerTile;
     for (const layer of this._data.layers) {
-      if (layer.visible && layer.name === "furniture") {
+      if (layer.visible && (layer.name === "furniture" || layer.name === "floor-furniture")) {
         for (const chunk of layer.chunks) {
           let datumIndex = 0;
           for (const datum of chunk.data) {
@@ -159,7 +159,7 @@ class Tilemap extends Definable {
   public getUnbrokenDestructibles(): string[] {
     const destructibles: string[] = [];
     for (const layer of this._data.layers) {
-      if (layer.visible && layer.name === "furniture") {
+      if (layer.visible && (layer.name === "furniture" || layer.name === "floor-furniture")) {
         for (const chunk of layer.chunks) {
           let datumIndex = 0;
           for (const datum of chunk.data) {
@@ -242,7 +242,7 @@ class Tilemap extends Definable {
                 drawImage("scratch", 1, frame * 16, 0, 16, 16, tileX, tileY, 16, 16, scratchZIndex);
               }
             }
-            if (levelIsCompleted() === false && layer.name === "furniture") {
+            if (levelIsCompleted() === false && (layer.name === "furniture" || layer.name === "floor-furniture")) {
               if (typeof destructibleID === "string" && !isDestroyed && state.activeDestructibleIDs.includes(destructibleID)) {
                 const indicatorXOffsetProperty = tile && tile.properties?.find((property): boolean => property.name === "indicatorXOffset");
                 const indicatorXOffset = indicatorXOffsetProperty?.value;
