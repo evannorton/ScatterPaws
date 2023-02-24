@@ -25680,13 +25680,6 @@ void main() {
           startingTileY: 36,
           tilemapSlug: "map-2",
           time: 12e4
-        },
-        {
-          requiredDestructibles: 20,
-          startingTileX: 32,
-          startingTileY: 24,
-          tilemapSlug: "map-3",
-          time: 12e4
         }
       ];
       exports.default = levels;

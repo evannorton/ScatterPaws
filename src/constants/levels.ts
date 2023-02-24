@@ -15,13 +15,13 @@ const levels: Level[] = [
     tilemapSlug: "map-2",
     time: 120000
   },
-  {
-    requiredDestructibles: 20,
-    startingTileX: 32,
-    startingTileY: 24,
-    tilemapSlug: "map-3",
-    time: 120000
-  }
+  // {
+  //   requiredDestructibles: 20,
+  //   startingTileX: 32,
+  //   startingTileY: 24,
+  //   tilemapSlug: "map-3",
+  //   time: 120000
+  // }
 ];
 
 export default levels;
