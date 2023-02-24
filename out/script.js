@@ -48415,7 +48415,7 @@ void main() {
         (0, drawRectangle_1.default)("#000000", 0.25, 4, 4, width, 63, 10003);
         (0, drawText_1.default)(`${ludwigTheming_1.default ? "Coots" : "Kitty"} wants food! Guide her to cause a ruckus and get ${ludwigTheming_1.default ? "Ludwig" : "owner"}'s attention!`, "#ffffff", 6, 6, 1, width - 4, 10, "left", "top");
         (0, drawText_1.default)("- Mouse to move. Avoid cat toys!", "#ffffff", 6, 30, 1, width - 4, 2, "left", "top");
-        (0, drawText_1.default)("- Click/space to scratch.", "#ffffff", 6, 43, 1, width - 4, 2, "left", "top");
+        (0, drawText_1.default)("- Click/space to claw objects.", "#ffffff", 6, 43, 1, width - 4, 2, "left", "top");
         (0, drawText_1.default)("- M to meow.", "#ffffff", 6, 56, 1, width - 4, 2, "left", "top");
       };
       exports.default = drawTutorialHUD;
@@ -48484,9 +48484,9 @@ void main() {
       var drawRectangle_1 = __importDefault(require_drawRectangle());
       var drawText_1 = __importDefault(require_drawText());
       var drawCounterHUD = () => {
-        const width = 118;
+        const width = 97;
         (0, drawRectangle_1.default)("#000000", 0.25, 4, 4, width, 11, 10003);
-        (0, drawText_1.default)(`Scratch ${state_1.default.level.requiredDestructibles - state_1.default.brokenDestructibleIDs.length} objects!`, "#ffffff", 6, 6, 1, gameWidth_1.default, 1, "left", "top");
+        (0, drawText_1.default)(`Claw ${state_1.default.level.requiredDestructibles - state_1.default.brokenDestructibleIDs.length} objects!`, "#ffffff", 6, 6, 1, gameWidth_1.default, 1, "left", "top");
       };
       exports.default = drawCounterHUD;
     }
