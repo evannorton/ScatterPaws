@@ -37,10 +37,10 @@ const define = (): void => {
   new ImageSource("buttons/next");
   new ImageSource("hunger");
   new ImageSource("eating");
-  new AudioSource("music/music");
-  new AudioSource("noises/scratch");
-  new AudioSource("noises/meow");
-  new AudioSource("noises/destroy/electronic");
+  new AudioSource("music/music", false);
+  new AudioSource("noises/scratch", false);
+  new AudioSource("noises/meow", false);
+  new AudioSource("noises/destroy/electronic", false);
 };
 
 export default define;

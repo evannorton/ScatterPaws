@@ -15,9 +15,10 @@ class AudioSource extends Definable {
   private _loopPoint: number | null = null;
   private _plays: number = 0;
 
-  public constructor(slug: string) {
+  public constructor(slug: string, autoplay: boolean) {
     super(slug);
     this._howl = new Howl({
+      autoplay,
       loop: false,
       preload: true,
       src: [this.getSRC()],

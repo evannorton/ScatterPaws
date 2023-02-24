@@ -25938,6 +25938,26 @@ void main() {
     }
   });
 
+  // lib/constants/gameHeight.js
+  var require_gameHeight = __commonJS({
+    "lib/constants/gameHeight.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var gameHeight = 180;
+      exports.default = gameHeight;
+    }
+  });
+
+  // lib/constants/gameWidth.js
+  var require_gameWidth = __commonJS({
+    "lib/constants/gameWidth.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var gameWidth = 320;
+      exports.default = gameWidth;
+    }
+  });
+
   // lib/constants/timePerIndicatorFrame.js
   var require_timePerIndicatorFrame = __commonJS({
     "lib/constants/timePerIndicatorFrame.js"(exports) {
@@ -26028,26 +26048,6 @@ void main() {
         slug
       });
       exports.default = getImageSource;
-    }
-  });
-
-  // lib/constants/gameWidth.js
-  var require_gameWidth = __commonJS({
-    "lib/constants/gameWidth.js"(exports) {
-      "use strict";
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var gameWidth = 320;
-      exports.default = gameWidth;
-    }
-  });
-
-  // lib/constants/gameHeight.js
-  var require_gameHeight = __commonJS({
-    "lib/constants/gameHeight.js"(exports) {
-      "use strict";
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var gameHeight = 180;
-      exports.default = gameHeight;
     }
   });
 
@@ -26171,6 +26171,8 @@ void main() {
         return mod && mod.__esModule ? mod : { "default": mod };
       };
       Object.defineProperty(exports, "__esModule", { value: true });
+      var gameHeight_1 = __importDefault(require_gameHeight());
+      var gameWidth_1 = __importDefault(require_gameWidth());
       var timePerIndicatorFrame_1 = __importDefault(require_timePerIndicatorFrame());
       var unitsPerTile_1 = __importDefault(require_unitsPerTile());
       var CollisionType_1 = __importDefault(require_CollisionType());
@@ -26373,7 +26375,28 @@ void main() {
                           type: ZIndexType_1.default.Hard
                         };
                         const frameAnimationOffset = Math.floor(state_1.default.currentTime % (timePerIndicatorFrame_1.default * 4) / timePerIndicatorFrame_1.default) * 7;
-                        (0, drawImage_1.default)("indicator", 1, frameAnimationOffset, 0, 7, 10, tileX + indicatorXOffset, tileY + indicatorYOffset, 7, 10, hardZIndex);
+                        let indicatorX = tileX + indicatorXOffset;
+                        let indicatorY = tileY + indicatorYOffset;
+                        const indicatorWidth = 7;
+                        const indicatorHeight = 10;
+                        const arrowOffset = 4;
+                        const minX = arrowOffset;
+                        if (indicatorX < minX) {
+                          indicatorX = minX;
+                        }
+                        const maxX = gameWidth_1.default - arrowOffset - indicatorWidth;
+                        if (indicatorX > maxX) {
+                          indicatorX = maxX;
+                        }
+                        const minY = arrowOffset;
+                        if (indicatorY < minY) {
+                          indicatorY = minY;
+                        }
+                        const maxY = gameHeight_1.default - arrowOffset - indicatorHeight;
+                        if (indicatorY > maxY) {
+                          indicatorY = maxY;
+                        }
+                        (0, drawImage_1.default)("indicator", 1, frameAnimationOffset, 0, indicatorWidth, indicatorHeight, indicatorX, indicatorY, indicatorWidth, indicatorHeight, hardZIndex);
                       }
                     }
                   }
@@ -39222,7 +39245,7 @@ void main() {
                   416,
                   417,
                   0,
-                  706,
+                  755,
                   0,
                   0,
                   0,
@@ -53345,7 +53368,7 @@ void main() {
       var state_1 = __importDefault(require_state());
       var isRunningOnLocal_1 = __importDefault(require_isRunningOnLocal());
       var AudioSource = class extends Definable_1.default {
-        constructor(slug) {
+        constructor(slug, autoplay) {
           super(slug);
           this._fadeVolume = 0.5;
           this._fadeInAction = null;
@@ -53355,6 +53378,7 @@ void main() {
           this._loopPoint = null;
           this._plays = 0;
           this._howl = new howler_1.Howl({
+            autoplay,
             loop: false,
             preload: true,
             src: [this.getSRC()],
@@ -53521,10 +53545,10 @@ void main() {
         new ImageSource_1.default("buttons/next");
         new ImageSource_1.default("hunger");
         new ImageSource_1.default("eating");
-        new AudioSource_1.default("music/music");
-        new AudioSource_1.default("noises/scratch");
-        new AudioSource_1.default("noises/meow");
-        new AudioSource_1.default("noises/destroy/electronic");
+        new AudioSource_1.default("music/music", false);
+        new AudioSource_1.default("noises/scratch", false);
+        new AudioSource_1.default("noises/meow", false);
+        new AudioSource_1.default("noises/destroy/electronic", false);
       };
       exports.default = define2;
     }

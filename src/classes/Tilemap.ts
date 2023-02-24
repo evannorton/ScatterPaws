@@ -1,3 +1,5 @@
+import gameHeight from "../constants/gameHeight";
+import gameWidth from "../constants/gameWidth";
 import timePerIndicatorFrame from "../constants/timePerIndicatorFrame";
 import unitsPerTile from "../constants/unitsPerTile";
 import CollisionType from "../enums/CollisionType";
@@ -254,7 +256,28 @@ class Tilemap extends Definable {
                     type: ZIndexType.Hard
                   };
                   const frameAnimationOffset: number = Math.floor((state.currentTime % (timePerIndicatorFrame * 4)) / timePerIndicatorFrame) * 7;
-                  drawImage("indicator", 1, frameAnimationOffset, 0, 7, 10, tileX + indicatorXOffset, tileY + indicatorYOffset, 7, 10, hardZIndex);
+                  let indicatorX: number = tileX + indicatorXOffset;
+                  let indicatorY: number = tileY + indicatorYOffset;
+                  const indicatorWidth: number = 7;
+                  const indicatorHeight: number = 10;
+                  const arrowOffset: number = 4;
+                  const minX: number = arrowOffset;
+                  if (indicatorX < minX) {
+                    indicatorX = minX;
+                  }
+                  const maxX: number = gameWidth - arrowOffset - indicatorWidth;
+                  if (indicatorX > maxX) {
+                    indicatorX = maxX;
+                  }
+                  const minY: number = arrowOffset;
+                  if (indicatorY < minY) {
+                    indicatorY = minY;
+                  }
+                  const maxY: number = gameHeight - arrowOffset - indicatorHeight;
+                  if (indicatorY > maxY) {
+                    indicatorY = maxY;
+                  }
+                  drawImage("indicator", 1, frameAnimationOffset, 0, indicatorWidth, indicatorHeight, indicatorX, indicatorY, indicatorWidth, indicatorHeight, hardZIndex);
                 }
               }
             }
