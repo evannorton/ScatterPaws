@@ -8,13 +8,13 @@ const levels: Level[] = [
     tilemapSlug: "map",
     time: 60000
   },
-  {
-    requiredDestructibles: 13,
-    startingTileX: -10,
-    startingTileY: 36,
-    tilemapSlug: "map-2",
-    time: 120000
-  },
+  // {
+  //   requiredDestructibles: 13,
+  //   startingTileX: -10,
+  //   startingTileY: 36,
+  //   tilemapSlug: "map-2",
+  //   time: 120000
+  // },
   // {
   //   requiredDestructibles: 20,
   //   startingTileX: 32,

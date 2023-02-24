@@ -25673,13 +25673,6 @@ void main() {
           startingTileY: 17,
           tilemapSlug: "map",
           time: 6e4
-        },
-        {
-          requiredDestructibles: 13,
-          startingTileX: -10,
-          startingTileY: 36,
-          tilemapSlug: "map-2",
-          time: 12e4
         }
       ];
       exports.default = levels;
@@ -25890,6 +25883,64 @@ void main() {
     }
   });
 
+  // lib/functions/definables/getDefinablesCount.js
+  var require_getDefinablesCount = __commonJS({
+    "lib/functions/definables/getDefinablesCount.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var getDefinables_1 = __importDefault(require_getDefinables());
+      var getDefinablesCount = (className) => (0, getDefinables_1.default)(className).size;
+      exports.default = getDefinablesCount;
+    }
+  });
+
+  // lib/functions/definables/getImageSourcesCount.js
+  var require_getImageSourcesCount = __commonJS({
+    "lib/functions/definables/getImageSourcesCount.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var getDefinablesCount_1 = __importDefault(require_getDefinablesCount());
+      var getImageSourcesCount = () => (0, getDefinablesCount_1.default)("ImageSource");
+      exports.default = getImageSourcesCount;
+    }
+  });
+
+  // lib/functions/definables/getAudioSourcesCount.js
+  var require_getAudioSourcesCount = __commonJS({
+    "lib/functions/definables/getAudioSourcesCount.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var getDefinablesCount_1 = __importDefault(require_getDefinablesCount());
+      var getAudioSourcesCount = () => (0, getDefinablesCount_1.default)("AudioSource");
+      exports.default = getAudioSourcesCount;
+    }
+  });
+
+  // lib/functions/assetsAreLoaded.js
+  var require_assetsAreLoaded = __commonJS({
+    "lib/functions/assetsAreLoaded.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var getImageSourcesCount_1 = __importDefault(require_getImageSourcesCount());
+      var state_1 = __importDefault(require_state());
+      var getAudioSourcesCount_1 = __importDefault(require_getAudioSourcesCount());
+      var assetsAreLoaded = () => state_1.default.loadedAssets === (0, getImageSourcesCount_1.default)() + (0, getAudioSourcesCount_1.default)() + 1;
+      exports.default = assetsAreLoaded;
+    }
+  });
+
   // lib/classes/ImageSource.js
   var require_ImageSource = __commonJS({
     "lib/classes/ImageSource.js"(exports) {
@@ -25902,12 +25953,18 @@ void main() {
       var Definable_1 = __importDefault(require_Definable());
       var state_1 = __importDefault(require_state());
       var isRunningOnLocal_1 = __importDefault(require_isRunningOnLocal());
+      var assetsAreLoaded_1 = __importDefault(require_assetsAreLoaded());
       var ImageSource = class extends Definable_1.default {
         constructor(slug) {
           super(slug);
           this._loader = new pixi_js_1.Loader();
           this._loader.add(this.getSRC()).load(() => {
+            var _a, _b;
             state_1.default.loadedAssets++;
+            if ((0, assetsAreLoaded_1.default)()) {
+              (_a = document.getElementById("screen")) === null || _a === void 0 ? void 0 : _a.classList.remove("loading");
+              (_b = document.getElementById("screen")) === null || _b === void 0 ? void 0 : _b.classList.add("title");
+            }
           });
         }
         get loader() {
@@ -53360,6 +53417,7 @@ void main() {
       var Definable_1 = __importDefault(require_Definable());
       var state_1 = __importDefault(require_state());
       var isRunningOnLocal_1 = __importDefault(require_isRunningOnLocal());
+      var assetsAreLoaded_1 = __importDefault(require_assetsAreLoaded());
       var AudioSource = class extends Definable_1.default {
         constructor(slug, autoplay, loopPoint) {
           super(slug);
@@ -53479,7 +53537,12 @@ void main() {
           }
         }
         onHowlLoad() {
+          var _a, _b;
           state_1.default.loadedAssets++;
+          if ((0, assetsAreLoaded_1.default)()) {
+            (_a = document.getElementById("screen")) === null || _a === void 0 ? void 0 : _a.classList.remove("loading");
+            (_b = document.getElementById("screen")) === null || _b === void 0 ? void 0 : _b.classList.add("title");
+          }
         }
         onHowlPlay() {
           if (this._plays === 0 && this._onPlay !== null) {
@@ -56616,64 +56679,6 @@ void main() {
     }
   });
 
-  // lib/functions/definables/getDefinablesCount.js
-  var require_getDefinablesCount = __commonJS({
-    "lib/functions/definables/getDefinablesCount.js"(exports) {
-      "use strict";
-      var __importDefault = exports && exports.__importDefault || function(mod) {
-        return mod && mod.__esModule ? mod : { "default": mod };
-      };
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var getDefinables_1 = __importDefault(require_getDefinables());
-      var getDefinablesCount = (className) => (0, getDefinables_1.default)(className).size;
-      exports.default = getDefinablesCount;
-    }
-  });
-
-  // lib/functions/definables/getImageSourcesCount.js
-  var require_getImageSourcesCount = __commonJS({
-    "lib/functions/definables/getImageSourcesCount.js"(exports) {
-      "use strict";
-      var __importDefault = exports && exports.__importDefault || function(mod) {
-        return mod && mod.__esModule ? mod : { "default": mod };
-      };
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var getDefinablesCount_1 = __importDefault(require_getDefinablesCount());
-      var getImageSourcesCount = () => (0, getDefinablesCount_1.default)("ImageSource");
-      exports.default = getImageSourcesCount;
-    }
-  });
-
-  // lib/functions/definables/getAudioSourcesCount.js
-  var require_getAudioSourcesCount = __commonJS({
-    "lib/functions/definables/getAudioSourcesCount.js"(exports) {
-      "use strict";
-      var __importDefault = exports && exports.__importDefault || function(mod) {
-        return mod && mod.__esModule ? mod : { "default": mod };
-      };
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var getDefinablesCount_1 = __importDefault(require_getDefinablesCount());
-      var getAudioSourcesCount = () => (0, getDefinablesCount_1.default)("AudioSource");
-      exports.default = getAudioSourcesCount;
-    }
-  });
-
-  // lib/functions/assetsAreLoaded.js
-  var require_assetsAreLoaded = __commonJS({
-    "lib/functions/assetsAreLoaded.js"(exports) {
-      "use strict";
-      var __importDefault = exports && exports.__importDefault || function(mod) {
-        return mod && mod.__esModule ? mod : { "default": mod };
-      };
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var getImageSourcesCount_1 = __importDefault(require_getImageSourcesCount());
-      var state_1 = __importDefault(require_state());
-      var getAudioSourcesCount_1 = __importDefault(require_getAudioSourcesCount());
-      var assetsAreLoaded = () => state_1.default.loadedAssets === (0, getImageSourcesCount_1.default)() + (0, getAudioSourcesCount_1.default)() + 1;
-      exports.default = assetsAreLoaded;
-    }
-  });
-
   // lib/constants/cootsHeight.js
   var require_cootsHeight = __commonJS({
     "lib/constants/cootsHeight.js"(exports) {
@@ -57629,16 +57634,25 @@ void main() {
       var gameIsOngoing_1 = __importDefault(require_gameIsOngoing());
       var isCatStarving_1 = __importDefault(require_isCatStarving());
       var getAudioSources_1 = __importDefault(require_getAudioSources());
+      var state_1 = __importDefault(require_state());
       var levelIsCompleted_1 = __importDefault(require_levelIsCompleted());
       var update = () => {
+        var _a, _b, _c;
         if ((0, assetsAreLoaded_1.default)()) {
-          if ((0, gameIsOngoing_1.default)() && (0, levelIsCompleted_1.default)() === false) {
-            (0, updateCootsVelocity_1.default)();
-            (0, updateCootsPosition_1.default)();
+          if ((0, gameIsOngoing_1.default)()) {
+            if ((0, levelIsCompleted_1.default)()) {
+              (_a = document.getElementById("screen")) === null || _a === void 0 ? void 0 : _a.classList.add("level");
+            } else {
+              (0, updateCootsVelocity_1.default)();
+              (0, updateCootsPosition_1.default)();
+            }
           } else if ((0, isCatStarving_1.default)()) {
+            (_b = document.getElementById("screen")) === null || _b === void 0 ? void 0 : _b.classList.add("defeat");
             (0, getAudioSources_1.default)().forEach((audioSource) => {
               audioSource.cancelOnEnds();
             });
+          } else if (state_1.default.won) {
+            (_c = document.getElementById("screen")) === null || _c === void 0 ? void 0 : _c.classList.add("victory");
           }
         }
       };
@@ -57838,7 +57852,9 @@ void main() {
       var levelIsCompleted_1 = __importDefault(require_levelIsCompleted());
       var startLevel_1 = __importDefault(require_startLevel());
       var handleAction = () => {
+        var _a, _b, _c;
         if (state_1.default.isAtTitle) {
+          (_a = document.getElementById("screen")) === null || _a === void 0 ? void 0 : _a.classList.remove("title");
           const titleMusic = (0, getAudioSource_1.default)("music/title");
           const mainMusic = (0, getAudioSource_1.default)("music/main");
           state_1.default.isAtTitle = false;
@@ -57846,8 +57862,10 @@ void main() {
           mainMusic.play(null, null);
           (0, startLevel_1.default)();
         } else if ((0, isCatStarving_1.default)()) {
+          (_b = document.getElementById("screen")) === null || _b === void 0 ? void 0 : _b.classList.remove("defeat");
           (0, startLevel_1.default)();
         } else if ((0, levelIsCompleted_1.default)()) {
+          (_c = document.getElementById("screen")) === null || _c === void 0 ? void 0 : _c.classList.remove("level");
           const levelIndex = levels_1.default.findIndex((level) => level === state_1.default.level);
           const newLevel = levels_1.default[levelIndex + 1];
           if (newLevel) {
@@ -57861,6 +57879,45 @@ void main() {
         }
       };
       exports.default = handleAction;
+    }
+  });
+
+  // lib/constants/credits.js
+  var require_credits = __commonJS({
+    "lib/constants/credits.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var credits = [
+        {
+          link: "https://evanmmo.com",
+          x: 12,
+          y: 44,
+          width: 51,
+          height: 14
+        },
+        {
+          link: "https://www.youtube.com/channel/UCTljefNUAIUavdRcGFfrQZg",
+          x: 14,
+          y: 63,
+          width: 55,
+          height: 14
+        },
+        {
+          link: "https://twitter.com/Lightwing_Games",
+          x: 10,
+          y: 108,
+          width: 41,
+          height: 13
+        },
+        {
+          link: "https://twitter.com/bampikku",
+          x: 12,
+          y: 126,
+          width: 38,
+          height: 15
+        }
+      ];
+      exports.default = credits;
     }
   });
 
@@ -57911,6 +57968,8 @@ void main() {
       var focusScreen_1 = __importDefault(require_focusScreen());
       var isRunningOnLocal_1 = __importDefault(require_isRunningOnLocal());
       var handleAction_1 = __importDefault(require_handleAction());
+      var credits_1 = __importDefault(require_credits());
+      var assetsAreLoaded_1 = __importDefault(require_assetsAreLoaded());
       var run = () => __awaiter(void 0, void 0, void 0, function* () {
         console.log(`Running ScatterPaws.`);
         (0, define_1.default)();
@@ -57931,7 +57990,12 @@ void main() {
         });
         const loader = new pixi_js_1.Loader();
         loader.add((0, isRunningOnLocal_1.default)() ? "./out/fonts/RetroPixels.fnt" : "./fonts/RetroPixels.fnt").load(() => {
+          var _a, _b;
           state_1.default.loadedAssets++;
+          if ((0, assetsAreLoaded_1.default)()) {
+            (_a = document.getElementById("screen")) === null || _a === void 0 ? void 0 : _a.classList.remove("loading");
+            (_b = document.getElementById("screen")) === null || _b === void 0 ? void 0 : _b.classList.add("title");
+          }
         });
         state_1.default.app.ticker.add(tick_1.default);
         const screen = document.getElementById("screen");
@@ -57984,6 +58048,18 @@ void main() {
             }
             state_1.default.heldKeys = heldKeys;
           });
+          for (const credit of credits_1.default) {
+            const element = document.createElement("a");
+            element.href = credit.link;
+            element.target = "_blank";
+            screen.appendChild(element);
+            element.style.position = "absolute";
+            element.style.left = `${credit.x * gameScale_1.default}px`;
+            element.style.top = `${credit.y * gameScale_1.default}px`;
+            element.style.width = `${credit.width * gameScale_1.default}px`;
+            element.style.height = `${credit.height * gameScale_1.default}px`;
+            element.className = "credit";
+          }
         }
         if (socket_1.default) {
           socket_1.default.on("run-id", (runID) => {

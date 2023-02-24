@@ -2,6 +2,7 @@ import { BaseTexture, Loader, Texture } from "pixi.js";
 import Definable from "./Definable";
 import state from "../state";
 import isRunningOnLocal from "../functions/isRunningOnLocal";
+import assetsAreLoaded from "../functions/assetsAreLoaded";
 
 class ImageSource extends Definable {
   private readonly _loader: Loader = new Loader;
@@ -10,6 +11,10 @@ class ImageSource extends Definable {
     super(slug);
     this._loader.add(this.getSRC()).load((): void => {
       state.loadedAssets++;
+      if (assetsAreLoaded()) {
+        document.getElementById("screen")?.classList.remove("loading");
+        document.getElementById("screen")?.classList.add("title");
+      }
     });
   }
 

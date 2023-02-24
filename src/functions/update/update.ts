@@ -10,14 +10,23 @@ import levelIsCompleted from "../levelIsCompleted";
 
 const update = (): void => {
   if (assetsAreLoaded()) {
-    if (gameIsOngoing() && levelIsCompleted() === false) {
-      updateCootsVelocity();
-      updateCootsPosition();
+    if (gameIsOngoing()) {
+      if (levelIsCompleted()) {
+        document.getElementById("screen")?.classList.add("level");
+      }
+      else {
+        updateCootsVelocity();
+        updateCootsPosition();
+      }
     }
     else if (isCatStarving()) {
+      document.getElementById("screen")?.classList.add("defeat");
       getAudioSources().forEach((audioSource: AudioSource): void => {
         audioSource.cancelOnEnds();
       });
+    }
+    else if (state.won) {
+      document.getElementById("screen")?.classList.add("victory");
     }
   }
 };

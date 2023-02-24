@@ -10,6 +10,8 @@ import getAudioSource from "./definables/getAudioSource";
 import focusScreen from "./focusScreen";
 import isRunningOnLocal from "./isRunningOnLocal";
 import handleAction from "./handleAction";
+import credits from "../constants/credits";
+import assetsAreLoaded from "./assetsAreLoaded";
 
 const run = async (): Promise<void> => {
   console.log(`Running ScatterPaws.`);
@@ -32,6 +34,10 @@ const run = async (): Promise<void> => {
   const loader: Loader = new Loader;
   loader.add(isRunningOnLocal() ? "./out/fonts/RetroPixels.fnt" : "./fonts/RetroPixels.fnt").load((): void => {
     state.loadedAssets++;
+    if (assetsAreLoaded()) {
+      document.getElementById("screen")?.classList.remove("loading");
+      document.getElementById("screen")?.classList.add("title");
+    }
   });
   state.app.ticker.add(tick);
   const screen = document.getElementById("screen");
@@ -84,6 +90,18 @@ const run = async (): Promise<void> => {
       }
       state.heldKeys = heldKeys;
     });
+    for (const credit of credits) {
+      const element = document.createElement("a");
+      element.href = credit.link;
+      element.target = "_blank";
+      screen.appendChild(element);
+      element.style.position = "absolute";
+      element.style.left = `${credit.x * gameScale}px`;
+      element.style.top = `${credit.y * gameScale}px`;
+      element.style.width = `${credit.width * gameScale}px`;
+      element.style.height = `${credit.height * gameScale}px`;
+      element.className = "credit";
+    }
   }
   if (socket) {
     socket.on("run-id", (runID: string) => {

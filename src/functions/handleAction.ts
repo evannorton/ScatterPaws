@@ -9,6 +9,7 @@ import startLevel from "./startLevel";
 
 const handleAction = (): void => {
   if (state.isAtTitle) {
+    document.getElementById("screen")?.classList.remove("title");
     const titleMusic: AudioSource = getAudioSource("music/title");
     const mainMusic: AudioSource = getAudioSource("music/main");
     state.isAtTitle = false;
@@ -17,9 +18,11 @@ const handleAction = (): void => {
     startLevel();
   }
   else if (isCatStarving()) {
+    document.getElementById("screen")?.classList.remove("defeat");
     startLevel();
   }
   else if (levelIsCompleted()) {
+    document.getElementById("screen")?.classList.remove("level");
     const levelIndex = levels.findIndex((level) => level === state.level);
     const newLevel = levels[levelIndex + 1];
     if (newLevel) {

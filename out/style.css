@@ -8,9 +8,37 @@ body {
 }
 
 #screen {
-  cursor: url("./cursor.png") 16 16, default;
+  cursor: url("./cursors/laser.png") 16 16, default;
+}
+
+#screen.loading {
+  cursor: url("./cursors/default.png"), default;
+}
+
+#screen.title {
+  cursor: url("./cursors/pointer.png") 7 2, pointer;
+}
+
+#screen.level {
+  cursor: url("./cursors/pointer.png") 7 2, pointer;
+}
+
+#screen.defeat {
+  cursor: url("./cursors/pointer.png") 7 2, pointer;
+}
+
+#screen.victory {
+  cursor: url("./cursors/default.png"), default;
+}
+
+#screen .credit {
+  cursor: url("./cursors/pointer.png") 7 2, pointer;
 }
 
 canvas:focus {
   outline: none;
+}
+
+#screen:not(.victory) .credit {
+  display: none;
 }

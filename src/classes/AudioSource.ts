@@ -4,6 +4,7 @@ import FadeInAction from "../interfaces/FadeInAction";
 import FadeOutAction from "../interfaces/FadeOutAction";
 import state from "../state";
 import isRunningOnLocal from "../functions/isRunningOnLocal";
+import assetsAreLoaded from "../functions/assetsAreLoaded";
 
 class AudioSource extends Definable {
   private _fadeVolume: number = 0.5;
@@ -144,6 +145,10 @@ class AudioSource extends Definable {
 
   private onHowlLoad(): void {
     state.loadedAssets++;
+    if (assetsAreLoaded()) {
+      document.getElementById("screen")?.classList.remove("loading");
+      document.getElementById("screen")?.classList.add("title");
+    }
   }
 
   private onHowlPlay(): void {
