@@ -1,4 +1,3 @@
-import { off } from "process";
 import gameHeight from "../../constants/gameHeight";
 import gameWidth from "../../constants/gameWidth";
 import drawRectangle from "./drawRectangle";
