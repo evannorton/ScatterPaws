@@ -4,7 +4,7 @@ import state from "../state";
 import getCootsScreenCoords from "./getCootsScreenCoords";
 
 const getCootsDirection = (): Direction => {
-  if (state.hasMouseScreenCoords()) {
+  if (state.hasMouseScreenCoords() && state.isInBed === false) {
     const centerScreenCoords: Coords = getCootsScreenCoords();
     const right: boolean = state.mouseScreenCoords.x > centerScreenCoords.x;
     const up: boolean = state.mouseScreenCoords.y < centerScreenCoords.y;

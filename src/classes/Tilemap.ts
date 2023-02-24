@@ -231,8 +231,17 @@ class Tilemap extends Definable {
               value: 10000,
               type: ZIndexType.Hard
             };
-            drawImage(`tilesets/${tileset.slug}`, 1, tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight,
-              (layer.name === "upper-furniture") ? furnitureUpperZIndex : ySortZIndex);
+            const zIndex = (layer.name === "upper-furniture") ? furnitureUpperZIndex : ySortZIndex;
+            drawImage(`tilesets/${tileset.slug}`, 1, tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight, zIndex);
+            if (layer.name === "floor") {
+              if (state.level.startingTileX === datumX + chunk.x && state.level.startingTileY === datumY + chunk.y) {
+                const bedZIndex: HardZIndex = {
+                  type: ZIndexType.Hard,
+                  value: .1,
+                };
+                drawImage("bed", 1, 18 * state.level.bed, 0, 18, 12, tileX + 3, tileY, 18, 12, bedZIndex);
+              }
+            }
             if (state.hasRecentDestruction() && state.recentDestruction.destructibleID === destructibleID && state.recentDestruction.tileID === tilesetIndex) {
               const diff = state.currentTime - state.recentDestruction.clawedAt;
               const frame: number = Math.floor(diff / 100);

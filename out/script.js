@@ -25668,6 +25668,7 @@ void main() {
       Object.defineProperty(exports, "__esModule", { value: true });
       var levels = [
         {
+          bed: 0,
           requiredDestructibles: 5,
           startingTileX: 7,
           startingTileY: 17,
@@ -25714,6 +25715,7 @@ void main() {
           this._heldKeys = [];
           this._hitObstacleAt = null;
           this._isAtTitle = true;
+          this._isInBed = true;
           this._level = levels_1.default[0];
           this._levelStartedAt = null;
           this._loadedAssets = 0;
@@ -25757,6 +25759,9 @@ void main() {
         }
         get isAtTitle() {
           return this._isAtTitle;
+        }
+        get isInBed() {
+          return this._isInBed;
         }
         get level() {
           return this._level;
@@ -25817,6 +25822,9 @@ void main() {
         }
         set isAtTitle(isAtTitle) {
           this._isAtTitle = isAtTitle;
+        }
+        set isInBed(isInBed) {
+          this._isInBed = isInBed;
         }
         set level(level) {
           this._level = level;
@@ -26401,7 +26409,17 @@ void main() {
                     value: 1e4,
                     type: ZIndexType_1.default.Hard
                   };
-                  (0, drawImage_1.default)(`tilesets/${tileset.slug}`, 1, tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight, layer.name === "upper-furniture" ? furnitureUpperZIndex : ySortZIndex);
+                  const zIndex = layer.name === "upper-furniture" ? furnitureUpperZIndex : ySortZIndex;
+                  (0, drawImage_1.default)(`tilesets/${tileset.slug}`, 1, tileSourceX, tileSourceY, tileset.tileWidth, tileset.tileHeight, tileX, tileY, tileset.tileWidth, tileset.tileHeight, zIndex);
+                  if (layer.name === "floor") {
+                    if (state_1.default.level.startingTileX === datumX + chunk.x && state_1.default.level.startingTileY === datumY + chunk.y) {
+                      const bedZIndex = {
+                        type: ZIndexType_1.default.Hard,
+                        value: 0.1
+                      };
+                      (0, drawImage_1.default)("bed", 1, 18 * state_1.default.level.bed, 0, 18, 12, tileX + 3, tileY, 18, 12, bedZIndex);
+                    }
+                  }
                   if (state_1.default.hasRecentDestruction() && state_1.default.recentDestruction.destructibleID === destructibleID && state_1.default.recentDestruction.tileID === tilesetIndex) {
                     const diff = state_1.default.currentTime - state_1.default.recentDestruction.clawedAt;
                     const frame = Math.floor(diff / 100);
@@ -53601,6 +53619,7 @@ void main() {
         new ImageSource_1.default("buttons/next");
         new ImageSource_1.default("hunger");
         new ImageSource_1.default("eating");
+        new ImageSource_1.default("bed");
         new AudioSource_1.default("music/title", true, 132e3);
         new AudioSource_1.default("music/main", false, 132e3);
         new AudioSource_1.default("music/victory", false, 132e3);
@@ -56754,7 +56773,7 @@ void main() {
       var state_1 = __importDefault(require_state());
       var getCootsScreenCoords_1 = __importDefault(require_getCootsScreenCoords());
       var getCootsDirection = () => {
-        if (state_1.default.hasMouseScreenCoords()) {
+        if (state_1.default.hasMouseScreenCoords() && state_1.default.isInBed === false) {
           const centerScreenCoords = (0, getCootsScreenCoords_1.default)();
           const right = state_1.default.mouseScreenCoords.x > centerScreenCoords.x;
           const up = state_1.default.mouseScreenCoords.y < centerScreenCoords.y;
@@ -56875,7 +56894,7 @@ void main() {
         const sourceX = frameDirectionOffset + frameAnimationOffset;
         const hitObstacle = (0, isCootsInObstacle_1.default)();
         const laserPower = (0, getLaserPower_1.default)();
-        const sourceY = (hitObstacle ? 3 : laserPower >= runningThreshold_1.default ? 2 : laserPower >= walkingThreshold_1.default ? 1 : 0) * cootsHeight_1.default;
+        const sourceY = (state_1.default.isInBed ? 4 : hitObstacle ? 3 : laserPower >= runningThreshold_1.default ? 2 : laserPower >= walkingThreshold_1.default ? 1 : 0) * cootsHeight_1.default;
         const centerScreenCoords = (0, getCootsScreenCoords_1.default)();
         const x = centerScreenCoords.x - 9;
         const y = centerScreenCoords.y - 16;
@@ -57086,7 +57105,7 @@ void main() {
       Object.defineProperty(exports, "__esModule", { value: true });
       var state_1 = __importDefault(require_state());
       var levelIsCompleted_1 = __importDefault(require_levelIsCompleted());
-      var isCatStarving = () => (0, levelIsCompleted_1.default)() === false && state_1.default.hasLevelStartedAt() && state_1.default.currentTime - state_1.default.levelStartedAt >= state_1.default.level.time;
+      var isCatStarving = () => (0, levelIsCompleted_1.default)() === false && state_1.default.hasLevelStartedAt() && state_1.default.hasLevelStartedAt() && state_1.default.currentTime - state_1.default.levelStartedAt >= state_1.default.level.time;
       exports.default = isCatStarving;
     }
   });
@@ -57265,6 +57284,17 @@ void main() {
     }
   });
 
+  // lib/functions/drawBedHUD.js
+  var require_drawBedHUD = __commonJS({
+    "lib/functions/drawBedHUD.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var drawBedHUD = () => {
+      };
+      exports.default = drawBedHUD;
+    }
+  });
+
   // lib/functions/render.js
   var require_render = __commonJS({
     "lib/functions/render.js"(exports) {
@@ -57294,6 +57324,7 @@ void main() {
       var drawLevelCompleteHUD_1 = __importDefault(require_drawLevelCompleteHUD());
       var levelIsCompleted_1 = __importDefault(require_levelIsCompleted());
       var drawCounterHUD_1 = __importDefault(require_drawCounterHUD());
+      var drawBedHUD_1 = __importDefault(require_drawBedHUD());
       var render = () => {
         state_1.default.app.stage.removeChildren();
         (0, drawRectangle_1.default)("#000000", 1, 0, 0, gameWidth_1.default, gameHeight_1.default, 0);
@@ -57310,13 +57341,17 @@ void main() {
               (0, drawLevelCompleteHUD_1.default)();
             } else {
               (0, drawCoots_1.default)();
-              (0, drawInteractHUD_1.default)();
-              if (state_1.default.level === levels_1.default[0]) {
-                (0, drawTutorialHUD_1.default)();
+              if (state_1.default.isInBed) {
+                (0, drawBedHUD_1.default)();
               } else {
-                (0, drawCounterHUD_1.default)();
+                (0, drawInteractHUD_1.default)();
+                if (state_1.default.level === levels_1.default[0]) {
+                  (0, drawTutorialHUD_1.default)();
+                } else {
+                  (0, drawCounterHUD_1.default)();
+                }
+                (0, drawTimer_1.default)();
               }
-              (0, drawTimer_1.default)();
             }
           }
         } else {
@@ -57665,7 +57700,7 @@ void main() {
           if ((0, gameIsOngoing_1.default)()) {
             if ((0, levelIsCompleted_1.default)()) {
               (_a = document.getElementById("screen")) === null || _a === void 0 ? void 0 : _a.classList.add("level");
-            } else {
+            } else if (state_1.default.isInBed === false) {
               (0, updateCootsVelocity_1.default)();
               (0, updateCootsPosition_1.default)();
             }
@@ -57781,7 +57816,7 @@ void main() {
       var isCootsInObstacle_1 = __importDefault(require_isCootsInObstacle());
       var levelIsCompleted_1 = __importDefault(require_levelIsCompleted());
       var attemptScratch = () => {
-        if ((0, gameIsOngoing_1.default)() && (0, isCootsInObstacle_1.default)() === false && (0, levelIsCompleted_1.default)() === false) {
+        if ((0, gameIsOngoing_1.default)() && (0, isCootsInObstacle_1.default)() === false && (0, levelIsCompleted_1.default)() === false && state_1.default.isInBed === false) {
           const cooldown = (0, isClawOnCooldown_1.default)();
           if (cooldown === false) {
             const clawedAt = state_1.default.currentTime;
@@ -57830,7 +57865,8 @@ void main() {
       var calculateActiveDestructibles_1 = __importDefault(require_calculateActiveDestructibles());
       var getAudioSource_1 = __importDefault(require_getAudioSource());
       var startLevel = () => {
-        state_1.default.levelStartedAt = state_1.default.currentTime;
+        state_1.default.isInBed = true;
+        state_1.default.levelStartedAt = null;
         state_1.default.brokenDestructibleIDs = [];
         state_1.default.activeDestructibleIDs = [];
         state_1.default.hitObstacleAt = null;
@@ -57865,37 +57901,39 @@ void main() {
       var startLevel_1 = __importDefault(require_startLevel());
       var handleAction = () => {
         var _a, _b, _c;
-        if (state_1.default.isAtTitle) {
-          (_a = document.getElementById("screen")) === null || _a === void 0 ? void 0 : _a.classList.remove("title");
-          const titleMusic = (0, getAudioSource_1.default)("music/title");
-          const mainMusic = (0, getAudioSource_1.default)("music/main");
-          state_1.default.isAtTitle = false;
-          titleMusic.stop();
-          mainMusic.play(null, null);
-          (0, startLevel_1.default)();
-        } else if ((0, isCatStarving_1.default)()) {
-          const mainMusic = (0, getAudioSource_1.default)("music/main");
-          const defeatMusic = (0, getAudioSource_1.default)("music/defeat");
-          defeatMusic.stop();
-          mainMusic.play(null, null);
-          (_b = document.getElementById("screen")) === null || _b === void 0 ? void 0 : _b.classList.remove("defeat");
-          (0, startLevel_1.default)();
-        } else if ((0, levelIsCompleted_1.default)()) {
-          (_c = document.getElementById("screen")) === null || _c === void 0 ? void 0 : _c.classList.remove("level");
-          const levelIndex = levels_1.default.findIndex((level) => level === state_1.default.level);
-          const newLevel = levels_1.default[levelIndex + 1];
-          if (newLevel) {
-            state_1.default.level = newLevel;
-            (0, startLevel_1.default)();
-          } else {
+        if (state_1.default.won === false) {
+          if (state_1.default.isAtTitle) {
+            (_a = document.getElementById("screen")) === null || _a === void 0 ? void 0 : _a.classList.remove("title");
+            const titleMusic = (0, getAudioSource_1.default)("music/title");
             const mainMusic = (0, getAudioSource_1.default)("music/main");
-            const victoryMusic = (0, getAudioSource_1.default)("music/victory");
-            mainMusic.stop();
-            victoryMusic.play(null, null);
-            state_1.default.won = true;
+            state_1.default.isAtTitle = false;
+            titleMusic.stop();
+            mainMusic.play(null, null);
+            (0, startLevel_1.default)();
+          } else if ((0, isCatStarving_1.default)()) {
+            const mainMusic = (0, getAudioSource_1.default)("music/main");
+            const defeatMusic = (0, getAudioSource_1.default)("music/defeat");
+            defeatMusic.stop();
+            mainMusic.play(null, null);
+            (_b = document.getElementById("screen")) === null || _b === void 0 ? void 0 : _b.classList.remove("defeat");
+            (0, startLevel_1.default)();
+          } else if ((0, levelIsCompleted_1.default)()) {
+            (_c = document.getElementById("screen")) === null || _c === void 0 ? void 0 : _c.classList.remove("level");
+            const levelIndex = levels_1.default.findIndex((level) => level === state_1.default.level);
+            const newLevel = levels_1.default[levelIndex + 1];
+            if (newLevel) {
+              state_1.default.level = newLevel;
+              (0, startLevel_1.default)();
+            } else {
+              const mainMusic = (0, getAudioSource_1.default)("music/main");
+              const victoryMusic = (0, getAudioSource_1.default)("music/victory");
+              mainMusic.stop();
+              victoryMusic.play(null, null);
+              state_1.default.won = true;
+            }
+          } else {
+            (0, attemptScratch_1.default)();
           }
-        } else {
-          (0, attemptScratch_1.default)();
         }
       };
       exports.default = handleAction;

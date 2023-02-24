@@ -10,7 +10,7 @@ import isCootsInObstacle from "./isCootsInObstacle";
 import levelIsCompleted from "./levelIsCompleted";
 
 const attemptScratch = (): void => {
-  if (gameIsOngoing() && isCootsInObstacle() === false && levelIsCompleted() === false) {
+  if (gameIsOngoing() && isCootsInObstacle() === false && levelIsCompleted() === false && state.isInBed === false) {
     const cooldown: boolean = isClawOnCooldown();
     if (cooldown === false) {
       const clawedAt = state.currentTime;

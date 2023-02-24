@@ -15,7 +15,7 @@ const update = (): void => {
       if (levelIsCompleted()) {
         document.getElementById("screen")?.classList.add("level");
       }
-      else {
+      else if (state.isInBed === false) {
         updateCootsVelocity();
         updateCootsPosition();
       }

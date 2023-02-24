@@ -2,6 +2,7 @@ import Level from "../interfaces/Level";
 
 const levels: Level[] = [
   {
+    bed: 0,
     requiredDestructibles: 5,
     startingTileX: 7,
     startingTileY: 17,
@@ -9,6 +10,7 @@ const levels: Level[] = [
     time: 60000
   },
   // {
+  // bed: 1,
   //   requiredDestructibles: 13,
   //   startingTileX: -10,
   //   startingTileY: 36,
@@ -16,6 +18,7 @@ const levels: Level[] = [
   //   time: 120000
   // },
   // {
+  // bed: 2,
   //   requiredDestructibles: 20,
   //   startingTileX: 32,
   //   startingTileY: 24,

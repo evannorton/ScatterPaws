@@ -20,6 +20,7 @@ class State {
   private _heldKeys: string[] = [];
   private _hitObstacleAt: number | null = null;
   private _isAtTitle: boolean = true;
+  private _isInBed: boolean = true;
   private _level: Level = levels[0];
   private _levelStartedAt: number | null = null;
   private _loadedAssets: number = 0;
@@ -72,6 +73,10 @@ class State {
 
   public get isAtTitle(): boolean {
     return this._isAtTitle;
+  }
+
+  public get isInBed(): boolean {
+    return this._isInBed;
   }
 
   public get level(): Level {
@@ -149,6 +154,10 @@ class State {
 
   public set isAtTitle(isAtTitle: boolean) {
     this._isAtTitle = isAtTitle;
+  }
+
+  public set isInBed(isInBed: boolean) {
+    this._isInBed = isInBed;
   }
 
   public set level(level: Level) {

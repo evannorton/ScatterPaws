@@ -28,13 +28,15 @@ const drawCoots = (): void => {
   const hitObstacle: boolean = isCootsInObstacle();
   const laserPower: number = getLaserPower();
   const sourceY: number = (
-    hitObstacle
-      ? 3
-      : (laserPower >= runningThreshold)
-        ? 2
-        : (laserPower >= walkingThreshold)
-          ? 1
-          : 0
+    state.isInBed
+      ? 4
+      : hitObstacle
+        ? 3
+        : (laserPower >= runningThreshold)
+          ? 2
+          : (laserPower >= walkingThreshold)
+            ? 1
+            : 0
   ) * cootsHeight;
   const centerScreenCoords: Coords = getCootsScreenCoords();
   const x: number = centerScreenCoords.x - 9;

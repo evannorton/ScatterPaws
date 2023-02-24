@@ -37,6 +37,7 @@ const define = (): void => {
   new ImageSource("buttons/next");
   new ImageSource("hunger");
   new ImageSource("eating");
+  new ImageSource("bed");
   new AudioSource("music/title", true, 132000);
   new AudioSource("music/main", false, 132000);
   new AudioSource("music/victory", false, 132000);

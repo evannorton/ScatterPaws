@@ -1,4 +1,5 @@
 interface Level {
+  readonly bed: number;
   readonly requiredDestructibles: number;
   readonly startingTileX: number;
   readonly startingTileY: number;

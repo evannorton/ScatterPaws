@@ -4,7 +4,8 @@ import calculateActiveDestructibles from "./calculateActiveDestructibles";
 import getAudioSource from "./definables/getAudioSource";
 
 const startLevel = (): void => {
-  state.levelStartedAt = state.currentTime;
+  state.isInBed = true;
+  state.levelStartedAt = null;
   state.brokenDestructibleIDs = [];
   state.activeDestructibleIDs = [];
   state.hitObstacleAt = null;
