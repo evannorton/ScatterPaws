@@ -18,6 +18,7 @@ import drawTutorialHUD from "./drawTutorialHUD";
 import gameIsOngoing from "./gameIsOngoing";
 import drawLevelCompleteHUD from "./drawLevelCompleteHUD";
 import levelIsBeaten from "./levelIsCompleted";
+import drawCounterHUD from "./drawCounterHUD";
 
 const render = (): void => {
   state.app.stage.removeChildren();
@@ -42,6 +43,9 @@ const render = (): void => {
         drawInteractHUD();
         if (state.level === levels[0]) {
           drawTutorialHUD();
+        }
+        else {
+          drawCounterHUD();
         }
         drawTimer();
       }

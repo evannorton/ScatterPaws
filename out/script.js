@@ -48471,6 +48471,27 @@ void main() {
     }
   });
 
+  // lib/functions/drawCounterHUD.js
+  var require_drawCounterHUD = __commonJS({
+    "lib/functions/drawCounterHUD.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var gameWidth_1 = __importDefault(require_gameWidth());
+      var state_1 = __importDefault(require_state());
+      var drawRectangle_1 = __importDefault(require_drawRectangle());
+      var drawText_1 = __importDefault(require_drawText());
+      var drawCounterHUD = () => {
+        const width = 118;
+        (0, drawRectangle_1.default)("#000000", 0.25, 4, 4, width, 11, 10003);
+        (0, drawText_1.default)(`Scratch ${state_1.default.level.requiredDestructibles - state_1.default.brokenDestructibleIDs.length} objects!`, "#ffffff", 6, 6, 1, gameWidth_1.default, 1, "left", "top");
+      };
+      exports.default = drawCounterHUD;
+    }
+  });
+
   // lib/functions/render.js
   var require_render = __commonJS({
     "lib/functions/render.js"(exports) {
@@ -48499,6 +48520,7 @@ void main() {
       var gameIsOngoing_1 = __importDefault(require_gameIsOngoing());
       var drawLevelCompleteHUD_1 = __importDefault(require_drawLevelCompleteHUD());
       var levelIsCompleted_1 = __importDefault(require_levelIsCompleted());
+      var drawCounterHUD_1 = __importDefault(require_drawCounterHUD());
       var render = () => {
         state_1.default.app.stage.removeChildren();
         (0, drawRectangle_1.default)("#000000", 1, 0, 0, gameWidth_1.default, gameHeight_1.default, 0);
@@ -48518,6 +48540,8 @@ void main() {
               (0, drawInteractHUD_1.default)();
               if (state_1.default.level === levels_1.default[0]) {
                 (0, drawTutorialHUD_1.default)();
+              } else {
+                (0, drawCounterHUD_1.default)();
               }
               (0, drawTimer_1.default)();
             }
