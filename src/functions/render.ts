@@ -17,6 +17,7 @@ import levels from "../constants/levels";
 import drawTutorialHUD from "./drawTutorialHUD";
 import gameIsOngoing from "./gameIsOngoing";
 import drawLevelCompleteHUD from "./drawLevelCompleteHUD";
+import levelIsBeaten from "./levelIsCompleted";
 
 const render = (): void => {
   state.app.stage.removeChildren();
@@ -33,7 +34,7 @@ const render = (): void => {
     }
     else if (gameIsOngoing()) {
       getTilemap(state.level.tilemapSlug).draw();
-      if (state.activeDestructibleIDs.length === 0) {
+      if (levelIsBeaten()) {
         drawLevelCompleteHUD();
       }
       else {

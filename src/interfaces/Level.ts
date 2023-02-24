@@ -1,4 +1,5 @@
 interface Level {
+  readonly requiredDestructibles: number;
   readonly startingTileX: number;
   readonly startingTileY: number;
   readonly tilemapSlug: string;

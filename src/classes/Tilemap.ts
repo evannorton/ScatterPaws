@@ -5,6 +5,7 @@ import ZIndexType from "../enums/ZIndexType";
 import getTileset from "../functions/definables/getTileset";
 import drawImage from "../functions/draw/drawImage";
 import getCameraScreenCoords from "../functions/getCameraScreenCoords";
+import levelIsCompleted from "../functions/levelIsCompleted";
 import Coords from "../interfaces/Coords";
 import Destructible from "../interfaces/Destructible";
 import TilemapData from "../interfaces/TilemapData";
@@ -241,7 +242,7 @@ class Tilemap extends Definable {
                 drawImage("scratch", 1, frame * 16, 0, 16, 16, tileX, tileY, 16, 16, scratchZIndex);
               }
             }
-            if (layer.name === "furniture") {
+            if (levelIsCompleted() === false && layer.name === "furniture") {
               if (typeof destructibleID === "string" && !isDestroyed && state.activeDestructibleIDs.includes(destructibleID)) {
                 const indicatorXOffsetProperty = tile && tile.properties?.find((property): boolean => property.name === "indicatorXOffset");
                 const indicatorXOffset = indicatorXOffsetProperty?.value;

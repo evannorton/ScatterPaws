@@ -7,7 +7,7 @@ import Level from "../interfaces/Level";
 import YSortEntry from "../interfaces/YSortEntry";
 
 class State {
-  private _activeDestructibles: string[] = [];
+  private _activeDestructibleIDs: string[] = [];
   private _app: Application | null = null;
   private _brokenDestructibleIDs: string[] = [];
   private _cootsCoords: Coords = {
@@ -36,7 +36,7 @@ class State {
   }
 
   public get activeDestructibleIDs(): string[] {
-    return [...this._activeDestructibles];
+    return [...this._activeDestructibleIDs];
   }
 
   public get brokenDestructibleIDs(): string[] {
@@ -112,15 +112,15 @@ class State {
   }
 
   public set activeDestructibleIDs(activeDestructibleIDs: string[]) {
-    this._activeDestructibles = [...activeDestructibleIDs];
+    this._activeDestructibleIDs = [...activeDestructibleIDs];
   }
 
   public set app(app: Application | null) {
     this._app = app !== null ? app : null;
   }
 
-  public set brokenDestructibleIDs(brokenDestructibles: string[]) {
-    this._brokenDestructibleIDs = [...brokenDestructibles];
+  public set brokenDestructibleIDs(brokenDestructibleIDs: string[]) {
+    this._brokenDestructibleIDs = [...brokenDestructibleIDs];
   }
 
   public set cootsCoords(cootsCoords: Coords) {
