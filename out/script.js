@@ -26432,7 +26432,7 @@ void main() {
                         type: ZIndexType_1.default.Hard,
                         value: 0.1
                       };
-                      (0, drawImage_1.default)("bed", 1, 18 * state_1.default.level.bed, 0, 18, 12, tileX + 3, tileY, 18, 12, bedZIndex);
+                      (0, drawImage_1.default)("bed", 1, 18 * state_1.default.level.bed, 0, 18, 12, tileX + 3, tileY - 1, 18, 12, bedZIndex);
                     }
                   }
                   if (state_1.default.hasRecentDestruction() && state_1.default.recentDestruction.destructibleID === destructibleID && state_1.default.recentDestruction.tileID === tilesetIndex) {

@@ -239,7 +239,7 @@ class Tilemap extends Definable {
                   type: ZIndexType.Hard,
                   value: .1,
                 };
-                drawImage("bed", 1, 18 * state.level.bed, 0, 18, 12, tileX + 3, tileY, 18, 12, bedZIndex);
+                drawImage("bed", 1, 18 * state.level.bed, 0, 18, 12, tileX + 3, tileY - 1, 18, 12, bedZIndex);
               }
             }
             if (state.hasRecentDestruction() && state.recentDestruction.destructibleID === destructibleID && state.recentDestruction.tileID === tilesetIndex) {
