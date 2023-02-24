@@ -22,7 +22,7 @@ const attemptScratch = (): void => {
           destructibleID: null,
           tileID: null
         };
-        getAudioSource("noises/scratch").play(null, null, null);
+        getAudioSource("noises/scratch").play(null, null);
       }
       else {
         state.recentDestruction = {
@@ -30,9 +30,9 @@ const attemptScratch = (): void => {
           destructibleID: destructible.destructibleID,
           tileID: destructible.tileID
         };
-        getAudioSource("noises/scratch").play(null, null, () => {
+        getAudioSource("noises/scratch").play(null, () => {
           if (destructible.audioSourceSlug) {
-            getAudioSource(destructible.audioSourceSlug).play(null, null, null);
+            getAudioSource(destructible.audioSourceSlug).play(null, null);
           }
         });
         const brokenDestructibleIDs: string[] = state.brokenDestructibleIDs;

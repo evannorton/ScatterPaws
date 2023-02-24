@@ -64,7 +64,7 @@ const run = async (): Promise<void> => {
             break;
           }
           case "m": {
-            getAudioSource("noises/meow").play(null, null, null);
+            getAudioSource("noises/meow").play(null, null);
             break;
           }
           case " ": {

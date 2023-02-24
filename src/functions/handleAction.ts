@@ -9,9 +9,11 @@ import startLevel from "./startLevel";
 
 const handleAction = (): void => {
   if (state.isAtTitle) {
+    const titleMusic: AudioSource = getAudioSource("music/title");
+    const mainMusic: AudioSource = getAudioSource("music/main");
     state.isAtTitle = false;
-    const music: AudioSource = getAudioSource("music/music");
-    music.play(132000, null, null);
+    titleMusic.stop();
+    mainMusic.play(null, null);
     startLevel();
   }
   else if (isCatStarving()) {

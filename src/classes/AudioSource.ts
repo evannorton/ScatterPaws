@@ -15,8 +15,9 @@ class AudioSource extends Definable {
   private _loopPoint: number | null = null;
   private _plays: number = 0;
 
-  public constructor(slug: string, autoplay: boolean) {
+  public constructor(slug: string, autoplay: boolean, loopPoint: number | null) {
     super(slug);
+    this._loopPoint = loopPoint;
     this._howl = new Howl({
       autoplay,
       loop: false,
@@ -87,8 +88,7 @@ class AudioSource extends Definable {
     this._howl.pause();
   }
 
-  public play(loopPoint: number | null, onPlay: (() => void) | null, onEnd: (() => void) | null): void {
-    this._loopPoint = loopPoint;
+  public play(onPlay: (() => void) | null, onEnd: (() => void) | null): void {
     this._onPlay = onPlay;
     this._onEnds.push(onEnd);
     this._howl.play();

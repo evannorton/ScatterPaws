@@ -53368,7 +53368,7 @@ void main() {
       var state_1 = __importDefault(require_state());
       var isRunningOnLocal_1 = __importDefault(require_isRunningOnLocal());
       var AudioSource = class extends Definable_1.default {
-        constructor(slug, autoplay) {
+        constructor(slug, autoplay, loopPoint) {
           super(slug);
           this._fadeVolume = 0.5;
           this._fadeInAction = null;
@@ -53377,6 +53377,7 @@ void main() {
           this._onPlay = null;
           this._loopPoint = null;
           this._plays = 0;
+          this._loopPoint = loopPoint;
           this._howl = new howler_1.Howl({
             autoplay,
             loop: false,
@@ -53438,8 +53439,7 @@ void main() {
         pause() {
           this._howl.pause();
         }
-        play(loopPoint, onPlay, onEnd) {
-          this._loopPoint = loopPoint;
+        play(onPlay, onEnd) {
           this._onPlay = onPlay;
           this._onEnds.push(onEnd);
           this._howl.play();
@@ -53545,10 +53545,11 @@ void main() {
         new ImageSource_1.default("buttons/next");
         new ImageSource_1.default("hunger");
         new ImageSource_1.default("eating");
-        new AudioSource_1.default("music/music", false);
-        new AudioSource_1.default("noises/scratch", false);
-        new AudioSource_1.default("noises/meow", false);
-        new AudioSource_1.default("noises/destroy/electronic", false);
+        new AudioSource_1.default("music/title", true, 132e3);
+        new AudioSource_1.default("music/main", false, 132e3);
+        new AudioSource_1.default("noises/scratch", false, null);
+        new AudioSource_1.default("noises/meow", false, null);
+        new AudioSource_1.default("noises/destroy/electronic", false, null);
       };
       exports.default = define2;
     }
@@ -57773,16 +57774,16 @@ void main() {
                 destructibleID: null,
                 tileID: null
               };
-              (0, getAudioSource_1.default)("noises/scratch").play(null, null, null);
+              (0, getAudioSource_1.default)("noises/scratch").play(null, null);
             } else {
               state_1.default.recentDestruction = {
                 clawedAt,
                 destructibleID: destructible.destructibleID,
                 tileID: destructible.tileID
               };
-              (0, getAudioSource_1.default)("noises/scratch").play(null, null, () => {
+              (0, getAudioSource_1.default)("noises/scratch").play(null, () => {
                 if (destructible.audioSourceSlug) {
-                  (0, getAudioSource_1.default)(destructible.audioSourceSlug).play(null, null, null);
+                  (0, getAudioSource_1.default)(destructible.audioSourceSlug).play(null, null);
                 }
               });
               const brokenDestructibleIDs = state_1.default.brokenDestructibleIDs;
@@ -57822,7 +57823,7 @@ void main() {
         };
         state_1.default.recentDestruction = null;
         (0, calculateActiveDestructibles_1.default)();
-        (0, getAudioSource_1.default)("noises/meow").play(null, null, null);
+        (0, getAudioSource_1.default)("noises/meow").play(null, null);
       };
       exports.default = startLevel;
     }
@@ -57845,9 +57846,11 @@ void main() {
       var startLevel_1 = __importDefault(require_startLevel());
       var handleAction = () => {
         if (state_1.default.isAtTitle) {
+          const titleMusic = (0, getAudioSource_1.default)("music/title");
+          const mainMusic = (0, getAudioSource_1.default)("music/main");
           state_1.default.isAtTitle = false;
-          const music = (0, getAudioSource_1.default)("music/music");
-          music.play(132e3, null, null);
+          titleMusic.stop();
+          mainMusic.play(null, null);
           (0, startLevel_1.default)();
         } else if ((0, isCatStarving_1.default)()) {
           (0, startLevel_1.default)();
@@ -57968,7 +57971,7 @@ void main() {
                   break;
                 }
                 case "m": {
-                  (0, getAudioSource_1.default)("noises/meow").play(null, null, null);
+                  (0, getAudioSource_1.default)("noises/meow").play(null, null);
                   break;
                 }
                 case " ": {
