@@ -20,7 +20,7 @@
                 {
                  "name":"destructibleID",
                  "type":"string",
-                 "value":"bed_pink"
+                 "value":"bedPink"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -44,7 +44,7 @@
                 {
                  "name":"destructibleID",
                  "type":"string",
-                 "value":"bed_pink"
+                 "value":"bedPink"
                 }]
         }, 
         {
@@ -135,6 +135,20 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"computerRed"
+                }]
+        }, 
+        {
+         "id":14,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":114
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"computerWhite"
                 }]
         }, 
         {
@@ -315,6 +329,44 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"computerRed"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":14
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-15
+                }]
+        }, 
+        {
+         "id":63,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":163
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"computerWhite"
+                }]
+        }, 
+        {
+         "id":64,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":164
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"computerWhite"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -663,6 +715,34 @@
                 }]
         }, 
         {
+         "id":301,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":401
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"bedYellow"
+                }]
+        }, 
+        {
+         "id":302,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":402
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"bedYellow"
+                }]
+        }, 
+        {
          "id":303,
          "properties":[
                 {
@@ -746,6 +826,44 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"fridgeWide1"
+                }]
+        }, 
+        {
+         "id":351,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":451
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"bedYellow"
+                }]
+        }, 
+        {
+         "id":352,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":452
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"bedYellow"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":14
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-15
                 }]
         }, 
         {
@@ -994,7 +1112,7 @@
                 {
                  "name":"brokenID",
                  "type":"int",
-                 "value":563
+                 "value":560
                 }, 
                 {
                  "name":"destructibleID",
@@ -1018,7 +1136,7 @@
                 {
                  "name":"brokenID",
                  "type":"int",
-                 "value":560
+                 "value":563
                 }, 
                 {
                  "name":"destructibleID",
@@ -1186,7 +1304,7 @@
                 {
                  "name":"brokenID",
                  "type":"int",
-                 "value":563
+                 "value":560
                 }, 
                 {
                  "name":"destructibleID",
@@ -1210,7 +1328,7 @@
                 {
                  "name":"brokenID",
                  "type":"int",
-                 "value":560
+                 "value":563
                 }, 
                 {
                  "name":"destructibleID",

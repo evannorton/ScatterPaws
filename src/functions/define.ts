@@ -3,6 +3,7 @@ import Tilemap from "../classes/Tilemap";
 import Tileset from "../classes/Tileset";
 import map from "../tilemaps/map.json";
 import map2 from "../tilemaps/map-2.json";
+import map3 from "../tilemaps/map-3.json";
 import floors from "../tilesets/floors.json";
 import walls from "../tilesets/walls.json";
 import furniture from "../tilesets/furniture.json";
@@ -13,6 +14,7 @@ import AudioSource from "../classes/AudioSource";
 const define = (): void => {
   new Tilemap("map", map)
   new Tilemap("map-2", map2)
+  new Tilemap("map-3", map3)
   new ImageSource("coots");
   new Tileset("floors", floors);
   new Tileset("walls", walls);
