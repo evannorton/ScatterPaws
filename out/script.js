@@ -53603,6 +53603,8 @@ void main() {
         new ImageSource_1.default("eating");
         new AudioSource_1.default("music/title", true, 132e3);
         new AudioSource_1.default("music/main", false, 132e3);
+        new AudioSource_1.default("music/victory", false, 132e3);
+        new AudioSource_1.default("music/defeat", false, 132e3);
         new AudioSource_1.default("noises/scratch", false, null);
         new AudioSource_1.default("noises/meow", false, null);
         new AudioSource_1.default("noises/destroy/electronic", false, null);
@@ -57099,9 +57101,12 @@ void main() {
       Object.defineProperty(exports, "__esModule", { value: true });
       var gameHeight_1 = __importDefault(require_gameHeight());
       var gameWidth_1 = __importDefault(require_gameWidth());
+      var state_1 = __importDefault(require_state());
       var drawImage_1 = __importDefault(require_drawImage());
       var drawGameOver = () => {
-        (0, drawImage_1.default)("game-over", 1, 0, 0, gameWidth_1.default, gameHeight_1.default, 0, 0, gameWidth_1.default, gameHeight_1.default, null);
+        const frameDuration = 300;
+        const frame = Math.floor(state_1.default.currentTime % (frameDuration * 3) / frameDuration);
+        (0, drawImage_1.default)("game-over", 1, 0, frame * gameHeight_1.default, gameWidth_1.default, gameHeight_1.default, 0, 0, gameWidth_1.default, gameHeight_1.default, null);
       };
       exports.default = drawGameOver;
     }
@@ -57620,6 +57625,23 @@ void main() {
     }
   });
 
+  // lib/functions/definables/getAudioSource.js
+  var require_getAudioSource = __commonJS({
+    "lib/functions/definables/getAudioSource.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var getDefinable_1 = __importDefault(require_getDefinable());
+      var getAudioSource = (slug) => (0, getDefinable_1.default)({
+        className: "AudioSource",
+        slug
+      });
+      exports.default = getAudioSource;
+    }
+  });
+
   // lib/functions/update/update.js
   var require_update = __commonJS({
     "lib/functions/update/update.js"(exports) {
@@ -57636,6 +57658,7 @@ void main() {
       var getAudioSources_1 = __importDefault(require_getAudioSources());
       var state_1 = __importDefault(require_state());
       var levelIsCompleted_1 = __importDefault(require_levelIsCompleted());
+      var getAudioSource_1 = __importDefault(require_getAudioSource());
       var update = () => {
         var _a, _b, _c;
         if ((0, assetsAreLoaded_1.default)()) {
@@ -57651,6 +57674,12 @@ void main() {
             (0, getAudioSources_1.default)().forEach((audioSource) => {
               audioSource.cancelOnEnds();
             });
+            const mainMusic = (0, getAudioSource_1.default)("music/main");
+            const defeatMusic = (0, getAudioSource_1.default)("music/defeat");
+            if (mainMusic.isPlaying()) {
+              mainMusic.stop();
+              defeatMusic.play(null, null);
+            }
           } else if (state_1.default.won) {
             (_c = document.getElementById("screen")) === null || _c === void 0 ? void 0 : _c.classList.add("victory");
           }
@@ -57687,23 +57716,6 @@ void main() {
       Object.defineProperty(exports, "__esModule", { value: true });
       var gameScale = 4;
       exports.default = gameScale;
-    }
-  });
-
-  // lib/functions/definables/getAudioSource.js
-  var require_getAudioSource = __commonJS({
-    "lib/functions/definables/getAudioSource.js"(exports) {
-      "use strict";
-      var __importDefault = exports && exports.__importDefault || function(mod) {
-        return mod && mod.__esModule ? mod : { "default": mod };
-      };
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var getDefinable_1 = __importDefault(require_getDefinable());
-      var getAudioSource = (slug) => (0, getDefinable_1.default)({
-        className: "AudioSource",
-        slug
-      });
-      exports.default = getAudioSource;
     }
   });
 
@@ -57862,6 +57874,10 @@ void main() {
           mainMusic.play(null, null);
           (0, startLevel_1.default)();
         } else if ((0, isCatStarving_1.default)()) {
+          const mainMusic = (0, getAudioSource_1.default)("music/main");
+          const defeatMusic = (0, getAudioSource_1.default)("music/defeat");
+          defeatMusic.stop();
+          mainMusic.play(null, null);
           (_b = document.getElementById("screen")) === null || _b === void 0 ? void 0 : _b.classList.remove("defeat");
           (0, startLevel_1.default)();
         } else if ((0, levelIsCompleted_1.default)()) {
@@ -57872,6 +57888,10 @@ void main() {
             state_1.default.level = newLevel;
             (0, startLevel_1.default)();
           } else {
+            const mainMusic = (0, getAudioSource_1.default)("music/main");
+            const victoryMusic = (0, getAudioSource_1.default)("music/victory");
+            mainMusic.stop();
+            victoryMusic.play(null, null);
             state_1.default.won = true;
           }
         } else {

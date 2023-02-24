@@ -39,6 +39,8 @@ const define = (): void => {
   new ImageSource("eating");
   new AudioSource("music/title", true, 132000);
   new AudioSource("music/main", false, 132000);
+  new AudioSource("music/victory", false, 132000);
+  new AudioSource("music/defeat", false, 132000);
   new AudioSource("noises/scratch", false, null);
   new AudioSource("noises/meow", false, null);
   new AudioSource("noises/destroy/electronic", false, null);

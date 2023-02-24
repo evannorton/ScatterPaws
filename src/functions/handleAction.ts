@@ -18,6 +18,10 @@ const handleAction = (): void => {
     startLevel();
   }
   else if (isCatStarving()) {
+    const mainMusic = getAudioSource("music/main");
+    const defeatMusic = getAudioSource("music/defeat");
+    defeatMusic.stop();
+    mainMusic.play(null, null);
     document.getElementById("screen")?.classList.remove("defeat");
     startLevel();
   }
@@ -30,6 +34,10 @@ const handleAction = (): void => {
       startLevel();
     }
     else {
+      const mainMusic = getAudioSource("music/main");
+      const victoryMusic = getAudioSource("music/victory");
+      mainMusic.stop();
+      victoryMusic.play(null, null);
       state.won = true;
     }
   }

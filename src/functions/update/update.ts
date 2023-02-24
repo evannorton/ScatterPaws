@@ -7,6 +7,7 @@ import getAudioSources from "../definables/getAudioSources";
 import AudioSource from "../../classes/AudioSource";
 import state from "../../state";
 import levelIsCompleted from "../levelIsCompleted";
+import getAudioSource from "../definables/getAudioSource";
 
 const update = (): void => {
   if (assetsAreLoaded()) {
@@ -24,6 +25,12 @@ const update = (): void => {
       getAudioSources().forEach((audioSource: AudioSource): void => {
         audioSource.cancelOnEnds();
       });
+      const mainMusic = getAudioSource("music/main");
+      const defeatMusic = getAudioSource("music/defeat");
+      if (mainMusic.isPlaying()) {
+        mainMusic.stop();
+        defeatMusic.play(null, null);
+      }
     }
     else if (state.won) {
       document.getElementById("screen")?.classList.add("victory");
