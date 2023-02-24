@@ -1,5 +1,6 @@
 import state from "../state";
+import levelIsCompleted from "./levelIsCompleted";
 
-const isCatStarving = (): boolean => state.activeDestructibleIDs.length > 0 && state.hasLevelStartedAt() && state.currentTime - state.levelStartedAt >= state.level.time;
+const isCatStarving = (): boolean => levelIsCompleted() === false && state.hasLevelStartedAt() && state.currentTime - state.levelStartedAt >= state.level.time;
 
 export default isCatStarving;

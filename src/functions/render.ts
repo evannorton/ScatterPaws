@@ -17,7 +17,7 @@ import levels from "../constants/levels";
 import drawTutorialHUD from "./drawTutorialHUD";
 import gameIsOngoing from "./gameIsOngoing";
 import drawLevelCompleteHUD from "./drawLevelCompleteHUD";
-import levelIsBeaten from "./levelIsCompleted";
+import levelIsCompleted from "./levelIsCompleted";
 import drawCounterHUD from "./drawCounterHUD";
 
 const render = (): void => {
@@ -35,7 +35,7 @@ const render = (): void => {
     }
     else if (gameIsOngoing()) {
       getTilemap(state.level.tilemapSlug).draw();
-      if (levelIsBeaten()) {
+      if (levelIsCompleted()) {
         drawLevelCompleteHUD();
       }
       else {

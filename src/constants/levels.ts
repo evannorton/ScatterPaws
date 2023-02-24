@@ -6,7 +6,7 @@ const levels: Level[] = [
     startingTileX: 7,
     startingTileY: 17,
     tilemapSlug: "map",
-    time: 120000
+    time: 60000
   },
   {
     requiredDestructibles: 13,

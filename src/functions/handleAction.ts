@@ -4,7 +4,7 @@ import state from "../state";
 import attemptScratch from "./attemptScratch";
 import getAudioSource from "./definables/getAudioSource";
 import isCatStarving from "./isCatStarving";
-import levelIsBeaten from "./levelIsCompleted";
+import levelIsCompleted from "./levelIsCompleted";
 import startLevel from "./startLevel";
 
 const handleAction = (): void => {
@@ -17,7 +17,7 @@ const handleAction = (): void => {
   else if (isCatStarving()) {
     startLevel();
   }
-  else if (levelIsBeaten()) {
+  else if (levelIsCompleted()) {
     const levelIndex = levels.findIndex((level) => level === state.level);
     const newLevel = levels[levelIndex + 1];
     if (newLevel) {

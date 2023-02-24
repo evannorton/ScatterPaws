@@ -25672,7 +25672,7 @@ void main() {
           startingTileX: 7,
           startingTileY: 17,
           tilemapSlug: "map",
-          time: 12e4
+          time: 6e4
         },
         {
           requiredDestructibles: 13,
@@ -26158,8 +26158,8 @@ void main() {
       };
       Object.defineProperty(exports, "__esModule", { value: true });
       var state_1 = __importDefault(require_state());
-      var levelIsBeaten = () => state_1.default.brokenDestructibleIDs.length === state_1.default.level.requiredDestructibles;
-      exports.default = levelIsBeaten;
+      var levelIsCompleted = () => state_1.default.brokenDestructibleIDs.length === state_1.default.level.requiredDestructibles;
+      exports.default = levelIsCompleted;
     }
   });
 
@@ -57060,7 +57060,8 @@ void main() {
       };
       Object.defineProperty(exports, "__esModule", { value: true });
       var state_1 = __importDefault(require_state());
-      var isCatStarving = () => state_1.default.activeDestructibleIDs.length > 0 && state_1.default.hasLevelStartedAt() && state_1.default.currentTime - state_1.default.levelStartedAt >= state_1.default.level.time;
+      var levelIsCompleted_1 = __importDefault(require_levelIsCompleted());
+      var isCatStarving = () => (0, levelIsCompleted_1.default)() === false && state_1.default.hasLevelStartedAt() && state_1.default.currentTime - state_1.default.levelStartedAt >= state_1.default.level.time;
       exports.default = isCatStarving;
     }
   });
