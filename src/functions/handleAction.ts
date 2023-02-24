@@ -35,17 +35,19 @@ const handleAction = (): void => {
       startLevel();
     }
     else if (levelIsCompleted()) {
+      const mainMusic = getAudioSource("music/main");
       document.getElementById("screen")?.classList.remove("level");
       const levelIndex = levels.findIndex((level) => level === state.level);
       const newLevel = levels[levelIndex + 1];
+      const levelMusic: AudioSource = getAudioSource("music/level");
+      levelMusic.stop();
       if (newLevel) {
+        mainMusic.play(null, null);
         state.level = newLevel;
         startLevel();
       }
       else {
-        const mainMusic = getAudioSource("music/main");
         const victoryMusic = getAudioSource("music/victory");
-        mainMusic.stop();
         victoryMusic.play(null, null);
         state.won = true;
       }

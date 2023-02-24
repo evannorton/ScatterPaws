@@ -60888,6 +60888,7 @@ void main() {
         new AudioSource_1.default("music/main", 132e3);
         new AudioSource_1.default("music/victory", 132e3);
         new AudioSource_1.default("music/defeat", 132e3);
+        new AudioSource_1.default("music/level", 132e3);
         new AudioSource_1.default("noises/scratch", null);
         new AudioSource_1.default("noises/meow", null);
         new AudioSource_1.default("noises/destroy/electronic", null);
@@ -64976,6 +64977,12 @@ void main() {
         if ((0, assetsAreLoaded_1.default)()) {
           if ((0, gameIsOngoing_1.default)()) {
             if ((0, levelIsCompleted_1.default)()) {
+              const mainMusic = (0, getAudioSource_1.default)("music/main");
+              const levelMusic = (0, getAudioSource_1.default)("music/level");
+              if (levelMusic.isPlaying() === false) {
+                mainMusic.stop();
+                levelMusic.play(null, null);
+              }
               (_a = document.getElementById("screen")) === null || _a === void 0 ? void 0 : _a.classList.add("level");
             } else if (state_1.default.isInBed === false) {
               (0, updateCootsVelocity_1.default)();
@@ -65200,16 +65207,18 @@ void main() {
             (_d = document.getElementById("screen")) === null || _d === void 0 ? void 0 : _d.classList.remove("defeat");
             (0, startLevel_1.default)();
           } else if ((0, levelIsCompleted_1.default)()) {
+            const mainMusic = (0, getAudioSource_1.default)("music/main");
             (_e = document.getElementById("screen")) === null || _e === void 0 ? void 0 : _e.classList.remove("level");
             const levelIndex = levels_1.default.findIndex((level) => level === state_1.default.level);
             const newLevel = levels_1.default[levelIndex + 1];
+            const levelMusic = (0, getAudioSource_1.default)("music/level");
+            levelMusic.stop();
             if (newLevel) {
+              mainMusic.play(null, null);
               state_1.default.level = newLevel;
               (0, startLevel_1.default)();
             } else {
-              const mainMusic = (0, getAudioSource_1.default)("music/main");
               const victoryMusic = (0, getAudioSource_1.default)("music/victory");
-              mainMusic.stop();
               victoryMusic.play(null, null);
               state_1.default.won = true;
             }

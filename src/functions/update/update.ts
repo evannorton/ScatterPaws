@@ -13,6 +13,12 @@ const update = (): void => {
   if (assetsAreLoaded()) {
     if (gameIsOngoing()) {
       if (levelIsCompleted()) {
+        const mainMusic: AudioSource = getAudioSource("music/main");
+        const levelMusic: AudioSource = getAudioSource("music/level");
+        if (levelMusic.isPlaying() === false) {
+          mainMusic.stop();
+          levelMusic.play(null, null);
+        }
         document.getElementById("screen")?.classList.add("level");
       }
       else if (state.isInBed === false) {

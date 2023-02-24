@@ -42,6 +42,7 @@ const define = (): void => {
   new AudioSource("music/main", 132000);
   new AudioSource("music/victory", 132000);
   new AudioSource("music/defeat", 132000);
+  new AudioSource("music/level", 132000);
   new AudioSource("noises/scratch", null);
   new AudioSource("noises/meow", null);
   new AudioSource("noises/destroy/electronic", null);
