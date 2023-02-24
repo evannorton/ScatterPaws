@@ -9,24 +9,25 @@ import isCootsInObstacle from "../isCootsInObstacle";
 import drawImage from "./drawImage";
 
 const drawInteractHUD = (): void => {
-  if (isCootsInObstacle() === false) {
-    const destructible: Destructible | null = getTilemap(state.level.tilemapSlug).getDestructibleWithinRange();
-    const canDestroy: boolean = destructible !== null;
-    const hardZIndex: HardZIndex = {
-      value: 10002,
-      type: ZIndexType.Hard
-    };
-    const width: number = 36;
-    const height: number = 30;
-    const offset: number = 4;
-    const sourceX: number = (isClawOnCooldown()
+  const destructible: Destructible | null = getTilemap(state.level.tilemapSlug).getDestructibleWithinRange();
+  const canDestroy: boolean = destructible !== null;
+  const hardZIndex: HardZIndex = {
+    value: 10002,
+    type: ZIndexType.Hard
+  };
+  const width: number = 36;
+  const height: number = 30;
+  const offset: number = 4;
+  const sourceX: number = (
+    (isCootsInObstacle() || isClawOnCooldown())
       ? width * 2
-      : 0)
-      + (canDestroy
+      : 0
+  ) + (
+      canDestroy
         ? 0
-        : width);
-    drawImage("interact-hud", 1, sourceX, 0, width, height, offset, gameHeight - height - offset, width, height, hardZIndex);
-  }
+        : width
+    );
+  drawImage("interact-hud", 1, sourceX, 0, width, height, offset, gameHeight - height - offset, width, height, hardZIndex);
 };
 
 export default drawInteractHUD;

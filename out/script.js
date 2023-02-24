@@ -48171,19 +48171,17 @@ void main() {
       var isCootsInObstacle_1 = __importDefault(require_isCootsInObstacle());
       var drawImage_1 = __importDefault(require_drawImage());
       var drawInteractHUD = () => {
-        if ((0, isCootsInObstacle_1.default)() === false) {
-          const destructible = (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getDestructibleWithinRange();
-          const canDestroy = destructible !== null;
-          const hardZIndex = {
-            value: 10002,
-            type: ZIndexType_1.default.Hard
-          };
-          const width = 36;
-          const height = 30;
-          const offset = 4;
-          const sourceX = ((0, isClawOnCooldown_1.default)() ? width * 2 : 0) + (canDestroy ? 0 : width);
-          (0, drawImage_1.default)("interact-hud", 1, sourceX, 0, width, height, offset, gameHeight_1.default - height - offset, width, height, hardZIndex);
-        }
+        const destructible = (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).getDestructibleWithinRange();
+        const canDestroy = destructible !== null;
+        const hardZIndex = {
+          value: 10002,
+          type: ZIndexType_1.default.Hard
+        };
+        const width = 36;
+        const height = 30;
+        const offset = 4;
+        const sourceX = ((0, isCootsInObstacle_1.default)() || (0, isClawOnCooldown_1.default)() ? width * 2 : 0) + (canDestroy ? 0 : width);
+        (0, drawImage_1.default)("interact-hud", 1, sourceX, 0, width, height, offset, gameHeight_1.default - height - offset, width, height, hardZIndex);
       };
       exports.default = drawInteractHUD;
     }
