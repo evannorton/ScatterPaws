@@ -25675,7 +25675,7 @@ void main() {
           time: 3e4
         },
         {
-          requiredDestructibles: 15,
+          requiredDestructibles: 13,
           startingTileX: -10,
           startingTileY: 36,
           tilemapSlug: "map-2",
@@ -48866,10 +48866,10 @@ void main() {
       var gameIsOngoing_1 = __importDefault(require_gameIsOngoing());
       var isCatStarving_1 = __importDefault(require_isCatStarving());
       var getAudioSources_1 = __importDefault(require_getAudioSources());
-      var state_1 = __importDefault(require_state());
+      var levelIsCompleted_1 = __importDefault(require_levelIsCompleted());
       var update = () => {
         if ((0, assetsAreLoaded_1.default)()) {
-          if ((0, gameIsOngoing_1.default)() && state_1.default.activeDestructibleIDs.length > 0) {
+          if ((0, gameIsOngoing_1.default)() && (0, levelIsCompleted_1.default)() === false) {
             (0, updateCootsVelocity_1.default)();
             (0, updateCootsPosition_1.default)();
           } else if ((0, isCatStarving_1.default)()) {
@@ -48990,8 +48990,9 @@ void main() {
       var getAudioSource_1 = __importDefault(require_getAudioSource());
       var state_1 = __importDefault(require_state());
       var isCootsInObstacle_1 = __importDefault(require_isCootsInObstacle());
+      var levelIsCompleted_1 = __importDefault(require_levelIsCompleted());
       var attemptScratch = () => {
-        if ((0, gameIsOngoing_1.default)() && (0, isCootsInObstacle_1.default)() === false && state_1.default.activeDestructibleIDs.length > 0) {
+        if ((0, gameIsOngoing_1.default)() && (0, isCootsInObstacle_1.default)() === false && (0, levelIsCompleted_1.default)() === false) {
           const cooldown = (0, isClawOnCooldown_1.default)();
           if (cooldown === false) {
             const clawedAt = state_1.default.currentTime;
