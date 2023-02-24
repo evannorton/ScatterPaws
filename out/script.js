@@ -64562,8 +64562,8 @@ void main() {
       var drawText_1 = __importDefault(require_drawText());
       var drawBedHUD = () => {
         const offset = 8;
-        (0, drawRectangle_1.default)("#000000", 0.5, gameWidth_1.default / 2 - 43, gameHeight_1.default / 2 - 26 - offset, 86, 15, 10004);
-        (0, drawText_1.default)("Click to start!", "#ffffff", gameWidth_1.default / 2, gameHeight_1.default / 2 - 24 + 2 - offset, 1, gameWidth_1.default, 1, "center", "top");
+        (0, drawRectangle_1.default)("#000000", 0.5, gameWidth_1.default / 2 - 42, gameHeight_1.default / 2 - 26 - offset, 84, 15, 10004);
+        (0, drawText_1.default)("Click to wake!", "#ffffff", gameWidth_1.default / 2, gameHeight_1.default / 2 - 24 + 2 - offset, 1, gameWidth_1.default, 1, "center", "top");
       };
       exports.default = drawBedHUD;
     }
