@@ -994,7 +994,7 @@
                 {
                  "name":"brokenID",
                  "type":"int",
-                 "value":560
+                 "value":563
                 }, 
                 {
                  "name":"destructibleID",
@@ -1018,7 +1018,7 @@
                 {
                  "name":"brokenID",
                  "type":"int",
-                 "value":563
+                 "value":560
                 }, 
                 {
                  "name":"destructibleID",
@@ -1186,7 +1186,7 @@
                 {
                  "name":"brokenID",
                  "type":"int",
-                 "value":560
+                 "value":563
                 }, 
                 {
                  "name":"destructibleID",
@@ -1210,7 +1210,7 @@
                 {
                  "name":"brokenID",
                  "type":"int",
-                 "value":563
+                 "value":560
                 }, 
                 {
                  "name":"destructibleID",
