@@ -20,12 +20,16 @@ import drawLevelCompleteHUD from "./drawLevelCompleteHUD";
 import levelIsCompleted from "./levelIsCompleted";
 import drawCounterHUD from "./drawCounterHUD";
 import drawBedHUD from "./draw/drawBedHUD";
+import drawText from "./draw/drawText";
 
 const render = (): void => {
   state.app.stage.removeChildren();
   drawRectangle("#000000", 1, 0, 0, gameWidth, gameHeight, 0);
   if (assetsAreLoaded()) {
-    if (state.isAtTitle) {
+    if (state.isAwaitingFocus) {
+      drawText("Click to focus", "#ffffff", gameWidth / 2, gameHeight / 2, 1, gameWidth, 1, "center", "middle");
+    }
+    else if (state.isAtTitle) {
       drawTitle();
     }
     else if (state.won) {

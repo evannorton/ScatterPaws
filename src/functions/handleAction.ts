@@ -9,7 +9,15 @@ import startLevel from "./startLevel";
 
 const handleAction = (): void => {
   if (state.won === false) {
-    if (state.isAtTitle) {
+    if (state.isAwaitingFocus) {
+      document.getElementById("screen")?.classList.remove("focus");
+      document.getElementById("screen")?.classList.add("title");
+      const titleMusic: AudioSource = getAudioSource("music/title");
+      titleMusic.play(null, null);
+      state.isAwaitingFocus = false;
+      state.isAtTitle = true;
+    }
+    else if (state.isAtTitle) {
       document.getElementById("screen")?.classList.remove("title");
       const titleMusic: AudioSource = getAudioSource("music/title");
       const mainMusic: AudioSource = getAudioSource("music/main");

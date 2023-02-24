@@ -38,13 +38,13 @@ const define = (): void => {
   new ImageSource("hunger");
   new ImageSource("eating");
   new ImageSource("bed");
-  new AudioSource("music/title", true, 132000);
-  new AudioSource("music/main", false, 132000);
-  new AudioSource("music/victory", false, 132000);
-  new AudioSource("music/defeat", false, 132000);
-  new AudioSource("noises/scratch", false, null);
-  new AudioSource("noises/meow", false, null);
-  new AudioSource("noises/destroy/electronic", false, null);
+  new AudioSource("music/title", 132000);
+  new AudioSource("music/main", 132000);
+  new AudioSource("music/victory", 132000);
+  new AudioSource("music/defeat", 132000);
+  new AudioSource("noises/scratch", null);
+  new AudioSource("noises/meow", null);
+  new AudioSource("noises/destroy/electronic", null);
 };
 
 export default define;

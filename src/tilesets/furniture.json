@@ -152,6 +152,102 @@
                 }]
         }, 
         {
+         "id":18,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":553
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"runwayPost1"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":8
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-13
+                }]
+        }, 
+        {
+         "id":19,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":553
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"runwayPost2"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":8
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-13
+                }]
+        }, 
+        {
+         "id":20,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":553
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"runwayPost3"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":8
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-13
+                }]
+        }, 
+        {
+         "id":21,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":553
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"runwayPost4"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":8
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-13
+                }]
+        }, 
+        {
          "id":53,
          "properties":[
                 {
@@ -380,6 +476,76 @@
                 }]
         }, 
         {
+         "id":68,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":68
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"runwayPost1"
+                }]
+        }, 
+        {
+         "id":69,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":68
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"runwayPost2"
+                }]
+        }, 
+        {
+         "id":70,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":68
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"runwayPost3"
+                }]
+        }, 
+        {
+         "id":71,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":68
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"runwayPost4"
+                }]
+        }, 
+        {
+         "id":100,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":300
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"bedBlue1"
+                }]
+        }, 
+        {
          "id":101,
          "properties":[
                 {
@@ -405,6 +571,30 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"bedRed"
+                }]
+        }, 
+        {
+         "id":150,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":350
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"bedBlue1"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":14
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-15
                 }]
         }, 
         {
@@ -491,6 +681,20 @@
                  "name":"indicatorYOffset",
                  "type":"int",
                  "value":-13
+                }]
+        }, 
+        {
+         "id":200,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":300
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"bedBlue1"
                 }]
         }, 
         {
@@ -587,6 +791,25 @@
          "id":213,
          "properties":[
                 {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":214
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"fridgeWide1"
+                }, 
+                {
+                 "name":"uninteractable",
+                 "type":"bool",
+                 "value":true
+                }]
+        }, 
+        {
+         "id":214,
+         "properties":[
+                {
                  "name":"uninteractable",
                  "type":"bool",
                  "value":true
@@ -618,6 +841,30 @@
                  "name":"uninteractable",
                  "type":"bool",
                  "value":true
+                }]
+        }, 
+        {
+         "id":250,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":350
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"bedBlue1"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":14
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-15
                 }]
         }, 
         {
@@ -791,12 +1038,108 @@
                 }]
         }, 
         {
+         "id":305,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":354
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"chairBlue1"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":8
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-13
+                }]
+        }, 
+        {
+         "id":306,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":356
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"chairBlue3"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":8
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-13
+                }]
+        }, 
+        {
+         "id":307,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":357
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"chairYellow1"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":8
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-13
+                }]
+        }, 
+        {
+         "id":308,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":357
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"chairYellow2"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":8
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-13
+                }]
+        }, 
+        {
          "id":313,
          "properties":[
                 {
                  "name":"brokenID",
                  "type":"int",
-                 "value":214
+                 "value":313
                 }, 
                 {
                  "name":"destructibleID",
@@ -820,7 +1163,7 @@
                 {
                  "name":"brokenID",
                  "type":"int",
-                 "value":314
+                 "value":364
                 }, 
                 {
                  "name":"destructibleID",
@@ -864,6 +1207,30 @@
                  "name":"indicatorYOffset",
                  "type":"int",
                  "value":-15
+                }]
+        }, 
+        {
+         "id":355,
+         "properties":[
+                {
+                 "name":"brokenID",
+                 "type":"int",
+                 "value":354
+                }, 
+                {
+                 "name":"destructibleID",
+                 "type":"string",
+                 "value":"chairBlue2"
+                }, 
+                {
+                 "name":"indicatorXOffset",
+                 "type":"int",
+                 "value":8
+                }, 
+                {
+                 "name":"indicatorYOffset",
+                 "type":"int",
+                 "value":-13
                 }]
         }, 
         {

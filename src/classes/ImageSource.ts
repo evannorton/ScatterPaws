@@ -13,7 +13,7 @@ class ImageSource extends Definable {
       state.loadedAssets++;
       if (assetsAreLoaded()) {
         document.getElementById("screen")?.classList.remove("loading");
-        document.getElementById("screen")?.classList.add("title");
+        document.getElementById("screen")?.classList.add("focus");
       }
     });
   }

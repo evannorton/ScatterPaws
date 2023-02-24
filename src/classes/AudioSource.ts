@@ -16,11 +16,11 @@ class AudioSource extends Definable {
   private _loopPoint: number | null = null;
   private _plays: number = 0;
 
-  public constructor(slug: string, autoplay: boolean, loopPoint: number | null) {
+  public constructor(slug: string, loopPoint: number | null) {
     super(slug);
     this._loopPoint = loopPoint;
     this._howl = new Howl({
-      autoplay,
+      autoplay: false,
       loop: false,
       preload: true,
       src: [this.getSRC()],
@@ -147,7 +147,7 @@ class AudioSource extends Definable {
     state.loadedAssets++;
     if (assetsAreLoaded()) {
       document.getElementById("screen")?.classList.remove("loading");
-      document.getElementById("screen")?.classList.add("title");
+      document.getElementById("screen")?.classList.add("focus");
     }
   }
 

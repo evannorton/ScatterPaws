@@ -11,6 +11,10 @@ body {
   cursor: url("./cursors/laser.png") 16 16, default;
 }
 
+#screen.focus {
+  cursor: url("./cursors/default.png"), default;
+}
+
 #screen.loading {
   cursor: url("./cursors/default.png"), default;
 }

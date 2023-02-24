@@ -20,8 +20,8 @@ const levels: Level[] = [
   // {
   // bed: 2,
   //   requiredDestructibles: 20,
-  //   startingTileX: 32,
-  //   startingTileY: 24,
+  //   startingTileX: 37,
+  //   startingTileY: 17,
   //   tilemapSlug: "map-3",
   //   time: 120000
   // }

@@ -36,7 +36,7 @@ const run = async (): Promise<void> => {
     state.loadedAssets++;
     if (assetsAreLoaded()) {
       document.getElementById("screen")?.classList.remove("loading");
-      document.getElementById("screen")?.classList.add("title");
+      document.getElementById("screen")?.classList.add("focus");
     }
   });
   state.app.ticker.add(tick);

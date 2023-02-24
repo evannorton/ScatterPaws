@@ -19,7 +19,8 @@ class State {
   private _currentTime: number = 0;
   private _heldKeys: string[] = [];
   private _hitObstacleAt: number | null = null;
-  private _isAtTitle: boolean = true;
+  private _isAtTitle: boolean = false;
+  private _isAwaitingFocus: boolean = true;
   private _isInBed: boolean = true;
   private _level: Level = levels[0];
   private _levelStartedAt: number | null = null;
@@ -73,6 +74,10 @@ class State {
 
   public get isAtTitle(): boolean {
     return this._isAtTitle;
+  }
+
+  public get isAwaitingFocus(): boolean {
+    return this._isAwaitingFocus;
   }
 
   public get isInBed(): boolean {
@@ -154,6 +159,10 @@ class State {
 
   public set isAtTitle(isAtTitle: boolean) {
     this._isAtTitle = isAtTitle;
+  }
+
+  public set isAwaitingFocus(isAwaitingFocus: boolean) {
+    this._isAwaitingFocus = isAwaitingFocus;
   }
 
   public set isInBed(isInBed: boolean) {
