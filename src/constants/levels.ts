@@ -1,14 +1,14 @@
 import Level from "../interfaces/Level";
 
 const levels: Level[] = [
-  // {
-  //   bed: 0,
-  //   requiredDestructibles: 5,
-  //   startingTileX: 8,
-  //   startingTileY: 18,
-  //   tilemapSlug: "map",
-  //   time: 60000
-  // },
+  {
+    bed: 0,
+    requiredDestructibles: 5,
+    startingTileX: 8,
+    startingTileY: 18,
+    tilemapSlug: "map",
+    time: 60000
+  },
   {
     bed: 1,
     requiredDestructibles: 15,
