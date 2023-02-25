@@ -25,7 +25,7 @@
                 {
                  "name":"destructibleNoise",
                  "type":"string",
-                 "value":"wood"
+                 "value":"cloth"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -50,21 +50,16 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"bedPink"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"wood"
                 }]
         }, 
         {
-         "id":4,
+         "id":3,
          "properties":[
-                {
-                 "name":"brokenID",
-                 "type":"int",
-                 "value":104
-                }, 
-                {
-                 "name":"destructibleID",
-                 "type":"string",
-                 "value":"couchRed1"
-                }, 
                 {
                  "name":"uninteractable",
                  "type":"bool",
@@ -84,6 +79,15 @@
                  "type":"string",
                  "value":"couchBlue1"
                 }, 
+                {
+                 "name":"uninteractable",
+                 "type":"bool",
+                 "value":true
+                }]
+        }, 
+        {
+         "id":7,
+         "properties":[
                 {
                  "name":"uninteractable",
                  "type":"bool",
@@ -140,6 +144,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"computerRed"
+                }, 
+                {
+                 "name":"uninteractable",
+                 "type":"bool",
+                 "value":true
                 }]
         }, 
         {
@@ -154,6 +163,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"computerWhite"
+                }, 
+                {
+                 "name":"uninteractable",
+                 "type":"bool",
+                 "value":true
                 }]
         }, 
         {
@@ -168,6 +182,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"computerBlack"
+                }, 
+                {
+                 "name":"uninteractable",
+                 "type":"bool",
+                 "value":true
                 }]
         }, 
         {
@@ -184,6 +203,11 @@
                  "value":"deskChair1"
                 }, 
                 {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"wood"
+                }, 
+                {
                  "name":"indicatorXOffset",
                  "type":"int",
                  "value":8
@@ -192,6 +216,15 @@
                  "name":"indicatorYOffset",
                  "type":"int",
                  "value":-13
+                }]
+        }, 
+        {
+         "id":52,
+         "properties":[
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"wood"
                 }]
         }, 
         {
@@ -206,6 +239,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"couchPink"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -230,6 +268,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"couchPink"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
                 }]
         }, 
         {
@@ -244,6 +287,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"couchWhite1"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -268,6 +316,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"couchWhite1"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
                 }]
         }, 
         {
@@ -282,6 +335,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"couchBlack1"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -306,6 +364,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"couchBlack1"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
                 }]
         }, 
         {
@@ -320,6 +383,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"computerPink"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"electronic"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -344,6 +412,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"computerPink"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"electronic"
                 }]
         }, 
         {
@@ -358,6 +431,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"computerRed"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"electronic"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -382,6 +460,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"computerRed"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"electronic"
                 }]
         }, 
         {
@@ -396,6 +479,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"computerWhite"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"electronic"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -420,6 +508,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"computerWhite"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"electronic"
                 }]
         }, 
         {
@@ -434,6 +527,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"computerBlack"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"electronic"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -458,6 +556,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"computerBlack"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"electronic"
                 }]
         }, 
         {
@@ -472,6 +575,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"deskChair2"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"wood"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -496,6 +604,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"bedBlue1"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
                 }]
         }, 
         {
@@ -510,6 +623,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"bedRed"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
                 }]
         }, 
         {
@@ -524,6 +642,20 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"bedRed"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
+                }]
+        }, 
+        {
+         "id":106,
+         "properties":[
+                {
+                 "name":"uninteractable",
+                 "type":"bool",
+                 "value":true
                 }]
         }, 
         {
@@ -538,6 +670,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"couchBlack2"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -562,6 +699,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"couchBlack2"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
                 }]
         }, 
         {
@@ -576,6 +718,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"deskChair3"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"wood"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -602,6 +749,11 @@
                  "value":"bedBlue1"
                 }, 
                 {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
+                }, 
+                {
                  "name":"indicatorXOffset",
                  "type":"int",
                  "value":14
@@ -626,6 +778,11 @@
                  "value":"bedRed"
                 }, 
                 {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
+                }, 
+                {
                  "name":"indicatorXOffset",
                  "type":"int",
                  "value":14
@@ -648,6 +805,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"bedRed"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
                 }]
         }, 
         {
@@ -662,6 +824,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"chairPink1"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -686,6 +853,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"chairPink2"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -734,6 +906,29 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"bedBlue2"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
+                }]
+        }, 
+        {
+         "id":201,
+         "properties":[
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
+                }]
+        }, 
+        {
+         "id":202,
+         "properties":[
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
                 }]
         }, 
         {
@@ -748,6 +943,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"chairPink3"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -774,6 +974,11 @@
                  "value":"chairPink4"
                 }, 
                 {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
+                }, 
+                {
                  "name":"indicatorXOffset",
                  "type":"int",
                  "value":8
@@ -782,6 +987,51 @@
                  "name":"indicatorYOffset",
                  "type":"int",
                  "value":-13
+                }]
+        }, 
+        {
+         "id":205,
+         "properties":[
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
+                }]
+        }, 
+        {
+         "id":206,
+         "properties":[
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
+                }]
+        }, 
+        {
+         "id":207,
+         "properties":[
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
+                }]
+        }, 
+        {
+         "id":208,
+         "properties":[
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
+                }]
+        }, 
+        {
+         "id":209,
+         "properties":[
+                {
+                 "name":"uninteractable",
+                 "type":"bool",
+                 "value":true
                 }]
         }, 
         {
@@ -870,6 +1120,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"tvSmashBrown"
+                }, 
+                {
+                 "name":"uninteractable",
+                 "type":"bool",
+                 "value":true
                 }]
         }, 
         {
@@ -884,6 +1139,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"tvSmashYellow"
+                }, 
+                {
+                 "name":"uninteractable",
+                 "type":"bool",
+                 "value":true
                 }]
         }, 
         {
@@ -898,6 +1158,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"bedBlue2"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -924,6 +1189,11 @@
                  "value":"couchBlack1"
                 }, 
                 {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
+                }, 
+                {
                  "name":"indicatorXOffset",
                  "type":"int",
                  "value":14
@@ -946,6 +1216,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"couchBlack1"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
                 }]
         }, 
         {
@@ -1018,6 +1293,11 @@
                  "value":"tvSmash"
                 }, 
                 {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"electronic"
+                }, 
+                {
                  "name":"indicatorXOffset",
                  "type":"int",
                  "value":16
@@ -1040,6 +1320,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"tvSmash"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"electronic"
                 }]
         }, 
         {
@@ -1054,6 +1339,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"tvSmashBrown"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"electronic"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -1078,6 +1368,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"tvSmashBrown"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"electronic"
                 }]
         }, 
         {
@@ -1092,6 +1387,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"tvSmashYellow"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"electronic"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -1116,6 +1416,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"tvSmashYellow"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"electronic"
                 }]
         }, 
         {
@@ -1130,6 +1435,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"bedYellow"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
                 }]
         }, 
         {
@@ -1144,6 +1454,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"bedYellow"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
                 }]
         }, 
         {
@@ -1158,6 +1473,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"chairRed1"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -1184,6 +1504,11 @@
                  "value":"chairRed2"
                 }, 
                 {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
+                }, 
+                {
                  "name":"indicatorXOffset",
                  "type":"int",
                  "value":8
@@ -1206,6 +1531,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"chairBlue1"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -1232,6 +1562,11 @@
                  "value":"chairBlue2"
                 }, 
                 {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
+                }, 
+                {
                  "name":"indicatorXOffset",
                  "type":"int",
                  "value":8
@@ -1254,6 +1589,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"chairYellow1"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -1280,6 +1620,11 @@
                  "value":"chairYellow2"
                 }, 
                 {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
+                }, 
+                {
                  "name":"indicatorXOffset",
                  "type":"int",
                  "value":8
@@ -1304,6 +1649,11 @@
                  "value":"fridgeWide1"
                 }, 
                 {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"electronic"
+                }, 
+                {
                  "name":"indicatorXOffset",
                  "type":"int",
                  "value":14
@@ -1326,6 +1676,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"fridgeWide1"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"electronic"
                 }]
         }, 
         {
@@ -1340,6 +1695,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"bedYellow"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -1364,6 +1724,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"bedYellow"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
                 }]
         }, 
         {
@@ -1380,6 +1745,11 @@
                  "value":"chairBlue3"
                 }, 
                 {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
+                }, 
+                {
                  "name":"indicatorXOffset",
                  "type":"int",
                  "value":8
@@ -1388,6 +1758,42 @@
                  "name":"indicatorYOffset",
                  "type":"int",
                  "value":-13
+                }]
+        }, 
+        {
+         "id":401,
+         "properties":[
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
+                }]
+        }, 
+        {
+         "id":402,
+         "properties":[
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
+                }]
+        }, 
+        {
+         "id":403,
+         "properties":[
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
+                }]
+        }, 
+        {
+         "id":453,
+         "properties":[
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
                 }]
         }, 
         {
@@ -1402,6 +1808,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"floorClothes1"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -1428,6 +1839,11 @@
                  "value":"floorClothes2"
                 }, 
                 {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
+                }, 
+                {
                  "name":"indicatorXOffset",
                  "type":"int",
                  "value":8
@@ -1450,6 +1866,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"floorClothes3"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -1476,6 +1897,11 @@
                  "value":"post1"
                 }, 
                 {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"wood"
+                }, 
+                {
                  "name":"indicatorXOffset",
                  "type":"int",
                  "value":8
@@ -1498,6 +1924,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"post2"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"wood"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -1524,6 +1955,11 @@
                  "value":"post3"
                 }, 
                 {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"wood"
+                }, 
+                {
                  "name":"indicatorXOffset",
                  "type":"int",
                  "value":8
@@ -1546,6 +1982,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"hamper1"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"container"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -1572,6 +2013,11 @@
                  "value":"bigTrash1"
                 }, 
                 {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"container"
+                }, 
+                {
                  "name":"indicatorXOffset",
                  "type":"int",
                  "value":8
@@ -1594,6 +2040,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"trash1"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"container"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -1620,6 +2071,11 @@
                  "value":"trash2"
                 }, 
                 {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"container"
+                }, 
+                {
                  "name":"indicatorXOffset",
                  "type":"int",
                  "value":8
@@ -1642,6 +2098,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"chairKitchen1"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"wood"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -1668,6 +2129,11 @@
                  "value":"chairKitchen2"
                 }, 
                 {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"wood"
+                }, 
+                {
                  "name":"indicatorXOffset",
                  "type":"int",
                  "value":6
@@ -1690,6 +2156,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"floorClothes4"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -1716,6 +2187,11 @@
                  "value":"floorClothes5"
                 }, 
                 {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
+                }, 
+                {
                  "name":"indicatorXOffset",
                  "type":"int",
                  "value":8
@@ -1738,6 +2214,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"post4"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"wood"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -1764,6 +2245,11 @@
                  "value":"hamper2"
                 }, 
                 {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"container"
+                }, 
+                {
                  "name":"indicatorXOffset",
                  "type":"int",
                  "value":8
@@ -1786,6 +2272,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"bigTrash2"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"container"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -1812,6 +2303,11 @@
                  "value":"trash3"
                 }, 
                 {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"container"
+                }, 
+                {
                  "name":"indicatorXOffset",
                  "type":"int",
                  "value":8
@@ -1834,6 +2330,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"trash4"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"container"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -1860,6 +2361,11 @@
                  "value":"chairKitchen3"
                 }, 
                 {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"wood"
+                }, 
+                {
                  "name":"indicatorXOffset",
                  "type":"int",
                  "value":8
@@ -1882,6 +2388,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"chairKitchen4"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"wood"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -1908,6 +2419,11 @@
                  "value":"hamperDark1"
                 }, 
                 {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"container"
+                }, 
+                {
                  "name":"indicatorXOffset",
                  "type":"int",
                  "value":8
@@ -1930,6 +2446,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"hamperDark2"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"container"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -1956,6 +2477,11 @@
                  "value":"floorClothes6"
                 }, 
                 {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
+                }, 
+                {
                  "name":"indicatorXOffset",
                  "type":"int",
                  "value":8
@@ -1978,6 +2504,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"floorClothes8"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -2004,6 +2535,11 @@
                  "value":"postRed"
                 }, 
                 {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"wood"
+                }, 
+                {
                  "name":"indicatorXOffset",
                  "type":"int",
                  "value":8
@@ -2026,6 +2562,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"postOrange"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"wood"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -2052,6 +2593,11 @@
                  "value":"postYellow"
                 }, 
                 {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"wood"
+                }, 
+                {
                  "name":"indicatorXOffset",
                  "type":"int",
                  "value":8
@@ -2074,6 +2620,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"postGreen"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"wood"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -2100,6 +2651,11 @@
                  "value":"postBlue"
                 }, 
                 {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"wood"
+                }, 
+                {
                  "name":"indicatorXOffset",
                  "type":"int",
                  "value":8
@@ -2122,6 +2678,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"postIndigo"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"wood"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -2148,6 +2709,11 @@
                  "value":"postViolet"
                 }, 
                 {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"wood"
+                }, 
+                {
                  "name":"indicatorXOffset",
                  "type":"int",
                  "value":8
@@ -2170,6 +2736,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"chairKitchenAlt1"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"wood"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -2196,6 +2767,11 @@
                  "value":"chairKitchenAlt2"
                 }, 
                 {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"wood"
+                }, 
+                {
                  "name":"indicatorXOffset",
                  "type":"int",
                  "value":6
@@ -2218,6 +2794,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"hamperDark3"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"container"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -2244,6 +2825,11 @@
                  "value":"floorClothes7"
                 }, 
                 {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
+                }, 
+                {
                  "name":"indicatorXOffset",
                  "type":"int",
                  "value":8
@@ -2266,6 +2852,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"floorClothes9"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"cloth"
                 }, 
                 {
                  "name":"indicatorXOffset",
@@ -2292,6 +2883,11 @@
                  "value":"chairKitchenAlt3"
                 }, 
                 {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"wood"
+                }, 
+                {
                  "name":"indicatorXOffset",
                  "type":"int",
                  "value":8
@@ -2314,6 +2910,11 @@
                  "name":"destructibleID",
                  "type":"string",
                  "value":"chairKitchenAlt4"
+                }, 
+                {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"wood"
                 }, 
                 {
                  "name":"indicatorXOffset",
