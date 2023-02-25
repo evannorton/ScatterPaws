@@ -23,6 +23,7 @@ class State {
   private _isAwaitingFocus: boolean = true;
   private _isInBed: boolean = true;
   private _level: Level = levels[0];
+  private _levelCompletedAt: number | null = null;
   private _levelStartedAt: number | null = null;
   private _loadedAssets: number = 0;
   private _mouseScreenCoords: Coords | null = null;
@@ -88,6 +89,13 @@ class State {
 
   public get level(): Level {
     return this._level;
+  }
+
+  public get levelCompletedAt(): number {
+    if (this._levelCompletedAt !== null) {
+      return this._levelCompletedAt;
+    }
+    throw new Error("levelCompletedAt");
   }
 
   public get levelStartedAt(): number {
@@ -183,6 +191,10 @@ class State {
     this._level = level;
   }
 
+  public set levelCompletedAt(levelCompletedAt: number | null) {
+    this._levelCompletedAt = levelCompletedAt;
+  }
+
   public set levelStartedAt(levelStartedAt: number | null) {
     this._levelStartedAt = levelStartedAt;
   }
@@ -217,6 +229,10 @@ class State {
 
   public hasHitObstacleAt(): boolean {
     return this._hitObstacleAt !== null;
+  }
+
+  public hasLevelCompletedAt(): boolean {
+    return this._levelCompletedAt !== null;
   }
 
   public hasLevelStartedAt(): boolean {

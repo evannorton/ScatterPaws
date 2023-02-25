@@ -38,6 +38,9 @@ const attemptScratch = (): void => {
         const brokenDestructibleIDs: string[] = state.brokenDestructibleIDs;
         state.brokenDestructibleIDs = [...brokenDestructibleIDs, destructible.destructibleID];
         state.activeDestructibleIDs = state.activeDestructibleIDs.filter((activeDestructible) => activeDestructible !== destructible.destructibleID);
+        if (levelIsCompleted()) {
+          state.levelCompletedAt = state.currentTime;
+        }
         calculateActiveDestructibles();
       }
     }

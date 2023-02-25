@@ -3,6 +3,7 @@ import state from "../state";
 import calculateActiveDestructibles from "./calculateActiveDestructibles";
 
 const startLevel = (): void => {
+  state.levelCompletedAt = null;
   state.playedDefeatMusic = false;
   state.playedLevelMusic = false;
   state.isInBed = true;

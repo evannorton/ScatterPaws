@@ -25734,6 +25734,7 @@ void main() {
           this._isAwaitingFocus = true;
           this._isInBed = true;
           this._level = levels_1.default[0];
+          this._levelCompletedAt = null;
           this._levelStartedAt = null;
           this._loadedAssets = 0;
           this._mouseScreenCoords = null;
@@ -25787,6 +25788,12 @@ void main() {
         }
         get level() {
           return this._level;
+        }
+        get levelCompletedAt() {
+          if (this._levelCompletedAt !== null) {
+            return this._levelCompletedAt;
+          }
+          throw new Error("levelCompletedAt");
         }
         get levelStartedAt() {
           if (this._levelStartedAt !== null) {
@@ -25860,6 +25867,9 @@ void main() {
         set level(level) {
           this._level = level;
         }
+        set levelCompletedAt(levelCompletedAt) {
+          this._levelCompletedAt = levelCompletedAt;
+        }
         set levelStartedAt(levelStartedAt) {
           this._levelStartedAt = levelStartedAt;
         }
@@ -25886,6 +25896,9 @@ void main() {
         }
         hasHitObstacleAt() {
           return this._hitObstacleAt !== null;
+        }
+        hasLevelCompletedAt() {
+          return this._levelCompletedAt !== null;
         }
         hasLevelStartedAt() {
           return this._levelStartedAt !== null;
@@ -63883,11 +63896,13 @@ void main() {
       var state_1 = __importDefault(require_state());
       var drawImage_1 = __importDefault(require_drawImage());
       var ZIndexType_1 = __importDefault(require_ZIndexType());
+      var levelIsCompleted_1 = __importDefault(require_levelIsCompleted());
       var drawTimer = () => {
+        const endTime = (0, levelIsCompleted_1.default)() ? state_1.default.levelCompletedAt : state_1.default.currentTime;
         const offset = 4;
         const width = 26;
         const height = 11;
-        const timeLeft = state_1.default.level.time - (state_1.default.currentTime - state_1.default.levelStartedAt);
+        const timeLeft = state_1.default.level.time - (endTime - state_1.default.levelStartedAt);
         const secondsLeft = Math.floor(timeLeft / 1e3);
         const hungerZIndex = {
           type: ZIndexType_1.default.Hard,
@@ -64159,6 +64174,7 @@ void main() {
             (0, getTilemap_1.default)(state_1.default.level.tilemapSlug).draw();
             if ((0, levelIsCompleted_1.default)()) {
               (0, drawLevelCompleteHUD_1.default)();
+              (0, drawTimer_1.default)();
             } else {
               (0, drawCoots_1.default)();
               if (state_1.default.isInBed) {
@@ -64671,6 +64687,9 @@ void main() {
               const brokenDestructibleIDs = state_1.default.brokenDestructibleIDs;
               state_1.default.brokenDestructibleIDs = [...brokenDestructibleIDs, destructible.destructibleID];
               state_1.default.activeDestructibleIDs = state_1.default.activeDestructibleIDs.filter((activeDestructible) => activeDestructible !== destructible.destructibleID);
+              if ((0, levelIsCompleted_1.default)()) {
+                state_1.default.levelCompletedAt = state_1.default.currentTime;
+              }
               (0, calculateActiveDestructibles_1.default)();
             }
           }
@@ -64692,6 +64711,7 @@ void main() {
       var state_1 = __importDefault(require_state());
       var calculateActiveDestructibles_1 = __importDefault(require_calculateActiveDestructibles());
       var startLevel = () => {
+        state_1.default.levelCompletedAt = null;
         state_1.default.playedDefeatMusic = false;
         state_1.default.playedLevelMusic = false;
         state_1.default.isInBed = true;

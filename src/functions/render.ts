@@ -42,6 +42,7 @@ const render = (): void => {
       getTilemap(state.level.tilemapSlug).draw();
       if (levelIsCompleted()) {
         drawLevelCompleteHUD();
+        drawTimer();
       }
       else {
         drawCoots();
