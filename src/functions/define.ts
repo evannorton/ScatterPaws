@@ -45,6 +45,10 @@ const define = (): void => {
   new AudioSource("noises/scratch", null);
   new AudioSource("noises/meow", null);
   new AudioSource("noises/destroy/electronic", null);
+  new AudioSource("noises/destroy/wood", null);
+  new AudioSource("noises/destroy/scratch", null);
+  new AudioSource("noises/destroy/cloth", null);
+  new AudioSource("noises/destroy/container", null);
 };
 
 export default define;

@@ -23,6 +23,11 @@
                  "value":"bedPink"
                 }, 
                 {
+                 "name":"destructibleNoise",
+                 "type":"string",
+                 "value":"wood"
+                }, 
+                {
                  "name":"indicatorXOffset",
                  "type":"int",
                  "value":14

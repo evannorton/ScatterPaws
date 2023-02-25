@@ -55873,6 +55873,11 @@ void main() {
                 value: "bedPink"
               },
               {
+                name: "destructibleNoise",
+                type: "string",
+                value: "wood"
+              },
+              {
                 name: "indicatorXOffset",
                 type: "int",
                 value: 14
@@ -60488,6 +60493,10 @@ void main() {
         new AudioSource_1.default("noises/scratch", null);
         new AudioSource_1.default("noises/meow", null);
         new AudioSource_1.default("noises/destroy/electronic", null);
+        new AudioSource_1.default("noises/destroy/wood", null);
+        new AudioSource_1.default("noises/destroy/scratch", null);
+        new AudioSource_1.default("noises/destroy/cloth", null);
+        new AudioSource_1.default("noises/destroy/container", null);
       };
       exports.default = define2;
     }
@@ -64808,6 +64817,7 @@ void main() {
             const mainMusic = (0, getAudioSource_1.default)("music/main");
             state_1.default.isAtTitle = false;
             titleMusic.stop();
+            mainMusic.play(null, null);
             (0, startLevel_1.default)();
           } else if ((0, isCatStarving_1.default)()) {
             const mainMusic = (0, getAudioSource_1.default)("music/main");
