@@ -1,9 +1,10 @@
 import unitsPerTile from "../constants/unitsPerTile";
 import state from "../state";
 import calculateActiveDestructibles from "./calculateActiveDestructibles";
-import getAudioSource from "./definables/getAudioSource";
 
 const startLevel = (): void => {
+  state.playedDefeatMusic = false;
+  state.playedLevelMusic = false;
   state.isInBed = true;
   state.levelStartedAt = null;
   state.brokenDestructibleIDs = [];

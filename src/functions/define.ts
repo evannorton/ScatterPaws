@@ -37,11 +37,11 @@ const define = (): void => {
   new ImageSource("hunger");
   new ImageSource("eating");
   new ImageSource("bed");
-  new AudioSource("music/title", 132000);
+  new AudioSource("music/title", null);
   new AudioSource("music/main", 132000);
-  new AudioSource("music/victory", 132000);
-  new AudioSource("music/defeat", 132000);
-  new AudioSource("music/level", 132000);
+  new AudioSource("music/victory", 70500);
+  new AudioSource("music/defeat", null);
+  new AudioSource("music/level", null);
   new AudioSource("noises/scratch", null);
   new AudioSource("noises/meow", null);
   new AudioSource("noises/destroy/electronic", null);

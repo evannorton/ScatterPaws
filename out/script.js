@@ -25737,6 +25737,8 @@ void main() {
           this._levelStartedAt = null;
           this._loadedAssets = 0;
           this._mouseScreenCoords = null;
+          this._playedDefeatMusic = false;
+          this._playedLevelMusic = false;
           this._recentDestruction = null;
           this._won = false;
           this._ySortEntries = [];
@@ -25801,6 +25803,12 @@ void main() {
           }
           throw new Error(this.getAccessorErrorMessage("mouseCoords"));
         }
+        get playedDefeatMusic() {
+          return this._playedDefeatMusic;
+        }
+        get playedLevelMusic() {
+          return this._playedLevelMusic;
+        }
         get recentDestruction() {
           if (this._recentDestruction !== null) {
             return this._recentDestruction;
@@ -25860,6 +25868,12 @@ void main() {
         }
         set mouseScreenCoords(mouseScreenCoords) {
           this._mouseScreenCoords = mouseScreenCoords;
+        }
+        set playedDefeatMusic(playedDefeatMusic) {
+          this._playedDefeatMusic = playedDefeatMusic;
+        }
+        set playedLevelMusic(playedLevelMusic) {
+          this._playedLevelMusic = playedLevelMusic;
         }
         set recentDestruction(destruction) {
           this._recentDestruction = destruction;
@@ -60413,11 +60427,11 @@ void main() {
         new ImageSource_1.default("hunger");
         new ImageSource_1.default("eating");
         new ImageSource_1.default("bed");
-        new AudioSource_1.default("music/title", 132e3);
+        new AudioSource_1.default("music/title", null);
         new AudioSource_1.default("music/main", 132e3);
-        new AudioSource_1.default("music/victory", 132e3);
-        new AudioSource_1.default("music/defeat", 132e3);
-        new AudioSource_1.default("music/level", 132e3);
+        new AudioSource_1.default("music/victory", 70500);
+        new AudioSource_1.default("music/defeat", null);
+        new AudioSource_1.default("music/level", null);
         new AudioSource_1.default("noises/scratch", null);
         new AudioSource_1.default("noises/meow", null);
         new AudioSource_1.default("noises/destroy/electronic", null);
@@ -64507,9 +64521,10 @@ void main() {
             if ((0, levelIsCompleted_1.default)()) {
               const mainMusic = (0, getAudioSource_1.default)("music/main");
               const levelMusic = (0, getAudioSource_1.default)("music/level");
-              if (levelMusic.isPlaying() === false) {
+              if (levelMusic.isPlaying() === false && state_1.default.playedLevelMusic === false) {
                 mainMusic.stop();
                 levelMusic.play(null, null);
+                state_1.default.playedLevelMusic = true;
               }
               (_a = document.getElementById("screen")) === null || _a === void 0 ? void 0 : _a.classList.add("level");
             } else if (state_1.default.isInBed === false) {
@@ -64523,9 +64538,10 @@ void main() {
             });
             const mainMusic = (0, getAudioSource_1.default)("music/main");
             const defeatMusic = (0, getAudioSource_1.default)("music/defeat");
-            if (mainMusic.isPlaying()) {
+            if (mainMusic.isPlaying() && state_1.default.playedDefeatMusic === false) {
               mainMusic.stop();
               defeatMusic.play(null, null);
+              state_1.default.playedDefeatMusic = true;
             }
           } else if (state_1.default.won) {
             (_c = document.getElementById("screen")) === null || _c === void 0 ? void 0 : _c.classList.add("victory");
@@ -64676,6 +64692,8 @@ void main() {
       var state_1 = __importDefault(require_state());
       var calculateActiveDestructibles_1 = __importDefault(require_calculateActiveDestructibles());
       var startLevel = () => {
+        state_1.default.playedDefeatMusic = false;
+        state_1.default.playedLevelMusic = false;
         state_1.default.isInBed = true;
         state_1.default.levelStartedAt = null;
         state_1.default.brokenDestructibleIDs = [];
@@ -64851,6 +64869,8 @@ void main() {
       var handleAction_1 = __importDefault(require_handleAction());
       var credits_1 = __importDefault(require_credits());
       var assetsAreLoaded_1 = __importDefault(require_assetsAreLoaded());
+      var levelIsCompleted_1 = __importDefault(require_levelIsCompleted());
+      var gameIsOngoing_1 = __importDefault(require_gameIsOngoing());
       var run = () => __awaiter(void 0, void 0, void 0, function* () {
         console.log(`Running ScatterPaws.`);
         (0, define_1.default)();
@@ -64909,7 +64929,9 @@ void main() {
                   break;
                 }
                 case "m": {
-                  (0, getAudioSource_1.default)("noises/meow").play(null, null);
+                  if ((0, gameIsOngoing_1.default)() && (0, levelIsCompleted_1.default)() === false && state_1.default.isInBed === false) {
+                    (0, getAudioSource_1.default)("noises/meow").play(null, null);
+                  }
                   break;
                 }
                 case " ": {

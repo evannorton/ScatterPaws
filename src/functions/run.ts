@@ -12,6 +12,8 @@ import isRunningOnLocal from "./isRunningOnLocal";
 import handleAction from "./handleAction";
 import credits from "../constants/credits";
 import assetsAreLoaded from "./assetsAreLoaded";
+import levelIsCompleted from "./levelIsCompleted";
+import gameIsOngoing from "./gameIsOngoing";
 
 const run = async (): Promise<void> => {
   console.log(`Running ScatterPaws.`);
@@ -70,7 +72,9 @@ const run = async (): Promise<void> => {
             break;
           }
           case "m": {
-            getAudioSource("noises/meow").play(null, null);
+            if (gameIsOngoing() && levelIsCompleted() === false && state.isInBed === false) {
+              getAudioSource("noises/meow").play(null, null);
+            }
             break;
           }
           case " ": {

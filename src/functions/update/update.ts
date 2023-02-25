@@ -15,9 +15,10 @@ const update = (): void => {
       if (levelIsCompleted()) {
         const mainMusic: AudioSource = getAudioSource("music/main");
         const levelMusic: AudioSource = getAudioSource("music/level");
-        if (levelMusic.isPlaying() === false) {
+        if (levelMusic.isPlaying() === false && state.playedLevelMusic === false) {
           mainMusic.stop();
           levelMusic.play(null, null);
+          state.playedLevelMusic = true;
         }
         document.getElementById("screen")?.classList.add("level");
       }
@@ -33,9 +34,10 @@ const update = (): void => {
       });
       const mainMusic = getAudioSource("music/main");
       const defeatMusic = getAudioSource("music/defeat");
-      if (mainMusic.isPlaying()) {
+      if (mainMusic.isPlaying() && state.playedDefeatMusic === false) {
         mainMusic.stop();
         defeatMusic.play(null, null);
+        state.playedDefeatMusic = true;
       }
     }
     else if (state.won) {

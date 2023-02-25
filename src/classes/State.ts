@@ -26,6 +26,8 @@ class State {
   private _levelStartedAt: number | null = null;
   private _loadedAssets: number = 0;
   private _mouseScreenCoords: Coords | null = null;
+  private _playedDefeatMusic: boolean = false;
+  private _playedLevelMusic: boolean = false;
   private _recentDestruction: Destruction | null = null;
   private _won: boolean = false;
   private _ySortEntries: YSortEntry[] = [];
@@ -106,6 +108,14 @@ class State {
     throw new Error(this.getAccessorErrorMessage("mouseCoords"));
   }
 
+  public get playedDefeatMusic(): boolean {
+    return this._playedDefeatMusic;
+  }
+
+  public get playedLevelMusic(): boolean {
+    return this._playedLevelMusic;
+  }
+
   public get recentDestruction(): Destruction {
     if (this._recentDestruction !== null) {
       return this._recentDestruction;
@@ -183,6 +193,14 @@ class State {
 
   public set mouseScreenCoords(mouseScreenCoords: Coords | null) {
     this._mouseScreenCoords = mouseScreenCoords;
+  }
+
+  public set playedDefeatMusic(playedDefeatMusic: boolean) {
+    this._playedDefeatMusic = playedDefeatMusic;
+  }
+
+  public set playedLevelMusic(playedLevelMusic: boolean) {
+    this._playedLevelMusic = playedLevelMusic;
   }
 
   public set recentDestruction(destruction: Destruction | null) {
