@@ -25668,14 +25668,6 @@ void main() {
       Object.defineProperty(exports, "__esModule", { value: true });
       var levels = [
         {
-          bed: 0,
-          requiredDestructibles: 5,
-          startingTileX: 8,
-          startingTileY: 18,
-          tilemapSlug: "map",
-          time: 6e4
-        },
-        {
           bed: 1,
           requiredDestructibles: 15,
           startingTileX: -15,
@@ -26499,6 +26491,39 @@ void main() {
                         const indicatorHeight = 10;
                         const arrowOffset = 4;
                         const minX = arrowOffset;
+                        const counterHUDX = 103;
+                        const counterHUDY = 17;
+                        const timerHUDX = 49 + indicatorWidth;
+                        const timerHUDY = 18;
+                        const clawHUDX = 42;
+                        const clawHUDY = 36 + indicatorHeight;
+                        if (indicatorX < counterHUDX && indicatorY < counterHUDY) {
+                          const diffX = indicatorX - counterHUDX;
+                          const diffY = indicatorY - counterHUDY;
+                          if (diffX > diffY) {
+                            indicatorX = counterHUDX;
+                          } else {
+                            indicatorY = counterHUDY;
+                          }
+                        }
+                        if (indicatorX > gameWidth_1.default - timerHUDX && indicatorY < timerHUDY) {
+                          const diffX = gameWidth_1.default - indicatorX - timerHUDX;
+                          const diffY = indicatorY - timerHUDY;
+                          if (diffX > diffY) {
+                            indicatorX = gameWidth_1.default - timerHUDX;
+                          } else {
+                            indicatorY = timerHUDY;
+                          }
+                        }
+                        if (indicatorX < clawHUDX && indicatorY > gameHeight_1.default - clawHUDY) {
+                          const diffX = indicatorX - clawHUDX;
+                          const diffY = gameHeight_1.default - indicatorY - clawHUDY;
+                          if (diffX > diffY) {
+                            indicatorX = clawHUDX;
+                          } else {
+                            indicatorY = gameHeight_1.default - clawHUDY;
+                          }
+                        }
                         if (indicatorX < minX) {
                           indicatorX = minX;
                         }

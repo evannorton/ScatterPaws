@@ -271,6 +271,42 @@ class Tilemap extends Definable {
                   const indicatorHeight: number = 10;
                   const arrowOffset: number = 4;
                   const minX: number = arrowOffset;
+                  const counterHUDX: number = 103;
+                  const counterHUDY: number = 17;
+                  const timerHUDX: number = 49 + indicatorWidth;
+                  const timerHUDY: number = 18;
+                  const clawHUDX: number = 42;
+                  const clawHUDY: number = 36 + indicatorHeight;
+                  if (indicatorX < counterHUDX && indicatorY < counterHUDY) {
+                    const diffX: number = indicatorX - counterHUDX;
+                    const diffY: number = indicatorY - counterHUDY;
+                    if (diffX > diffY) {
+                      indicatorX = counterHUDX;
+                    }
+                    else {
+                      indicatorY = counterHUDY;
+                    }
+                  }
+                  if (indicatorX > gameWidth - timerHUDX && indicatorY < timerHUDY) {
+                    const diffX: number = gameWidth - indicatorX - timerHUDX;
+                    const diffY: number = indicatorY - timerHUDY;
+                    if (diffX > diffY) {
+                      indicatorX = gameWidth - timerHUDX;
+                    }
+                    else {
+                      indicatorY = timerHUDY;
+                    }
+                  }
+                  if (indicatorX < clawHUDX && indicatorY > gameHeight - clawHUDY) {
+                    const diffX: number = indicatorX - clawHUDX;
+                    const diffY: number = gameHeight - indicatorY - clawHUDY;
+                    if (diffX > diffY) {
+                      indicatorX = clawHUDX;
+                    }
+                    else {
+                      indicatorY = gameHeight - clawHUDY;
+                    }
+                  }
                   if (indicatorX < minX) {
                     indicatorX = minX;
                   }
