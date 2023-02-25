@@ -1,6 +1,7 @@
 import AudioSource from "../classes/AudioSource";
 import levels from "../constants/levels";
 import state from "../state";
+import assetsAreLoaded from "./assetsAreLoaded";
 import attemptScratch from "./attemptScratch";
 import getAudioSource from "./definables/getAudioSource";
 import isCatStarving from "./isCatStarving";
@@ -8,7 +9,7 @@ import levelIsCompleted from "./levelIsCompleted";
 import startLevel from "./startLevel";
 
 const handleAction = (): void => {
-  if (state.won === false) {
+  if (state.won === false && assetsAreLoaded()) {
     if (state.isAwaitingFocus) {
       document.getElementById("screen")?.classList.remove("focus");
       document.getElementById("screen")?.classList.add("title");
