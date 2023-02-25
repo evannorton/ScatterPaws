@@ -23,7 +23,7 @@ const levels: Level[] = [
     startingTileX: 54,
     startingTileY: -2,
     tilemapSlug: "map-3",
-    time: 120000
+    time: 150000
   },
 ];
 
