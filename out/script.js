@@ -25673,7 +25673,7 @@ void main() {
           startingTileX: 8,
           startingTileY: 18,
           tilemapSlug: "map",
-          time: 6e4
+          time: 9e4
         },
         {
           bed: 1,
@@ -40856,6 +40856,7 @@ void main() {
                   0,
                   0,
                   0,
+                  2101,
                   0,
                   0,
                   0,
@@ -40872,8 +40873,7 @@ void main() {
                   0,
                   0,
                   0,
-                  0,
-                  0,
+                  2151,
                   0,
                   0,
                   0,
@@ -41105,7 +41105,7 @@ void main() {
                   0,
                   0,
                   2410,
-                  0,
+                  2411,
                   2163,
                   0,
                   0,
@@ -57585,6 +57585,8 @@ void main() {
                   0,
                   0,
                   0,
+                  2612,
+                  2663,
                   0,
                   0,
                   0,
@@ -57600,9 +57602,7 @@ void main() {
                   0,
                   0,
                   0,
-                  0,
-                  0,
-                  0,
+                  2662,
                   0,
                   0,
                   2163,
@@ -57617,8 +57617,8 @@ void main() {
                   0,
                   0,
                   0,
-                  0,
-                  0,
+                  2608,
+                  2659,
                   0,
                   0,
                   0,
@@ -57874,7 +57874,7 @@ void main() {
                   0,
                   0,
                   0,
-                  0,
+                  2607,
                   0,
                   0,
                   0,
@@ -57906,7 +57906,7 @@ void main() {
                   0,
                   0,
                   0,
-                  0,
+                  2658,
                   0,
                   0,
                   0,
@@ -58080,7 +58080,7 @@ void main() {
                   0,
                   0,
                   0,
-                  0,
+                  2512,
                   0,
                   0,
                   0,
@@ -58162,7 +58162,7 @@ void main() {
                 data: [
                   0,
                   0,
-                  0,
+                  2656,
                   0,
                   0,
                   0,
@@ -68081,6 +68081,7 @@ void main() {
       Object.defineProperty(exports, "__esModule", { value: true });
       var levels_1 = __importDefault(require_levels());
       var state_1 = __importDefault(require_state());
+      var assetsAreLoaded_1 = __importDefault(require_assetsAreLoaded());
       var attemptScratch_1 = __importDefault(require_attemptScratch());
       var getAudioSource_1 = __importDefault(require_getAudioSource());
       var isCatStarving_1 = __importDefault(require_isCatStarving());
@@ -68088,7 +68089,7 @@ void main() {
       var startLevel_1 = __importDefault(require_startLevel());
       var handleAction = () => {
         var _a, _b, _c, _d, _e;
-        if (state_1.default.won === false) {
+        if (state_1.default.won === false && (0, assetsAreLoaded_1.default)()) {
           if (state_1.default.isAwaitingFocus) {
             (_a = document.getElementById("screen")) === null || _a === void 0 ? void 0 : _a.classList.remove("focus");
             (_b = document.getElementById("screen")) === null || _b === void 0 ? void 0 : _b.classList.add("title");
