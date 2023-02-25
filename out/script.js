@@ -25712,6 +25712,7 @@ void main() {
         constructor() {
           this._activeDestructibleIDs = [];
           this._app = null;
+          this._bonked = false;
           this._brokenDestructibleIDs = [];
           this._cootsCoords = {
             x: levels_1.default[0].startingTileX * unitsPerTile_1.default,
@@ -25744,6 +25745,9 @@ void main() {
         }
         get activeDestructibleIDs() {
           return [...this._activeDestructibleIDs];
+        }
+        get bonked() {
+          return this._bonked;
         }
         get brokenDestructibleIDs() {
           return [...this._brokenDestructibleIDs];
@@ -25825,6 +25829,9 @@ void main() {
         }
         set app(app) {
           this._app = app !== null ? app : null;
+        }
+        set bonked(bonked) {
+          this._bonked = bonked;
         }
         set brokenDestructibleIDs(brokenDestructibleIDs) {
           this._brokenDestructibleIDs = [...brokenDestructibleIDs];
@@ -60472,7 +60479,6 @@ void main() {
         new AudioSource_1.default("music/level", null);
         new AudioSource_1.default("noises/scratch", null);
         new AudioSource_1.default("noises/meow", null);
-        new AudioSource_1.default("noises/bounce", null);
         new AudioSource_1.default("noises/destroy/electronic", null);
       };
       exports.default = define2;
@@ -64497,20 +64503,20 @@ void main() {
         const invincible = state_1.default.hasHitObstacleAt() && state_1.default.currentTime - state_1.default.hitObstacleAt < obstacleInvincibleDuration_1.default + obstacleDuration_1.default;
         if (invincible === false && obstacleXCollision.some((collision) => collision === CollisionType_1.default.Obstacle)) {
           state_1.default.hitObstacleAt = state_1.default.currentTime;
+          (0, getAudioSource_1.default)("noises/meow").play(null, null);
         } else if (invincible === false && obstacleYCollision.some((collision) => collision === CollisionType_1.default.Obstacle)) {
           state_1.default.hitObstacleAt = state_1.default.currentTime;
+          (0, getAudioSource_1.default)("noises/meow").play(null, null);
         } else if (invincible === false && obstacleBothCollision.some((collision) => collision === CollisionType_1.default.Obstacle)) {
           state_1.default.hitObstacleAt = state_1.default.currentTime;
+          (0, getAudioSource_1.default)("noises/meow").play(null, null);
         } else if (furnitureXCollision.some((collision) => collision === CollisionType_1.default.Bonk)) {
           state_1.default.cootsVelocityX *= collisionVelocityFactor;
-          (0, getAudioSource_1.default)("noises/bounce").play(null, null);
         } else if (furnitureYCollision.some((collision) => collision === CollisionType_1.default.Bonk)) {
           state_1.default.cootsVelocityY *= collisionVelocityFactor;
-          (0, getAudioSource_1.default)("noises/bounce").play(null, null);
         } else if (furnitureBothCollision.some((collision) => collision === CollisionType_1.default.Bonk)) {
           state_1.default.cootsVelocityX *= collisionVelocityFactor;
           state_1.default.cootsVelocityY *= collisionVelocityFactor;
-          (0, getAudioSource_1.default)("noises/bounce").play(null, null);
         } else {
           state_1.default.cootsCoords = { x: newX, y: newY };
         }
@@ -64741,6 +64747,7 @@ void main() {
       var state_1 = __importDefault(require_state());
       var calculateActiveDestructibles_1 = __importDefault(require_calculateActiveDestructibles());
       var startLevel = () => {
+        state_1.default.bonked = false;
         state_1.default.levelCompletedAt = null;
         state_1.default.playedDefeatMusic = false;
         state_1.default.playedLevelMusic = false;
@@ -64793,7 +64800,6 @@ void main() {
             const mainMusic = (0, getAudioSource_1.default)("music/main");
             state_1.default.isAtTitle = false;
             titleMusic.stop();
-            mainMusic.play(null, null);
             (0, startLevel_1.default)();
           } else if ((0, isCatStarving_1.default)()) {
             const mainMusic = (0, getAudioSource_1.default)("music/main");

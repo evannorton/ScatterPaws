@@ -9,6 +9,7 @@ import YSortEntry from "../interfaces/YSortEntry";
 class State {
   private _activeDestructibleIDs: string[] = [];
   private _app: Application | null = null;
+  private _bonked: boolean = false;
   private _brokenDestructibleIDs: string[] = [];
   private _cootsCoords: Coords = {
     x: levels[0].startingTileX * unitsPerTile,
@@ -42,6 +43,10 @@ class State {
 
   public get activeDestructibleIDs(): string[] {
     return [...this._activeDestructibleIDs];
+  }
+
+  public get bonked(): boolean {
+    return this._bonked;
   }
 
   public get brokenDestructibleIDs(): string[] {
@@ -145,6 +150,10 @@ class State {
 
   public set app(app: Application | null) {
     this._app = app !== null ? app : null;
+  }
+
+  public set bonked(bonked: boolean) {
+    this._bonked = bonked;
   }
 
   public set brokenDestructibleIDs(brokenDestructibleIDs: string[]) {

@@ -124,25 +124,25 @@ const updateCootsPosition = (): void => {
   const invincible: boolean = state.hasHitObstacleAt() && state.currentTime - state.hitObstacleAt < obstacleInvincibleDuration + obstacleDuration;
   if (invincible === false && obstacleXCollision.some((collision) => collision === CollisionType.Obstacle)) {
     state.hitObstacleAt = state.currentTime;
+    getAudioSource("noises/meow").play(null, null);
   }
   else if (invincible === false && obstacleYCollision.some((collision) => collision === CollisionType.Obstacle)) {
     state.hitObstacleAt = state.currentTime;
+    getAudioSource("noises/meow").play(null, null);
   }
   else if (invincible === false && obstacleBothCollision.some((collision) => collision === CollisionType.Obstacle)) {
     state.hitObstacleAt = state.currentTime;
+    getAudioSource("noises/meow").play(null, null);
   }
   else if (furnitureXCollision.some((collision) => collision === CollisionType.Bonk)) {
     state.cootsVelocityX *= collisionVelocityFactor;
-    getAudioSource("noises/bounce").play(null, null);
   }
   else if (furnitureYCollision.some((collision) => collision === CollisionType.Bonk)) {
     state.cootsVelocityY *= collisionVelocityFactor;
-    getAudioSource("noises/bounce").play(null, null);
   }
   else if (furnitureBothCollision.some((collision) => collision === CollisionType.Bonk)) {
     state.cootsVelocityX *= collisionVelocityFactor;
     state.cootsVelocityY *= collisionVelocityFactor;
-    getAudioSource("noises/bounce").play(null, null);
   }
   else {
     state.cootsCoords = { x: newX, y: newY };

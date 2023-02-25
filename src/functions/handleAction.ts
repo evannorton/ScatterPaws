@@ -23,7 +23,7 @@ const handleAction = (): void => {
       const mainMusic: AudioSource = getAudioSource("music/main");
       state.isAtTitle = false;
       titleMusic.stop();
-      mainMusic.play(null, null);
+      // mainMusic.play(null, null);
       startLevel();
     }
     else if (isCatStarving()) {
