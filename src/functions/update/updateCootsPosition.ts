@@ -6,7 +6,7 @@ import state from "../../state";
 import getTilemap from "../definables/getTilemap";
 
 const updateCootsPosition = (): void => {
-  const collisionVelocityFactor = -.75;
+  const collisionVelocityFactor = -.7;
   // Furniture
   const furnitureLeftOffset: number = -.4;
   const furnitureTopOffset: number = - .5;

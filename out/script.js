@@ -25689,7 +25689,7 @@ void main() {
           startingTileX: 54,
           startingTileY: -2,
           tilemapSlug: "map-3",
-          time: 12e4
+          time: 15e4
         }
       ];
       exports.default = levels;
@@ -64323,7 +64323,7 @@ void main() {
       var state_1 = __importDefault(require_state());
       var getTilemap_1 = __importDefault(require_getTilemap());
       var updateCootsPosition = () => {
-        const collisionVelocityFactor = -0.75;
+        const collisionVelocityFactor = -0.7;
         const furnitureLeftOffset = -0.4;
         const furnitureTopOffset = -0.5;
         const furnitureBottomOffset = 0.85;
