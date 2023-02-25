@@ -3,6 +3,7 @@ import obstacleInvincibleDuration from "../../constants/obstacleInvincibleDurati
 import unitsPerTile from "../../constants/unitsPerTile";
 import CollisionType from "../../enums/CollisionType";
 import state from "../../state";
+import getAudioSource from "../definables/getAudioSource";
 import getTilemap from "../definables/getTilemap";
 
 const updateCootsPosition = (): void => {
@@ -132,13 +133,16 @@ const updateCootsPosition = (): void => {
   }
   else if (furnitureXCollision.some((collision) => collision === CollisionType.Bonk)) {
     state.cootsVelocityX *= collisionVelocityFactor;
+    getAudioSource("noises/bounce").play(null, null);
   }
   else if (furnitureYCollision.some((collision) => collision === CollisionType.Bonk)) {
     state.cootsVelocityY *= collisionVelocityFactor;
+    getAudioSource("noises/bounce").play(null, null);
   }
   else if (furnitureBothCollision.some((collision) => collision === CollisionType.Bonk)) {
     state.cootsVelocityX *= collisionVelocityFactor;
     state.cootsVelocityY *= collisionVelocityFactor;
+    getAudioSource("noises/bounce").play(null, null);
   }
   else {
     state.cootsCoords = { x: newX, y: newY };

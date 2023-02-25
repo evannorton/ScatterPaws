@@ -60472,6 +60472,7 @@ void main() {
         new AudioSource_1.default("music/level", null);
         new AudioSource_1.default("noises/scratch", null);
         new AudioSource_1.default("noises/meow", null);
+        new AudioSource_1.default("noises/bounce", null);
         new AudioSource_1.default("noises/destroy/electronic", null);
       };
       exports.default = define2;
@@ -64349,6 +64350,23 @@ void main() {
     }
   });
 
+  // lib/functions/definables/getAudioSource.js
+  var require_getAudioSource = __commonJS({
+    "lib/functions/definables/getAudioSource.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var getDefinable_1 = __importDefault(require_getDefinable());
+      var getAudioSource = (slug) => (0, getDefinable_1.default)({
+        className: "AudioSource",
+        slug
+      });
+      exports.default = getAudioSource;
+    }
+  });
+
   // lib/functions/update/updateCootsPosition.js
   var require_updateCootsPosition = __commonJS({
     "lib/functions/update/updateCootsPosition.js"(exports) {
@@ -64362,6 +64380,7 @@ void main() {
       var unitsPerTile_1 = __importDefault(require_unitsPerTile());
       var CollisionType_1 = __importDefault(require_CollisionType());
       var state_1 = __importDefault(require_state());
+      var getAudioSource_1 = __importDefault(require_getAudioSource());
       var getTilemap_1 = __importDefault(require_getTilemap());
       var updateCootsPosition = () => {
         const collisionVelocityFactor = -0.7;
@@ -64484,11 +64503,14 @@ void main() {
           state_1.default.hitObstacleAt = state_1.default.currentTime;
         } else if (furnitureXCollision.some((collision) => collision === CollisionType_1.default.Bonk)) {
           state_1.default.cootsVelocityX *= collisionVelocityFactor;
+          (0, getAudioSource_1.default)("noises/bounce").play(null, null);
         } else if (furnitureYCollision.some((collision) => collision === CollisionType_1.default.Bonk)) {
           state_1.default.cootsVelocityY *= collisionVelocityFactor;
+          (0, getAudioSource_1.default)("noises/bounce").play(null, null);
         } else if (furnitureBothCollision.some((collision) => collision === CollisionType_1.default.Bonk)) {
           state_1.default.cootsVelocityX *= collisionVelocityFactor;
           state_1.default.cootsVelocityY *= collisionVelocityFactor;
+          (0, getAudioSource_1.default)("noises/bounce").play(null, null);
         } else {
           state_1.default.cootsCoords = { x: newX, y: newY };
         }
@@ -64518,23 +64540,6 @@ void main() {
         return audioSources;
       };
       exports.default = getAudioSources;
-    }
-  });
-
-  // lib/functions/definables/getAudioSource.js
-  var require_getAudioSource = __commonJS({
-    "lib/functions/definables/getAudioSource.js"(exports) {
-      "use strict";
-      var __importDefault = exports && exports.__importDefault || function(mod) {
-        return mod && mod.__esModule ? mod : { "default": mod };
-      };
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var getDefinable_1 = __importDefault(require_getDefinable());
-      var getAudioSource = (slug) => (0, getDefinable_1.default)({
-        className: "AudioSource",
-        slug
-      });
-      exports.default = getAudioSource;
     }
   });
 
