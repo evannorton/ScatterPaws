@@ -25668,6 +25668,14 @@ void main() {
       Object.defineProperty(exports, "__esModule", { value: true });
       var levels = [
         {
+          bed: 0,
+          requiredDestructibles: 5,
+          startingTileX: 8,
+          startingTileY: 18,
+          tilemapSlug: "map",
+          time: 6e4
+        },
+        {
           bed: 1,
           requiredDestructibles: 15,
           startingTileX: -15,
