@@ -24,7 +24,7 @@ class AudioSource extends Definable {
       loop: false,
       preload: true,
       src: [this.getSRC()],
-      volume: 0.5
+      volume: 0.25
     });
     this._howl.on("end", (): void => {
       this.onHowlEnd();

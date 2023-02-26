@@ -63603,7 +63603,7 @@ void main() {
             loop: false,
             preload: true,
             src: [this.getSRC()],
-            volume: 0.5
+            volume: 0.25
           });
           this._howl.on("end", () => {
             this.onHowlEnd();
