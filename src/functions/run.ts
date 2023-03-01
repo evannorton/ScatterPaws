@@ -14,6 +14,8 @@ import credits from "../constants/credits";
 import assetsAreLoaded from "./assetsAreLoaded";
 import levelIsCompleted from "./levelIsCompleted";
 import gameIsOngoing from "./gameIsOngoing";
+import Pause from "../interfaces/Pause";
+import isPaused from "./isPaused";
 
 const run = async (): Promise<void> => {
   console.log(`Running ScatterPaws.`);
@@ -43,18 +45,24 @@ const run = async (): Promise<void> => {
   });
   state.app.ticker.add(tick);
   const screen = document.getElementById("screen");
-  if (screen) {
+  const pause = document.getElementById("pause");
+  const unpause = document.getElementById("unpause");
+  if (screen && pause && unpause) {
     screen.appendChild(state.app.view);
     screen.style.width = `${gameWidth * gameScale}px`;
     screen.style.height = `${gameHeight * gameScale}px`;
-    screen.addEventListener("mousedown", () => {
-      handleAction();
+    screen.addEventListener("mousedown", (e) => {
+      if (e.target instanceof HTMLCanvasElement) {
+        handleAction();
+      }
     });
     screen.addEventListener("mousemove", (e) => {
-      if (e.target instanceof HTMLElement) {
-        state.mouseScreenCoords = {
-          x: Math.round(e.offsetX / e.target.offsetWidth * gameWidth),
-          y: Math.round(e.offsetY / e.target.offsetHeight * gameHeight)
+      if (e.target instanceof HTMLCanvasElement) {
+        if (isPaused() === false) {
+          state.mouseScreenCoords = {
+            x: Math.round(e.offsetX / e.target.offsetWidth * gameWidth),
+            y: Math.round(e.offsetY / e.target.offsetHeight * gameHeight)
+          }
         }
       }
     });
@@ -106,6 +114,26 @@ const run = async (): Promise<void> => {
       element.style.height = `${credit.height * gameScale}px`;
       element.className = "credit";
     }
+    pause.addEventListener("click", () => {
+      screen.classList.add("paused");
+      const pauses = state.pauses;
+      pauses.push(
+        {
+          pausedAt: state.currentTime,
+          unpausedAt: null
+        }
+      );
+      state.pauses = pauses;
+    });
+    unpause.addEventListener("click", () => {
+      screen.classList.remove("paused");
+      const pauses = state.pauses.map((pause: Pause): Pause => ({
+        pausedAt: pause.pausedAt,
+        unpausedAt: pause.unpausedAt === null ? state.currentTime : pause.unpausedAt
+      }));
+      state.pauses = pauses;
+      focusScreen();
+    });
   }
   if (socket) {
     socket.on("run-id", (runID: string) => {

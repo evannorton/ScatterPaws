@@ -3,7 +3,9 @@ import state from "../state";
 import calculateActiveDestructibles from "./calculateActiveDestructibles";
 
 const startLevel = (): void => {
+  document.getElementById("screen")?.classList.add("main");
   state.bonked = false;
+  state.pauses = [];
   state.levelCompletedAt = null;
   state.playedDefeatMusic = false;
   state.playedLevelMusic = false;

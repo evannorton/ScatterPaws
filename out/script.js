@@ -25739,6 +25739,7 @@ void main() {
           this._levelStartedAt = null;
           this._loadedAssets = 0;
           this._mouseScreenCoords = null;
+          this._pauses = [];
           this._playedDefeatMusic = false;
           this._playedLevelMusic = false;
           this._recentDestruction = null;
@@ -25814,6 +25815,9 @@ void main() {
           }
           throw new Error(this.getAccessorErrorMessage("mouseCoords"));
         }
+        get pauses() {
+          return [...this._pauses];
+        }
         get playedDefeatMusic() {
           return this._playedDefeatMusic;
         }
@@ -25885,6 +25889,9 @@ void main() {
         }
         set mouseScreenCoords(mouseScreenCoords) {
           this._mouseScreenCoords = mouseScreenCoords;
+        }
+        set pauses(pauses) {
+          this._pauses = [...pauses];
         }
         set playedDefeatMusic(playedDefeatMusic) {
           this._playedDefeatMusic = playedDefeatMusic;
@@ -67007,6 +67014,50 @@ void main() {
     }
   });
 
+  // lib/functions/getRecentPausedTime.js
+  var require_getRecentPausedTime = __commonJS({
+    "lib/functions/getRecentPausedTime.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var state_1 = __importDefault(require_state());
+      var getRecentPausedTime = () => {
+        let time = 0;
+        if (state_1.default.pauses.length > 0) {
+          const pause = state_1.default.pauses[state_1.default.pauses.length - 1];
+          if (pause.unpausedAt === null) {
+            time += state_1.default.currentTime - pause.pausedAt;
+          } else {
+            time += pause.unpausedAt - pause.pausedAt;
+          }
+        }
+        return time;
+      };
+      exports.default = getRecentPausedTime;
+    }
+  });
+
+  // lib/functions/hasPausedSinceObstacle.js
+  var require_hasPausedSinceObstacle = __commonJS({
+    "lib/functions/hasPausedSinceObstacle.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var state_1 = __importDefault(require_state());
+      var hasPausedSinceObstacle = () => {
+        if (state_1.default.pauses.length > 0) {
+          return state_1.default.pauses[state_1.default.pauses.length - 1].pausedAt >= state_1.default.hitObstacleAt;
+        }
+        return false;
+      };
+      exports.default = hasPausedSinceObstacle;
+    }
+  });
+
   // lib/functions/isCootsInObstacle.js
   var require_isCootsInObstacle = __commonJS({
     "lib/functions/isCootsInObstacle.js"(exports) {
@@ -67017,7 +67068,18 @@ void main() {
       Object.defineProperty(exports, "__esModule", { value: true });
       var obstacleDuration_1 = __importDefault(require_obstacleDuration());
       var state_1 = __importDefault(require_state());
-      var isCootsInObstacle = () => state_1.default.hasHitObstacleAt() && state_1.default.currentTime - state_1.default.hitObstacleAt < obstacleDuration_1.default;
+      var getRecentPausedTime_1 = __importDefault(require_getRecentPausedTime());
+      var hasPausedSinceObstacle_1 = __importDefault(require_hasPausedSinceObstacle());
+      var isCootsInObstacle = () => {
+        if (state_1.default.hasHitObstacleAt()) {
+          let amount = state_1.default.currentTime - state_1.default.hitObstacleAt;
+          if ((0, hasPausedSinceObstacle_1.default)()) {
+            amount -= (0, getRecentPausedTime_1.default)();
+          }
+          return amount < obstacleDuration_1.default;
+        }
+        return false;
+      };
       exports.default = isCootsInObstacle;
     }
   });
@@ -67087,6 +67149,25 @@ void main() {
     }
   });
 
+  // lib/functions/hasPausedSinceClaw.js
+  var require_hasPausedSinceClaw = __commonJS({
+    "lib/functions/hasPausedSinceClaw.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var state_1 = __importDefault(require_state());
+      var hasPausedSinceClaw = () => {
+        if (state_1.default.pauses.length > 0) {
+          return state_1.default.pauses[state_1.default.pauses.length - 1].pausedAt >= state_1.default.recentDestruction.clawedAt;
+        }
+        return false;
+      };
+      exports.default = hasPausedSinceClaw;
+    }
+  });
+
   // lib/functions/isClawOnCooldown.js
   var require_isClawOnCooldown = __commonJS({
     "lib/functions/isClawOnCooldown.js"(exports) {
@@ -67096,7 +67177,18 @@ void main() {
       };
       Object.defineProperty(exports, "__esModule", { value: true });
       var state_1 = __importDefault(require_state());
-      var isClawOnCooldown = () => state_1.default.hasRecentDestruction() && state_1.default.currentTime - state_1.default.recentDestruction.clawedAt < 1e3;
+      var getRecentPausedTime_1 = __importDefault(require_getRecentPausedTime());
+      var hasPausedSinceClaw_1 = __importDefault(require_hasPausedSinceClaw());
+      var isClawOnCooldown = () => {
+        if (state_1.default.hasRecentDestruction()) {
+          let amount = state_1.default.currentTime - state_1.default.recentDestruction.clawedAt;
+          if ((0, hasPausedSinceClaw_1.default)()) {
+            amount -= (0, getRecentPausedTime_1.default)();
+          }
+          return amount < 1e3;
+        }
+        return false;
+      };
       exports.default = isClawOnCooldown;
     }
   });
@@ -67217,6 +67309,30 @@ void main() {
     }
   });
 
+  // lib/functions/getPausedTime.js
+  var require_getPausedTime = __commonJS({
+    "lib/functions/getPausedTime.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var state_1 = __importDefault(require_state());
+      var getPausedTime = () => {
+        let time = 0;
+        state_1.default.pauses.forEach((pause) => {
+          if (pause.unpausedAt === null) {
+            time += state_1.default.currentTime - pause.pausedAt;
+          } else {
+            time += pause.unpausedAt - pause.pausedAt;
+          }
+        });
+        return time;
+      };
+      exports.default = getPausedTime;
+    }
+  });
+
   // lib/functions/draw/drawTimer.js
   var require_drawTimer = __commonJS({
     "lib/functions/draw/drawTimer.js"(exports) {
@@ -67232,12 +67348,13 @@ void main() {
       var drawImage_1 = __importDefault(require_drawImage());
       var ZIndexType_1 = __importDefault(require_ZIndexType());
       var levelIsCompleted_1 = __importDefault(require_levelIsCompleted());
+      var getPausedTime_1 = __importDefault(require_getPausedTime());
       var drawTimer = () => {
         const endTime = (0, levelIsCompleted_1.default)() ? state_1.default.levelCompletedAt : state_1.default.currentTime;
         const offset = 4;
         const width = 26;
         const height = 11;
-        const timeLeft = state_1.default.level.time - (endTime - state_1.default.levelStartedAt);
+        const timeLeft = state_1.default.level.time - (endTime - state_1.default.levelStartedAt) + (0, getPausedTime_1.default)();
         const secondsLeft = Math.floor(timeLeft / 1e3);
         const hungerZIndex = {
           type: ZIndexType_1.default.Hard,
@@ -67262,8 +67379,9 @@ void main() {
       };
       Object.defineProperty(exports, "__esModule", { value: true });
       var state_1 = __importDefault(require_state());
+      var getPausedTime_1 = __importDefault(require_getPausedTime());
       var levelIsCompleted_1 = __importDefault(require_levelIsCompleted());
-      var isCatStarving = () => (0, levelIsCompleted_1.default)() === false && state_1.default.hasLevelStartedAt() && state_1.default.hasLevelStartedAt() && state_1.default.currentTime - state_1.default.levelStartedAt >= state_1.default.level.time;
+      var isCatStarving = () => (0, levelIsCompleted_1.default)() === false && state_1.default.hasLevelStartedAt() && state_1.default.hasLevelStartedAt() && state_1.default.currentTime - state_1.default.levelStartedAt - (0, getPausedTime_1.default)() >= state_1.default.level.time;
       exports.default = isCatStarving;
     }
   });
@@ -67361,11 +67479,12 @@ void main() {
       var drawText_1 = __importDefault(require_drawText());
       var drawTutorialHUD = () => {
         const width = ludwigTheming_1.default ? 224 : 218;
-        (0, drawRectangle_1.default)("#000000", 0.25, 4, 4, width, 63, 10003);
-        (0, drawText_1.default)(`${ludwigTheming_1.default ? "Coots" : "Kitty"} wants food! Guide her to cause a ruckus and get ${ludwigTheming_1.default ? "Ludwig" : "owner"}'s attention!`, "#ffffff", 6, 6, 1, width - 4, 10, "left", "top");
-        (0, drawText_1.default)("- Mouse to move. Avoid cat toys!", "#ffffff", 6, 30, 1, width - 4, 2, "left", "top");
-        (0, drawText_1.default)("- Click/space to claw objects.", "#ffffff", 6, 43, 1, width - 4, 2, "left", "top");
-        (0, drawText_1.default)("- M to meow.", "#ffffff", 6, 56, 1, width - 4, 2, "left", "top");
+        const x = 20;
+        (0, drawRectangle_1.default)("#000000", 0.25, x - 2, 4, width, 63, 10003);
+        (0, drawText_1.default)(`${ludwigTheming_1.default ? "Coots" : "Kitty"} wants food! Guide her to cause a ruckus and get ${ludwigTheming_1.default ? "Ludwig" : "owner"}'s attention!`, "#ffffff", x, 6, 1, width - 4, 10, "left", "top");
+        (0, drawText_1.default)("- Mouse to move. Avoid cat toys!", "#ffffff", x, 30, 1, width - 4, 2, "left", "top");
+        (0, drawText_1.default)("- Click/space to claw objects.", "#ffffff", x, 43, 1, width - 4, 2, "left", "top");
+        (0, drawText_1.default)("- M to meow.", "#ffffff", x, 56, 1, width - 4, 2, "left", "top");
       };
       exports.default = drawTutorialHUD;
     }
@@ -67434,8 +67553,8 @@ void main() {
       var drawText_1 = __importDefault(require_drawText());
       var drawCounterHUD = () => {
         const width = 97;
-        (0, drawRectangle_1.default)("#000000", 0.25, 4, 4, width, 11, 10003);
-        (0, drawText_1.default)(`Claw ${state_1.default.level.requiredDestructibles - state_1.default.brokenDestructibleIDs.length} objects!`, "#ffffff", 6, 6, 1, gameWidth_1.default, 1, "left", "top");
+        (0, drawRectangle_1.default)("#000000", 0.25, 18, 4, width, 11, 10003);
+        (0, drawText_1.default)(`Claw ${state_1.default.level.requiredDestructibles - state_1.default.brokenDestructibleIDs.length} objects!`, "#ffffff", 20, 6, 1, gameWidth_1.default, 1, "left", "top");
       };
       exports.default = drawCounterHUD;
     }
@@ -67459,6 +67578,19 @@ void main() {
         (0, drawText_1.default)("Click to wake!", "#ffffff", gameWidth_1.default / 2, gameHeight_1.default / 2 - 24 + 2 - offset, 1, gameWidth_1.default, 1, "center", "top");
       };
       exports.default = drawBedHUD;
+    }
+  });
+
+  // lib/functions/isPaused.js
+  var require_isPaused = __commonJS({
+    "lib/functions/isPaused.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var isPaused = () => {
+        var _a;
+        return ((_a = document.getElementById("screen")) === null || _a === void 0 ? void 0 : _a.classList.contains("paused")) || false;
+      };
+      exports.default = isPaused;
     }
   });
 
@@ -67493,6 +67625,7 @@ void main() {
       var drawCounterHUD_1 = __importDefault(require_drawCounterHUD());
       var drawBedHUD_1 = __importDefault(require_drawBedHUD());
       var drawText_1 = __importDefault(require_drawText());
+      var isPaused_1 = __importDefault(require_isPaused());
       var render = () => {
         state_1.default.app.stage.removeChildren();
         (0, drawRectangle_1.default)("#000000", 1, 0, 0, gameWidth_1.default, gameHeight_1.default, 0);
@@ -67515,10 +67648,13 @@ void main() {
               if (state_1.default.isInBed) {
                 (0, drawBedHUD_1.default)();
               } else {
-                (0, drawInteractHUD_1.default)();
-                if (state_1.default.level === levels_1.default[0]) {
-                  (0, drawTutorialHUD_1.default)();
-                } else {
+                if ((0, isPaused_1.default)() === false) {
+                  (0, drawInteractHUD_1.default)();
+                  if (state_1.default.level === levels_1.default[0]) {
+                    (0, drawTutorialHUD_1.default)();
+                  }
+                }
+                if (state_1.default.level !== levels_1.default[0]) {
                   (0, drawCounterHUD_1.default)();
                 }
                 (0, drawTimer_1.default)();
@@ -67583,21 +67719,6 @@ void main() {
     }
   });
 
-  // lib/functions/isStuckOnObstacle.js
-  var require_isStuckOnObstacle = __commonJS({
-    "lib/functions/isStuckOnObstacle.js"(exports) {
-      "use strict";
-      var __importDefault = exports && exports.__importDefault || function(mod) {
-        return mod && mod.__esModule ? mod : { "default": mod };
-      };
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var obstacleDuration_1 = __importDefault(require_obstacleDuration());
-      var state_1 = __importDefault(require_state());
-      var isStuckOnObstacle = () => state_1.default.hasHitObstacleAt() && state_1.default.currentTime - state_1.default.hitObstacleAt < obstacleDuration_1.default;
-      exports.default = isStuckOnObstacle;
-    }
-  });
-
   // lib/functions/update/updateCootsVelocity.js
   var require_updateCootsVelocity = __commonJS({
     "lib/functions/update/updateCootsVelocity.js"(exports) {
@@ -67611,7 +67732,7 @@ void main() {
       var state_1 = __importDefault(require_state());
       var getLaserPower_1 = __importDefault(require_getLaserPower());
       var getMouseCoords_1 = __importDefault(require_getMouseCoords());
-      var isStuckOnObstacle_1 = __importDefault(require_isStuckOnObstacle());
+      var isCootsInObstacle_1 = __importDefault(require_isCootsInObstacle());
       var updateCootsVelocity = () => {
         if (state_1.default.hasMouseScreenCoords()) {
           const mouseCoords = (0, getMouseCoords_1.default)();
@@ -67620,7 +67741,7 @@ void main() {
           const angle = Math.atan2(diffY, diffX);
           const xVector = Math.cos(angle);
           const yVector = Math.sin(angle);
-          if ((0, isStuckOnObstacle_1.default)() === false) {
+          if ((0, isCootsInObstacle_1.default)() === false) {
             const laserPower = (0, getLaserPower_1.default)();
             if (laserPower >= walkingThreshold_1.default) {
               const accelerationFactor = 1.5;
@@ -67883,8 +68004,9 @@ void main() {
       var state_1 = __importDefault(require_state());
       var levelIsCompleted_1 = __importDefault(require_levelIsCompleted());
       var getAudioSource_1 = __importDefault(require_getAudioSource());
+      var isPaused_1 = __importDefault(require_isPaused());
       var update = () => {
-        var _a, _b, _c;
+        var _a, _b, _c, _d, _e;
         if ((0, assetsAreLoaded_1.default)()) {
           if ((0, gameIsOngoing_1.default)()) {
             if ((0, levelIsCompleted_1.default)()) {
@@ -67895,13 +68017,15 @@ void main() {
                 levelMusic.play(null, null);
                 state_1.default.playedLevelMusic = true;
               }
-              (_a = document.getElementById("screen")) === null || _a === void 0 ? void 0 : _a.classList.add("level");
-            } else if (state_1.default.isInBed === false) {
+              (_a = document.getElementById("screen")) === null || _a === void 0 ? void 0 : _a.classList.remove("main");
+              (_b = document.getElementById("screen")) === null || _b === void 0 ? void 0 : _b.classList.add("level");
+            } else if (state_1.default.isInBed === false && (0, isPaused_1.default)() === false) {
               (0, updateCootsVelocity_1.default)();
               (0, updateCootsPosition_1.default)();
             }
           } else if ((0, isCatStarving_1.default)()) {
-            (_b = document.getElementById("screen")) === null || _b === void 0 ? void 0 : _b.classList.add("defeat");
+            (_c = document.getElementById("screen")) === null || _c === void 0 ? void 0 : _c.classList.remove("main");
+            (_d = document.getElementById("screen")) === null || _d === void 0 ? void 0 : _d.classList.add("defeat");
             (0, getAudioSources_1.default)().forEach((audioSource) => {
               audioSource.cancelOnEnds();
             });
@@ -67913,7 +68037,7 @@ void main() {
               state_1.default.playedDefeatMusic = true;
             }
           } else if (state_1.default.won) {
-            (_c = document.getElementById("screen")) === null || _c === void 0 ? void 0 : _c.classList.add("victory");
+            (_e = document.getElementById("screen")) === null || _e === void 0 ? void 0 : _e.classList.add("victory");
           }
         }
       };
@@ -68064,7 +68188,10 @@ void main() {
       var state_1 = __importDefault(require_state());
       var calculateActiveDestructibles_1 = __importDefault(require_calculateActiveDestructibles());
       var startLevel = () => {
+        var _a;
+        (_a = document.getElementById("screen")) === null || _a === void 0 ? void 0 : _a.classList.add("main");
         state_1.default.bonked = false;
+        state_1.default.pauses = [];
         state_1.default.levelCompletedAt = null;
         state_1.default.playedDefeatMusic = false;
         state_1.default.playedLevelMusic = false;
@@ -68103,7 +68230,7 @@ void main() {
       var levelIsCompleted_1 = __importDefault(require_levelIsCompleted());
       var startLevel_1 = __importDefault(require_startLevel());
       var handleAction = () => {
-        var _a, _b, _c, _d, _e;
+        var _a, _b, _c, _d, _e, _f;
         if (state_1.default.won === false && (0, assetsAreLoaded_1.default)()) {
           if (state_1.default.isAwaitingFocus) {
             (_a = document.getElementById("screen")) === null || _a === void 0 ? void 0 : _a.classList.remove("focus");
@@ -68139,6 +68266,7 @@ void main() {
               state_1.default.level = newLevel;
               (0, startLevel_1.default)();
             } else {
+              (_f = document.getElementById("screen")) === null || _f === void 0 ? void 0 : _f.classList.remove("main");
               const victoryMusic = (0, getAudioSource_1.default)("music/victory");
               victoryMusic.play(null, null);
               state_1.default.won = true;
@@ -68246,6 +68374,7 @@ void main() {
       var assetsAreLoaded_1 = __importDefault(require_assetsAreLoaded());
       var levelIsCompleted_1 = __importDefault(require_levelIsCompleted());
       var gameIsOngoing_1 = __importDefault(require_gameIsOngoing());
+      var isPaused_1 = __importDefault(require_isPaused());
       var run = () => __awaiter(void 0, void 0, void 0, function* () {
         console.log(`Running ScatterPaws.`);
         (0, define_1.default)();
@@ -68275,19 +68404,25 @@ void main() {
         });
         state_1.default.app.ticker.add(tick_1.default);
         const screen = document.getElementById("screen");
-        if (screen) {
+        const pause = document.getElementById("pause");
+        const unpause = document.getElementById("unpause");
+        if (screen && pause && unpause) {
           screen.appendChild(state_1.default.app.view);
           screen.style.width = `${gameWidth_1.default * gameScale_1.default}px`;
           screen.style.height = `${gameHeight_1.default * gameScale_1.default}px`;
-          screen.addEventListener("mousedown", () => {
-            (0, handleAction_1.default)();
+          screen.addEventListener("mousedown", (e) => {
+            if (e.target instanceof HTMLCanvasElement) {
+              (0, handleAction_1.default)();
+            }
           });
           screen.addEventListener("mousemove", (e) => {
-            if (e.target instanceof HTMLElement) {
-              state_1.default.mouseScreenCoords = {
-                x: Math.round(e.offsetX / e.target.offsetWidth * gameWidth_1.default),
-                y: Math.round(e.offsetY / e.target.offsetHeight * gameHeight_1.default)
-              };
+            if (e.target instanceof HTMLCanvasElement) {
+              if ((0, isPaused_1.default)() === false) {
+                state_1.default.mouseScreenCoords = {
+                  x: Math.round(e.offsetX / e.target.offsetWidth * gameWidth_1.default),
+                  y: Math.round(e.offsetY / e.target.offsetHeight * gameHeight_1.default)
+                };
+              }
             }
           });
           screen.addEventListener("keydown", (e) => {
@@ -68338,6 +68473,24 @@ void main() {
             element.style.height = `${credit.height * gameScale_1.default}px`;
             element.className = "credit";
           }
+          pause.addEventListener("click", () => {
+            screen.classList.add("paused");
+            const pauses = state_1.default.pauses;
+            pauses.push({
+              pausedAt: state_1.default.currentTime,
+              unpausedAt: null
+            });
+            state_1.default.pauses = pauses;
+          });
+          unpause.addEventListener("click", () => {
+            screen.classList.remove("paused");
+            const pauses = state_1.default.pauses.map((pause2) => ({
+              pausedAt: pause2.pausedAt,
+              unpausedAt: pause2.unpausedAt === null ? state_1.default.currentTime : pause2.unpausedAt
+            }));
+            state_1.default.pauses = pauses;
+            (0, focusScreen_1.default)();
+          });
         }
         if (socket_1.default) {
           socket_1.default.on("run-id", (runID) => {

@@ -48,6 +48,7 @@ const handleAction = (): void => {
         startLevel();
       }
       else {
+        document.getElementById("screen")?.classList.remove("main");
         const victoryMusic = getAudioSource("music/victory");
         victoryMusic.play(null, null);
         state.won = true;

@@ -21,6 +21,7 @@ import levelIsCompleted from "./levelIsCompleted";
 import drawCounterHUD from "./drawCounterHUD";
 import drawBedHUD from "./draw/drawBedHUD";
 import drawText from "./draw/drawText";
+import isPaused from "./isPaused";
 
 const render = (): void => {
   state.app.stage.removeChildren();
@@ -50,11 +51,13 @@ const render = (): void => {
           drawBedHUD();
         }
         else {
-          drawInteractHUD();
-          if (state.level === levels[0]) {
-            drawTutorialHUD();
+          if (isPaused() === false) {
+            drawInteractHUD();
+            if (state.level === levels[0]) {
+              drawTutorialHUD();
+            }
           }
-          else {
+          if (state.level !== levels[0]) {
             drawCounterHUD();
           }
           drawTimer();

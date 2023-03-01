@@ -4,7 +4,7 @@ import Coords from "../../interfaces/Coords";
 import state from "../../state";
 import getLaserPower from "../getLaserPower";
 import getMouseCoords from "../getMouseCoords";
-import isStuckOnObstacle from "../isStuckOnObstacle";
+import isCootsInObstacle from "../isCootsInObstacle";
 
 const updateCootsVelocity = (): void => {
   if (state.hasMouseScreenCoords()) {
@@ -15,7 +15,7 @@ const updateCootsVelocity = (): void => {
     const xVector: number = Math.cos(angle);
     const yVector: number = Math.sin(angle);
     // Increase velocity based on laser pointer
-    if (isStuckOnObstacle() === false) {
+    if (isCootsInObstacle() === false) {
       const laserPower: number = getLaserPower();
       if (laserPower >= walkingThreshold) {
         const accelerationFactor: number = 1.5;

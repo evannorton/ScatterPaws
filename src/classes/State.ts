@@ -4,6 +4,7 @@ import unitsPerTile from "../constants/unitsPerTile";
 import Coords from "../interfaces/Coords";
 import Destruction from "../interfaces/Destruction";
 import Level from "../interfaces/Level";
+import Pause from "../interfaces/Pause";
 import YSortEntry from "../interfaces/YSortEntry";
 
 class State {
@@ -28,6 +29,7 @@ class State {
   private _levelStartedAt: number | null = null;
   private _loadedAssets: number = 0;
   private _mouseScreenCoords: Coords | null = null;
+  private _pauses: Pause[] = [];
   private _playedDefeatMusic: boolean = false;
   private _playedLevelMusic: boolean = false;
   private _recentDestruction: Destruction | null = null;
@@ -119,6 +121,10 @@ class State {
       return this._mouseScreenCoords;
     }
     throw new Error(this.getAccessorErrorMessage("mouseCoords"));
+  }
+
+  public get pauses(): Pause[] {
+    return [...this._pauses];
   }
 
   public get playedDefeatMusic(): boolean {
@@ -214,6 +220,10 @@ class State {
 
   public set mouseScreenCoords(mouseScreenCoords: Coords | null) {
     this._mouseScreenCoords = mouseScreenCoords;
+  }
+
+  public set pauses(pauses: Pause[]) {
+    this._pauses = [...pauses];
   }
 
   public set playedDefeatMusic(playedDefeatMusic: boolean) {

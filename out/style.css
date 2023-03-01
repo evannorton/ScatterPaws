@@ -9,6 +9,7 @@ body {
 
 #screen {
   cursor: url("./cursors/laser.png") 16 16, default;
+  position: relative;
 }
 
 #screen.focus {
@@ -44,5 +45,43 @@ canvas:focus {
 }
 
 #screen:not(.victory) .credit {
+  display: none;
+}
+
+.pause-toggle {
+  cursor: url("./cursors/pointer.png") 7 2, pointer;
+  filter: invert(100%) sepia(0%) saturate(7491%) hue-rotate(313deg) brightness(106%) contrast(102%);
+  left: 1.25%;
+  opacity: .7;
+  position: absolute;
+  top: 2%;
+  width: 3%;
+}
+
+#screen:not(.main) .pause-toggle {
+  display: none;
+}
+
+#screen:not(.paused) #unpause {
+  display: none;
+}
+
+#screen.paused #pause {
+  display: none;
+}
+
+#settings {
+  align-items: center;
+  background-color: rgba(0, 0, 0, .5);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+  cursor: url("./cursors/default.png"), default;
+}
+
+#screen:not(.paused) #settings {
   display: none;
 }

@@ -6,13 +6,14 @@ import drawImage from "./drawImage";
 import HardZIndex from "../../interfaces/ZIndex/HardZIndex";
 import ZIndexType from "../../enums/ZIndexType";
 import levelIsCompleted from "../levelIsCompleted";
+import getPausedTime from "../getPausedTime";
 
 const drawTimer = (): void => {
   const endTime: number = levelIsCompleted() ? state.levelCompletedAt : state.currentTime;
   const offset: number = 4;
   const width: number = 26;
   const height: number = 11;
-  const timeLeft: number = state.level.time - (endTime - state.levelStartedAt);
+  const timeLeft: number = state.level.time - (endTime - state.levelStartedAt) + getPausedTime();
   const secondsLeft: number = Math.floor(timeLeft / 1000);
   const hungerZIndex: HardZIndex = {
     type: ZIndexType.Hard,
