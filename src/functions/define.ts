@@ -44,6 +44,7 @@ const define = (): void => {
   new AudioSource("music/level", null);
   new AudioSource("noises/scratch", null);
   new AudioSource("noises/meow", null);
+  new AudioSource("noises/bounce", null);
   new AudioSource("noises/destroy/electronic", null);
   new AudioSource("noises/destroy/wood", null);
   new AudioSource("noises/destroy/scratch", null);

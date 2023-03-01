@@ -63777,6 +63777,7 @@ void main() {
         new AudioSource_1.default("music/level", null);
         new AudioSource_1.default("noises/scratch", null);
         new AudioSource_1.default("noises/meow", null);
+        new AudioSource_1.default("noises/bounce", null);
         new AudioSource_1.default("noises/destroy/electronic", null);
         new AudioSource_1.default("noises/destroy/wood", null);
         new AudioSource_1.default("noises/destroy/scratch", null);
@@ -67690,8 +67691,10 @@ void main() {
       var state_1 = __importDefault(require_state());
       var getAudioSource_1 = __importDefault(require_getAudioSource());
       var getTilemap_1 = __importDefault(require_getTilemap());
+      var cootsMaxVelocity_1 = __importDefault(require_cootsMaxVelocity());
       var updateCootsPosition = () => {
         const collisionVelocityFactor = -0.7;
+        const bonkThreshold = cootsMaxVelocity_1.default / unitsPerTile_1.default / 3;
         const furnitureLeftOffset = -0.4;
         const furnitureTopOffset = -0.5;
         const furnitureBottomOffset = 0.85;
@@ -67813,10 +67816,22 @@ void main() {
           state_1.default.hitObstacleAt = state_1.default.currentTime;
           (0, getAudioSource_1.default)("noises/meow").play(null, null);
         } else if (furnitureXCollision.some((collision) => collision === CollisionType_1.default.Bonk)) {
+          const bonkVelocity = Math.abs(state_1.default.cootsVelocityX) / unitsPerTile_1.default;
+          if (bonkVelocity >= bonkThreshold) {
+            (0, getAudioSource_1.default)("noises/bounce").play(null, null);
+          }
           state_1.default.cootsVelocityX *= collisionVelocityFactor;
         } else if (furnitureYCollision.some((collision) => collision === CollisionType_1.default.Bonk)) {
+          const bonkVelocity = Math.abs(state_1.default.cootsVelocityY) / unitsPerTile_1.default;
+          if (bonkVelocity >= bonkThreshold) {
+            (0, getAudioSource_1.default)("noises/bounce").play(null, null);
+          }
           state_1.default.cootsVelocityY *= collisionVelocityFactor;
         } else if (furnitureBothCollision.some((collision) => collision === CollisionType_1.default.Bonk)) {
+          const bonkVelocity = Math.abs((state_1.default.cootsVelocityX + state_1.default.cootsVelocityY) / 2) / unitsPerTile_1.default;
+          if (bonkVelocity >= bonkThreshold) {
+            (0, getAudioSource_1.default)("noises/bounce").play(null, null);
+          }
           state_1.default.cootsVelocityX *= collisionVelocityFactor;
           state_1.default.cootsVelocityY *= collisionVelocityFactor;
         } else {

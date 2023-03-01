@@ -5,9 +5,11 @@ import CollisionType from "../../enums/CollisionType";
 import state from "../../state";
 import getAudioSource from "../definables/getAudioSource";
 import getTilemap from "../definables/getTilemap";
+import cootsMaxVelocity from "../../constants/cootsMaxVelocity";
 
 const updateCootsPosition = (): void => {
   const collisionVelocityFactor = -.7;
+  const bonkThreshold: number = cootsMaxVelocity / unitsPerTile / 3;
   // Furniture
   const furnitureLeftOffset: number = -.4;
   const furnitureTopOffset: number = - .5;
@@ -135,12 +137,24 @@ const updateCootsPosition = (): void => {
     getAudioSource("noises/meow").play(null, null);
   }
   else if (furnitureXCollision.some((collision) => collision === CollisionType.Bonk)) {
+    const bonkVelocity: number = Math.abs(state.cootsVelocityX) / unitsPerTile;
+    if (bonkVelocity >= bonkThreshold) {
+      getAudioSource("noises/bounce").play(null, null);
+    }
     state.cootsVelocityX *= collisionVelocityFactor;
   }
   else if (furnitureYCollision.some((collision) => collision === CollisionType.Bonk)) {
+    const bonkVelocity: number = Math.abs(state.cootsVelocityY) / unitsPerTile;
+    if (bonkVelocity >= bonkThreshold) {
+      getAudioSource("noises/bounce").play(null, null);
+    }
     state.cootsVelocityY *= collisionVelocityFactor;
   }
   else if (furnitureBothCollision.some((collision) => collision === CollisionType.Bonk)) {
+    const bonkVelocity: number = Math.abs((state.cootsVelocityX + state.cootsVelocityY) / 2) / unitsPerTile;
+    if (bonkVelocity >= bonkThreshold) {
+      getAudioSource("noises/bounce").play(null, null);
+    }
     state.cootsVelocityX *= collisionVelocityFactor;
     state.cootsVelocityY *= collisionVelocityFactor;
   }
