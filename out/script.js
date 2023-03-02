@@ -68426,25 +68426,24 @@ void main() {
             }
           });
           screen.addEventListener("keydown", (e) => {
-            const key = e.key.toLowerCase();
             const heldKeys = state_1.default.heldKeys;
-            if (heldKeys.includes(key) === false) {
-              heldKeys.push(key);
-              switch (key) {
-                case "p": {
+            if (heldKeys.includes(e.code) === false) {
+              heldKeys.push(e.code);
+              switch (e.code) {
+                case "KeyP": {
                   const anchor = document.createElement("a");
                   anchor.download = "ScatterPaws Screenshot.png";
                   anchor.href = state_1.default.app.renderer.plugins.extract.canvas(state_1.default.app.stage).toDataURL();
                   anchor.click();
                   break;
                 }
-                case "m": {
+                case "KeyM": {
                   if ((0, gameIsOngoing_1.default)() && (0, levelIsCompleted_1.default)() === false && state_1.default.isInBed === false) {
                     (0, getAudioSource_1.default)("noises/meow").play(null, null);
                   }
                   break;
                 }
-                case " ": {
+                case "Space": {
                   (0, handleAction_1.default)();
                   break;
                 }
@@ -68453,9 +68452,8 @@ void main() {
             state_1.default.heldKeys = heldKeys;
           });
           screen.addEventListener("keyup", (e) => {
-            const key = e.key.toLowerCase();
             const heldKeys = state_1.default.heldKeys;
-            const index = heldKeys.indexOf(key);
+            const index = heldKeys.indexOf(e.code);
             if (index >= 0) {
               heldKeys.splice(index, 1);
             }
