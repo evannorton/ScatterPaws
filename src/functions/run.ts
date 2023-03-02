@@ -20,6 +20,8 @@ import unpause from "./unpause";
 import getAudioSources from "./definables/getAudioSources";
 import getMusicTracks from "./definables/getMusicTracks";
 import getNoises from "./definables/getNoises";
+import startLevel from "./startLevel";
+import AudioSource from "../classes/AudioSource";
 
 const run = async (): Promise<void> => {
   console.log(`Running ScatterPaws.`);
@@ -73,6 +75,13 @@ const run = async (): Promise<void> => {
     getNoises().forEach((noise) => {
       noise.applyVolume();
     });
+  });
+  document.getElementById("restart")?.addEventListener("click", () => {
+    const mainMusic: AudioSource = getAudioSource("music/main");
+    mainMusic.stop();
+    mainMusic.play(null, null);
+    unpause();
+    startLevel();
   });
   if (screen && pauseButton && unpauseButton) {
     document.addEventListener("keydown", (e): void => {

@@ -68570,8 +68570,9 @@ void main() {
       var getAudioSources_1 = __importDefault(require_getAudioSources());
       var getMusicTracks_1 = __importDefault(require_getMusicTracks());
       var getNoises_1 = __importDefault(require_getNoises());
+      var startLevel_1 = __importDefault(require_startLevel());
       var run = () => __awaiter(void 0, void 0, void 0, function* () {
-        var _a, _b, _c, _d;
+        var _a, _b, _c, _d, _e;
         console.log(`Running ScatterPaws.`);
         (0, define_1.default)();
         pixi_js_1.settings.ROUND_PIXELS = true;
@@ -68624,6 +68625,13 @@ void main() {
           (0, getNoises_1.default)().forEach((noise) => {
             noise.applyVolume();
           });
+        });
+        (_e = document.getElementById("restart")) === null || _e === void 0 ? void 0 : _e.addEventListener("click", () => {
+          const mainMusic = (0, getAudioSource_1.default)("music/main");
+          mainMusic.stop();
+          mainMusic.play(null, null);
+          (0, unpause_1.default)();
+          (0, startLevel_1.default)();
         });
         if (screen && pauseButton && unpauseButton) {
           document.addEventListener("keydown", (e) => {
