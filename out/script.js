@@ -68645,6 +68645,16 @@ void main() {
                   }
                   break;
                 }
+                case "KeyR": {
+                  if (e.shiftKey) {
+                    const mainMusic = (0, getAudioSource_1.default)("music/main");
+                    mainMusic.stop();
+                    mainMusic.play(null, null);
+                    (0, unpause_1.default)();
+                    (0, startLevel_1.default)();
+                  }
+                  break;
+                }
               }
             }
           });

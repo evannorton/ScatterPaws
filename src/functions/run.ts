@@ -96,6 +96,16 @@ const run = async (): Promise<void> => {
             }
             break;
           }
+          case "KeyR": {
+            if (e.shiftKey) {
+              const mainMusic: AudioSource = getAudioSource("music/main");
+              mainMusic.stop();
+              mainMusic.play(null, null);
+              unpause();
+              startLevel();
+            }
+            break;
+          }
         }
       }
     });
