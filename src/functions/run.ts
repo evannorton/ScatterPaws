@@ -16,6 +16,8 @@ import levelIsCompleted from "./levelIsCompleted";
 import gameIsOngoing from "./gameIsOngoing";
 import Pause from "../interfaces/Pause";
 import isPaused from "./isPaused";
+import pause from "./pause";
+import unpause from "./unpause";
 
 const run = async (): Promise<void> => {
   console.log(`Running ScatterPaws.`);
@@ -45,9 +47,24 @@ const run = async (): Promise<void> => {
   });
   state.app.ticker.add(tick);
   const screen = document.getElementById("screen");
-  const pause = document.getElementById("pause");
-  const unpause = document.getElementById("unpause");
-  if (screen && pause && unpause) {
+  const pauseButton = document.getElementById("pause");
+  const unpauseButton = document.getElementById("unpause");
+  if (screen && pauseButton && unpauseButton) {
+    document.addEventListener("keydown", (e): void => {
+      if (screen.classList.contains("main")) {
+        switch (e.code) {
+          case "Escape": {
+            if (screen.classList.contains("paused")) {
+              unpause();
+            }
+            else {
+              pause();
+            }
+            break;
+          }
+        }
+      }
+    });
     screen.appendChild(state.app.view);
     screen.style.width = `${gameWidth * gameScale}px`;
     screen.style.height = `${gameHeight * gameScale}px`;
@@ -112,25 +129,11 @@ const run = async (): Promise<void> => {
       element.style.height = `${credit.height * gameScale}px`;
       element.className = "credit";
     }
-    pause.addEventListener("click", () => {
-      screen.classList.add("paused");
-      const pauses = state.pauses;
-      pauses.push(
-        {
-          pausedAt: state.currentTime,
-          unpausedAt: null
-        }
-      );
-      state.pauses = pauses;
+    pauseButton.addEventListener("click", () => {
+      pause();
     });
-    unpause.addEventListener("click", () => {
-      screen.classList.remove("paused");
-      const pauses = state.pauses.map((pause: Pause): Pause => ({
-        pausedAt: pause.pausedAt,
-        unpausedAt: pause.unpausedAt === null ? state.currentTime : pause.unpausedAt
-      }));
-      state.pauses = pauses;
-      focusScreen();
+    unpauseButton.addEventListener("click", () => {
+      unpause();
     });
   }
   if (socket) {

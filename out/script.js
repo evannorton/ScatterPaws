@@ -68323,6 +68323,57 @@ void main() {
     }
   });
 
+  // lib/functions/pause.js
+  var require_pause = __commonJS({
+    "lib/functions/pause.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var state_1 = __importDefault(require_state());
+      var pause = () => {
+        const screen = document.getElementById("screen");
+        if (screen) {
+          screen.classList.add("paused");
+          const pauses = state_1.default.pauses;
+          pauses.push({
+            pausedAt: state_1.default.currentTime,
+            unpausedAt: null
+          });
+          state_1.default.pauses = pauses;
+        }
+      };
+      exports.default = pause;
+    }
+  });
+
+  // lib/functions/unpause.js
+  var require_unpause = __commonJS({
+    "lib/functions/unpause.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var state_1 = __importDefault(require_state());
+      var focusScreen_1 = __importDefault(require_focusScreen());
+      var unpause = () => {
+        const screen = document.getElementById("screen");
+        if (screen) {
+          screen.classList.remove("paused");
+          const pauses = state_1.default.pauses.map((pause) => ({
+            pausedAt: pause.pausedAt,
+            unpausedAt: pause.unpausedAt === null ? state_1.default.currentTime : pause.unpausedAt
+          }));
+          state_1.default.pauses = pauses;
+          (0, focusScreen_1.default)();
+        }
+      };
+      exports.default = unpause;
+    }
+  });
+
   // lib/functions/run.js
   var require_run = __commonJS({
     "lib/functions/run.js"(exports) {
@@ -68375,6 +68426,8 @@ void main() {
       var levelIsCompleted_1 = __importDefault(require_levelIsCompleted());
       var gameIsOngoing_1 = __importDefault(require_gameIsOngoing());
       var isPaused_1 = __importDefault(require_isPaused());
+      var pause_1 = __importDefault(require_pause());
+      var unpause_1 = __importDefault(require_unpause());
       var run = () => __awaiter(void 0, void 0, void 0, function* () {
         console.log(`Running ScatterPaws.`);
         (0, define_1.default)();
@@ -68404,9 +68457,23 @@ void main() {
         });
         state_1.default.app.ticker.add(tick_1.default);
         const screen = document.getElementById("screen");
-        const pause = document.getElementById("pause");
-        const unpause = document.getElementById("unpause");
-        if (screen && pause && unpause) {
+        const pauseButton = document.getElementById("pause");
+        const unpauseButton = document.getElementById("unpause");
+        if (screen && pauseButton && unpauseButton) {
+          document.addEventListener("keydown", (e) => {
+            if (screen.classList.contains("main")) {
+              switch (e.code) {
+                case "Escape": {
+                  if (screen.classList.contains("paused")) {
+                    (0, unpause_1.default)();
+                  } else {
+                    (0, pause_1.default)();
+                  }
+                  break;
+                }
+              }
+            }
+          });
           screen.appendChild(state_1.default.app.view);
           screen.style.width = `${gameWidth_1.default * gameScale_1.default}px`;
           screen.style.height = `${gameHeight_1.default * gameScale_1.default}px`;
@@ -68471,23 +68538,11 @@ void main() {
             element.style.height = `${credit.height * gameScale_1.default}px`;
             element.className = "credit";
           }
-          pause.addEventListener("click", () => {
-            screen.classList.add("paused");
-            const pauses = state_1.default.pauses;
-            pauses.push({
-              pausedAt: state_1.default.currentTime,
-              unpausedAt: null
-            });
-            state_1.default.pauses = pauses;
+          pauseButton.addEventListener("click", () => {
+            (0, pause_1.default)();
           });
-          unpause.addEventListener("click", () => {
-            screen.classList.remove("paused");
-            const pauses = state_1.default.pauses.map((pause2) => ({
-              pausedAt: pause2.pausedAt,
-              unpausedAt: pause2.unpausedAt === null ? state_1.default.currentTime : pause2.unpausedAt
-            }));
-            state_1.default.pauses = pauses;
-            (0, focusScreen_1.default)();
+          unpauseButton.addEventListener("click", () => {
+            (0, unpause_1.default)();
           });
         }
         if (socket_1.default) {
