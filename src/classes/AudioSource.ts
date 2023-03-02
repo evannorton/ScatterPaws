@@ -15,6 +15,7 @@ class AudioSource extends Definable {
   private _onPlay: (() => void) | null = null;
   private _loopPoint: number | null = null;
   private _plays: number = 0;
+  private _muted: boolean = false;
 
   public constructor(slug: string, loopPoint: number | null) {
     super(slug);
@@ -24,7 +25,7 @@ class AudioSource extends Definable {
       loop: false,
       preload: true,
       src: [this.getSRC()],
-      volume: 0.25
+      volume: .5
     });
     this._howl.on("end", (): void => {
       this.onHowlEnd();
@@ -82,6 +83,7 @@ class AudioSource extends Definable {
   }
 
   public mute(): void {
+    this._muted = true;
     this._howl.mute(true);
   }
 
@@ -106,11 +108,21 @@ class AudioSource extends Definable {
   }
 
   public unmute(): void {
+    this._muted = false;
     this._howl.mute(false);
   }
 
   public cancelOnEnds(): void {
     this._onEnds = [];
+  }
+
+  public toggleMute(): void {
+    if (this._muted)  {
+      this.unmute();
+    }
+    else {
+      this.mute();
+    }
   }
 
   private getSRC(): string {

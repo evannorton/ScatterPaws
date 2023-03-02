@@ -63604,13 +63604,14 @@ void main() {
           this._onPlay = null;
           this._loopPoint = null;
           this._plays = 0;
+          this._muted = false;
           this._loopPoint = loopPoint;
           this._howl = new howler_1.Howl({
             autoplay: false,
             loop: false,
             preload: true,
             src: [this.getSRC()],
-            volume: 0.25
+            volume: 0.5
           });
           this._howl.on("end", () => {
             this.onHowlEnd();
@@ -63661,6 +63662,7 @@ void main() {
           return this._howl.playing();
         }
         mute() {
+          this._muted = true;
           this._howl.mute(true);
         }
         pause() {
@@ -63680,10 +63682,18 @@ void main() {
           this._howl.stop();
         }
         unmute() {
+          this._muted = false;
           this._howl.mute(false);
         }
         cancelOnEnds() {
           this._onEnds = [];
+        }
+        toggleMute() {
+          if (this._muted) {
+            this.unmute();
+          } else {
+            this.mute();
+          }
         }
         getSRC() {
           if ((0, isRunningOnLocal_1.default)()) {
@@ -63731,6 +63741,89 @@ void main() {
     }
   });
 
+  // lib/functions/definables/getAudioSource.js
+  var require_getAudioSource = __commonJS({
+    "lib/functions/definables/getAudioSource.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var getDefinable_1 = __importDefault(require_getDefinable());
+      var getAudioSource = (slug) => (0, getDefinable_1.default)({
+        className: "AudioSource",
+        slug
+      });
+      exports.default = getAudioSource;
+    }
+  });
+
+  // lib/classes/MusicTrack.js
+  var require_MusicTrack = __commonJS({
+    "lib/classes/MusicTrack.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var Definable_1 = __importDefault(require_Definable());
+      var getAudioSource_1 = __importDefault(require_getAudioSource());
+      var MusicTrack = class extends Definable_1.default {
+        constructor(slug, { audioSourceSlug }) {
+          super(slug);
+          this._audioSourceSlug = audioSourceSlug;
+        }
+        get audioSource() {
+          return (0, getAudioSource_1.default)(this._audioSourceSlug);
+        }
+        applyVolume() {
+          const mainVolumeElement = document.getElementById("main-volume");
+          const musicVolumeElement = document.getElementById("music-volume");
+          if (mainVolumeElement instanceof HTMLInputElement && musicVolumeElement instanceof HTMLInputElement) {
+            const audioSource = this.audioSource;
+            const mainVolume = Number(mainVolumeElement.value) / 100;
+            const musicVolume = Number(musicVolumeElement.value) / 100;
+            audioSource.applyVolume(mainVolume * musicVolume);
+          }
+        }
+      };
+      exports.default = MusicTrack;
+    }
+  });
+
+  // lib/classes/Noise.js
+  var require_Noise = __commonJS({
+    "lib/classes/Noise.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var Definable_1 = __importDefault(require_Definable());
+      var getAudioSource_1 = __importDefault(require_getAudioSource());
+      var Noise = class extends Definable_1.default {
+        constructor(slug, { audioSourceSlug }) {
+          super(slug);
+          this._audioSourceSlug = audioSourceSlug;
+        }
+        get audioSource() {
+          return (0, getAudioSource_1.default)(this._audioSourceSlug);
+        }
+        applyVolume() {
+          const mainVolumeElement = document.getElementById("main-volume");
+          const sfxVolumeElement = document.getElementById("sfx-volume");
+          if (mainVolumeElement instanceof HTMLInputElement && sfxVolumeElement instanceof HTMLInputElement) {
+            const audioSource = this.audioSource;
+            const mainVolume = Number(mainVolumeElement.value) / 100;
+            const musicVolume = Number(sfxVolumeElement.value) / 100;
+            audioSource.applyVolume(mainVolume * musicVolume);
+          }
+        }
+      };
+      exports.default = Noise;
+    }
+  });
+
   // lib/functions/define.js
   var require_define = __commonJS({
     "lib/functions/define.js"(exports) {
@@ -63751,6 +63844,8 @@ void main() {
       var collision_json_1 = __importDefault(require_collision());
       var obstacles_json_1 = __importDefault(require_obstacles());
       var AudioSource_1 = __importDefault(require_AudioSource());
+      var MusicTrack_1 = __importDefault(require_MusicTrack());
+      var Noise_1 = __importDefault(require_Noise());
       var define2 = () => {
         new Tilemap_1.default("map", map_json_1.default);
         new Tilemap_1.default("map-2", map_2_json_1.default);
@@ -63782,6 +63877,11 @@ void main() {
         new AudioSource_1.default("music/victory", 70500);
         new AudioSource_1.default("music/defeat", null);
         new AudioSource_1.default("music/level", null);
+        new MusicTrack_1.default("title", { audioSourceSlug: "music/title" });
+        new MusicTrack_1.default("main", { audioSourceSlug: "music/main" });
+        new MusicTrack_1.default("victory", { audioSourceSlug: "music/victory" });
+        new MusicTrack_1.default("defeat", { audioSourceSlug: "music/defeat" });
+        new MusicTrack_1.default("level", { audioSourceSlug: "music/level" });
         new AudioSource_1.default("noises/scratch", null);
         new AudioSource_1.default("noises/meow", null);
         new AudioSource_1.default("noises/bounce", null);
@@ -63790,6 +63890,14 @@ void main() {
         new AudioSource_1.default("noises/destroy/scratch", null);
         new AudioSource_1.default("noises/destroy/cloth", null);
         new AudioSource_1.default("noises/destroy/container", null);
+        new Noise_1.default("scratch", { audioSourceSlug: "noises/scratch" });
+        new Noise_1.default("meow", { audioSourceSlug: "noises/meow" });
+        new Noise_1.default("bounce", { audioSourceSlug: "noises/bounce" });
+        new Noise_1.default("destroy/electronic", { audioSourceSlug: "noises/destroy/electronic" });
+        new Noise_1.default("destroy/wood", { audioSourceSlug: "noises/destroy/wood" });
+        new Noise_1.default("destroy/scratch", { audioSourceSlug: "noises/destroy/scratch" });
+        new Noise_1.default("destroy/cloth", { audioSourceSlug: "noises/destroy/cloth" });
+        new Noise_1.default("destroy/container", { audioSourceSlug: "noises/destroy/container" });
       };
       exports.default = define2;
     }
@@ -67780,23 +67888,6 @@ void main() {
     }
   });
 
-  // lib/functions/definables/getAudioSource.js
-  var require_getAudioSource = __commonJS({
-    "lib/functions/definables/getAudioSource.js"(exports) {
-      "use strict";
-      var __importDefault = exports && exports.__importDefault || function(mod) {
-        return mod && mod.__esModule ? mod : { "default": mod };
-      };
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var getDefinable_1 = __importDefault(require_getDefinable());
-      var getAudioSource = (slug) => (0, getDefinable_1.default)({
-        className: "AudioSource",
-        slug
-      });
-      exports.default = getAudioSource;
-    }
-  });
-
   // lib/functions/update/updateCootsPosition.js
   var require_updateCootsPosition = __commonJS({
     "lib/functions/update/updateCootsPosition.js"(exports) {
@@ -68374,6 +68465,54 @@ void main() {
     }
   });
 
+  // lib/functions/definables/getMusicTracks.js
+  var require_getMusicTracks = __commonJS({
+    "lib/functions/definables/getMusicTracks.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var MusicTrack_1 = __importDefault(require_MusicTrack());
+      var getDefinables_1 = __importDefault(require_getDefinables());
+      var getMusicTracks = () => {
+        const musicTracks = /* @__PURE__ */ new Map();
+        (0, getDefinables_1.default)("MusicTrack").forEach((musicTrack) => {
+          const slug = musicTrack.slug;
+          if (musicTrack instanceof MusicTrack_1.default) {
+            musicTracks.set(slug, musicTrack);
+          }
+        });
+        return musicTracks;
+      };
+      exports.default = getMusicTracks;
+    }
+  });
+
+  // lib/functions/definables/getNoises.js
+  var require_getNoises = __commonJS({
+    "lib/functions/definables/getNoises.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var Noise_1 = __importDefault(require_Noise());
+      var getDefinables_1 = __importDefault(require_getDefinables());
+      var getNoises = () => {
+        const noises = /* @__PURE__ */ new Map();
+        (0, getDefinables_1.default)("Noise").forEach((noise) => {
+          const slug = noise.slug;
+          if (noise instanceof Noise_1.default) {
+            noises.set(slug, noise);
+          }
+        });
+        return noises;
+      };
+      exports.default = getNoises;
+    }
+  });
+
   // lib/functions/run.js
   var require_run = __commonJS({
     "lib/functions/run.js"(exports) {
@@ -68428,7 +68567,11 @@ void main() {
       var isPaused_1 = __importDefault(require_isPaused());
       var pause_1 = __importDefault(require_pause());
       var unpause_1 = __importDefault(require_unpause());
+      var getAudioSources_1 = __importDefault(require_getAudioSources());
+      var getMusicTracks_1 = __importDefault(require_getMusicTracks());
+      var getNoises_1 = __importDefault(require_getNoises());
       var run = () => __awaiter(void 0, void 0, void 0, function* () {
+        var _a, _b, _c, _d;
         console.log(`Running ScatterPaws.`);
         (0, define_1.default)();
         pixi_js_1.settings.ROUND_PIXELS = true;
@@ -68448,17 +68591,40 @@ void main() {
         });
         const loader = new pixi_js_1.Loader();
         loader.add((0, isRunningOnLocal_1.default)() ? "./out/fonts/RetroPixels.fnt" : "./fonts/RetroPixels.fnt").load(() => {
-          var _a, _b;
+          var _a2, _b2;
           state_1.default.loadedAssets++;
           if ((0, assetsAreLoaded_1.default)()) {
-            (_a = document.getElementById("screen")) === null || _a === void 0 ? void 0 : _a.classList.remove("loading");
-            (_b = document.getElementById("screen")) === null || _b === void 0 ? void 0 : _b.classList.add("focus");
+            (_a2 = document.getElementById("screen")) === null || _a2 === void 0 ? void 0 : _a2.classList.remove("loading");
+            (_b2 = document.getElementById("screen")) === null || _b2 === void 0 ? void 0 : _b2.classList.add("focus");
           }
         });
         state_1.default.app.ticker.add(tick_1.default);
         const screen = document.getElementById("screen");
         const pauseButton = document.getElementById("pause");
         const unpauseButton = document.getElementById("unpause");
+        (_a = document.getElementById("mute")) === null || _a === void 0 ? void 0 : _a.addEventListener("click", () => {
+          (0, getAudioSources_1.default)().forEach((audioSource) => {
+            audioSource.toggleMute();
+          });
+        });
+        (_b = document.getElementById("main-volume")) === null || _b === void 0 ? void 0 : _b.addEventListener("input", () => {
+          (0, getMusicTracks_1.default)().forEach((musicTrack) => {
+            musicTrack.applyVolume();
+          });
+          (0, getNoises_1.default)().forEach((noise) => {
+            noise.applyVolume();
+          });
+        });
+        (_c = document.getElementById("music-volume")) === null || _c === void 0 ? void 0 : _c.addEventListener("input", () => {
+          (0, getMusicTracks_1.default)().forEach((musicTrack) => {
+            musicTrack.applyVolume();
+          });
+        });
+        (_d = document.getElementById("sfx-volume")) === null || _d === void 0 ? void 0 : _d.addEventListener("input", () => {
+          (0, getNoises_1.default)().forEach((noise) => {
+            noise.applyVolume();
+          });
+        });
         if (screen && pauseButton && unpauseButton) {
           document.addEventListener("keydown", (e) => {
             if (screen.classList.contains("main")) {
@@ -68545,6 +68711,7 @@ void main() {
             (0, unpause_1.default)();
           });
         }
+        const mainSlider = document.getElementById("main-volume");
         if (socket_1.default) {
           socket_1.default.on("run-id", (runID) => {
             if (document.body.dataset.runId !== runID) {

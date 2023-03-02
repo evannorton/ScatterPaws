@@ -80,6 +80,37 @@ canvas:focus {
   position: absolute;
   width: 100%;
   cursor: url("./cursors/default.png"), default;
+  font-size: 200%;
+  color: white;
+  font-family: sans-serif;
+}
+
+label {
+  margin-bottom: 1.5%;
+}
+
+input[type=checkbox] {
+  transform: scale(2);
+  margin-bottom: 2%;
+}
+
+input[type=range] {
+  width: 33%;
+  margin-bottom: 2%;
+}
+
+input[type=button] {
+  background-color: transparent;
+  border: 3px solid white;
+  color: white;
+  cursor: url(../images/cursor-pointer.png) 7 2, pointer;
+  padding: 0.5% 1%;
+  font-size: 1em;
+  margin-top: 1%;
+}
+
+input[type=button]:hover {
+  opacity: .7;
 }
 
 #screen:not(.paused) #settings {

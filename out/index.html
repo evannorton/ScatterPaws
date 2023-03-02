@@ -11,7 +11,17 @@
   </head>
   <body >
     <div id="screen" class="loading">
-      <div id="settings"></div>
+      <div id="settings">
+        <label for="mute">Mute</label>
+        <input id="mute" type="checkbox" />
+        <label for="main-volume">Main Volume</label>
+        <input id="main-volume" type="range" min="0" max="100" value="50" />
+        <label for="music-volume">Music Volume</label>
+        <input id="music-volume" type="range" min="0" max="100" value="100" />
+        <label for="sfx-volume">SFX Volume</label>
+        <input id="sfx-volume" type="range" min="0" max="100" value="100" />
+        <input type="button" value="Restart level" />
+      </div>
       <img id="pause" class="pause-toggle" src="./out/pause.svg" />
       <img id="unpause" class="pause-toggle" src="./out/unpause.svg" />
     </div>

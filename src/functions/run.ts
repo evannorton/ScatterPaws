@@ -14,10 +14,12 @@ import credits from "../constants/credits";
 import assetsAreLoaded from "./assetsAreLoaded";
 import levelIsCompleted from "./levelIsCompleted";
 import gameIsOngoing from "./gameIsOngoing";
-import Pause from "../interfaces/Pause";
 import isPaused from "./isPaused";
 import pause from "./pause";
 import unpause from "./unpause";
+import getAudioSources from "./definables/getAudioSources";
+import getMusicTracks from "./definables/getMusicTracks";
+import getNoises from "./definables/getNoises";
 
 const run = async (): Promise<void> => {
   console.log(`Running ScatterPaws.`);
@@ -49,6 +51,29 @@ const run = async (): Promise<void> => {
   const screen = document.getElementById("screen");
   const pauseButton = document.getElementById("pause");
   const unpauseButton = document.getElementById("unpause");
+  document.getElementById("mute")?.addEventListener("click", () => {
+    getAudioSources().forEach((audioSource) => {
+      audioSource.toggleMute();
+    });
+  });
+  document.getElementById("main-volume")?.addEventListener("input", () => {
+    getMusicTracks().forEach((musicTrack) => {
+      musicTrack.applyVolume();
+    });
+    getNoises().forEach((noise) => {
+      noise.applyVolume();
+    });
+  });
+  document.getElementById("music-volume")?.addEventListener("input", () => {
+    getMusicTracks().forEach((musicTrack) => {
+      musicTrack.applyVolume();
+    });
+  });
+  document.getElementById("sfx-volume")?.addEventListener("input", () => {
+    getNoises().forEach((noise) => {
+      noise.applyVolume();
+    });
+  });
   if (screen && pauseButton && unpauseButton) {
     document.addEventListener("keydown", (e): void => {
       if (screen.classList.contains("main")) {
@@ -136,6 +161,7 @@ const run = async (): Promise<void> => {
       unpause();
     });
   }
+  const mainSlider = document.getElementById("main-volume");
   if (socket) {
     socket.on("run-id", (runID: string) => {
       if (document.body.dataset.runId !== runID) {

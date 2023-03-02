@@ -10,6 +10,8 @@ import furniture from "../tilesets/furniture.json";
 import collision from "../tilesets/collision.json";
 import obstacles from "../tilesets/obstacles.json";
 import AudioSource from "../classes/AudioSource";
+import MusicTrack from "../classes/MusicTrack";
+import Noise from "../classes/Noise";
 
 const define = (): void => {
   new Tilemap("map", map)
@@ -42,6 +44,11 @@ const define = (): void => {
   new AudioSource("music/victory", 70500);
   new AudioSource("music/defeat", null);
   new AudioSource("music/level", null);
+  new MusicTrack("title", { audioSourceSlug: "music/title" });
+  new MusicTrack("main", { audioSourceSlug: "music/main" });
+  new MusicTrack("victory", { audioSourceSlug: "music/victory" });
+  new MusicTrack("defeat", { audioSourceSlug: "music/defeat" });
+  new MusicTrack("level", { audioSourceSlug: "music/level" });
   new AudioSource("noises/scratch", null);
   new AudioSource("noises/meow", null);
   new AudioSource("noises/bounce", null);
@@ -50,6 +57,14 @@ const define = (): void => {
   new AudioSource("noises/destroy/scratch", null);
   new AudioSource("noises/destroy/cloth", null);
   new AudioSource("noises/destroy/container", null);
+  new Noise("scratch", {audioSourceSlug: "noises/scratch"});
+  new Noise("meow", {audioSourceSlug: "noises/meow"});
+  new Noise("bounce", {audioSourceSlug: "noises/bounce"});
+  new Noise("destroy/electronic", {audioSourceSlug: "noises/destroy/electronic"});
+  new Noise("destroy/wood", {audioSourceSlug: "noises/destroy/wood"});
+  new Noise("destroy/scratch", {audioSourceSlug: "noises/destroy/scratch"});
+  new Noise("destroy/cloth", {audioSourceSlug: "noises/destroy/cloth"});
+  new Noise("destroy/container", {audioSourceSlug: "noises/destroy/container"});
 };
 
 export default define;
