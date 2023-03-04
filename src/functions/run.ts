@@ -207,10 +207,10 @@ const run = async (): Promise<void> => {
       element.target = "_blank";
       screen.appendChild(element);
       element.style.position = "absolute";
-      element.style.left = `${credit.x * gameScale}px`;
-      element.style.top = `${credit.y * gameScale}px`;
-      element.style.width = `${credit.width * gameScale}px`;
-      element.style.height = `${credit.height * gameScale}px`;
+      element.style.left = `${credit.x / gameWidth * 100}%`;
+      element.style.top = `${credit.y / gameHeight * 100}%`;
+      element.style.width = `${credit.width / gameWidth * 100}%`;
+      element.style.height = `${credit.height / gameHeight * 100}%`;
       element.className = "credit";
     }
     pauseButton.addEventListener("click", () => {

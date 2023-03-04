@@ -25674,22 +25674,6 @@ void main() {
           startingTileY: 18,
           tilemapSlug: "map",
           time: 9e4
-        },
-        {
-          bed: 1,
-          requiredDestructibles: 15,
-          startingTileX: -15,
-          startingTileY: 41,
-          tilemapSlug: "map-2",
-          time: 12e4
-        },
-        {
-          bed: 2,
-          requiredDestructibles: 20,
-          startingTileX: 54,
-          startingTileY: -2,
-          tilemapSlug: "map-3",
-          time: 15e4
         }
       ];
       exports.default = levels;
@@ -68156,16 +68140,6 @@ void main() {
     }
   });
 
-  // lib/constants/gameScale.js
-  var require_gameScale = __commonJS({
-    "lib/constants/gameScale.js"(exports) {
-      "use strict";
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var gameScale = 4;
-      exports.default = gameScale;
-    }
-  });
-
   // lib/functions/focusScreen.js
   var require_focusScreen = __commonJS({
     "lib/functions/focusScreen.js"(exports) {
@@ -68548,7 +68522,6 @@ void main() {
       var tick_1 = __importDefault(require_tick());
       var gameWidth_1 = __importDefault(require_gameWidth());
       var gameHeight_1 = __importDefault(require_gameHeight());
-      var gameScale_1 = __importDefault(require_gameScale());
       var getAudioSource_1 = __importDefault(require_getAudioSource());
       var focusScreen_1 = __importDefault(require_focusScreen());
       var isRunningOnLocal_1 = __importDefault(require_isRunningOnLocal());
@@ -68751,10 +68724,10 @@ void main() {
             element.target = "_blank";
             screen.appendChild(element);
             element.style.position = "absolute";
-            element.style.left = `${credit.x * gameScale_1.default}px`;
-            element.style.top = `${credit.y * gameScale_1.default}px`;
-            element.style.width = `${credit.width * gameScale_1.default}px`;
-            element.style.height = `${credit.height * gameScale_1.default}px`;
+            element.style.left = `${credit.x / gameWidth_1.default * 100}%`;
+            element.style.top = `${credit.y / gameHeight_1.default * 100}%`;
+            element.style.width = `${credit.width / gameWidth_1.default * 100}%`;
+            element.style.height = `${credit.height / gameHeight_1.default * 100}%`;
             element.className = "credit";
           }
           pauseButton.addEventListener("click", () => {
