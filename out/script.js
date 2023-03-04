@@ -68673,7 +68673,7 @@ void main() {
           document.addEventListener("keydown", (e) => {
             if (screen.classList.contains("main")) {
               switch (e.code) {
-                case "Escape": {
+                case "Enter": {
                   if (screen.classList.contains("paused")) {
                     (0, unpause_1.default)();
                   } else {
