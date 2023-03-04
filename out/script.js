@@ -68513,6 +68513,30 @@ void main() {
     }
   });
 
+  // lib/functions/sizeScreen.js
+  var require_sizeScreen = __commonJS({
+    "lib/functions/sizeScreen.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var gameHeight_1 = __importDefault(require_gameHeight());
+      var gameWidth_1 = __importDefault(require_gameWidth());
+      var sizeScreen = () => {
+        const screen = document.getElementById("screen");
+        if (screen) {
+          const aspectRatio = gameWidth_1.default / gameHeight_1.default;
+          const screenAspectRatio = window.innerWidth / window.innerHeight;
+          const stretchedScale = aspectRatio >= screenAspectRatio ? window.innerWidth / gameWidth_1.default : window.innerHeight / gameHeight_1.default;
+          screen.style.width = `${gameWidth_1.default * stretchedScale}px`;
+          screen.style.height = `${gameHeight_1.default * stretchedScale}px`;
+        }
+      };
+      exports.default = sizeScreen;
+    }
+  });
+
   // lib/functions/run.js
   var require_run = __commonJS({
     "lib/functions/run.js"(exports) {
@@ -68571,6 +68595,7 @@ void main() {
       var getMusicTracks_1 = __importDefault(require_getMusicTracks());
       var getNoises_1 = __importDefault(require_getNoises());
       var startLevel_1 = __importDefault(require_startLevel());
+      var sizeScreen_1 = __importDefault(require_sizeScreen());
       var run = () => __awaiter(void 0, void 0, void 0, function* () {
         var _a, _b, _c, _d, _e;
         console.log(`Running ScatterPaws.`);
@@ -68603,6 +68628,9 @@ void main() {
         const screen = document.getElementById("screen");
         const pauseButton = document.getElementById("pause");
         const unpauseButton = document.getElementById("unpause");
+        addEventListener("resize", () => {
+          (0, sizeScreen_1.default)();
+        });
         (_a = document.getElementById("mute")) === null || _a === void 0 ? void 0 : _a.addEventListener("click", () => {
           (0, getAudioSources_1.default)().forEach((audioSource) => {
             audioSource.toggleMute();
@@ -68659,8 +68687,7 @@ void main() {
             }
           });
           screen.appendChild(state_1.default.app.view);
-          screen.style.width = `${gameWidth_1.default * gameScale_1.default}px`;
-          screen.style.height = `${gameHeight_1.default * gameScale_1.default}px`;
+          (0, sizeScreen_1.default)();
           screen.addEventListener("mousedown", (e) => {
             if (e.target instanceof HTMLCanvasElement) {
               (0, handleAction_1.default)();

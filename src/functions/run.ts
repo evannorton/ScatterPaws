@@ -22,6 +22,7 @@ import getMusicTracks from "./definables/getMusicTracks";
 import getNoises from "./definables/getNoises";
 import startLevel from "./startLevel";
 import AudioSource from "../classes/AudioSource";
+import sizeScreen from "./sizeScreen";
 
 const run = async (): Promise<void> => {
   console.log(`Running ScatterPaws.`);
@@ -53,6 +54,9 @@ const run = async (): Promise<void> => {
   const screen = document.getElementById("screen");
   const pauseButton = document.getElementById("pause");
   const unpauseButton = document.getElementById("unpause");
+  addEventListener("resize", (): void => {
+    sizeScreen();
+  });
   document.getElementById("mute")?.addEventListener("click", () => {
     getAudioSources().forEach((audioSource) => {
       audioSource.toggleMute();
@@ -110,8 +114,7 @@ const run = async (): Promise<void> => {
       }
     });
     screen.appendChild(state.app.view);
-    screen.style.width = `${gameWidth * gameScale}px`;
-    screen.style.height = `${gameHeight * gameScale}px`;
+    sizeScreen();
     screen.addEventListener("mousedown", (e) => {
       if (e.target instanceof HTMLCanvasElement) {
         handleAction();
