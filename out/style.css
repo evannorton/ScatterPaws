@@ -21,15 +21,54 @@ body {
 }
 
 #screen.title {
+  cursor: url("./cursors/default.png"), default;
+}
+
+#screen:not(.title) #start-button {
+  display: none;
+}
+
+#start-button {
   cursor: url("./cursors/pointer.png") 7 2, pointer;
+  position: absolute;
+  left: 22.8125%;
+  top: 76.66666666666667%;
+  width: 23.125%;
+  height: 12.22222222222222%;
 }
 
 #screen.level {
+  cursor: url("./cursors/default.png"), default;
+}
+
+#screen:not(.level) #level-button {
+  display: none;
+}
+
+#level-button {
   cursor: url("./cursors/pointer.png") 7 2, pointer;
+  position: absolute;
+  left: 42.5%;
+  top: 55.55555555555556%;
+  width: 14.6875%;
+  height: 13.33333333333333%;
 }
 
 #screen.defeat {
+  cursor: url("./cursors/default.png"), default;
+}
+
+#screen:not(.defeat) #defeat-button {
+  display: none;
+}
+
+#defeat-button {
   cursor: url("./cursors/pointer.png") 7 2, pointer;
+  position: absolute;
+  left: 38.75%;
+  top: 28.33333333333333%;
+  width: 22.8125%;
+  height: 11.66666666666667%;
 }
 
 #screen.victory {

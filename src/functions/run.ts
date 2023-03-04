@@ -23,6 +23,7 @@ import getNoises from "./definables/getNoises";
 import startLevel from "./startLevel";
 import AudioSource from "../classes/AudioSource";
 import sizeScreen from "./sizeScreen";
+import levels from "../constants/levels";
 
 const run = async (): Promise<void> => {
   console.log(`Running ScatterPaws.`);
@@ -85,6 +86,42 @@ const run = async (): Promise<void> => {
     mainMusic.stop();
     mainMusic.play(null, null);
     unpause();
+    startLevel();
+  });
+  document.getElementById("start-button")?.addEventListener("click", (e) => {
+    document.getElementById("screen")?.classList.remove("title");
+    const titleMusic: AudioSource = getAudioSource("music/title");
+    const mainMusic: AudioSource = getAudioSource("music/main");
+    state.isAtTitle = false;
+    titleMusic.stop();
+    mainMusic.play(null, null);
+    startLevel();
+  });
+  document.getElementById("level-button")?.addEventListener("click", () => {
+    const mainMusic = getAudioSource("music/main");
+    document.getElementById("screen")?.classList.remove("level");
+    const levelIndex = levels.findIndex((level) => level === state.level);
+    const newLevel = levels[levelIndex + 1];
+    const levelMusic: AudioSource = getAudioSource("music/level");
+    levelMusic.stop();
+    if (newLevel) {
+      mainMusic.play(null, null);
+      state.level = newLevel;
+      startLevel();
+    }
+    else {
+      document.getElementById("screen")?.classList.remove("main");
+      const victoryMusic = getAudioSource("music/victory");
+      victoryMusic.play(null, null);
+      state.won = true;
+    }
+  });
+  document.getElementById("defeat-button")?.addEventListener("click", () => {
+    const mainMusic = getAudioSource("music/main");
+    const defeatMusic = getAudioSource("music/defeat");
+    defeatMusic.stop();
+    mainMusic.play(null, null);
+    document.getElementById("screen")?.classList.remove("defeat");
     startLevel();
   });
   if (screen && pauseButton && unpauseButton) {

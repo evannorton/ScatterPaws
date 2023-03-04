@@ -25673,7 +25673,7 @@ void main() {
           startingTileX: 8,
           startingTileY: 18,
           tilemapSlug: "map",
-          time: 9e4
+          time: 1
         },
         {
           bed: 1,
@@ -68267,43 +68267,6 @@ void main() {
     }
   });
 
-  // lib/functions/startLevel.js
-  var require_startLevel = __commonJS({
-    "lib/functions/startLevel.js"(exports) {
-      "use strict";
-      var __importDefault = exports && exports.__importDefault || function(mod) {
-        return mod && mod.__esModule ? mod : { "default": mod };
-      };
-      Object.defineProperty(exports, "__esModule", { value: true });
-      var unitsPerTile_1 = __importDefault(require_unitsPerTile());
-      var state_1 = __importDefault(require_state());
-      var calculateActiveDestructibles_1 = __importDefault(require_calculateActiveDestructibles());
-      var startLevel = () => {
-        var _a;
-        (_a = document.getElementById("screen")) === null || _a === void 0 ? void 0 : _a.classList.add("main");
-        state_1.default.bonked = false;
-        state_1.default.pauses = [];
-        state_1.default.levelCompletedAt = null;
-        state_1.default.playedDefeatMusic = false;
-        state_1.default.playedLevelMusic = false;
-        state_1.default.isInBed = true;
-        state_1.default.levelStartedAt = null;
-        state_1.default.brokenDestructibleIDs = [];
-        state_1.default.activeDestructibleIDs = [];
-        state_1.default.hitObstacleAt = null;
-        state_1.default.cootsVelocityX = 0;
-        state_1.default.cootsVelocityY = 0;
-        state_1.default.cootsCoords = {
-          x: state_1.default.level.startingTileX * unitsPerTile_1.default,
-          y: state_1.default.level.startingTileY * unitsPerTile_1.default
-        };
-        state_1.default.recentDestruction = null;
-        (0, calculateActiveDestructibles_1.default)();
-      };
-      exports.default = startLevel;
-    }
-  });
-
   // lib/functions/handleAction.js
   var require_handleAction = __commonJS({
     "lib/functions/handleAction.js"(exports) {
@@ -68312,16 +68275,14 @@ void main() {
         return mod && mod.__esModule ? mod : { "default": mod };
       };
       Object.defineProperty(exports, "__esModule", { value: true });
-      var levels_1 = __importDefault(require_levels());
       var state_1 = __importDefault(require_state());
       var assetsAreLoaded_1 = __importDefault(require_assetsAreLoaded());
       var attemptScratch_1 = __importDefault(require_attemptScratch());
       var getAudioSource_1 = __importDefault(require_getAudioSource());
       var isCatStarving_1 = __importDefault(require_isCatStarving());
       var levelIsCompleted_1 = __importDefault(require_levelIsCompleted());
-      var startLevel_1 = __importDefault(require_startLevel());
       var handleAction = () => {
-        var _a, _b, _c, _d, _e, _f;
+        var _a, _b;
         if (state_1.default.won === false && (0, assetsAreLoaded_1.default)()) {
           if (state_1.default.isAwaitingFocus) {
             (_a = document.getElementById("screen")) === null || _a === void 0 ? void 0 : _a.classList.remove("focus");
@@ -68331,37 +68292,8 @@ void main() {
             state_1.default.isAwaitingFocus = false;
             state_1.default.isAtTitle = true;
           } else if (state_1.default.isAtTitle) {
-            (_c = document.getElementById("screen")) === null || _c === void 0 ? void 0 : _c.classList.remove("title");
-            const titleMusic = (0, getAudioSource_1.default)("music/title");
-            const mainMusic = (0, getAudioSource_1.default)("music/main");
-            state_1.default.isAtTitle = false;
-            titleMusic.stop();
-            mainMusic.play(null, null);
-            (0, startLevel_1.default)();
           } else if ((0, isCatStarving_1.default)()) {
-            const mainMusic = (0, getAudioSource_1.default)("music/main");
-            const defeatMusic = (0, getAudioSource_1.default)("music/defeat");
-            defeatMusic.stop();
-            mainMusic.play(null, null);
-            (_d = document.getElementById("screen")) === null || _d === void 0 ? void 0 : _d.classList.remove("defeat");
-            (0, startLevel_1.default)();
           } else if ((0, levelIsCompleted_1.default)()) {
-            const mainMusic = (0, getAudioSource_1.default)("music/main");
-            (_e = document.getElementById("screen")) === null || _e === void 0 ? void 0 : _e.classList.remove("level");
-            const levelIndex = levels_1.default.findIndex((level) => level === state_1.default.level);
-            const newLevel = levels_1.default[levelIndex + 1];
-            const levelMusic = (0, getAudioSource_1.default)("music/level");
-            levelMusic.stop();
-            if (newLevel) {
-              mainMusic.play(null, null);
-              state_1.default.level = newLevel;
-              (0, startLevel_1.default)();
-            } else {
-              (_f = document.getElementById("screen")) === null || _f === void 0 ? void 0 : _f.classList.remove("main");
-              const victoryMusic = (0, getAudioSource_1.default)("music/victory");
-              victoryMusic.play(null, null);
-              state_1.default.won = true;
-            }
           } else if (state_1.default.isInBed) {
             (0, getAudioSource_1.default)("noises/meow").play(null, null);
             state_1.default.isInBed = false;
@@ -68513,6 +68445,43 @@ void main() {
     }
   });
 
+  // lib/functions/startLevel.js
+  var require_startLevel = __commonJS({
+    "lib/functions/startLevel.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var unitsPerTile_1 = __importDefault(require_unitsPerTile());
+      var state_1 = __importDefault(require_state());
+      var calculateActiveDestructibles_1 = __importDefault(require_calculateActiveDestructibles());
+      var startLevel = () => {
+        var _a;
+        (_a = document.getElementById("screen")) === null || _a === void 0 ? void 0 : _a.classList.add("main");
+        state_1.default.bonked = false;
+        state_1.default.pauses = [];
+        state_1.default.levelCompletedAt = null;
+        state_1.default.playedDefeatMusic = false;
+        state_1.default.playedLevelMusic = false;
+        state_1.default.isInBed = true;
+        state_1.default.levelStartedAt = null;
+        state_1.default.brokenDestructibleIDs = [];
+        state_1.default.activeDestructibleIDs = [];
+        state_1.default.hitObstacleAt = null;
+        state_1.default.cootsVelocityX = 0;
+        state_1.default.cootsVelocityY = 0;
+        state_1.default.cootsCoords = {
+          x: state_1.default.level.startingTileX * unitsPerTile_1.default,
+          y: state_1.default.level.startingTileY * unitsPerTile_1.default
+        };
+        state_1.default.recentDestruction = null;
+        (0, calculateActiveDestructibles_1.default)();
+      };
+      exports.default = startLevel;
+    }
+  });
+
   // lib/functions/sizeScreen.js
   var require_sizeScreen = __commonJS({
     "lib/functions/sizeScreen.js"(exports) {
@@ -68596,8 +68565,9 @@ void main() {
       var getNoises_1 = __importDefault(require_getNoises());
       var startLevel_1 = __importDefault(require_startLevel());
       var sizeScreen_1 = __importDefault(require_sizeScreen());
+      var levels_1 = __importDefault(require_levels());
       var run = () => __awaiter(void 0, void 0, void 0, function* () {
-        var _a, _b, _c, _d, _e;
+        var _a, _b, _c, _d, _e, _f, _g, _h;
         console.log(`Running ScatterPaws.`);
         (0, define_1.default)();
         pixi_js_1.settings.ROUND_PIXELS = true;
@@ -68659,6 +68629,44 @@ void main() {
           mainMusic.stop();
           mainMusic.play(null, null);
           (0, unpause_1.default)();
+          (0, startLevel_1.default)();
+        });
+        (_f = document.getElementById("start-button")) === null || _f === void 0 ? void 0 : _f.addEventListener("click", (e) => {
+          var _a2;
+          (_a2 = document.getElementById("screen")) === null || _a2 === void 0 ? void 0 : _a2.classList.remove("title");
+          const titleMusic = (0, getAudioSource_1.default)("music/title");
+          const mainMusic = (0, getAudioSource_1.default)("music/main");
+          state_1.default.isAtTitle = false;
+          titleMusic.stop();
+          mainMusic.play(null, null);
+          (0, startLevel_1.default)();
+        });
+        (_g = document.getElementById("level-button")) === null || _g === void 0 ? void 0 : _g.addEventListener("click", () => {
+          var _a2, _b2;
+          const mainMusic = (0, getAudioSource_1.default)("music/main");
+          (_a2 = document.getElementById("screen")) === null || _a2 === void 0 ? void 0 : _a2.classList.remove("level");
+          const levelIndex = levels_1.default.findIndex((level) => level === state_1.default.level);
+          const newLevel = levels_1.default[levelIndex + 1];
+          const levelMusic = (0, getAudioSource_1.default)("music/level");
+          levelMusic.stop();
+          if (newLevel) {
+            mainMusic.play(null, null);
+            state_1.default.level = newLevel;
+            (0, startLevel_1.default)();
+          } else {
+            (_b2 = document.getElementById("screen")) === null || _b2 === void 0 ? void 0 : _b2.classList.remove("main");
+            const victoryMusic = (0, getAudioSource_1.default)("music/victory");
+            victoryMusic.play(null, null);
+            state_1.default.won = true;
+          }
+        });
+        (_h = document.getElementById("defeat-button")) === null || _h === void 0 ? void 0 : _h.addEventListener("click", () => {
+          var _a2;
+          const mainMusic = (0, getAudioSource_1.default)("music/main");
+          const defeatMusic = (0, getAudioSource_1.default)("music/defeat");
+          defeatMusic.stop();
+          mainMusic.play(null, null);
+          (_a2 = document.getElementById("screen")) === null || _a2 === void 0 ? void 0 : _a2.classList.remove("defeat");
           (0, startLevel_1.default)();
         });
         if (screen && pauseButton && unpauseButton) {

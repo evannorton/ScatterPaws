@@ -7,7 +7,7 @@ const levels: Level[] = [
     startingTileX: 8,
     startingTileY: 18,
     tilemapSlug: "map",
-    time: 90000
+    time: 1
   },
   {
     bed: 1,
