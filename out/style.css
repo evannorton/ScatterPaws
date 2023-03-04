@@ -103,7 +103,7 @@ input[type=button] {
   background-color: transparent;
   border: 3px solid white;
   color: white;
-  cursor: url(../images/cursor-pointer.png) 7 2, pointer;
+  cursor: url("./cursors/pointer.png") 7 2, pointer;
   padding: 0.5% 1%;
   font-size: 1em;
   margin-top: 1%;
