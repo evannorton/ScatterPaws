@@ -63872,7 +63872,7 @@ void main() {
         new ImageSource_1.default("hunger");
         new ImageSource_1.default("eating");
         new ImageSource_1.default("bed");
-        new AudioSource_1.default("music/title", null);
+        new AudioSource_1.default("music/title", 0);
         new AudioSource_1.default("music/main", 132e3);
         new AudioSource_1.default("music/victory", 70500);
         new AudioSource_1.default("music/defeat", null);
