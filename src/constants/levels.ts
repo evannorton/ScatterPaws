@@ -9,22 +9,22 @@ const levels: Level[] = [
     tilemapSlug: "map",
     time: 90000
   },
-  // {
-  //   bed: 1,
-  //   requiredDestructibles: 15,
-  //   startingTileX: -15,
-  //   startingTileY: 41,
-  //   tilemapSlug: "map-2",
-  //   time: 120000
-  // },
-  // {
-  //   bed: 2,
-  //   requiredDestructibles: 20,
-  //   startingTileX: 54,
-  //   startingTileY: -2,
-  //   tilemapSlug: "map-3",
-  //   time: 150000
-  // },
+  {
+    bed: 1,
+    requiredDestructibles: 15,
+    startingTileX: -15,
+    startingTileY: 41,
+    tilemapSlug: "map-2",
+    time: 120000
+  },
+  {
+    bed: 2,
+    requiredDestructibles: 20,
+    startingTileX: 54,
+    startingTileY: -2,
+    tilemapSlug: "map-3",
+    time: 150000
+  },
 ];
 
 export default levels;
