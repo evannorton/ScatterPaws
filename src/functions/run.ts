@@ -128,7 +128,7 @@ const run = async (): Promise<void> => {
     document.addEventListener("keydown", (e): void => {
       if (screen.classList.contains("main")) {
         switch (e.code) {
-          case "Escape": {
+          case "Enter": {
             if (screen.classList.contains("paused")) {
               unpause();
             }
