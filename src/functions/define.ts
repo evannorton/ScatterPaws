@@ -57,14 +57,14 @@ const define = (): void => {
   new AudioSource("noises/destroy/scratch", null);
   new AudioSource("noises/destroy/cloth", null);
   new AudioSource("noises/destroy/container", null);
-  new Noise("scratch", {audioSourceSlug: "noises/scratch"});
-  new Noise("meow", {audioSourceSlug: "noises/meow"});
-  new Noise("bounce", {audioSourceSlug: "noises/bounce"});
-  new Noise("destroy/electronic", {audioSourceSlug: "noises/destroy/electronic"});
-  new Noise("destroy/wood", {audioSourceSlug: "noises/destroy/wood"});
-  new Noise("destroy/scratch", {audioSourceSlug: "noises/destroy/scratch"});
-  new Noise("destroy/cloth", {audioSourceSlug: "noises/destroy/cloth"});
-  new Noise("destroy/container", {audioSourceSlug: "noises/destroy/container"});
+  new Noise("scratch", { audioSourceSlug: "noises/scratch" });
+  new Noise("meow", { audioSourceSlug: "noises/meow" });
+  new Noise("bounce", { audioSourceSlug: "noises/bounce" });
+  new Noise("destroy/electronic", { audioSourceSlug: "noises/destroy/electronic" });
+  new Noise("destroy/wood", { audioSourceSlug: "noises/destroy/wood" });
+  new Noise("destroy/scratch", { audioSourceSlug: "noises/destroy/scratch" });
+  new Noise("destroy/cloth", { audioSourceSlug: "noises/destroy/cloth" });
+  new Noise("destroy/container", { audioSourceSlug: "noises/destroy/container" });
 };
 
 export default define;
