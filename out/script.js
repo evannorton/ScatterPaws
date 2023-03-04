@@ -25673,7 +25673,7 @@ void main() {
           startingTileX: 8,
           startingTileY: 18,
           tilemapSlug: "map",
-          time: 1
+          time: 9e4
         },
         {
           bed: 1,
