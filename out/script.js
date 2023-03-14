@@ -68218,10 +68218,9 @@ void main() {
       Object.defineProperty(exports, "__esModule", { value: true });
       var state_1 = __importDefault(require_state());
       var unlockAchievement = (medalID) => {
-        console.log(`unlock achievement: ${medalID}`);
         if (state_1.default.achievements.includes(medalID) === false && window.ngio.user !== null) {
           state_1.default.achievements.push(medalID);
-          window.ngio.callComponent("Achievement.unlock", { id: medalID });
+          window.ngio.callComponent("Medal.unlock", { id: medalID });
         }
       };
       exports.default = unlockAchievement;
@@ -68274,7 +68273,7 @@ void main() {
                 }
               });
               if (state_1.default.cootsVelocityX === cootsMaxVelocity_1.default || state_1.default.cootsVelocityY === cootsMaxVelocity_1.default) {
-                (0, unlockAchievement_1.default)(7);
+                (0, unlockAchievement_1.default)(73079);
               }
               const brokenDestructibleIDs = state_1.default.brokenDestructibleIDs;
               state_1.default.brokenDestructibleIDs = [...brokenDestructibleIDs, destructible.destructibleID];
@@ -68285,10 +68284,10 @@ void main() {
                 if (state_1.default.hasHitObstacleAt() === false) {
                   switch (levelIndex) {
                     case 1:
-                      (0, unlockAchievement_1.default)(2);
+                      (0, unlockAchievement_1.default)(73075);
                       break;
                     case 2:
-                      (0, unlockAchievement_1.default)(3);
+                      (0, unlockAchievement_1.default)(73076);
                       break;
                   }
                 }
@@ -68300,10 +68299,10 @@ void main() {
                 if (frame !== 2) {
                   switch (levelIndex) {
                     case 1:
-                      (0, unlockAchievement_1.default)(4);
+                      (0, unlockAchievement_1.default)(73077);
                       break;
                     case 2:
-                      (0, unlockAchievement_1.default)(5);
+                      (0, unlockAchievement_1.default)(73078);
                       break;
                   }
                 }
@@ -68708,7 +68707,7 @@ void main() {
               const victoryMusic = (0, getAudioSource_1.default)("music/victory");
               victoryMusic.play(null, null);
               state_1.default.won = true;
-              (0, unlockAchievement_1.default)(1);
+              (0, unlockAchievement_1.default)(73002);
             }
           });
           (_h = document.getElementById("defeat-button")) === null || _h === void 0 ? void 0 : _h.addEventListener("click", () => {
@@ -68779,7 +68778,7 @@ void main() {
                       (0, getAudioSource_1.default)("noises/meow").play(null, null);
                       state_1.default.meows++;
                       if (state_1.default.meows === 100) {
-                        (0, unlockAchievement_1.default)(6);
+                        (0, unlockAchievement_1.default)(73001);
                       }
                     }
                     break;
