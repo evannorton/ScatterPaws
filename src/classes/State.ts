@@ -8,9 +8,9 @@ import Pause from "../interfaces/Pause";
 import YSortEntry from "../interfaces/YSortEntry";
 
 class State {
+  private _achievements: number[] = [];
   private _activeDestructibleIDs: string[] = [];
   private _app: Application | null = null;
-  private _bonked: boolean = false;
   private _brokenDestructibleIDs: string[] = [];
   private _cootsCoords: Coords = {
     x: levels[0].startingTileX * unitsPerTile,
@@ -28,6 +28,7 @@ class State {
   private _levelCompletedAt: number | null = null;
   private _levelStartedAt: number | null = null;
   private _loadedAssets: number = 0;
+  private _meows: number = 0;
   private _mouseScreenCoords: Coords | null = null;
   private _pauses: Pause[] = [];
   private _playedDefeatMusic: boolean = false;
@@ -35,6 +36,10 @@ class State {
   private _recentDestruction: Destruction | null = null;
   private _won: boolean = false;
   private _ySortEntries: YSortEntry[] = [];
+
+  public get achievements(): number[] {
+    return [...this._achievements];
+  }
 
   public get app(): Application {
     if (this._app !== null) {
@@ -45,10 +50,6 @@ class State {
 
   public get activeDestructibleIDs(): string[] {
     return [...this._activeDestructibleIDs];
-  }
-
-  public get bonked(): boolean {
-    return this._bonked;
   }
 
   public get brokenDestructibleIDs(): string[] {
@@ -116,6 +117,10 @@ class State {
     return this._loadedAssets;
   }
 
+  public get meows(): number {
+    return this._meows;
+  }
+
   public get mouseScreenCoords(): Coords {
     if (this._mouseScreenCoords !== null) {
       return this._mouseScreenCoords;
@@ -150,16 +155,16 @@ class State {
     return this._won;
   }
 
+  public set achievements(achievements: number[]) {
+    this._achievements = [...achievements];
+  }
+
   public set activeDestructibleIDs(activeDestructibleIDs: string[]) {
     this._activeDestructibleIDs = [...activeDestructibleIDs];
   }
 
   public set app(app: Application | null) {
     this._app = app !== null ? app : null;
-  }
-
-  public set bonked(bonked: boolean) {
-    this._bonked = bonked;
   }
 
   public set brokenDestructibleIDs(brokenDestructibleIDs: string[]) {
@@ -216,6 +221,10 @@ class State {
 
   public set loadedAssets(loadedAssets: number) {
     this._loadedAssets = loadedAssets;
+  }
+
+  public set meows(meows: number) {
+    this._meows = meows;
   }
 
   public set mouseScreenCoords(mouseScreenCoords: Coords | null) {

@@ -25718,9 +25718,9 @@ void main() {
       var unitsPerTile_1 = __importDefault(require_unitsPerTile());
       var State = class {
         constructor() {
+          this._achievements = [];
           this._activeDestructibleIDs = [];
           this._app = null;
-          this._bonked = false;
           this._brokenDestructibleIDs = [];
           this._cootsCoords = {
             x: levels_1.default[0].startingTileX * unitsPerTile_1.default,
@@ -25738,6 +25738,7 @@ void main() {
           this._levelCompletedAt = null;
           this._levelStartedAt = null;
           this._loadedAssets = 0;
+          this._meows = 0;
           this._mouseScreenCoords = null;
           this._pauses = [];
           this._playedDefeatMusic = false;
@@ -25745,6 +25746,9 @@ void main() {
           this._recentDestruction = null;
           this._won = false;
           this._ySortEntries = [];
+        }
+        get achievements() {
+          return [...this._achievements];
         }
         get app() {
           if (this._app !== null) {
@@ -25754,9 +25758,6 @@ void main() {
         }
         get activeDestructibleIDs() {
           return [...this._activeDestructibleIDs];
-        }
-        get bonked() {
-          return this._bonked;
         }
         get brokenDestructibleIDs() {
           return [...this._brokenDestructibleIDs];
@@ -25809,6 +25810,9 @@ void main() {
         get loadedAssets() {
           return this._loadedAssets;
         }
+        get meows() {
+          return this._meows;
+        }
         get mouseScreenCoords() {
           if (this._mouseScreenCoords !== null) {
             return this._mouseScreenCoords;
@@ -25836,14 +25840,14 @@ void main() {
         get won() {
           return this._won;
         }
+        set achievements(achievements) {
+          this._achievements = [...achievements];
+        }
         set activeDestructibleIDs(activeDestructibleIDs) {
           this._activeDestructibleIDs = [...activeDestructibleIDs];
         }
         set app(app) {
           this._app = app !== null ? app : null;
-        }
-        set bonked(bonked) {
-          this._bonked = bonked;
         }
         set brokenDestructibleIDs(brokenDestructibleIDs) {
           this._brokenDestructibleIDs = [...brokenDestructibleIDs];
@@ -25886,6 +25890,9 @@ void main() {
         }
         set loadedAssets(loadedAssets) {
           this._loadedAssets = loadedAssets;
+        }
+        set meows(meows) {
+          this._meows = meows;
         }
         set mouseScreenCoords(mouseScreenCoords) {
           this._mouseScreenCoords = mouseScreenCoords;
@@ -67589,7 +67596,7 @@ void main() {
         const width = ludwigTheming_1.default ? 224 : 218;
         const x = 20;
         (0, drawRectangle_1.default)("#000000", 0.25, x - 2, 4, width, 63, 10003);
-        (0, drawText_1.default)(`${ludwigTheming_1.default ? "Coots" : "Kitty"} wants food! Guide her to cause a ruckus and get ${ludwigTheming_1.default ? "Ludwig" : "owner"}'s attention!`, "#ffffff", x, 6, 1, width - 4, 10, "left", "top");
+        (0, drawText_1.default)(`${ludwigTheming_1.default ? "Coots" : "Kitty"} wants food! Guide her to wreak havoc and get ${ludwigTheming_1.default ? "Ludwig" : "owner"}'s attention!`, "#ffffff", x, 6, 1, width - 4, 10, "left", "top");
         (0, drawText_1.default)("- Mouse to move. Avoid cat toys!", "#ffffff", x, 30, 1, width - 4, 2, "left", "top");
         (0, drawText_1.default)("- Click/space to claw objects.", "#ffffff", x, 43, 1, width - 4, 2, "left", "top");
         (0, drawText_1.default)("- M to meow.", "#ffffff", x, 56, 1, width - 4, 2, "left", "top");
@@ -68201,6 +68208,26 @@ void main() {
     }
   });
 
+  // lib/functions/unlockAchievement.js
+  var require_unlockAchievement = __commonJS({
+    "lib/functions/unlockAchievement.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var state_1 = __importDefault(require_state());
+      var unlockAchievement = (medalID) => {
+        console.log(`unlock achievement: ${medalID}`);
+        if (state_1.default.achievements.includes(medalID) === false && window.ngio.user !== null) {
+          state_1.default.achievements.push(medalID);
+          window.ngio.callComponent("Achievement.unlock", { id: medalID });
+        }
+      };
+      exports.default = unlockAchievement;
+    }
+  });
+
   // lib/functions/attemptScratch.js
   var require_attemptScratch = __commonJS({
     "lib/functions/attemptScratch.js"(exports) {
@@ -68217,6 +68244,10 @@ void main() {
       var state_1 = __importDefault(require_state());
       var isCootsInObstacle_1 = __importDefault(require_isCootsInObstacle());
       var levelIsCompleted_1 = __importDefault(require_levelIsCompleted());
+      var levels_1 = __importDefault(require_levels());
+      var unlockAchievement_1 = __importDefault(require_unlockAchievement());
+      var getPausedTime_1 = __importDefault(require_getPausedTime());
+      var cootsMaxVelocity_1 = __importDefault(require_cootsMaxVelocity());
       var attemptScratch = () => {
         if ((0, gameIsOngoing_1.default)() && (0, isCootsInObstacle_1.default)() === false && (0, levelIsCompleted_1.default)() === false && state_1.default.isInBed === false) {
           const cooldown = (0, isClawOnCooldown_1.default)();
@@ -68242,11 +68273,40 @@ void main() {
                   (0, getAudioSource_1.default)(destructible.audioSourceSlug).play(null, null);
                 }
               });
+              if (state_1.default.cootsVelocityX === cootsMaxVelocity_1.default || state_1.default.cootsVelocityY === cootsMaxVelocity_1.default) {
+                (0, unlockAchievement_1.default)(7);
+              }
               const brokenDestructibleIDs = state_1.default.brokenDestructibleIDs;
               state_1.default.brokenDestructibleIDs = [...brokenDestructibleIDs, destructible.destructibleID];
               state_1.default.activeDestructibleIDs = state_1.default.activeDestructibleIDs.filter((activeDestructible) => activeDestructible !== destructible.destructibleID);
               if ((0, levelIsCompleted_1.default)()) {
                 state_1.default.levelCompletedAt = state_1.default.currentTime;
+                const levelIndex = levels_1.default.findIndex((level) => level === state_1.default.level);
+                if (state_1.default.hasHitObstacleAt() === false) {
+                  switch (levelIndex) {
+                    case 1:
+                      (0, unlockAchievement_1.default)(2);
+                      break;
+                    case 2:
+                      (0, unlockAchievement_1.default)(3);
+                      break;
+                  }
+                }
+                const endTime = (0, levelIsCompleted_1.default)() ? state_1.default.levelCompletedAt : state_1.default.currentTime;
+                const timeLeft = state_1.default.level.time - (endTime - state_1.default.levelStartedAt) + (0, getPausedTime_1.default)();
+                const secondsLeft = Math.floor(timeLeft / 1e3);
+                const percent = 1 - secondsLeft / state_1.default.level.time * 1e3;
+                const frame = percent < 1 / 3 ? 0 : percent < 2 / 3 ? 1 : 2;
+                if (frame !== 2) {
+                  switch (levelIndex) {
+                    case 1:
+                      (0, unlockAchievement_1.default)(4);
+                      break;
+                    case 2:
+                      (0, unlockAchievement_1.default)(5);
+                      break;
+                  }
+                }
               }
               (0, calculateActiveDestructibles_1.default)();
             }
@@ -68449,7 +68509,6 @@ void main() {
       var startLevel = () => {
         var _a;
         (_a = document.getElementById("screen")) === null || _a === void 0 ? void 0 : _a.classList.add("main");
-        state_1.default.bonked = false;
         state_1.default.pauses = [];
         state_1.default.levelCompletedAt = null;
         state_1.default.playedDefeatMusic = false;
@@ -68555,213 +68614,221 @@ void main() {
       var startLevel_1 = __importDefault(require_startLevel());
       var sizeScreen_1 = __importDefault(require_sizeScreen());
       var levels_1 = __importDefault(require_levels());
+      var unlockAchievement_1 = __importDefault(require_unlockAchievement());
       var run = () => __awaiter(void 0, void 0, void 0, function* () {
-        var _a, _b, _c, _d, _e, _f, _g, _h;
-        console.log(`Running ScatterPaws.`);
-        (0, define_1.default)();
-        pixi_js_1.settings.ROUND_PIXELS = true;
-        pixi_js_1.settings.SCALE_MODE = pixi_js_1.SCALE_MODES.NEAREST;
-        pixi_js_1.utils.skipHello();
-        state_1.default.app = new pixi_js_1.Application({
-          backgroundAlpha: 0,
-          height: gameHeight_1.default,
-          width: gameWidth_1.default
-        });
-        state_1.default.app.renderer.view.style.display = "block";
-        state_1.default.app.renderer.view.style.height = "100%";
-        state_1.default.app.renderer.view.style.width = "100%";
-        state_1.default.app.renderer.view.tabIndex = 0;
-        state_1.default.app.renderer.view.addEventListener("contextmenu", (e) => {
-          e.preventDefault();
-        });
-        const loader = new pixi_js_1.Loader();
-        loader.add((0, isRunningOnLocal_1.default)() ? "./out/fonts/RetroPixels.fnt" : "./fonts/RetroPixels.fnt").load(() => {
-          var _a2, _b2;
-          state_1.default.loadedAssets++;
-          if ((0, assetsAreLoaded_1.default)()) {
-            (_a2 = document.getElementById("screen")) === null || _a2 === void 0 ? void 0 : _a2.classList.remove("loading");
-            (_b2 = document.getElementById("screen")) === null || _b2 === void 0 ? void 0 : _b2.classList.add("focus");
-          }
-        });
-        state_1.default.app.ticker.add(tick_1.default);
-        const screen = document.getElementById("screen");
-        const pauseButton = document.getElementById("pause");
-        const unpauseButton = document.getElementById("unpause");
-        addEventListener("resize", () => {
-          (0, sizeScreen_1.default)();
-        });
-        (_a = document.getElementById("mute")) === null || _a === void 0 ? void 0 : _a.addEventListener("click", () => {
-          (0, getAudioSources_1.default)().forEach((audioSource) => {
-            audioSource.toggleMute();
+        window.ngio.getValidSession(() => {
+          var _a, _b, _c, _d, _e, _f, _g, _h;
+          console.log(`Running ScatterPaws.`);
+          (0, define_1.default)();
+          pixi_js_1.settings.ROUND_PIXELS = true;
+          pixi_js_1.settings.SCALE_MODE = pixi_js_1.SCALE_MODES.NEAREST;
+          pixi_js_1.utils.skipHello();
+          state_1.default.app = new pixi_js_1.Application({
+            backgroundAlpha: 0,
+            height: gameHeight_1.default,
+            width: gameWidth_1.default
           });
-        });
-        (_b = document.getElementById("main-volume")) === null || _b === void 0 ? void 0 : _b.addEventListener("input", () => {
-          (0, getMusicTracks_1.default)().forEach((musicTrack) => {
-            musicTrack.applyVolume();
+          state_1.default.app.renderer.view.style.display = "block";
+          state_1.default.app.renderer.view.style.height = "100%";
+          state_1.default.app.renderer.view.style.width = "100%";
+          state_1.default.app.renderer.view.tabIndex = 0;
+          state_1.default.app.renderer.view.addEventListener("contextmenu", (e) => {
+            e.preventDefault();
           });
-          (0, getNoises_1.default)().forEach((noise) => {
-            noise.applyVolume();
+          const loader = new pixi_js_1.Loader();
+          loader.add((0, isRunningOnLocal_1.default)() ? "./out/fonts/RetroPixels.fnt" : "./fonts/RetroPixels.fnt").load(() => {
+            var _a2, _b2;
+            state_1.default.loadedAssets++;
+            if ((0, assetsAreLoaded_1.default)()) {
+              (_a2 = document.getElementById("screen")) === null || _a2 === void 0 ? void 0 : _a2.classList.remove("loading");
+              (_b2 = document.getElementById("screen")) === null || _b2 === void 0 ? void 0 : _b2.classList.add("focus");
+            }
           });
-        });
-        (_c = document.getElementById("music-volume")) === null || _c === void 0 ? void 0 : _c.addEventListener("input", () => {
-          (0, getMusicTracks_1.default)().forEach((musicTrack) => {
-            musicTrack.applyVolume();
+          state_1.default.app.ticker.add(tick_1.default);
+          const screen = document.getElementById("screen");
+          const pauseButton = document.getElementById("pause");
+          const unpauseButton = document.getElementById("unpause");
+          addEventListener("resize", () => {
+            (0, sizeScreen_1.default)();
           });
-        });
-        (_d = document.getElementById("sfx-volume")) === null || _d === void 0 ? void 0 : _d.addEventListener("input", () => {
-          (0, getNoises_1.default)().forEach((noise) => {
-            noise.applyVolume();
+          (_a = document.getElementById("mute")) === null || _a === void 0 ? void 0 : _a.addEventListener("click", () => {
+            (0, getAudioSources_1.default)().forEach((audioSource) => {
+              audioSource.toggleMute();
+            });
           });
-        });
-        (_e = document.getElementById("restart")) === null || _e === void 0 ? void 0 : _e.addEventListener("click", () => {
-          const mainMusic = (0, getAudioSource_1.default)("music/main");
-          mainMusic.stop();
-          mainMusic.play(null, null);
-          (0, unpause_1.default)();
-          (0, startLevel_1.default)();
-        });
-        (_f = document.getElementById("start-button")) === null || _f === void 0 ? void 0 : _f.addEventListener("click", (e) => {
-          var _a2;
-          (_a2 = document.getElementById("screen")) === null || _a2 === void 0 ? void 0 : _a2.classList.remove("title");
-          const titleMusic = (0, getAudioSource_1.default)("music/title");
-          const mainMusic = (0, getAudioSource_1.default)("music/main");
-          state_1.default.isAtTitle = false;
-          titleMusic.stop();
-          mainMusic.play(null, null);
-          (0, startLevel_1.default)();
-        });
-        (_g = document.getElementById("level-button")) === null || _g === void 0 ? void 0 : _g.addEventListener("click", () => {
-          var _a2, _b2;
-          const mainMusic = (0, getAudioSource_1.default)("music/main");
-          (_a2 = document.getElementById("screen")) === null || _a2 === void 0 ? void 0 : _a2.classList.remove("level");
-          const levelIndex = levels_1.default.findIndex((level) => level === state_1.default.level);
-          const newLevel = levels_1.default[levelIndex + 1];
-          const levelMusic = (0, getAudioSource_1.default)("music/level");
-          levelMusic.stop();
-          if (newLevel) {
+          (_b = document.getElementById("main-volume")) === null || _b === void 0 ? void 0 : _b.addEventListener("input", () => {
+            (0, getMusicTracks_1.default)().forEach((musicTrack) => {
+              musicTrack.applyVolume();
+            });
+            (0, getNoises_1.default)().forEach((noise) => {
+              noise.applyVolume();
+            });
+          });
+          (_c = document.getElementById("music-volume")) === null || _c === void 0 ? void 0 : _c.addEventListener("input", () => {
+            (0, getMusicTracks_1.default)().forEach((musicTrack) => {
+              musicTrack.applyVolume();
+            });
+          });
+          (_d = document.getElementById("sfx-volume")) === null || _d === void 0 ? void 0 : _d.addEventListener("input", () => {
+            (0, getNoises_1.default)().forEach((noise) => {
+              noise.applyVolume();
+            });
+          });
+          (_e = document.getElementById("restart")) === null || _e === void 0 ? void 0 : _e.addEventListener("click", () => {
+            const mainMusic = (0, getAudioSource_1.default)("music/main");
+            mainMusic.stop();
             mainMusic.play(null, null);
-            state_1.default.level = newLevel;
-            (0, startLevel_1.default)();
-          } else {
-            (_b2 = document.getElementById("screen")) === null || _b2 === void 0 ? void 0 : _b2.classList.remove("main");
-            const victoryMusic = (0, getAudioSource_1.default)("music/victory");
-            victoryMusic.play(null, null);
-            state_1.default.won = true;
-          }
-        });
-        (_h = document.getElementById("defeat-button")) === null || _h === void 0 ? void 0 : _h.addEventListener("click", () => {
-          var _a2;
-          const mainMusic = (0, getAudioSource_1.default)("music/main");
-          const defeatMusic = (0, getAudioSource_1.default)("music/defeat");
-          defeatMusic.stop();
-          mainMusic.play(null, null);
-          (_a2 = document.getElementById("screen")) === null || _a2 === void 0 ? void 0 : _a2.classList.remove("defeat");
-          (0, startLevel_1.default)();
-        });
-        if (screen && pauseButton && unpauseButton) {
-          document.addEventListener("keydown", (e) => {
-            if (screen.classList.contains("main")) {
-              switch (e.code) {
-                case "Enter": {
-                  if (screen.classList.contains("paused")) {
-                    (0, unpause_1.default)();
-                  } else {
-                    (0, pause_1.default)();
-                  }
-                  break;
-                }
-                case "KeyR": {
-                  if (e.shiftKey) {
-                    const mainMusic = (0, getAudioSource_1.default)("music/main");
-                    mainMusic.stop();
-                    mainMusic.play(null, null);
-                    (0, unpause_1.default)();
-                    (0, startLevel_1.default)();
-                  }
-                  break;
-                }
-              }
-            }
-          });
-          screen.appendChild(state_1.default.app.view);
-          (0, sizeScreen_1.default)();
-          screen.addEventListener("mousedown", (e) => {
-            if (e.target instanceof HTMLCanvasElement) {
-              (0, handleAction_1.default)();
-            }
-          });
-          screen.addEventListener("mousemove", (e) => {
-            if (e.target instanceof HTMLCanvasElement) {
-              if ((0, isPaused_1.default)() === false) {
-                state_1.default.mouseScreenCoords = {
-                  x: Math.round(e.offsetX / e.target.offsetWidth * gameWidth_1.default),
-                  y: Math.round(e.offsetY / e.target.offsetHeight * gameHeight_1.default)
-                };
-              }
-            }
-          });
-          screen.addEventListener("keydown", (e) => {
-            const heldKeys = state_1.default.heldKeys;
-            if (heldKeys.includes(e.code) === false) {
-              heldKeys.push(e.code);
-              switch (e.code) {
-                case "KeyP": {
-                  const anchor = document.createElement("a");
-                  anchor.download = "ScatterPaws Screenshot.png";
-                  anchor.href = state_1.default.app.renderer.plugins.extract.canvas(state_1.default.app.stage).toDataURL();
-                  anchor.click();
-                  break;
-                }
-                case "KeyM": {
-                  if ((0, gameIsOngoing_1.default)() && (0, levelIsCompleted_1.default)() === false && state_1.default.isInBed === false) {
-                    (0, getAudioSource_1.default)("noises/meow").play(null, null);
-                  }
-                  break;
-                }
-                case "Space": {
-                  (0, handleAction_1.default)();
-                  break;
-                }
-              }
-            }
-            state_1.default.heldKeys = heldKeys;
-          });
-          screen.addEventListener("keyup", (e) => {
-            const heldKeys = state_1.default.heldKeys;
-            const index = heldKeys.indexOf(e.code);
-            if (index >= 0) {
-              heldKeys.splice(index, 1);
-            }
-            state_1.default.heldKeys = heldKeys;
-          });
-          for (const credit of credits_1.default) {
-            const element = document.createElement("a");
-            element.href = credit.link;
-            element.target = "_blank";
-            screen.appendChild(element);
-            element.style.position = "absolute";
-            element.style.left = `${credit.x / gameWidth_1.default * 100}%`;
-            element.style.top = `${credit.y / gameHeight_1.default * 100}%`;
-            element.style.width = `${credit.width / gameWidth_1.default * 100}%`;
-            element.style.height = `${credit.height / gameHeight_1.default * 100}%`;
-            element.className = "credit";
-          }
-          pauseButton.addEventListener("click", () => {
-            (0, pause_1.default)();
-          });
-          unpauseButton.addEventListener("click", () => {
             (0, unpause_1.default)();
+            (0, startLevel_1.default)();
           });
-        }
-        const mainSlider = document.getElementById("main-volume");
-        if (socket_1.default) {
-          socket_1.default.on("run-id", (runID) => {
-            if (document.body.dataset.runId !== runID) {
-              location.reload();
+          (_f = document.getElementById("start-button")) === null || _f === void 0 ? void 0 : _f.addEventListener("click", (e) => {
+            var _a2;
+            (_a2 = document.getElementById("screen")) === null || _a2 === void 0 ? void 0 : _a2.classList.remove("title");
+            const titleMusic = (0, getAudioSource_1.default)("music/title");
+            const mainMusic = (0, getAudioSource_1.default)("music/main");
+            state_1.default.isAtTitle = false;
+            titleMusic.stop();
+            mainMusic.play(null, null);
+            (0, startLevel_1.default)();
+          });
+          (_g = document.getElementById("level-button")) === null || _g === void 0 ? void 0 : _g.addEventListener("click", () => {
+            var _a2, _b2;
+            const mainMusic = (0, getAudioSource_1.default)("music/main");
+            (_a2 = document.getElementById("screen")) === null || _a2 === void 0 ? void 0 : _a2.classList.remove("level");
+            const levelIndex = levels_1.default.findIndex((level) => level === state_1.default.level);
+            const newLevel = levels_1.default[levelIndex + 1];
+            const levelMusic = (0, getAudioSource_1.default)("music/level");
+            levelMusic.stop();
+            if (newLevel) {
+              mainMusic.play(null, null);
+              state_1.default.level = newLevel;
+              (0, startLevel_1.default)();
+            } else {
+              (_b2 = document.getElementById("screen")) === null || _b2 === void 0 ? void 0 : _b2.classList.remove("main");
+              const victoryMusic = (0, getAudioSource_1.default)("music/victory");
+              victoryMusic.play(null, null);
+              state_1.default.won = true;
+              (0, unlockAchievement_1.default)(1);
             }
           });
-        }
-        (0, focusScreen_1.default)();
+          (_h = document.getElementById("defeat-button")) === null || _h === void 0 ? void 0 : _h.addEventListener("click", () => {
+            var _a2;
+            const mainMusic = (0, getAudioSource_1.default)("music/main");
+            const defeatMusic = (0, getAudioSource_1.default)("music/defeat");
+            defeatMusic.stop();
+            mainMusic.play(null, null);
+            (_a2 = document.getElementById("screen")) === null || _a2 === void 0 ? void 0 : _a2.classList.remove("defeat");
+            (0, startLevel_1.default)();
+          });
+          if (screen && pauseButton && unpauseButton) {
+            document.addEventListener("keydown", (e) => {
+              if (screen.classList.contains("main")) {
+                switch (e.code) {
+                  case "Enter": {
+                    if (screen.classList.contains("paused")) {
+                      (0, unpause_1.default)();
+                    } else {
+                      (0, pause_1.default)();
+                    }
+                    break;
+                  }
+                  case "KeyR": {
+                    if (e.shiftKey) {
+                      const mainMusic = (0, getAudioSource_1.default)("music/main");
+                      mainMusic.stop();
+                      mainMusic.play(null, null);
+                      (0, unpause_1.default)();
+                      (0, startLevel_1.default)();
+                    }
+                    break;
+                  }
+                }
+              }
+            });
+            screen.appendChild(state_1.default.app.view);
+            (0, sizeScreen_1.default)();
+            screen.addEventListener("mousedown", (e) => {
+              if (e.target instanceof HTMLCanvasElement) {
+                (0, handleAction_1.default)();
+              }
+            });
+            screen.addEventListener("mousemove", (e) => {
+              if (e.target instanceof HTMLCanvasElement) {
+                if ((0, isPaused_1.default)() === false) {
+                  state_1.default.mouseScreenCoords = {
+                    x: Math.round(e.offsetX / e.target.offsetWidth * gameWidth_1.default),
+                    y: Math.round(e.offsetY / e.target.offsetHeight * gameHeight_1.default)
+                  };
+                }
+              }
+            });
+            screen.addEventListener("keydown", (e) => {
+              const heldKeys = state_1.default.heldKeys;
+              if (heldKeys.includes(e.code) === false) {
+                heldKeys.push(e.code);
+                switch (e.code) {
+                  case "KeyP": {
+                    const anchor = document.createElement("a");
+                    anchor.download = "ScatterPaws Screenshot.png";
+                    anchor.href = state_1.default.app.renderer.plugins.extract.canvas(state_1.default.app.stage).toDataURL();
+                    anchor.click();
+                    break;
+                  }
+                  case "KeyM": {
+                    if ((0, gameIsOngoing_1.default)() && (0, levelIsCompleted_1.default)() === false && state_1.default.isInBed === false) {
+                      (0, getAudioSource_1.default)("noises/meow").play(null, null);
+                      state_1.default.meows++;
+                      if (state_1.default.meows === 100) {
+                        (0, unlockAchievement_1.default)(6);
+                      }
+                    }
+                    break;
+                  }
+                  case "Space": {
+                    (0, handleAction_1.default)();
+                    break;
+                  }
+                }
+              }
+              state_1.default.heldKeys = heldKeys;
+            });
+            screen.addEventListener("keyup", (e) => {
+              const heldKeys = state_1.default.heldKeys;
+              const index = heldKeys.indexOf(e.code);
+              if (index >= 0) {
+                heldKeys.splice(index, 1);
+              }
+              state_1.default.heldKeys = heldKeys;
+            });
+            for (const credit of credits_1.default) {
+              const element = document.createElement("a");
+              element.href = credit.link;
+              element.target = "_blank";
+              screen.appendChild(element);
+              element.style.position = "absolute";
+              element.style.left = `${credit.x / gameWidth_1.default * 100}%`;
+              element.style.top = `${credit.y / gameHeight_1.default * 100}%`;
+              element.style.width = `${credit.width / gameWidth_1.default * 100}%`;
+              element.style.height = `${credit.height / gameHeight_1.default * 100}%`;
+              element.className = "credit";
+            }
+            pauseButton.addEventListener("click", () => {
+              (0, pause_1.default)();
+            });
+            unpauseButton.addEventListener("click", () => {
+              (0, unpause_1.default)();
+            });
+          }
+          const mainSlider = document.getElementById("main-volume");
+          if (socket_1.default) {
+            socket_1.default.on("run-id", (runID) => {
+              if (document.body.dataset.runId !== runID) {
+                location.reload();
+              }
+            });
+          }
+          (0, focusScreen_1.default)();
+        });
       });
       exports.default = run;
     }
