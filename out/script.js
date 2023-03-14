@@ -68742,6 +68742,17 @@ void main() {
                     break;
                   }
                 }
+              } else if (screen.classList.contains("level")) {
+                switch (e.code) {
+                  case "KeyR": {
+                    if (e.shiftKey) {
+                      const mainMusic = (0, getAudioSource_1.default)("music/main");
+                      mainMusic.play(null, null);
+                      (0, startLevel_1.default)();
+                    }
+                    break;
+                  }
+                }
               }
             });
             screen.appendChild(state_1.default.app.view);

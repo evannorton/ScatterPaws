@@ -152,6 +152,18 @@ const run = async (): Promise<void> => {
             }
           }
         }
+        else if (screen.classList.contains("level")) {
+          switch (e.code) {
+            case "KeyR": {
+              if (e.shiftKey) {
+                const mainMusic: AudioSource = getAudioSource("music/main");
+                mainMusic.play(null, null);
+                startLevel();
+              }
+              break;
+            }
+          }
+        }
       });
       screen.appendChild(state.app.view);
       sizeScreen();
