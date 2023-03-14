@@ -1186,7 +1186,7 @@
                 {
                  "name":"destructibleID",
                  "type":"string",
-                 "value":"couchBlack1"
+                 "value":"couchYellow1"
                 }, 
                 {
                  "name":"destructibleNoise",
@@ -1215,7 +1215,7 @@
                 {
                  "name":"destructibleID",
                  "type":"string",
-                 "value":"couchBlack1"
+                 "value":"couchYellow1"
                 }, 
                 {
                  "name":"destructibleNoise",

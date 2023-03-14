@@ -59779,7 +59779,7 @@ void main() {
               {
                 name: "destructibleID",
                 type: "string",
-                value: "couchBlack1"
+                value: "couchYellow1"
               },
               {
                 name: "destructibleNoise",
@@ -59809,7 +59809,7 @@ void main() {
               {
                 name: "destructibleID",
                 type: "string",
-                value: "couchBlack1"
+                value: "couchYellow1"
               },
               {
                 name: "destructibleNoise",
