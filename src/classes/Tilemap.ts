@@ -271,7 +271,7 @@ class Tilemap extends Definable {
                   const indicatorHeight: number = 10;
                   const arrowOffset: number = 4;
                   const minX: number = arrowOffset;
-                  const counterHUDX: number = 103;
+                  const counterHUDX: number = 117;
                   const counterHUDY: number = 17;
                   const timerHUDX: number = 49 + indicatorWidth;
                   const timerHUDY: number = 18;

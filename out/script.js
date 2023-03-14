@@ -26520,7 +26520,7 @@ void main() {
                         const indicatorHeight = 10;
                         const arrowOffset = 4;
                         const minX = arrowOffset;
-                        const counterHUDX = 103;
+                        const counterHUDX = 117;
                         const counterHUDY = 17;
                         const timerHUDX = 49 + indicatorWidth;
                         const timerHUDY = 18;
