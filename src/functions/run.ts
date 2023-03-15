@@ -99,6 +99,17 @@ const run = async (): Promise<void> => {
       mainMusic.play(null, null);
       startLevel();
     });
+    document.getElementById("again-button")?.addEventListener("click", (e) => {
+      const victoryMusic = getAudioSource("music/victory");
+      victoryMusic.stop();
+      state.won = false;
+      document.getElementById("screen")?.classList.remove("victory");
+      document.getElementById("screen")?.classList.add("title");
+      const titleMusic: AudioSource = getAudioSource("music/title");
+      titleMusic.play(null, null);
+      state.isAwaitingFocus = false;
+      state.isAtTitle = true;
+    });
     document.getElementById("level-button")?.addEventListener("click", () => {
       const mainMusic = getAudioSource("music/main");
       document.getElementById("screen")?.classList.remove("level");

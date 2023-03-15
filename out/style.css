@@ -37,6 +37,19 @@ body {
   height: 12.22222222222222%;
 }
 
+#again-button {
+  cursor: url("./cursors/pointer.png") 7 2, pointer;
+  position: absolute;
+  left: 33.75%;
+  top: 82.22222222222222%;
+  width: 23.125%;
+  height: 12.22222222222222%;
+}
+
+#screen:not(.victory) #again-button {
+  display: none;
+}
+
 #screen.level {
   cursor: url("./cursors/default.png"), default;
 }

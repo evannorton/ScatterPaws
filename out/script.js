@@ -25674,6 +25674,22 @@ void main() {
           startingTileY: 18,
           tilemapSlug: "map",
           time: 9e4
+        },
+        {
+          bed: 1,
+          requiredDestructibles: 15,
+          startingTileX: -15,
+          startingTileY: 41,
+          tilemapSlug: "map-2",
+          time: 12e4
+        },
+        {
+          bed: 2,
+          requiredDestructibles: 20,
+          startingTileX: 54,
+          startingTileY: -2,
+          tilemapSlug: "map-3",
+          time: 15e4
         }
       ];
       exports.default = levels;
@@ -63860,6 +63876,7 @@ void main() {
         new ImageSource_1.default("title");
         new ImageSource_1.default("pattern");
         new ImageSource_1.default("buttons/next");
+        new ImageSource_1.default("buttons/again");
         new ImageSource_1.default("hunger");
         new ImageSource_1.default("eating");
         new ImageSource_1.default("bed");
@@ -67519,6 +67536,7 @@ void main() {
       var drawImage_1 = __importDefault(require_drawImage());
       var drawVictory = () => {
         (0, drawImage_1.default)("victory", 1, 0, 0, gameWidth_1.default, gameHeight_1.default, 0, 0, gameWidth_1.default, gameHeight_1.default, null);
+        (0, drawImage_1.default)("buttons/again", 1, 0, 0, 74, 22, 108, 148, 74, 22, null);
       };
       exports.default = drawVictory;
     }
@@ -68600,7 +68618,7 @@ void main() {
       var unlockAchievement_1 = __importDefault(require_unlockAchievement());
       var run = () => __awaiter(void 0, void 0, void 0, function* () {
         window.ngio.getValidSession(() => {
-          var _a, _b, _c, _d, _e, _f, _g, _h;
+          var _a, _b, _c, _d, _e, _f, _g, _h, _j;
           console.log(`Running ScatterPaws.`);
           (0, define_1.default)();
           pixi_js_1.settings.ROUND_PIXELS = true;
@@ -68674,7 +68692,19 @@ void main() {
             mainMusic.play(null, null);
             (0, startLevel_1.default)();
           });
-          (_g = document.getElementById("level-button")) === null || _g === void 0 ? void 0 : _g.addEventListener("click", () => {
+          (_g = document.getElementById("again-button")) === null || _g === void 0 ? void 0 : _g.addEventListener("click", (e) => {
+            var _a2, _b2;
+            const victoryMusic = (0, getAudioSource_1.default)("music/victory");
+            victoryMusic.stop();
+            state_1.default.won = false;
+            (_a2 = document.getElementById("screen")) === null || _a2 === void 0 ? void 0 : _a2.classList.remove("victory");
+            (_b2 = document.getElementById("screen")) === null || _b2 === void 0 ? void 0 : _b2.classList.add("title");
+            const titleMusic = (0, getAudioSource_1.default)("music/title");
+            titleMusic.play(null, null);
+            state_1.default.isAwaitingFocus = false;
+            state_1.default.isAtTitle = true;
+          });
+          (_h = document.getElementById("level-button")) === null || _h === void 0 ? void 0 : _h.addEventListener("click", () => {
             var _a2, _b2;
             const mainMusic = (0, getAudioSource_1.default)("music/main");
             (_a2 = document.getElementById("screen")) === null || _a2 === void 0 ? void 0 : _a2.classList.remove("level");
@@ -68694,7 +68724,7 @@ void main() {
               (0, unlockAchievement_1.default)(73002);
             }
           });
-          (_h = document.getElementById("defeat-button")) === null || _h === void 0 ? void 0 : _h.addEventListener("click", () => {
+          (_j = document.getElementById("defeat-button")) === null || _j === void 0 ? void 0 : _j.addEventListener("click", () => {
             var _a2;
             const mainMusic = (0, getAudioSource_1.default)("music/main");
             const defeatMusic = (0, getAudioSource_1.default)("music/defeat");
