@@ -54,6 +54,19 @@ body {
   cursor: url("./cursors/default.png"), default;
 }
 
+#screen:not(.level) #retry-button {
+  display: none;
+}
+
+#retry-button {
+  cursor: url("./cursors/pointer.png") 7 2, pointer;
+  position: absolute;
+  left: 34.6875%;
+  top: 55.55555555555556%;
+  width: 14.6875%;
+  height: 13.33333333333333%;
+}
+
 #screen:not(.level) #level-button {
   display: none;
 }
@@ -61,7 +74,7 @@ body {
 #level-button {
   cursor: url("./cursors/pointer.png") 7 2, pointer;
   position: absolute;
-  left: 42.5%;
+  left: 50.625%;
   top: 55.55555555555556%;
   width: 14.6875%;
   height: 13.33333333333333%;

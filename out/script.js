@@ -63876,6 +63876,7 @@ void main() {
         new ImageSource_1.default("title");
         new ImageSource_1.default("pattern");
         new ImageSource_1.default("buttons/next");
+        new ImageSource_1.default("buttons/retry");
         new ImageSource_1.default("buttons/again");
         new ImageSource_1.default("hunger");
         new ImageSource_1.default("eating");
@@ -67642,7 +67643,7 @@ void main() {
           value: 1e4,
           type: ZIndexType_1.default.Hard
         };
-        const x = 110;
+        const x = 105;
         const height = 81;
         const y = gameHeight_1.default / 2 - height / 2;
         (0, drawRectangle_1.default)("#000000", 0.5, x, y, gameWidth_1.default - x * 2, height, 1e4);
@@ -67650,7 +67651,8 @@ void main() {
         const frameDuration = 65;
         const frame = Math.floor(state_1.default.currentTime % (frameDuration * 4) / frameDuration);
         (0, drawImage_1.default)("eating", 1, frame * 32, 0, 32, 26, gameWidth_1.default / 2 - 16, y + 19, 32, 26, nextZIndex);
-        (0, drawImage_1.default)("buttons/next", 1, 0, 0, 47, 24, gameWidth_1.default / 2 - 24, y + 51, 47, 24, nextZIndex);
+        (0, drawImage_1.default)("buttons/retry", 1, 0, 0, 47, 24, gameWidth_1.default / 2 - 49, y + 51, 47, 24, nextZIndex);
+        (0, drawImage_1.default)("buttons/next", 1, 0, 0, 47, 24, gameWidth_1.default / 2 + 2, y + 51, 47, 24, nextZIndex);
       };
       exports.default = drawLevelCompleteHUD;
     }
@@ -68618,7 +68620,7 @@ void main() {
       var unlockAchievement_1 = __importDefault(require_unlockAchievement());
       var run = () => __awaiter(void 0, void 0, void 0, function* () {
         window.ngio.getValidSession(() => {
-          var _a, _b, _c, _d, _e, _f, _g, _h, _j;
+          var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
           console.log(`Running ScatterPaws.`);
           (0, define_1.default)();
           pixi_js_1.settings.ROUND_PIXELS = true;
@@ -68704,7 +68706,12 @@ void main() {
             state_1.default.isAwaitingFocus = false;
             state_1.default.isAtTitle = true;
           });
-          (_h = document.getElementById("level-button")) === null || _h === void 0 ? void 0 : _h.addEventListener("click", () => {
+          (_h = document.getElementById("retry-button")) === null || _h === void 0 ? void 0 : _h.addEventListener("click", () => {
+            const mainMusic = (0, getAudioSource_1.default)("music/main");
+            mainMusic.play(null, null);
+            (0, startLevel_1.default)();
+          });
+          (_j = document.getElementById("level-button")) === null || _j === void 0 ? void 0 : _j.addEventListener("click", () => {
             var _a2, _b2;
             const mainMusic = (0, getAudioSource_1.default)("music/main");
             (_a2 = document.getElementById("screen")) === null || _a2 === void 0 ? void 0 : _a2.classList.remove("level");
@@ -68724,7 +68731,7 @@ void main() {
               (0, unlockAchievement_1.default)(73002);
             }
           });
-          (_j = document.getElementById("defeat-button")) === null || _j === void 0 ? void 0 : _j.addEventListener("click", () => {
+          (_k = document.getElementById("defeat-button")) === null || _k === void 0 ? void 0 : _k.addEventListener("click", () => {
             var _a2;
             const mainMusic = (0, getAudioSource_1.default)("music/main");
             const defeatMusic = (0, getAudioSource_1.default)("music/defeat");

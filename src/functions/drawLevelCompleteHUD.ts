@@ -12,7 +12,7 @@ const drawLevelCompleteHUD = (): void => {
     value: 10000,
     type: ZIndexType.Hard
   };
-  const x: number = 110;
+  const x: number = 105;
   const height: number = 81;
   const y: number = gameHeight / 2 - height / 2;
   drawRectangle("#000000", .5, x, y, gameWidth - x * 2, height, 10000);
@@ -20,7 +20,8 @@ const drawLevelCompleteHUD = (): void => {
   const frameDuration: number = 65;
   const frame = Math.floor(state.currentTime % (frameDuration * 4) / frameDuration);
   drawImage("eating", 1, frame * 32, 0, 32, 26, gameWidth / 2 - 16, y + 19, 32, 26, nextZIndex);
-  drawImage("buttons/next", 1, 0, 0, 47, 24, gameWidth / 2 - 24, y + 51, 47, 24, nextZIndex);
+  drawImage("buttons/retry", 1, 0, 0, 47, 24, gameWidth / 2 - 49, y + 51, 47, 24, nextZIndex);
+  drawImage("buttons/next", 1, 0, 0, 47, 24, gameWidth / 2 + 2, y + 51, 47, 24, nextZIndex);
 };
 
 export default drawLevelCompleteHUD;

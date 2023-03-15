@@ -110,6 +110,11 @@ const run = async (): Promise<void> => {
       state.isAwaitingFocus = false;
       state.isAtTitle = true;
     });
+    document.getElementById("retry-button")?.addEventListener("click", () => {
+      const mainMusic: AudioSource = getAudioSource("music/main");
+      mainMusic.play(null, null);
+      startLevel();
+    });
     document.getElementById("level-button")?.addEventListener("click", () => {
       const mainMusic = getAudioSource("music/main");
       document.getElementById("screen")?.classList.remove("level");

@@ -36,6 +36,7 @@ const define = (): void => {
   new ImageSource("title");
   new ImageSource("pattern");
   new ImageSource("buttons/next");
+  new ImageSource("buttons/retry");
   new ImageSource("buttons/again");
   new ImageSource("hunger");
   new ImageSource("eating");
