@@ -25674,22 +25674,6 @@ void main() {
           startingTileY: 18,
           tilemapSlug: "map",
           time: 9e4
-        },
-        {
-          bed: 1,
-          requiredDestructibles: 15,
-          startingTileX: -15,
-          startingTileY: 41,
-          tilemapSlug: "map-2",
-          time: 12e4
-        },
-        {
-          bed: 2,
-          requiredDestructibles: 20,
-          startingTileX: 54,
-          startingTileY: -2,
-          tilemapSlug: "map-3",
-          time: 15e4
         }
       ];
       exports.default = levels;
@@ -68372,20 +68356,20 @@ void main() {
         {
           link: "https://www.youtube.com/channel/UCTljefNUAIUavdRcGFfrQZg",
           x: 14,
-          y: 63,
-          width: 55,
-          height: 14
+          y: 61,
+          width: 57,
+          height: 16
         },
         {
           link: "https://twitter.com/Lightwing_Games",
-          x: 10,
-          y: 108,
-          width: 41,
+          x: 11,
+          y: 110,
+          width: 42,
           height: 13
         },
         {
           link: "https://twitter.com/bampikku",
-          x: 12,
+          x: 14,
           y: 126,
           width: 38,
           height: 15
