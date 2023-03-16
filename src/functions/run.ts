@@ -90,6 +90,17 @@ const run = async (): Promise<void> => {
       unpause();
       startLevel();
     });
+    ["start-button", "again-button", "retry-button", "level-button", "defeat-button"].forEach((buttonID) => {
+      const button = document.getElementById(buttonID);
+      if (button) {
+        button.addEventListener("mousedown", () => {
+          button.classList.add("pressed");
+        });
+        window.addEventListener("mouseup", () => {
+          button.classList.remove("pressed");
+        });
+      }
+    });
     document.getElementById("start-button")?.addEventListener("click", (e) => {
       document.getElementById("screen")?.classList.remove("title");
       const titleMusic: AudioSource = getAudioSource("music/title");

@@ -17,6 +17,8 @@ const drawTitle = (): void => {
     }
   }
   drawImage("title", 1, 0, 0, gameWidth, gameHeight, 0, 0, gameWidth, gameHeight, null);
+  const pressed = document.getElementById("start-button")?.classList.contains("pressed") || false;
+  drawImage("buttons/play", 1, 0, pressed ? 22 : 0, 74, 22, 73, 138, 74, 22, null);
 }
 
 export default drawTitle;
