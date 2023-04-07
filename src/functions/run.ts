@@ -5,7 +5,6 @@ import state from "../state";
 import tick from "./tick";
 import gameWidth from "../constants/gameWidth";
 import gameHeight from "../constants/gameHeight";
-import gameScale from "../constants/gameScale";
 import getAudioSource from "./definables/getAudioSource";
 import focusScreen from "./focusScreen";
 import isRunningOnLocal from "./isRunningOnLocal";
@@ -101,7 +100,7 @@ const run = async (): Promise<void> => {
         });
       }
     });
-    document.getElementById("start-button")?.addEventListener("click", (e) => {
+    document.getElementById("start-button")?.addEventListener("click", () => {
       document.getElementById("screen")?.classList.remove("title");
       const titleMusic: AudioSource = getAudioSource("music/title");
       const mainMusic: AudioSource = getAudioSource("music/main");
@@ -110,9 +109,10 @@ const run = async (): Promise<void> => {
       mainMusic.play(null, null);
       startLevel();
     });
-    document.getElementById("again-button")?.addEventListener("click", (e) => {
+    document.getElementById("again-button")?.addEventListener("click", () => {
       const victoryMusic = getAudioSource("music/victory");
       victoryMusic.stop();
+      state.level = levels[0];
       state.won = false;
       document.getElementById("screen")?.classList.remove("victory");
       document.getElementById("screen")?.classList.add("title");

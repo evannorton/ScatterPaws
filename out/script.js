@@ -25677,19 +25677,11 @@ void main() {
         },
         {
           bed: 1,
-          requiredDestructibles: 15,
+          requiredDestructibles: 2,
           startingTileX: -15,
           startingTileY: 41,
           tilemapSlug: "map-2",
           time: 12e4
-        },
-        {
-          bed: 2,
-          requiredDestructibles: 20,
-          startingTileX: 54,
-          startingTileY: -2,
-          tilemapSlug: "map-3",
-          time: 15e4
         }
       ];
       exports.default = levels;
@@ -68708,7 +68700,7 @@ void main() {
               });
             }
           });
-          (_f = document.getElementById("start-button")) === null || _f === void 0 ? void 0 : _f.addEventListener("click", (e) => {
+          (_f = document.getElementById("start-button")) === null || _f === void 0 ? void 0 : _f.addEventListener("click", () => {
             var _a2;
             (_a2 = document.getElementById("screen")) === null || _a2 === void 0 ? void 0 : _a2.classList.remove("title");
             const titleMusic = (0, getAudioSource_1.default)("music/title");
@@ -68718,10 +68710,11 @@ void main() {
             mainMusic.play(null, null);
             (0, startLevel_1.default)();
           });
-          (_g = document.getElementById("again-button")) === null || _g === void 0 ? void 0 : _g.addEventListener("click", (e) => {
+          (_g = document.getElementById("again-button")) === null || _g === void 0 ? void 0 : _g.addEventListener("click", () => {
             var _a2, _b2;
             const victoryMusic = (0, getAudioSource_1.default)("music/victory");
             victoryMusic.stop();
+            state_1.default.level = levels_1.default[0];
             state_1.default.won = false;
             (_a2 = document.getElementById("screen")) === null || _a2 === void 0 ? void 0 : _a2.classList.remove("victory");
             (_b2 = document.getElementById("screen")) === null || _b2 === void 0 ? void 0 : _b2.classList.add("title");
