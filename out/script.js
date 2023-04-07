@@ -25677,11 +25677,19 @@ void main() {
         },
         {
           bed: 1,
-          requiredDestructibles: 2,
+          requiredDestructibles: 15,
           startingTileX: -15,
           startingTileY: 41,
           tilemapSlug: "map-2",
           time: 12e4
+        },
+        {
+          bed: 2,
+          requiredDestructibles: 20,
+          startingTileX: 54,
+          startingTileY: -2,
+          tilemapSlug: "map-3",
+          time: 15e4
         }
       ];
       exports.default = levels;
